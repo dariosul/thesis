@@ -1,17 +1,26 @@
-It works the same way for (e.g.) tables, custom-defined floats, equations, and footnotes. (Note that in many document classes featuring the \chapter command, footnotes are numbered per chapter even though the footnote counter does not show the chapter prefix.) The macros of chngcntr may also be used for theorem environments; it is easier, though, to specify the numbering of a new theorem environment when defining it:
+It works the same way for (e.g.) tables, custom-defined floats, equations, and footnotes. (Note that in many document classes
+featuring the \chapter command, footnotes are numbered per chapter even though the footnote counter does not show the chapter
+prefix.) The macros of chngcntr may also be used for theorem environments; it is easier, though, to specify the numbering of a
+new theorem environment when defining it:
 
 \newtheorem{thm}{Theorem}% Continuous numbering
 \newtheorem{prop}{Proposition}[section]% Per-section numbering
 
-You may also customize the numbering of the sectioning headings themselves. To, say, accomplish continuous numbering of sections in the book class (by default, those are numbered per chapter), but per-part numbering of chapters (which are by default numbered continuously), your preamble should contain
+You may also customize the numbering of the sectioning headings themselves. To, say, accomplish continuous numbering of sections
+in the book class (by default, those are numbered per chapter), but per-part numbering of chapters (which are by default numbered
+continuously), your preamble should contain
 
 \usepackage{chngcntr}
 \counterwithout{section}{chapter}
 \counterwithin{chapter}{part}
 
-To influence the resetting of counters without changing their appearance, use the starred macro versions \counterwithout* and \counterwithin*. E.g., for per-section numbering of figures in the article class – but without attaching a section prefix to \thefigure –, add the following to your preamble:
+To influence the resetting of counters without changing their appearance, use the starred macro versions \counterwithout* and
+\counterwithin*. E.g., for per-section numbering of figures in the article class – but without attaching a section prefix to
+\thefigure –, add the following to your preamble:
 
 \usepackage{chngcntr}
 \counterwithin*{figure}{section}
 
-It is also possible to redefine a counter's resetting and appearance any number of times in the document body. Note that \counterwithout, \counterwithin and their variants won't affect the counter's current value; to change the latter, use \setcounter{<counter>}{<new value>}
+It is also possible to redefine a counter's resetting and appearance any number of times in the document body. Note that
+\counterwithout, \counterwithin and their variants won't affect the counter's current value; to change the latter, use
+\setcounter{<counter>}{<new value>}
