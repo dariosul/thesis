@@ -1,0 +1,93 @@
+\pagestyle{headings}
+
+% Note that the line below could be modified to suit a
+% particular system since the "geometry" package behaves
+% differently in Unix, Windows and Mac, especially for the
+% top margins.
+% Adjust the parameter "top" (measuring the height of the
+% space allocated to a header) and "headsep" (measuring
+% the distance from the bottom of the header to the
+% first line of text.
+\usepackage[top=1.3in,left=1.5in,bottom=1in,right=1in,headsep=0.5in]{geometry}
+
+\usepackage{setspace}
+\onehalfspacing
+%\doublespacing
+
+% Headers and footers for thesis
+\usepackage{fancyhdr}
+
+\markboth{}{}
+\newcommand\startchapter[1]{\chapter{#1}\thispagestyle{myheadings}}
+\newcommand\startappendix[1]{\chapter{#1}\thispagestyle{myheadings}}
+\newcommand\startfirstchapter[1]{\chapter{#1}}
+
+% Manual addition of section to Table of Contents
+\newcommand\TOCadd[1]{\newpage\phantomsection\addcontentsline{toc}{chapter}{#1}}
+
+% Float Customization
+\renewcommand{\floatpagefraction}{0.01}
+
+% Customization of Tables of Contents and List of Figures/Tables
+\usepackage{tocloft}
+\renewcommand\cfttabpresnum{Table\ }
+\renewcommand\cfttabnumwidth{0.75in}
+\renewcommand\cftfigpresnum{Figure\ }
+\renewcommand\cftfignumwidth{0.80in}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+% variables
+\newcommand{\symb}[1]{\mbox{\boldmath${#1}$}}
+
+\newcommand{\Ba}{\mbox{\boldmath$a$}}
+\newcommand{\Bb}{\mbox{\boldmath$b$}}
+\newcommand{\Bh}{\mbox{\boldmath$h$}}
+\newcommand{\Bd}{\mbox{\boldmath$d$}}
+\newcommand{\Be}{\mbox{\boldmath$e$}}
+\newcommand{\Bg}{\mbox{\boldmath$g$}}
+\newcommand{\Bf}{\mbox{\boldmath$f$}}
+\newcommand{\Bi}{\mbox{\boldmath$i$}}
+\newcommand{\Bj}{\mbox{\boldmath$j$}}
+\newcommand{\Bp}{\mbox{\boldmath$p$}}
+\newcommand{\Bq}{\mbox{\boldmath$q$}}
+\newcommand{\Br}{\mbox{\boldmath$r$}}
+\newcommand{\Bv}{\mbox{\boldmath$v$}}
+\newcommand{\Bs}{\mbox{\boldmath$s$}}
+\newcommand{\Bz}{\mbox{\boldmath$z$}}
+\newcommand{\Bx}{\mbox{\boldmath$x$}}
+\newcommand{\By}{\mbox{\boldmath$y$}}
+\newcommand{\Beps}{\symb{\varepsilon}}
+
+\newcommand{\BA}{\mbox{\boldmath$A$}}
+\newcommand{\BC}{\mbox{\boldmath$C$}}
+\newcommand{\BB}{\mbox{\boldmath$B$}}
+\newcommand{\BD}{\mbox{\boldmath$D$}}
+\newcommand{\BF}{\mbox{\boldmath$F$}}
+\newcommand{\BG}{\mbox{\boldmath{$G$}}}
+\newcommand{\BGA}{\mbox{\boldmath{$\Gamma$}}}
+\newcommand{\BLA}{\mbox{\boldmath{$\Lambda$}}}
+\newcommand{\BH}{\mbox{\boldmath$H$}}
+\newcommand{\BU}{\mbox{\boldmath$U$}}
+\newcommand{\BV}{\mbox{\boldmath$V$}}
+\newcommand{\BO}{\mbox{\boldmath{$0$}}}
+\newcommand{\BW}{\mbox{\boldmath$W$}}
+\newcommand{\BI}{\mbox{\boldmath$I$}}
+\newcommand{\BX}{\mbox{\boldmath$X$}}
+\newcommand{\BP}{\mbox{\boldmath$P$}}
+\newcommand{\BQ}{\mbox{\boldmath$Q$}}
+
+
+
+\newcommand {\Min} {\mathop{\mbox{minimize}}}
+\newcommand {\Max} {\mathop{\mbox{maximize }}}
+
+%counters
+\usepackage{chngcntr}
+\counterwithin{equation}{chapter}
+%\counterwithin*{equation}{section}
+
+\newcounter{abc}
+\renewcommand{\theequation}{\arabic{chapter}.\arabic{equation}\alph{abc}}
+\newcommand{\ome}{(\omega_1, \omega_2)}
+
+

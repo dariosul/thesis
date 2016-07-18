@@ -1,0 +1,433 @@
+\startchapter{Penalty Convex-Concave Procedure for Source Localization Problem}
+\label{chapter:pccp}
+
+Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
+% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
+%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
+A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
+%One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
+%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
+
+
+In this paper, we focus on LS formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points for the algorithm. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
+
+% However, the solution provided by these algorithms is less accurate than than those produced by ML approaches, \textit{`'because they are suboptimal in the ML sence.''}
+%In this  paper we minimize the $l_2$ norm of residual errors and present it as a differece of convex functions programming (DCP). 
+%In this paper we exploit the special structure of the cost function of an unconstrained LS formulation for the localization problem. In particular we present it as a difference of convex functions (DC) programming problem and  solve it by applying a constrained convex-concave procedure (CCCP), which is an effective heuristic method to deal with this class of problems \cite{Yu,LBoyd}. 
+%\textit{``Lu-Hinamoto: We show that a constrained optimization setting known as convex-concave procedure \cite{Huang,Cheung}, when applied in a successive manner, is naturally suited for the design of stable composite filters where the FIR and IIR components are jointly optimized in frequency-weighted minimax sense.''} 
+% A penalty CCCP \cite{LBoyd} allows to extend the algorithm to accept infeasible initial points by introducing additional slack variables, which is highly important for the case of a non-convex localization problem at hand for which a feasible initial point is hard to secure.
+% \textit{`` By introducing additinoal slack variables, a penalty CCP has been developed to accept infeasible initial points''}. 
+% We further extend the flexibility of the approach by proposing the  method of choosing the initial point for the algorithm.   Numerical results show that the proposed approach can offer substantial performance improvement relative to the existing suboptimal estimators.
+% We focus on the LS formulation since it is known to be the maximum-likelihood estimator in the case of Gaussian white measurement noise and therefore would provide most accurate solution. Numerical results are presented for performance evaluation and comparisons.
+
+%for which a variation of the convex-concave procedure (CCP) has been proposed  in [ref], a powerful heuristic method for this type of 
+
+%of the LS problem, which is unconstrained, and treat it as a difference of convex functions (DC) program and apply an extended version of the convex-concave procedure. The basic CCP requires a feasible initial point x0 to start the procedure. By introducing additional slack variables, a penalty CCP has been developed to accept infeasible initial points.
+
+
+%The key new ingredient of the proposed algorithms is an iterative procedure where the SR-LS (or SRD-LS) algorithm is applied to a weighted sum of squared terms where the weights are carefully designed so that the iterates produced quickly converge to a solution which, on comparing with the best known results, is found to be considerably closer to the original range-based (or range-difference-based)
+
+%\subsubsection{convex relaxation on the convex plane}
+
+%[ASSP10] ``An approximate solution to the maximum likelihood location estimation problem is proposed, by redefining the problem in the complex plane and relaxing the minimization problem into semidefinite programming form. ... Our relaxation for source localization in the complex plane (SLCP) is motivated by the near-convexity of the objective function and constraints in the complex formulation of the original (non-relaxed) problem.''
+
+%\section{Source Localization From Range Measurements}%II
+\section{Problem Statement and Review of Related Work}%2.1
+
+The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains  $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+\begin{equation} \label{eq:1}
+\setcounter{equation}{1}
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}    
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
+\begin{equation}\label{eq:2} %eq 2
+\Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
+\end{equation}
+
+Formulation (\ref{eq:2}) is connected to the maximum-likelihood (ML) location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. If $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, then the maximum likelihood (ML) location estimator in this case is known to be
+\begin{equation} \label{eq:3}%eq 3
+\Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
+\end{equation}
+where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with $g_i = \|{\Bx} - {\Ba}_i\|$. It follows immediately that the ML solution in (\ref{eq:3}) is identical to the R-LS solution of problem (\ref{eq:2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2 = 1$. In the literature this is known as the equal noise power case. For notation simplicity this paper focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
+
+
+ There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point, and give no guarantee to yield global solutions when applied to non-convex objective functions. Unfortunately, the objective function in (\ref{eq:2}) is highly non-convex, possessing many local minimizers even for small-scale systems. In this paper we present an different approach to solve the positioning problem, which employs a successive convex-concave procedure.
+
+%Reference \cite{Cheung} addresses problem (\ref{eq:2}) by a convex relaxation technique where (\ref{eq:2}) is modified to a convex problem known as semidefinite programming \cite{VBoyd}. A rather different approach is proposed in \cite{BeckStLi} where the localization problem (\ref{eq:2}) is tackled by developing techniques to address the \textit{squared range based LS} (SR-LS) problem
+%\begin{equation} \label{eq:4}%eq 4
+%\Min_{\Bx} \sum_{i=1}^{m} (\|{\Bx} - {\Ba}_i\|^2 - r_i^2)^2
+%\end{equation}
+%whose global solution can be computed by converting (\ref{eq:4}) into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol} and exploring its KKT conditions which are both necessary and sufficient optimality conditions. Although SR-LS solves (\ref{eq:4}) exactly, the produced solution remains to be an approximation of the original LS problem in (\ref{eq:2}) because it is no longer a ML solution. 
+%
+%(in this work...)
+
+\section{Fitting the Localization Problem to the CCP Framework}% or Penalty CCCP}
+
+\subsection{Basic Convex-Concave Procedure}
+
+The CCP refers to an effective heuristic method to deal with a class of \textit{nonconvex} problems of  the form 
+\begin{eqnarray} \label{eq:5}%eq 5
+\setcounter{abc}{1}
+ \Min_{\Bx} & {} & f(\Bx) - g(\Bx)  %\nonumber 
+\\ \mbox{subject to:} & {} & f_i(\Bx) \leq g_i(\Bx) \quad \mbox{for: }  i = 1, 2, \ldots, m
+ \setcounter{equation}{4}
+ \stepcounter{abc}
+\end{eqnarray}
+where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. The basic CCP algorithm is an iterative procedure including two key steps (in the $k$-th iteration where iterate $\Bx_k$ is known):
+
+(i) Convexification of the objective function and constraints by replacing $g(\Bx)$ and $g_i(\Bx)$, respectively, with their affine approximations
+\begin{equation} %\label{eq:5}%eq 5
+\setcounter{equation}{5}
+\setcounter{abc}{1}
+\hat{g}(\Bx,\Bx_k)   =    g(\Bx_k) +  \bigtriangledown g(\Bx_k)^T(\Bx - \Bx_k)  %\nonumber
+\end{equation}
+and
+\begin{eqnarray}
+\begin{aligned} 
+\setcounter{equation}{5}
+\stepcounter{abc}
+\hat{g}_i(\Bx,\Bx_k)  =   g_i(\Bx_k) +  \bigtriangledown g_i(\Bx_k)^T(\Bx - \Bx_k)   & {} \\
+\hfill \  \mbox{for: }  i = 1, 2, \ldots, m &{}
+\end{aligned}
+\end{eqnarray}
+
+(ii) Solving the convex problem
+\begin{eqnarray} %\label{eq:5}%eq6
+\setcounter{equation}{6}
+\setcounter{abc}{1}
+ \Min_{\Bx}  & &f(\Bx) - \hat{g}(\Bx, \Bx_k) 
+\\ \mbox{subject to:} & &f_i(\Bx) -  \hat{g}_i(\Bx, \Bx_k) \leq 0  
+ \setcounter{equation}{6}  
+ \stepcounter{abc} \\ 
+\quad & & \mbox{for: }  i = 1, 2, \ldots, m \nonumber
+\end{eqnarray}
+
+Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem (4) \cite{LBoyd}.
+ The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (6b) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points \cite{StLi}.
+
+\subsection{Problem Reformulation}
+
+We begin by re-writing the objective function in (2) up to a constant as:
+\begin{equation}
+\setcounter{abc}{0}
+\begin{aligned}
+ F(\Bx) = \ & m\Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i
+  \\ & - 2\sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
+\end{aligned}
+\end{equation}
+The objective in (7) is not convex. This is because, for points $\Bx$ that are not coincided with $\Ba_i$ for $1 \leq i \leq m$ , the Hessian of $F(\Bx)$ is given by
+%\begin{equation}
+%\begin{aligned}
+%\nonumber
+%\bigtriangledown ^2 F(\Bx)  = 2 \left(q\BI + \BH_1(\Bx)\right) 
+%\end{aligned}
+%\end{equation}
+%with 
+%\begin{equation}
+%\nonumber
+%\begin{aligned}
+%q  &=  m - \sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|}, \\ 
+%\BH_1(\Bx)  &= \sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T\right)
+%\end{aligned}
+%\end{equation}
+\begin{equation}
+\begin{aligned}
+\nonumber
+\bigtriangledown ^2 F(\Bx)  = 2m\BI  + &2\sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \cdot \\
+\cdot &\left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T - \|\Bx - \Ba_i\|^2 \BI \right)
+\end{aligned}
+\end{equation}
+which is not always positive semidefinite.  On the other hand, by defining 
+\begin{equation} % \nonumber % \label{eq:8}
+\begin{aligned}
+& f(\Bx) =  %\sum_m^{i = 1} \|\Bx - \Ba_i\|^2 \\
+%& = m
+%\Bx^T\Bx - \frac{2}{m}\Bx^T\left(\sum^m_{i=1} \Ba_i\right) \\% + \sum^m_{i=1} \|\Ba_i\|^2\\
+%& g(\Bx) = \frac{2}{m}\sum^m_{i = 1} r_i \|\Bx - \Ba_i\|
+m \Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i \\% + \sum^m_{i=1} \|\Ba_i\|^2\\
+& g(\Bx) = 2 \sum^m_{i = 1} r_i \|\Bx - \Ba_i\|
+\end{aligned}
+\end{equation}
+the objective in (7) can be expressed as $F(\Bx) = f(\Bx) –- g(\Bx)$ with both $f(\Bx)$ and $g(\Bx)$ convex, hence it fits naturally into (4a).
+%\begin{equation} %\nonumber %\label{eq:8}
+%F(\Bx) = f(\Bx) - g(\Bx)
+%\end{equation}
+%where with neglecting the constant terms
+%\begin{equation} %\nonumber % \label{eq:7}
+%\begin{aligned} 
+%\setcounter{abc}{0}
+%F(\Bx) =&  \sum_m^{i = 1} (\|\Bx - \Ba_i\| - r_i)^2 = \\
+%& =\sum_m^{i = 1} \|\Bx - \Ba_i\|^2- 2\sum^m_{i = 1} r_i \|\Bx - \Ba_i\|+ const
+%\end{aligned}
+%\end{equation}
+% The objective function in (7) with neglecting the constant term can be written as: 
+%where 
+%Clearly the above formulation of the non-convex LS objective fits the CCP framework in (4a) with
+%
+%since both $f(\Bx)$ and $g(\Bx)$ are convex in this case.
+%%It can be seen that the above formulation fits the [StB14] framework... or: In this case (9) fits the type of the objective function in (4). and can be further relaxed to a convex one by approximating $g(\Bx)$ as
+%\begin{equation}
+%\nonumber
+%\hat{g}(\Bx,\Bx_k)   =    g(\Bx_k) +  \bigtriangledown g(\Bx_k)^T(\Bx - \Bx_k)
+%\end{equation}
+%the objective function in (7) is relaxed to a convex one
+%\begin{equation} %\nonumber %\label{eq:10}
+%\Min_{\Bx} \hat{F}(\Bx) = f(\Bx) - \hat{g}(\Bx)
+%\end{equation}
+%Note that the convexity of $g(\Bx)$ implies $g(\Bx) \geq \hat{g}(\Bx)$, hence an $\Bx$ that satisfies (9) also satisfies (2), thus a solution of the relaxed convex problem based on CCP always satisfies the constraints of the original problem (4).
+%,  Following which $g(\Bx)$ can be replaced with 
+% above is valid for the constraints only
+Note that $g(\Bx)$ in (8) is not differentiable at the point where $\Bx = \Ba_i$ for some $1 \leq i \leq m$, thus we replace the term $\bigtriangledown g(\Bx_k)$ in (5a) by a subgradient \cite{Nes} of $g(\Bx)$ at $\Bx_k$, denoted by $\partial g(\Bx_k)$ as
+\begin{equation} % eq: 9
+\nonumber
+\begin{aligned}
+\partial g{(\Bx_k)} & = 2 \sum^m_{i = 1} r_i \partial \|\Bx_k - \Ba_i\| 
+\end{aligned}
+\end{equation}
+where
+\begin{equation}
+\nonumber
+\partial \|\Bx_k - \Ba_i\|  = \left\{
+	\begin{aligned}
+	& \frac{\Bx_k - \Ba_i}{\|\Bx_k - \Ba_i\|}, &\mbox{if } \Bx_k \neq \Ba_i \\
+	& \BO, &\mbox{otherwise }%\mbox{for any } 
+	\end{aligned}
+\right.
+\end{equation}
+Hence  $\hat{g}(\Bx, \Bx_k)$ in (5a) is given by
+\begin{equation} % eq:10
+\nonumber
+\begin{aligned}
+\! \hat{g}(\Bx, \Bx_k)&\! =  \! 2\! \sum^m_{i=1} r_i \|\Bx_k - \Ba_i\| \!  + \! 2 \left( \Bx - \Bx_k \right)^{\!T}\! \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\| \\
+& = 2\Bx^T \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i \| + c
+%&  =  2 \sum^m_{i=1} r_i \|\Bx_k - \Ba_i\| \\
+%&+ 2\left[ \left( \Bx - \Ba_i \right) - \left( \Bx_k - \Ba_i \right)\right]^T \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\| \\
+%& = 2 \left(\Bx - \Ba_i\right)^T \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\|
+ \end{aligned}
+\end{equation}
+where $c$ is a constant given by 
+\begin{equation}
+\nonumber
+c = -2 \sum_{i = 1}^m r_i \Ba_i^T \partial \|\Bx_k - \Ba_i\|.
+\end{equation}
+It follows that up to a multiplicative factor $1/m$ and an additive constant term the convex objective function in (6a) can  be written as 
+%Dividing by $m$ and neglecting a constant term the objective function can therefore be written as:
+\begin{equation} % eq:9
+\Min_{\Bx} \quad \hat{F}(\Bx) = \Bx^T\Bx - 2\Bx^T {\Bv}_k
+\end{equation}
+where
+\begin{equation} % eq:10
+\begin{aligned}
+\Bv_k  = \bar{\Ba} + \frac{1}{m} \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\| , \quad \bar{\Ba} = \frac{1}{m}  \sum^m_{i = 1} \Ba_i 
+\end{aligned}
+\end{equation}
+It is rather straightforward to see that given $\Bx_k$ (in the $k$-th iteration) the solution of the quadratic problem (9) can be obtained as
+%It is rather straightforward to see that at the \textit{fixed} $\Bx_k$ (in the $k$-th iteration) the solution of the quadratic problem (9) can be obtained as: 
+\begin{equation} %eq:11
+\Bx_{k+1} = \bar{\Ba} + \frac{1}{m} \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\|
+\end{equation}
+%
+%The new objective $\hat{F}(\Bx)$  is convex, more particularly, quadratic, hence for any \textit{fixed} $\Bx_k$, i.e. at the $k$-th iteration, the solution of the problem (12) can be obtained as
+%
+%"we use the following updating formula"
+%"The convex problem in (12) can now be efficiently solved. 
+%Denoting the solution of (12) as $\Bx_{k+1}$, next we go for further
+%improving the solution by convexifying (4) for new point $\Bx_{k+1}$
+%similar to the procedure performed for $\Bx_{k}$. This sequential
+%programming procedure continues for a number of iterations."
+%	
+\subsection{Imposing Error Bounds and Penalty Terms }
+
+The algorithm being developed can be enhanced by imposing a bound on each squared measurement error, namely
+\begin{equation} % eq:12
+%\nonumber
+\left(\|\Bx - \Ba_i\| - r_i \right)^2 \leq \delta_i^2
+\end{equation}
+which leads to
+%\begin{equation} %eq:13
+%\begin{aligned}
+\begin{eqnarray}
+\setcounter{abc}{1}
+\|\Bx - \Ba_i\| - r_i -  \delta_i   \leq 0 \\ %\gamma \sigma_i
+\stepcounter{abc}
+\setcounter{equation}{13}
+r_i - \delta_i \leq \|\Bx - \Ba_i\| 
+%\end{aligned}
+%\end{equation}
+\end{eqnarray} 
+for $ 1 \leq i \leq m$. The constraints in (13a) are convex and fit into those in (6b) with $f_i(\Bx) = \|\Bx - \Ba_i\| - r_i -  \delta_i $ and $g_i(\Bx) = 0$, while those in (13b) are in the form of (4b) with $f_i(\Bx) =  r_i -  \delta_i $ and $g_i(\Bx) = \|\Bx - \Ba_i\|$. Following CCP (see (5b)),  $g_i(\Bx) = \|\Bx - \Ba_i\|$ is  linearized around iterate $\Bx_k$ to 
+\begin{equation}
+\nonumber
+\hat{g_i}(\Bx,\Bx_k) = \| \Bx_k - \Ba_i\| + \partial \|\Bx_k - \Ba_i \| ^T \left( \Bx - \Bx_k \right)
+\end{equation}
+and (13b) is convexified as
+\begin{equation}
+\nonumber
+r_i - \delta_i \leq \| \Bx_k - \Ba_i \| +\partial \| \Bx_k - \Ba_i\| ^T \left( \Bx - \Bx_k \right)
+\end{equation}
+which now fits into (6b), or equivalently
+\begin{equation} % \label{eq:14}
+\setcounter{abc}{0}
+- \|\Bx_k - \Ba_i \| - \partial \|\Bx_k - \Ba_i \| ^T \left( \Bx - \Bx_k\right) + r_i - \delta_i \leq 0 
+\end{equation}
+We remark that constraint (14) is not only convex but also tighter than (13b). As a matter of fact,  the convexity of the norm $\|\Bx - \Ba_i\|$ implies that it obeys the property
+\begin{equation}
+\nonumber
+\|\Bx - \Ba_i \| \geq \|\Bx_k - \Ba_i \| + \partial \|\Bx_k - \Ba_i \|^T \left( \Bx - \Bx_k\right)
+\end{equation}
+Therefore, a point $\Bx$ satisfying (14) automatically satisfies (13b). Summarizing, the convexified problem in the $k$-th iteration can be stated as
+\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
+\begin{eqnarray}
+\setcounter{abc}{1}
+  \Min_{\Bx}&&\Bx^T\Bx - 2\Bx^T \Bv_k \\
+\setcounter{equation}{15}
+\stepcounter{abc}
+\ \ \qquad \mbox{subject to:}&&\| \Bx - \Ba_i\| - r_i - \delta_i \leq 0 
+\end{eqnarray}
+\begin{eqnarray}
+\setcounter{equation}{15}
+\setcounter{abc}{3}
+  -\|\Bx_k-\Ba_i\|-\partial\|\Bx_k-\Ba_i\|^T\left(\Bx-\Bx_k\right) +r_i-\delta_i\leq 0 \quad
+\end{eqnarray}
+
+\phantom{m}
+
+\noindent
+A technical problem making the formulation in (15) difficult to implement is that it requires a feasible initial point $\Bx_0$. The problem can be overcome by introducing nonnegative slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, for $i =1, \ldots, m$} into the constraints in (15b) and (15c) to replace their right-hand sides (which are zeros) by relaxed upper bounds (as these new bounds themselves are nonnegative variables). This leads to a \textit{penalty} CCP (PCCP) based formulation as follows: 
+%
+%%
+%%Placing only the upper bound on the measurement errors would turn the optimization problem in (9) into a class of the second order cone programming problems (SOCP) that could be efficiently solved. However, the main problem arising from the constraints in (12) is non-convexity of the lower bound
+%\begin{equation} %eq:14
+%%\nonumber
+%\begin{aligned}
+%\setcounter{abc}{0}
+%- \|\Bx - \Ba_i\| +  r_i  & \leq \delta_i \\ %\gamma \sigma_i
+%\end{aligned}
+%\end{equation}
+%which does not allow to apply the CCCP methodology in a straightforward way. To mitigate this issue we can use a first-order Taylor expansion of $\|\Bx - \Ba_i\|$ to derive an affine approximation of (13) in a vicinity of the point $\Bx_k$ as
+%\begin{equation}
+%\nonumber
+%\|\Bx - \Ba_i\| \approx \|\Bx_k - \Ba_i\| + \partial \|\Bx_k - \Ba_i\| (\Bx - \Bx_k)  
+%\end{equation}
+%and
+%\begin{equation}
+%\begin{aligned}
+%- \|\Bx_k - \Ba_i\| - \partial \|\Bx_k - \Ba_i\| (\Bx - \Bx_k) +  r_i  & \leq \delta_i 
+%\end{aligned}
+%\end{equation}
+%
+%Note that convexity of $\|\Bx - \Ba_i\|$ also implies that 
+%\begin{equation}
+%\nonumber
+%\|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| - \partial \|\Bx_k - \Ba_i\| (\Bx - \Bx_k) 
+%\end{equation}
+%Thus $\Bx$ that satisfies (14) also satisfies (12). A problem arising from above analysis is the use of a fixed upper bound $\delta_i$: if $\delta_i$ is set too small, no $\Bx$ satisfying (12) would exist. In order to allow an infeasible initial point to start the CCP,  nonnegative slack variables $\Bs, \hat{\Bs} \in R^m$ were introduced into (12) 
+%
+\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
+\begin{eqnarray} % eq:16
+\setcounter{abc}{1}
+  \Min_{\Bx, \Bs, \hat{\Bs}}&&\Bx^T\Bx - 2\Bx^T \Bv_k + \tau_k \sum^m_{i=1} (s_i + \hat{s_i}) \qquad \  \\
+\setcounter{equation}{16}
+\stepcounter{abc}
+\mbox{subject to:}&&\| \Bx - \Ba_i\| - r_i - \delta_i \leq s_i  
+\end{eqnarray}
+\begin{eqnarray}
+\setcounter{equation}{16}
+\stepcounter{abc}
+ -\| \Bx_k - \Ba_i\| -\frac{(\Bx_k - \Ba_i)^T}{\| \Bx_k - \Ba_i\|}\left(\Bx - \Bx_k\right) + r_i - \delta_i   \leq \hat{s_i} \\
+ \setcounter{equation}{16}
+\stepcounter{abc}
+\qquad s_i \geq 0,  \hat{s_i}  \geq 0, \ \mbox{for: }  i = 1, 2, \ldots, m  
+\end{eqnarray}
+
+\phantom{m}
+
+\noindent
+where the weight  $\tau_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\tau_{max}$. By using a monotonically increasing  $\tau_k$ for the penalty term in (16a), the algorithm reduces the slack variables $s_i$  and $\hat{s}_i$  very quickly. As a result, new iterates quickly become feasible as    $s_i$  and $\hat{s}_i$    vanish. The upper limit $\tau_{max}$  is imposed to avoid numerical difficulties that may occur if $\tau_k$  becomes too large and to ensure convergence if a feasible region is not found [9]. Consequently, while formulation (16) accepts \textit{infeasible} initial points, the iterates obtained by solving (16) are practically identical to those obtained by solving (15).
+%To keep the set of violated constraints small so that a lower value of the objective can be achieved we put a low penalty on the sum of violations which is  equivalent to using the $l_1$ - norm that is known to induce sparsity.
+%
+%\begin{equation} %\label{eq:5}%eq6
+%\begin{aligned}
+%%\setcounter{equation}{6}
+%%\setcounter{abc}{1}
+%  \Min_{\Bx}   \quad \Bx^T\Bx - 2\Bx^T \Bv_k + \tau_k \sum^m_{i=1} (s_i + \hat{s_i})  \\
+%\mbox{subject to:} \qquad   \qquad  \| \Bx - \Ba_i\| - r_i - \gamma\sigma_i  \leq s_i \\
+% -\| \Bx_k - \Ba_i\| - \frac{(\Bx_k - \Ba_i)^T}{\| \Bx_k - \Ba_i\|}\left(\Bx - \Bx_k\right) + r_i - \gamma\sigma_i   \leq \hat{s_i} \\
+% s_i \geq 0,  \ \ \hat{s_i}  \geq 0 \\
+% %\setcounter{equation}{6}  
+% %\stepcounter{abc} \\ 
+%  \qquad \qquad  \mbox{for: }  i = 1, 2, \ldots, m  %\nonumber
+%\end{aligned}
+%\end{equation}
+
+\subsection{The Algorithm}
+
+The input parameters for the algorithm include the bound $\delta_i$ on the measurement error.  Setting $\delta_i$  to a lower value leads to a ``tighter'' solution. On the other hand, a larger $\delta_i$ would make the algorithm less sensitive to outliers.  If measurement noise $\Beps$ obeys a Gaussian distribution with zero mean and known covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, then $\delta_i$ can be expressed as $\delta_i = \gamma \sigma_i$, where $\gamma$ is a parameter that determines the width of  confidence interval. For example, for $\gamma = 3$ we have the probability $Pr\{|\varepsilon_i| \leq 3\sigma_i\} \approx 0.99$. Other input parameters are initial point $\Bx_0$, maximum number of iterations $K_{max}$, initial weight $\tau_0$, and upper limit of weight $\tau_{max}$ (to avoid numerical problems that may occur  if $\tau_i$ becomes too large).
+
+As mentioned in Sec. 2, the original LS objective is highly non-convex with many local minimums even for small-scale systems. Consequently, it is of critical importance to select a good initial point for the proposed PCCP-based algorithm because PCCP is essentially a local procedure. Several techniques are available, these include: (i) Select the initial point uniformly randomly over the same region as the unknown radiating source; (ii) Set the initial point to the origin; (iii) Run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error. Typically, comparing the results from $n$ distinct initial points shall suffice. For the planar case ($n = 2$), for example, it is sufficient to compare the two intersection points of the two circles that are associated with the two smallest distance readings as the target is very likely to be in the vicinity of these sensors; and (iv) Apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. The algorithm can be now outlined as follows.
+%%the probability that a zero-mean Gaussian random variable with a standard deviation $\sigma$ lies in the interval $[-3\sigma, 3\sigma]$ is about 99\%.
+%%
+%%the probability that the random variable lies in an interval whose width is related with the standard deviation is $Pr{| X-\mu| \leq 3\sigma} \approx 0.99$.
+%Other initialization parameters include initial point $\Bx_0$, maximum number of iterations $K_{max}$, $\tau_0$ and $\tau_{max}$ - low initial value and the upper limit on $\tau$, that is imposed to avoid numerical problems if $\tau_i$ grows too large and to provide convergence if a feasible region in not found. The algorithm can be now outlined as follows.
+%%``Provided $\tau_{max}$ is larger than the largest optimal dual variable in the unrelaxed subproblems (6) the value of $\tau_{max}$ will have no impact on the solution. This value is unlikely to be known; we therefore choose $\tau_{max}$ large. Observe that, for sufficiently large $\tau_{max}$, if (5) is convex, and the constraint conditions are met, then penalty CCP is not a heuristic but will find an optimal solution.''
+
+%The remaining question is assignment of the initial point for P-CCCP. As noted in \cite{LBoyd} the final solution point of the algorithm may depend on the initial point $\Bx_0$ since CCP in its essence is a local method.  A candidate initialization method could be to generate the  initial point uniformly randomly over the same region as the unknown target, or set is always to the origin $\Bx_0 = [0;0]$. However, as mentioned in Sec. II, the original LS objective is highly non-convex with many local minimums even for small-scale systems so the above assignment would not guarantee the convergence to the global minimum. Another method common in such cases is to initialize algorithms with several $\Bx_0$ and take as the final choice  of the solution $\Bx*$ the final point corresponding to the lowest objective value. It is evident that in our case comparing the results  of initializing the algorithm with $n$ different points should be sufficient. For example, for the planar case $n = 2$,  it is sufficient to compare the intersection points of two circles corresponding to the two smallest distance readings as it is most likely that the target is located in the vicinity of these sensors. 
+\phantom{m}
+
+\noindent \textbf{PCCP-based LS Algorithm for Source Localization}
+
+\textbf{Step 1:} Input sensor locations $\{\Ba_i, i = 1,\ldots,m\}$, range measurements $\{r_i, i = 1, \ldots, m\}$, $\Bx_0, K_{max}, \tau_0, \tau_{max}, \mu > 0, \gamma, \sigma$, and set $k = 0$. 
+
+\textbf{Step 2:} Form  $\Bv_k$ as in (10) and solve (16). Denote the solution as  $(\Bs^*, \hat{\Bs}^*, \Bx^*)$. 
+
+\textbf{Step 3:} Update  $\tau_{k+1} $ = min $(\mu\tau_k, \tau_{max})$, set $k = k+1$. 
+
+\textbf{Step 4:} If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_k = \Bx^*$ and repeat from Step 2. 
+
+%this  would require to solve the SOCP multiple times which is not desirable.
+%
+%    initialization point because CCCP in its essence is a local method . For the  most iterative optimization algorithms two approaches are the most common. First, is to chose the initi
+%
+%CCP is a local heuristic, thus final solution often depends on the initial point $x_0$. It is typical to initialize the algorithm with several feasible $x_0$ and take as the final choise of x the final point found with the lowest objective value over the different runs. The initial point can be random or through a heuristic. 
+%
+%. Based on that two options for choosing the initial point were tried. In the first case the
+%
+%From the above it is evident that to make the CCP more robust the starting point has to be chosen with care. It is typical to initialize the algorithm with several initial points and take as the final chose of the solution x* a final point found with the lowest value of the objective function. 
+%My first guess was to split the area where the sensors are placed in a grid of four regions and take centers of those regions as initial points for the CCP. Each trial run would then involve solving the problem four times in order to compare the value of the objective. From plotting the sensor/source layout and corresponding readings for all of the cases when CCP converged to a wrong location it became evident that comparing initializing the algorithm with only two different points should be sufficient. The intersection point of two circles representing the largest and smallest distance readings were tried (the case when these circles do not intersect due to the noisy readings was also considered).  
+%
+%, radii of the circles correspond to the received noisy range measurements from sensors with corresponding sensor being the center point of the circle, triangles represent solution points of different methods. 
+
+%``Penalty CCP (first extension) removes the need for an initial feasible point. We relax our problem by adding slack variables to our constraints and penalizing the sum of the violations. By initially putting a low penalty on violations, we allow for constraints to be violated so that a region with lower objective value can be found. Thus this approach may be desirable even if a feasible initial point is known. ....  Penalizing the sum of violations is equivalent to using the $ℓ1$ norm and is well known to induce sparsity. Therefore, if we are unable to satisfy all constraints, the set of violated constraints should be small. The theory of exact penalty functions tells us that if $\tau_i$ is greater than the largest optimal dual variable associated with the inequalities in the convexified subproblem (4), then solutions to (4) are solutions of the relaxed convexified problem, and subject to some conditions on the constraints, if a feasible point exists, solutions to the relaxed problem are solutions to the convexified problem (e.g., $\sum_{i=1}^m s_i = 0$) [HM79, DPG89].'' This algorithm is not a descent algorithm, but the objective value will converge, although the convergence may not be to a feasible point of the original problem.
+
+%\cite{LBoyd} ``variations and extensions of the convex-concave procedure, a method used to find a local solution to difference of convex programming problems. hard to solve, no polynomial time alg exist. CCP is a local heuristic, thus final solution often depends on the initial point $x_0$. It is typical to initialize the algorithm with several feasible $x_0$ and take as the final choise of x the final point found with the lowest objective value over the different runs. The initial point can be random or through a heuristic. 
+%In SQP the problem at each iteration is approximated by a quadratic program ( convex quadratic objective and linear constraints. CCP is able to retain all information from the convex component of each term and only linearizes the concave portion.'' SQP is easier to solve at each step, but CCP allows / beneficial to take advantege of more information. 
+
+%``SQP typically involves approximating an optimization problem by a quadratic objecive with linear constraints. ... CCP can also be considered as a generalization of majorization minimization (MM) algorithms, of which expectation maximization (EM) is the most famous.'' CCP is used for EM, image reconstruction, SVM with additional structure, MIMO PID control.
+
+
+
+%\phantom{m}
+%
+%\noindent \textbf{Algorithm 3.1}
+%
+%\textbf{Given} an initial point $x_0, \tau >0, \tau_{max},$ and $\mu >1$, set $k = 0$.
+%
+%\textbf{repeat} 
+%
+%\quad a) \textit{Convexify.} Form  
+%$\hat{g}(x, x_k) = g(x_k) + \bigtriangledown g(x_k)^T(x - x_k)$ and $\hat{g_i}(x; x_k) = g_i(x_k) + \bigtriangledown g_i(x_k)^T(x - x_k)$ for $i = 1, \ldots, m$. 
+%
+%\quad b) \textit{Solve.} Set the value of $x_{k+1}$ to a solution of 
+%
+%\quad \quad minimize $f_0(\Bx) - \hat{g}(x;x_k) + \tau_k\sum^m_{i=1} s_i$
+%
+%\quad \quad subject to $f_i(\Bx) - \hat{g_i}(x;x_k) \leq s_i,$ \quad $ i =1, \ldots m$
+%
+%\quad \quad \quad $s_i \geq 0,$ \quad $ i =1, \ldots m$.
+%
+%\quad c) \textit{Update.} .
+%
+%\quad d) \textit{Update iteration.} k = k+1.
+%
+%\textbf{until} stopping criterion is satisfied.
+%\phantom{m}
