@@ -1,63 +1,85 @@
 \startchapter{Improved Least-Squares Methods for Source Localization: An Iterative Re-Weighting Approach}
 \label{chapter:irw}
 
-Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in ``global'' localization techniques that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
+Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are iterative, hence extremely sensitive to where the iteration begins, and give no guarantee to yield global solutions when applied to non-convex objective functions. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, various ``global'' localization techniques were investigated that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the least squares model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
 
-In this paper, we present improved LS methods that demonstrate improved localization performance when compared with the best known results from the literature. The key new ingredient of the proposed algorithms is an iterative procedure where the SR-LS (SRD-LS) algorithm is iteratively applied to a weighted sum of squared terms where the weights are carefully designed so that the iterates produced quickly converge to a solution which, on comparing with the best known results, is found to be considerably closer to the original range-based (range-difference-based) LS solution that is known to be the maximum-likelihood estimator in the case of Gaussian white measurement noise. Numerical results are presented for performance evaluation and comparisons.
+This chapter presents improved least squares methods that demonstrate improved localization performance when compared with the some best known results from the literature. The key new ingredient of the proposed algorithms is an iterative procedure where the SR-LS (SRD-LS) algorithm is iteratively applied to a weighted sum of squared terms where the weights are carefully designed so that the iterates produced quickly converge to a solution which, on comparing with the best known results, is found to be considerably closer to the original range-based (range-difference-based) LS solution. % that is known to be the maximum-likelihood estimator in the case of Gaussian white measurement noise. Numerical results are presented for performance evaluation and comparisons.
 
 
 
 \section{Source Localization From Range Measurements}%II
 \subsection{Problem Statement}%2.1
 
+
 The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains the $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
-\begin{equation} \label{eq:1}
+\begin{equation} \label{eq:3.1}
 \setcounter{equation}{1}
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, i = 1,\ldots , m.
-\end{equation}                                                                                                     	where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$. The source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. In the rest of this section, a least-squares (LS) formulation of the localization problem and two most relevant state-of-the-art solution methods are briefly reviewed; a new method based on iterative re-weighting of squared range LS technique as well as a variant of the proposed method are then presented; and numerical results for performance evaluation and comparisons of the relevant algorithms are reported.
+\end{equation}                                                                                                     	where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$. The source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. In the rest of this section, a least-squares (LS) formulation of the localization problem and two most relevant state-of-the-art solution methods are briefly reviewed; and a new method based on iterative re-weighting of squared range LS technique as well as a variant of the proposed method are then presented. %; and numerical results for performance evaluation and comparisons of the relevant algorithms are reported.
+
+%
+%The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains the $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+%\begin{equation} \label{eq:3.0}
+%\setcounter{equation}{1}
+%r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, i = 1,\ldots , m.
+%\end{equation}                                                                                                     	where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$. The source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. 
+%
+%For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
+%\begin{equation}\label{eq:3.1} %eq 2
+%\Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
+%\end{equation}
+%
+%Formulation (\ref{eq:3.2}) is connected to the maximum-likelihood (ML) location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. If $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, then the maximum likelihood (ML) location estimator in this case is known to be
+%\begin{equation} \label{eq:3.3}%eq 3
+%\Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
+%\end{equation}
+%where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with $g_i = \|{\Bx} - {\Ba}_i\|$. It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2 = 1$. In the literature this is known as the equal noise power case. For notation the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
+%
+%
+%In the rest of this section, a least-squares (LS) formulation of the localization problem and two most relevant state-of-the-art solution methods are briefly reviewed; and a new method based on iterative re-weighting of squared range LS technique as well as a variant of the proposed method are then presented.
 
 \subsection{LS Formulations and Review of Related Work} %2.2
 
 Least squares approaches have proven effective for source localization problems \cite{SmithAbel} -\cite{BeckStLi}. For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
-\begin{equation}\label{eq:2} %eq 2
+\begin{equation}\label{eq:3.2} %eq 2
 %(R-LS): \Min_{\Bx} \sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \Min_{\Bx} f(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \end{equation}
 
-%\{As could be seen the problem (\ref{eq:2}) at hand is nonconvex [].\}
-The primary reason that justifies formulation (\ref{eq:2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independent identically distributed (Gaussian) variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
-\begin{equation} \label{eq:3}%eq 3
+%\{As could be seen the problem (\ref{eq:3.2}) at hand is nonconvex [].\}
+The primary reason that justifies formulation (\ref{eq:3.2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independent identically distributed (Gaussian) variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
+\begin{equation} \label{eq:3.3}%eq 3
 \Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
 \end{equation}
 where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with
-\begin{equation} \label{eq:4}%eq 4
+\begin{equation} \label{eq:3.4}%eq 4
 g_i = \|{\Bx} - {\Ba}_i\|
 \end{equation}
-It follows immediately that the ML solution in (\ref{eq:3}) is identical to the R-LS solution of problem (\ref{eq:2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$ .
+It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
-Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective function in (\ref{eq:2}) is highly nonconvex, possessing many local minimizers even for small-scale systems.
+Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective function in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems.
 
-Reference \cite{Cheung} addresses problem (\ref{eq:2}) by a convex relaxation technique where (\ref{eq:2}) is modified to a convex problem known as semidefinite programming (SDP) \cite{VBoyd}. A key step in this procedure is to use (\ref{eq:4}) with  $g_i$ as new variables, which leads (\ref{eq:2}) to the constrained problem
-\begin{eqnarray} \label{eq:5}%eq 5 a,b
+Reference \cite{Cheung} addresses problem (\ref{eq:3.2}) by a convex relaxation technique where (\ref{eq:3.2}) is modified to a convex problem known as semidefinite programming (SDP) \cite{VBoyd}. A key step in this procedure is to use (\ref{eq:3.4}) with  $g_i$ as new variables, which leads (\ref{eq:3.2}) to the constrained problem
+\begin{eqnarray} \label{eq:3.5}%eq 5 a,b
 \setcounter{abc}{1}
 \Min_{{\Bx}, {\Bg}} \sum_{i=1}^m (r_i - g_i)^2\qquad\\
-\stepcounter{abc} \setcounter{equation}{5} \mbox{subject to: \ }
-g_i^2=\|{\Bx} - {\Ba_i}\|^2,\quad i = 1, \ldots,m.
+\stepcounter{abc} \setcounter{equation}{5} 
+\mbox{subject to: \ } g_i^2=\|{\Bx} - {\Ba_i}\|^2,\quad i = 1, \ldots,m.
 \end{eqnarray}
 By further defining matrix variables
-\begin{equation} \label{eq:6}%eq 6
+\begin{equation} \label{eq:3.6}%eq 6
 \setcounter{abc}{0}
 \BG = \left[\begin{array}{c} \Bg \\
 1 \end{array}\right] \left[ \begin{array}{cc} \Bg^T & 1 \end{array} \right] \mbox{and } \BX = \left[\begin{array}{c} \Bx \\
 1 \end{array}\right] \left[ \begin{array}{cc} \Bx^T & 1 \end{array} \right]
 \end{equation}
-and neglecting the rank constrains on $\BG$ and $\BX$, (\ref{eq:5}) can be reformulated in term of variables $\BG$ and $\BX$ as
+and neglecting the rank constrains on $\BG$ and $\BX$, (\ref{eq:3.5}) can be reformulated in term of variables $\BG$ and $\BX$ as \textbf{(include more details about derivation and the rank constrain?)}
 \begin{eqnarray}
 \setcounter{abc}{0}
-\label{eq:7}
+\label{eq:3.7}
 \setcounter{abc}{0} % before was 12, now change to 7 - WSLU
 \setcounter{abc}{1}\setcounter{equation}{7}
-\Min_{\boldmath{X},\boldmath{G}} \sum_{i=1}^{m} \left(G_{ii}- 2r_iG_{m+1,i}+r_i^2\right)\qquad\\
+\Min_{\BX,\BG} \sum_{i=1}^{m} \left(G_{ii}- 2r_iG_{m+1,i}+r_i^2\right)\qquad\\
 \stepcounter{abc}\setcounter{equation}{7}
 \mbox{subject to: \ } G_{ii}=\boldmath{Tr}\left(\BC_i\BX\right), i = 1, \ldots,m \\
 \stepcounter{abc}\setcounter{equation}{7}
@@ -66,21 +88,21 @@ and neglecting the rank constrains on $\BG$ and $\BX$, (\ref{eq:5}) can be refor
 G_{m+1,m+1}=G_{n+1,n+1}=1 \quad
 \end{eqnarray}
 where
-\begin{equation} \label{eq:8} % put here as 8
+\begin{equation} \label{eq:3.8} % put here as 8
 \setcounter{abc}{0}
 \setcounter{equation}{8}
 C_i=\left( \begin{array}{cc}  \BI\!_{n\times n} & -\Ba_i
 \\ -\Ba_i^T & \|\Ba_i\|^2 \\
 \end{array}\right) \quad i=1,\ldots,m
 \end{equation}
-which is a standard SDP problem that can be solved efficiently \cite{VBoyd,AntonLu}. Note that because (\ref{eq:7}) is a convex problem, global minimality of the solution is ensured regardless of the initial point used. On the other hand, however, because (\ref{eq:7}) is an approximation of the original problem in (\ref{eq:2}), the solution of (\ref{eq:7}) is only an approximate solution of problem (\ref{eq:2}). In what follows the solutions obtained by this SDP-relaxation based method will be referred to as SDR-LS solutions.
+which is a standard SDP problem that can be solved efficiently \cite{VBoyd,AntonLu}. Note that because (\ref{eq:3.7}) is a convex problem, global minimality of the solution is ensured regardless of the initial point used. On the other hand, however, because (\ref{eq:3.7}) is an approximation of the original problem in (\ref{eq:3.2}), the solution of (\ref{eq:3.7}) is only an approximate solution of problem (\ref{eq:3.2}). In what follows the solutions obtained by this SDP-relaxation based method will be referred to as SDR-LS solutions.
 
-A rather different approach is recently proposed in \cite{BeckStLi} where the localization problem (\ref{eq:2}) is tackled by developing techniques that find global solution of the \textit{squared range based LS} (SR-LS) problem
-\begin{equation} \label{eq:9}%eq 9
+A rather different approach is recently proposed in \cite{BeckStLi} where the localization problem (\ref{eq:3.2}) is tackled by developing techniques that find global solution of the \textit{squared range based LS} (SR-LS) problem
+\begin{equation} \label{eq:3.9}%eq 9
 \Min_{\Bx} \sum_{i=1}^{m} \left(\|{\Bx} - {\Ba}_i\|^2 - r_i^2\right)^2
 \end{equation}
-By writing the objective in (\ref{eq:9}) as $\left(\alpha-2\Ba_i^T\Bx+\|\Ba_i\|^2-r_i^2\right)^2$ with $\alpha=\|\Bx\|^2$, it becomes a convex quadratic objective if one treats $\alpha$  as an additional variable and  $\alpha=\|\Bx\|^2$  as a constraint. In this way, (\ref{eq:9}) is converted to the following constrained LS problem after necessary variable changes:
-\begin{eqnarray} \label{eq:10}
+By writing the objective in (\ref{eq:3.9}) as $\left(\alpha-2\Ba_i^T\Bx+\|\Ba_i\|^2-r_i^2\right)^2$ with $\alpha=\|\Bx\|^2$, it becomes a convex quadratic objective if one treats $\alpha$  as an additional variable and  $\alpha=\|\Bx\|^2$  as a constraint. In this way, (\ref{eq:3.9}) is converted to the following constrained LS problem after necessary variable changes:
+\begin{eqnarray} \label{eq:3.10}
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BA\By-\Bb\|^2 \qquad\\
 \stepcounter{abc} \setcounter{equation}{10} \mbox{subject to: \ }
@@ -88,7 +110,7 @@ By writing the objective in (\ref{eq:9}) as $\left(\alpha-2\Ba_i^T\Bx+\|\Ba_i\|^
 \end{eqnarray}
 where
 \setcounter{abc}{0}
-\begin{equation} \label{eq:11}
+\begin{equation} \label{eq:3.11}
 \setcounter{abc}{0}
 \setcounter{equation}{11}
 \BA=\left(\begin{array}{cc}
@@ -102,75 +124,75 @@ where
     r_m^T-\|\Ba_m\|^T
     \end{array} \right)
 \end{equation}
-\begin{equation} \label{eq:12}
+\begin{equation} \label{eq:3.12}
 \BD=\left(\begin{array}{cc}
     \BI\!_{n\times n} & \BO_{n\times n} \\
     \BO_{n\times n} & 0
     \end{array} \right),
 \Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right)
 \end{equation}
-This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in the case of GTRS \cite{More}.
+This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:3.10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:3.10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in the case of GTRS \cite{More}.
 
-Two remarks are now in order. First, an unconstrained version of (\ref{eq:10}) may be obtained by neglecting the constraint in (\ref{eq:10}b) as
-\begin{equation} \label{eq:13}%eq 13
+Two remarks are now in order. First, an unconstrained version of (\ref{eq:3.10}) may be obtained by neglecting the constraint in (\ref{eq:3.10}b) as
+\begin{equation} \label{eq:3.13}%eq 13
 \Min_{{\By} \in R^{n+1}} \|\BA\By-\Bb\|^2
 \end{equation}
 whose solution, called \textit{unconstrained squared-range-based LS }(USR-LS) estimate, is given by
-\begin{equation} \label{eq:14}%eq 14
+\begin{equation} \label{eq:3.14}%eq 14
 \By^*=\left(\BA^T\!\BA\right)^{-1}\!\!\!\!\BA^T\Bb
 \end{equation}
 
-It is demonstrated by numerical experiments \cite{BeckStLi} that the SR-LS solution outperforms the USR-LS and, in many cases, SDR-LS solutions. Second, the SR-LS solution, although it solves (\ref{eq:9}) exactly, remains to be an approximate solution for the original LS problem in (\ref{eq:2}). The method, described in detail below, tries to reduce the gap between the two solutions.
+It is demonstrated by numerical experiments \cite{BeckStLi} that the SR-LS solution outperforms the USR-LS and, in many cases, SDR-LS solutions. Second, the SR-LS solution, although it solves (\ref{eq:3.9}) exactly, remains to be an approximate solution for the original LS problem in (\ref{eq:3.2}). The method, described in detail below, tries to reduce the gap between the two solutions.
 
 \subsection{An Iterative Re-Weighting Approach}%2.3
 \subsubsection{Weighted squared range-based least squares formulation} %2.3.1
 
 As noted in \cite{BeckStLi}, it is straightforward to convert a weighted SR-LS (WSR-LS) problem, namely,
-\begin{equation} \label{eq:15} %eq 15
+\begin{equation} \label{eq:3.15} %eq 15
 \Min_{\Bx} \sum_{i=1}^{m} w_i\left(\|{\Bx} - {\Ba}_i\|^2 - r_i^2\right)^2
 \end{equation}
-into a GTRS similar to (\ref{eq:10}) as
-\begin{eqnarray} \label{eq:16} %eq 16 a,b
+into a GTRS similar to (\ref{eq:3.10}) as
+\begin{eqnarray} \label{eq:3.16} %eq 16 a,b
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BGA\left(\BA\By-\Bb\right)\|^2 \qquad\\
 \stepcounter{abc} \setcounter{equation}{16} \mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
-where $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$. Clearly, problem (\ref{eq:16}) can be written as
+where $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$. Clearly, problem (\ref{eq:3.16}) can be written as
 \begin{eqnarray}
 \setcounter{abc}{0}
-\label{eq:17}%eq 17 a,b
+\label{eq:3.17}%eq 17 a,b
 \setcounter{abc}{0}
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BA_w\By-\Bb_w\|^2 \qquad\\
 \stepcounter{abc} \setcounter{equation}{17} \mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
-where $\BA_w = \BGA\BA$ and $\Bb_w=\BGA\Bb$. On comparing (\ref{eq:17}) with (\ref{eq:10}), we conclude that if $S(\BA,\Bb,\BD,\Bf)$ denotes a solver that produces the global solution of problem (\ref{eq:10}) for a given data set $\{\BA,\Bb,\BD,\Bf\}$, then the same solver produces the global solution of the weighted problem (\ref{eq:15}) as long as it is applied to the data set $\{\BA_w,\Bb_w,\BD,\Bf\}$. We stress that the weights $\{w_i, i=1,\ldots, m\}$ in (\ref{eq:15}) are \textit{fixed} nonnegative constants.
+where $\BA_w = \BGA\BA$ and $\Bb_w=\BGA\Bb$. On comparing (\ref{eq:3.17}) with (\ref{eq:3.10}), we conclude that if $S(\BA,\Bb,\BD,\Bf)$ denotes a solver that produces the global solution of problem (\ref{eq:3.10}) for a given data set $\{\BA,\Bb,\BD,\Bf\}$, then the same solver produces the global solution of the weighted problem (\ref{eq:3.15}) as long as it is applied to the data set $\{\BA_w,\Bb_w,\BD,\Bf\}$. We stress that the weights $\{w_i, i=1,\ldots, m\}$ in (\ref{eq:3.15}) are \textit{fixed} nonnegative constants.
 
 
 \subsubsection{Moving the SR-LS solution towards R-LS solution via iterative re-weighting}% 2.3.2
 
-The main idea here is to use the weights $\{w_i, i=1,\ldots, m\}$  to tune the objective in (\ref{eq:15}) toward the objective in (\ref{eq:2}) so that the solution obtained by minimizing such a WSR-LS objective is expected to be closer toward that of the problem (\ref{eq:2}). To substantiate the idea, we compare the $i$th term of the objective in (\ref{eq:15}) with its counterpart in (\ref{eq:2}), namely,
-\begin{equation} \label{eq:18} %eq 18
+The main idea here is to use the weights $\{w_i, i=1,\ldots, m\}$  to tune the objective in (\ref{eq:3.15}) toward the objective in (\ref{eq:3.2}) so that the solution obtained by minimizing such a WSR-LS objective is expected to be closer toward that of the problem (\ref{eq:3.2}). To substantiate the idea, we compare the $i$th term of the objective in (\ref{eq:3.15}) with its counterpart in (\ref{eq:3.2}), namely,
+\begin{equation} \label{eq:3.18} %eq 18
 \setcounter{abc}{0}
 \underbrace{w_i\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2}_{\mbox{in (15)}}\leftrightarrow\underbrace{\left(\|\Bx-\Ba_i\|-r_i\right)^2}_{\mbox{in (2)}}
 \end{equation}
-and write the term in (\ref{eq:15}) as
-\begin{equation} \label{eq:19}%eq19
+and write the term in (\ref{eq:3.15}) as
+\begin{equation} \label{eq:3.19}%eq19
 \begin{array}{l}
 w_i\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2 = \\ w_i\left(\|\Bx-\Ba_i\|+r_i\right)^2 \underbrace{\left(\|\Bx-\Ba_i\|-r_i\right)^2}_{\mbox{same as in (2)}}
 \end{array}
 \end{equation}
-It follows that the objective in (\ref{eq:15}) would be the same as in (\ref{eq:2}) if the weight $w_i$ were assigned to $1/\left(\|\Bx-\Ba_i\|+r_i\right)^2$. Evidently, weight assignments as such cannot be realized because $w_i$'s must be fixed constants for (\ref{eq:15}) to be a globally solvable WSR-LS problem. A natural remedy to deal with this technical difficulty is to employ an iterative procedure whose $k$th iteration generates a global solution $\Bx_k$  of a WSR-LS sub-problem of the form
-\begin{equation}\label{eq:20}% eq20
+It follows that the objective in (\ref{eq:3.15}) would be the same as in (\ref{eq:3.2}) if the weight $w_i$ were assigned to $1/\left(\|\Bx-\Ba_i\|+r_i\right)^2$. Evidently, weight assignments as such cannot be realized because $w_i$'s must be fixed constants for (\ref{eq:3.15}) to be a globally solvable WSR-LS problem. A natural remedy to deal with this technical difficulty is to employ an iterative procedure whose $k$th iteration generates a global solution $\Bx_k$  of a WSR-LS sub-problem of the form
+\begin{equation}\label{eq:3.20}% eq20
 \Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2
 \end{equation}
 where for $k\geq2$ the weights $\{w_i^{(k)},i=1,\ldots,m\}$ are assigned using the previous iterate $\Bx_{k-1}$ as
-\begin{equation} \label{eq:21}%eq 21
+\begin{equation} \label{eq:3.21}%eq 21
 w_i^{(k)}=\frac{1}{\left(\|\Bx_{k-1}-\Ba_i\|+r_i\right)^2}
 \end{equation}
-while for $k=1$ all weights $\{w_i^{(1)}, i=1,\ldots, m\}$ are set to unity. Clearly the weights given by (\ref{eq:21}) are realizable. More importantly, when the iterates produced by solving (\ref{eq:20}) (namely $\Bx_k$ for $k = 1, 2,\ldots$) converge, in the $k$th iteration with $k$ sufficiently large, the objective function of (\ref{eq:20}) in a small vicinity of its solution $\Bx_k$ is approximately equal to
+while for $k=1$ all weights $\{w_i^{(1)}, i=1,\ldots, m\}$ are set to unity. Clearly the weights given by (\ref{eq:3.21}) are realizable. More importantly, when the iterates produced by solving (\ref{eq:3.20}) (namely $\Bx_k$ for $k = 1, 2,\ldots$) converge, in the $k$th iteration with $k$ sufficiently large, the objective function of (\ref{eq:3.20}) in a small vicinity of its solution $\Bx_k$ is approximately equal to
 \begin{equation} \label{sr:w}
 \nonumber
 \begin{aligned}
@@ -181,8 +203,8 @@ while for $k=1$ all weights $\{w_i^{(1)}, i=1,\ldots, m\}$ are set to unity. Cle
  =&\sum_{i=1}^m \left(\|\Bx_k-\Ba_i\|-r_i\right)^2 \approx \sum_{i=1}^m \left(\|\Bx-\Ba_i\|-r_i\right)^2\\
 \end{aligned}
 \end{equation}
-%In other words, after infinite amount of iterations the WSR-LS solution to the problem (\ref{eq:20}) is expected to converge to the global solution of problem (\ref{eq:2}). [ Would this wording
-In words, we see that with the weights from (\ref{eq:21}), the limiting point of the iterates produced by iteratively solving WSR-LS problem (\ref{eq:20}) is expected to be close to the global solution of problem (\ref{eq:2}).
+%In other words, after infinite amount of iterations the WSR-LS solution to the problem (\ref{eq:3.20}) is expected to converge to the global solution of problem (\ref{eq:3.2}). [ Would this wording
+In words, we see that with the weights from (\ref{eq:3.21}), the limiting point of the iterates produced by iteratively solving WSR-LS problem (\ref{eq:3.20}) is expected to be close to the global solution of problem (\ref{eq:3.2}).
 
 The algorithmic steps of the proposed localization method are outlined as follows.
 
@@ -190,23 +212,23 @@ The algorithmic steps of the proposed localization method are outlined as follow
 
 1) Input data: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range measurements $\{r_i, i=1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\zeta$.
 
-2) Generate data set $\BA,\Bb, \Bd, \Bf$ using (\ref{eq:11}) and (\ref{eq:12}). Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
+2) Generate data set $\BA,\Bb, \Bd, \Bf$ using (\ref{eq:3.11}) and (\ref{eq:3.12}). Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
 
 3) Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BA_w=\BGA_k\BA$ and $\Bb_w=\BGA_k\Bb$.
 
-4) Solve the WSR-LS problem (\ref{eq:20}) via (\ref{eq:17}) to obtain its global solution $\Bx_k$.
+4) Solve the WSR-LS problem (\ref{eq:3.20}) via (\ref{eq:3.17}) to obtain its global solution $\Bx_k$.
 
-5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\zeta$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:21}), and repeat from Step 3).
+5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\zeta$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:3.21}), and repeat from Step 3).
 
 From the steps in Algorithm 1, it follows that the complexity of the algorithm is practically equal to the complexity of the WSR-LS solver involved in Step 4 times the number of iterations, $k$. The algorithm converges with a small number of iterations, typically a $k\leq6$  suffices. For simplicity, we shall call the solutions obtained from Algorithm 1 IRWSR-LS solutions.
 
 \subsubsection{A variant of Algorithm 1}% 2.3.3
 
-As argued above, the IRWSR-LS solution from Algorithm 1 is expected to be an improved approximation of the global solution of R-LS problem in (\ref{eq:2}). However a small gap between the two solutions is inevitable owing to the approximate nature of the re-weighting strategy. In this section, we present a variant of Algorithm 1 that closes this gap by taking the IRWSR-LS solution as an initial point to run a good local unconstrained optimization algorithm for problem (\ref{eq:2}).  The rationale behind this two-step approach is that the initial point produced in the first step by Algorithm 1 is highly likely within a sufficiently small vicinity of the exact global solution of problem (\ref{eq:2}), hence a good local method will lead it to the exact solution in a small number of iterations. We remark that such a ``hybrid'' approach is also expected to work with other ``global'' methods including the SDR-LS and SR-LS methods, but with a difference that employing an IRWSR-LS solution in the first step improves the closeness of the initial point, hence increases the likelihood of securing the exact global solution of problem (\ref{eq:2}) by a local method in the second step.
+As argued above, the IRWSR-LS solution from Algorithm 1 is expected to be an improved approximation of the global solution of R-LS problem in (\ref{eq:3.2}). However a small gap between the two solutions is inevitable owing to the approximate nature of the re-weighting strategy. In this section, we present a variant of Algorithm 1 that closes this gap by taking the IRWSR-LS solution as an initial point to run a good local unconstrained optimization algorithm for problem (\ref{eq:3.2}).  The rationale behind this two-step approach is that the initial point produced in the first step by Algorithm 1 is highly likely within a sufficiently small vicinity of the exact global solution of problem (\ref{eq:3.2}), hence a good local method will lead it to the exact solution in a small number of iterations. We remark that such a ``hybrid'' approach is also expected to work with other ``global'' methods including the SDR-LS and SR-LS methods, but with a difference that employing an IRWSR-LS solution in the first step improves the closeness of the initial point, hence increases the likelihood of securing the exact global solution of problem (\ref{eq:3.2}) by a local method in the second step.
 
 The well-known Newton algorithm \cite{AntonLu} is chosen as our local method because of its fast convergence and low complexity. We note that, unlike in a general scenario where the Newton algorithm is often considered numerically expensive because it requires to compute the inverse of the Hessian matrix, computing such an inverse is not costly in the present case because the dimension of the unknown vector x is extremely low: $n = 2$ or 3. Moreover, the Hessian matrix involved can be efficiently evaluated by a closed-form formula, as shown below.
 
-To evaluate the Hessian of the objective $f(\Bx)$ in (\ref{eq:2}), we assume $\Bx\neq\Ba_i$  for $i = 1, \ldots, m$, so that $f(\Bx)$  is a smooth function of $\Bx$. The assumption simply means that the radiating source is away from the sensor at least by a certain distance, which appears to be reasonable for a practical localization problem. Under this circumstance, the gradient and Hessian of $f(\Bx)$ are found to be
+To evaluate the Hessian of the objective $f(\Bx)$ in (\ref{eq:3.2}), we assume $\Bx\neq\Ba_i$  for $i = 1, \ldots, m$, so that $f(\Bx)$  is a smooth function of $\Bx$. The assumption simply means that the radiating source is away from the sensor at least by a certain distance, which appears to be reasonable for a practical localization problem. Under this circumstance, the gradient and Hessian of $f(\Bx)$ are found to be
 \begin{equation}
 \nonumber
 \Bg(\Bx)=\sum_{i=1}^m\left(1-\frac{r_i}{\|\Bx-\Ba_i\|})\right)\left(\Bx-\Ba_i\right)
@@ -251,33 +273,33 @@ and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guarant
 
 Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. In practice, range-difference measurements may be
 obtained by comparing the signal as it is received at the $m+1$ sensors taken in pairs. As usual, these sensors are denoted as $\{\Ba_0, \Ba_1,\ldots,\Ba_m\} \in R^n$ with $\Ba_0$ be placed at the origin and used as a \textit{reference sensor}.  The range-difference measurements are obtained as
- \begin{equation} \label{eq:22}
+ \begin{equation} \label{eq:3.22}
  d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, i = 1,\ldots,m
  \end{equation}
 and the problem here is to estimate the location of a radiating source $\Bx$ based on measurements $d_i$'s. Therefore, the standard range-difference LS (RD-LS) problem is formulated as
- \begin{equation} \label{eq:23}
+ \begin{equation} \label{eq:3.23}
 \Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2
  \end{equation}
- Unfortunately, finding the global solution of (\ref{eq:23}) turns out to be a very hard problem. Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
+ Unfortunately, finding the global solution of (\ref{eq:3.23}) turns out to be a very hard problem. Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
 
- By writing (\ref{eq:22}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
-  \begin{equation} \label{eq:24}
+ By writing (\ref{eq:3.22}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
+  \begin{equation} \label{eq:3.24}
 \left(d_i+\|\Bx\|\right)^2 = \|\Bx-\Ba_i\|^2
  \end{equation}
  which can be simplified to
-  \begin{equation} \label{eq:25}
+  \begin{equation} \label{eq:3.25}
 -2d_i\|\Bx\|-2\Ba_i^T\Bx=g_i, i=1,\ldots,m
  \end{equation}
- where $g_i=d_i^2-\|\Ba_i\|^2$. In practice (\ref{eq:25}) does not hold exactly due to measurement noise that contaminates the data $d_i$'s. In other words, if $d_i$'s in (\ref{eq:25}) are taken to be real-world data, then we only have
- \begin{equation} \label{eq:26}
+ where $g_i=d_i^2-\|\Ba_i\|^2$. In practice (\ref{eq:3.25}) does not hold exactly due to measurement noise that contaminates the data $d_i$'s. In other words, if $d_i$'s in (\ref{eq:3.25}) are taken to be real-world data, then we only have
+ \begin{equation} \label{eq:3.26}
 -2d_i\|\Bx\|-2\Ba_i^T\Bx-g_i\approx 0, i=1,\ldots,m
  \end{equation}
- Reference \cite{BeckStLi} proposes a LS solution for the problem at hand by minimizing the sum of squared residues on the left side of (\ref{eq:26}), namely,
- \begin{equation}\label{eq:27}
+ Reference \cite{BeckStLi} proposes a LS solution for the problem at hand by minimizing the sum of squared residues on the left side of (\ref{eq:3.26}), namely,
+ \begin{equation}\label{eq:3.27}
 \Min_{{\Bx} \in R^{n}} \sum_{i=1}^m \left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2
 \end{equation}
- By introducing new variable $\By=[\Bx^T \|\Bx\|]^T$ and noticing nonnegativity of the component $y_{n+1}$ problem (\ref{eq:27}) is converted to
- \begin{eqnarray}\label{eq:28}%40
+ By introducing new variable $\By=[\Bx^T \|\Bx\|]^T$ and noticing nonnegativity of the component $y_{n+1}$ problem (\ref{eq:3.27}) is converted to
+ \begin{eqnarray}\label{eq:3.28}%40
 \setcounter{abc}{1}
 \Min_{\By\in R^{n+1}} \|\BB\By-\Bg\|^2 \\
 \stepcounter{abc} \setcounter{equation}{28}
@@ -288,7 +310,7 @@ y_{n+1}\geq 0
 where $\Bg=[g_1 \ldots g_m]^T$ and
 \begin{equation}
 \setcounter{abc}{0}
-\label{eq:29} %41
+\label{eq:3.29} %41
 \setcounter{abc}{0}
 \BB = \left(\begin{array}{cc}
     -2\Ba_1^T & -2d_1 \\
@@ -301,27 +323,27 @@ where $\Bg=[g_1 \ldots g_m]^T$ and
     \end{array}\right)
 \end{equation}
 
-Because of the presence of the nonnegativity constraint in (\ref{eq:28}c), (\ref{eq:28}) is no longer a GTRS problem hence the technique used for the case of range measurements does not apply. Nevertheless reference \cite{BeckStLi} presents a rigorous argument which shows that the optimal solution of (\ref{eq:28}) either assumes the form of
+Because of the presence of the nonnegativity constraint in (\ref{eq:3.28}c), (\ref{eq:3.28}) is no longer a GTRS problem hence the technique used for the case of range measurements does not apply. Nevertheless reference \cite{BeckStLi} presents a rigorous argument which shows that the optimal solution of (\ref{eq:3.28}) either assumes the form of
  \begin{equation}
  \nonumber
  \tilde{\By}(\lambda)=\left(\BB^T\BB+\lambda\BC\right)^{-1}\BB^T\Bg
  \end{equation}
  where $\lambda$ solves
- \begin{equation}\label{eq:30}
+ \begin{equation}\label{eq:3.30}
  \tilde{\By}(\lambda)^T\BC\tilde{\By}(\lambda)=0
  \end{equation}
- and makes $\BB^T\BB+\lambda\BC$ positive, or is the vector among $\{\BO,$ $\tilde{\By}(\lambda_1),\ldots,\tilde{\By}(\lambda_p)\}$ that gives the smallest objective function in (\ref{eq:28}a), where $\{\lambda_i, i = 1,\ldots,p\}$ are all roots of (\ref{eq:30}) such that the $(n+1)$'th component of $\tilde{\By}(\lambda_i)$ is nonnegative and $\BB^T\BB+\lambda\BC$ has exactly one negative and $n$ positive eigenvalues. We shall refer the global solution of (\ref{eq:28}) to as the SRD-LS solution.
+ and makes $\BB^T\BB+\lambda\BC$ positive, or is the vector among $\{\BO,$ $\tilde{\By}(\lambda_1),\ldots,\tilde{\By}(\lambda_p)\}$ that gives the smallest objective function in (\ref{eq:3.28}a), where $\{\lambda_i, i = 1,\ldots,p\}$ are all roots of (\ref{eq:3.30}) such that the $(n+1)$'th component of $\tilde{\By}(\lambda_i)$ is nonnegative and $\BB^T\BB+\lambda\BC$ has exactly one negative and $n$ positive eigenvalues. We shall refer the global solution of (\ref{eq:3.28}) to as the SRD-LS solution.
 
 \subsection{Improved Solution Using Iterative Re-weighting} %3.2
 %\subsubsection{Weighted squared range-difference based least squares solution}
 \subsubsection{The Algorithm} %3.2.1
 
 We now present a method for improved solutions over SRD-LS solutions. The method incorporates an iterative re-weighting procedure into the SRD-LS approach, hence it is in spirit similar to the IRWRS-LS approach described in Sec. 2.3.2. We begin by considering the weighted SRD-LS problem
-\begin{equation} \label{eq:31}
+\begin{equation} \label{eq:3.31}
 \Min_{{\Bx} \in R^n} \sum_{i=1}^m w_i\left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2
 \end{equation}
-where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The counterpart of (\ref{eq:28}) for the problem (\ref{eq:31}) is given by
-\begin{eqnarray} \label{eq:32}
+where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The counterpart of (\ref{eq:3.28}) for the problem (\ref{eq:3.31}) is given by
+\begin{eqnarray} \label{eq:3.32}
 \setcounter{abc}{1}
 \Min_{\By \in R^{n+1}} \|\BB_w\By - \Bg_w\| \\
 \stepcounter{abc} \setcounter{equation}{32}
@@ -329,9 +351,9 @@ where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The coun
 \stepcounter{abc} \setcounter{equation}{32}
 y_{n+1}\geq 0
 \end{eqnarray}
-where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ and $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. On comparing (\ref{eq:32}) with (\ref{eq:28}), it follows immediately that the global solver for problem (\ref{eq:28}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be sued for solving problem (\ref{eq:32}) by applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
+where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ and $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. On comparing (\ref{eq:3.32}) with (\ref{eq:3.28}), it follows immediately that the global solver for problem (\ref{eq:3.28}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be sued for solving problem (\ref{eq:3.32}) by applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
 
-Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{eq:24}), (\ref{eq:25}) and observe that the $i$th term of the objective function in (\ref{eq:31}) can be written as
+Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{eq:3.24}), (\ref{eq:3.25}) and observe that the $i$th term of the objective function in (\ref{eq:3.31}) can be written as
 \begin{equation} \label{w:srd}
 \nonumber
 \begin{aligned}
@@ -340,8 +362,8 @@ Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{
 =&w_i\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)\left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)
 \end{aligned}
 \end{equation}
-Clearly, the last expression above would become the $i$th term of the objective function in the RD-LS problem (\ref{eq:23}) if weights $w_i$ were set to $1/\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)^2$ so that the first two factors are cancelled out. This suggests that a realizable weight assignment for performing practically the same cancellation can be made by means of iterative re-weighting for problems (\ref{eq:31}) and (\ref{eq:32}) where the weights in the $k$th iteration are assigned to
-\begin{equation} \label{eq:33}
+Clearly, the last expression above would become the $i$th term of the objective function in the RD-LS problem (\ref{eq:3.23}) if weights $w_i$ were set to $1/\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)^2$ so that the first two factors are cancelled out. This suggests that a realizable weight assignment for performing practically the same cancellation can be made by means of iterative re-weighting for problems (\ref{eq:3.31}) and (\ref{eq:3.32}) where the weights in the $k$th iteration are assigned to
+\begin{equation} \label{eq:3.33}
 \setcounter{abc}{0}
 w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}, i=1,\ldots,m
 \end{equation}
@@ -352,19 +374,19 @@ Based on the analysis above, a localization algorithm for range-difference measu
 
 1) Input data: Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\xi$.
 
-2) Generate data set $\{\BB, \Bg, \BC\}$ using (\ref{eq:29}). Set $k=1$, $w_i^{(1)}=1$ for $i=1,\ldots,m.$
+2) Generate data set $\{\BB, \Bg, \BC\}$ using (\ref{eq:3.29}). Set $k=1$, $w_i^{(1)}=1$ for $i=1,\ldots,m.$
 
 3) Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BB_w=\BGA_k\BB$ and $\Bg_w=\BGA_k\Bg$.
 
-4) Solve WSRD-LS problem (\ref{eq:32}) to obtain its global solution $\Bx_k$.
+4) Solve WSRD-LS problem (\ref{eq:3.32}) to obtain its global solution $\Bx_k$.
 
-5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:32}), and repeat from Step 3).
+5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:3.32}), and repeat from Step 3).
 
 It is evident that the complexity of the algorithm is practically equal to the complexity of the WSRD-LS solver involved in Step 4 times the number of iterations, $k$, which is typically in the range of 3 to 6. We shall call the solutions obtained from Algorithm 2 IRWSRD-LS solutions.
 
 \subsubsection{A variant of Algorithm 2}
 
-Like in the case of range measurements, once the IRWSRD-LS solution is obtained by applying Algorithm 2, which is expected to be within a small vicinity of the true global solution of the RD-LS problem (\ref{eq:23}), the gap can be closed by running a good local method that takes the IRWSRD-LS solution as an initial point. Again, the Newton method is chosen for its fast convergence, low complexity due to the extremely low dimension $n$, and the availability of closed-form formulas to compute the gradient and Hessian of $F(\Bx)$ in (\ref{eq:23}).
+Like in the case of range measurements, once the IRWSRD-LS solution is obtained by applying Algorithm 2, which is expected to be within a small vicinity of the true global solution of the RD-LS problem (\ref{eq:3.23}), the gap can be closed by running a good local method that takes the IRWSRD-LS solution as an initial point. Again, the Newton method is chosen for its fast convergence, low complexity due to the extremely low dimension $n$, and the availability of closed-form formulas to compute the gradient and Hessian of $F(\Bx)$ in (\ref{eq:3.23}).
 
 Assuming $\Bx\neq\Ba_i$ for $i = 0, 1,\ldots, m$, the gradient and Hessian of $F(\Bx)$ is found to be
 \begin{equation}
