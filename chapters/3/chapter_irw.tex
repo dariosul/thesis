@@ -208,19 +208,63 @@ In words, we see that with the weights from (\ref{eq:3.21}), the limiting point 
 
 The algorithmic steps of the proposed localization method are outlined as follows.
 
-\noindent \textbf{Algorithm 1}
+\noindent \textbf{Algorithm 1} \label{alg:r-ls}
 
 1) Input data: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range measurements $\{r_i, i=1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\zeta$.
 
-2) Generate data set $\BA,\Bb, \Bd, \Bf$ using (\ref{eq:3.11}) and (\ref{eq:3.12}). Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
+2) Generate data set $\BA,\Bb, \Bd, \Bf$ as
+\begin{equation} 
+\nonumber
+\BA=\left(\begin{array}{cc}
+    -2\Ba_1^T & 1 \\
+    \vdots  & \vdots \\
+    -2\Ba_m^T & 1
+    \end{array} \right),
+\Bb=\left(\begin{array}{c}
+    r_1^T-\|\Ba_1\|^T \\
+    \vdots \\
+    r_m^T-\|\Ba_m\|^T
+    \end{array} \right)
+\end{equation}
+\begin{equation} 
+\nonumber
+\BD=\left(\begin{array}{cc}
+    \BI\!_{n\times n} & \BO_{n\times n} \\
+    \BO_{n\times n} & 0
+    \end{array} \right),
+\Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right) .
+\end{equation}
+
+Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
 
 3) Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BA_w=\BGA_k\BA$ and $\Bb_w=\BGA_k\Bb$.
 
-4) Solve the WSR-LS problem (\ref{eq:3.20}) via (\ref{eq:3.17}) to obtain its global solution $\Bx_k$.
+4) Solve the WSR-LS problem 
+% 3.20
+\begin{equation} 
+\nonumber 
+\Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2
+\end{equation}
+via
+% 3.21
+\begin{equation}
+\nonumber
+\begin{aligned}
+&\Min_{{\By} \in R^{n+1}} \|\BA_w\By-\Bb_w\|^2 \\
+&\mbox{subject to: \ }  \By^T\BD\By + 2\Bf^T\By = 0
+\end{aligned}
+\end{equation} 
+to obtain its global solution $\Bx_k$.
 
-5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\zeta$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:3.21}), and repeat from Step 3).
+5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\zeta$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using % 3.21
+\begin{equation}
+\nonumber
+w_i^{(k)}=\frac{1}{\left(\|\Bx_{k-1}-\Ba_i\|+r_i\right)^2}
+\end{equation}
+and repeat from Step 3).
 
 From the steps in Algorithm 1, it follows that the complexity of the algorithm is practically equal to the complexity of the WSR-LS solver involved in Step 4 times the number of iterations, $k$. The algorithm converges with a small number of iterations, typically a $k\leq6$  suffices. For simplicity, we shall call the solutions obtained from Algorithm 1 IRWSR-LS solutions.
+\textbf{PUT instructions on how to solve (\ref{eq:3.21}) in Appendix 1}
 
 \subsubsection{A variant of Algorithm 1}% 2.3.3
 
@@ -370,7 +414,7 @@ w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}, i=1,\l
 
 Based on the analysis above, a localization algorithm for range-difference measurements can be outlined as follows.
 
-\textbf{Algorithm 2}
+\textbf{Algorithm 2} \label{alg:rd-ls}
 
 1) Input data: Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\xi$.
 
@@ -383,6 +427,8 @@ Based on the analysis above, a localization algorithm for range-difference measu
 5) If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ using (\ref{eq:3.32}), and repeat from Step 3).
 
 It is evident that the complexity of the algorithm is practically equal to the complexity of the WSRD-LS solver involved in Step 4 times the number of iterations, $k$, which is typically in the range of 3 to 6. We shall call the solutions obtained from Algorithm 2 IRWSRD-LS solutions.
+
+\textbf{PUT instructions on how to solve (\ref{eq:3.32}) in Appendix 1}
 
 \subsubsection{A variant of Algorithm 2}
 
@@ -426,3 +472,13 @@ where $\tilde{\BLA}=\mbox{diag}\left(\tilde{\lambda}_1,\ldots,\tilde{\lambda}_n\
     \delta &  \mbox{if } \lambda_i\leq0 & i=1,\ldots,m \end{array} \right.
 \end{equation}
 and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guaranteed to be positive definite. In what follows, solutions obtained by the proposed two-step method are called \textit{hybrid} IRWSRD-LS solutions.
+
+\section{Extensions}
+
+(from \cite{StLi} adapted but needs further adaptation)
+
+The source localization problem from range or range-difference measurements discussed earlier is related to the problem of source localization from energy measurements (citation). The energy measurement based source localization is based on the fact that the evergy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, \ldots,m$. For notational convenience it is assumed that there are $m$ sensors.
+
+Using this fact and somesimple manipulations (see, e.g., [5] for details), it is possible to obtain an
+equation in the unknown vector x that
+is somewhat similar to (2), namely:
