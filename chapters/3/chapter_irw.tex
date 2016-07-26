@@ -475,10 +475,37 @@ and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guarant
 
 \section{Extensions}
 
-(from \cite{StLi} adapted but needs further adaptation)
 
-The source localization problem from range or range-difference measurements discussed earlier is related to the problem of source localization from energy measurements (citation). The energy measurement based source localization is based on the fact that the evergy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, \ldots,m$. For notational convenience it is assumed that there are $m$ sensors.
+As noted in \cite{StLi}, methods developed in this chapter for localization based on range measurements can be adopted to solve the problem of sourse localization from energy measurements. 
 
-Using this fact and somesimple manipulations (see, e.g., [5] for details), it is possible to obtain an
-equation in the unknown vector x that
-is somewhat similar to (2), namely:
+The theory supporting this statement can be found in \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
+
+
+The energy, acoustic or RF, of the signal received by the sensor is inversely proportional to the distance between sensor and the radiating source (\cite{LiHu,ShengHu,Saric,Cheung,CheungSo}).
+
+"The localization based on the received signal strength uses the property that sound energy attenuates with the square of the distance from the source."
+
+This section provides an example of ...
+
+In this section, a reformulation of the maximum liklihood source localization using acoustic energy meausrements is offered.
+
+(from \cite{StLi}) "The source localization problem from range measurements is related to the problem of source localization from energy measurements \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
+The energy measurement based source localization approach, advocated in \cite{LiHu}, \cite{Saric} is based on the fact that the energy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, 2, \ldots,m$. For notational convenience it is assumed that there are $m$ sensors.
+
+Using this fact and somesimple manipulations (see, e.g., \cite{LiHu} for details), it is possible to obtain an
+equation in the unknown vector x that is somewhat similar to (2), namely:....."
+
+Acoustic energy attenuation model presented here is based on assumptions of \cite{LiHu} and \cite{Saric} (or please refer for details). Only single sourse localization is investigated in this section.
+
+
+\subsection{Acoustic Energy Attenuation Model}
+
+
+Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$, $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where M is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency.  (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
+ Acoustic energy received by sensor $i$ over a time period $T$ can be represented as:
+\begin{equation}
+y_i = g_i \frac{S}{d_i^2} + \varepsilon_i
+\end{equation}
+where $d_i = \|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source. $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$ and is approximated with a normal distribution, namely, $\varepsilon_i \prod N(\mu_i, \sigma_i^2)$. For justification and validity of this energy attenuation model, please see \cite{ShengHu} and its references. 
+
+\subsection{Reformulation}
