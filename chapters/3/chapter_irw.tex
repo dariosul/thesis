@@ -245,7 +245,11 @@ Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
 \nonumber 
 \Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2
 \end{equation}
+<<<<<<< HEAD
 via (\ref{eq:3.21})
+=======
+via
+>>>>>>> 43dc8503038a133480f04b998956d5084c55b021
 % 3.21
 \begin{equation}
 \nonumber
@@ -498,7 +502,11 @@ equation in the unknown vector x that is somewhat similar to (2), namely:....."
 Acoustic energy attenuation model presented here is based on assumptions of \cite{LiHu} and \cite{Saric} (or please refer for details). Only single sourse localization is investigated in this section.
 
 
+<<<<<<< HEAD
 \subsection{Acoustic Energy Attenuation Model and Parameter Estimator}
+=======
+\subsection{Acoustic Energy Attenuation Model}
+>>>>>>> 43dc8503038a133480f04b998956d5084c55b021
 
 
 Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$, $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where M is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency.  (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
@@ -509,6 +517,7 @@ y_i = g_i \frac{S}{d_i^2} + \varepsilon_i
 where $d_i = \|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source. $g_i$ is a factor that takes into account $i$th sensor gain. It is asssumed that the gain of individual sensors is either known, i.e. obtained at the sensor callibration stage, or is same for all sensors. $S$ is the unknown acoustic evergy 1 m away from the source. $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$ and is approximated with a normal distribution, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$. For justification and validity of this energy attenuation model, please see \cite{ShengHu} and its references. 
 
 
+<<<<<<< HEAD
 Reference \cite{ShengHu} argues that the maximum likelihood estimation of the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained my minimizing the quadratic form
 \begin{equation}
 \nonumber
@@ -536,4 +545,13 @@ where
 and $\BZ$ are normalized energy measurements for the case of the single radiating source. 
 
 
+=======
+Following reference \cite{ShengHu} notations \textbf{OR} as was derived in reference \cite{ShengHu}
+the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained by minimizing the quadratic form 
+\begin{equation}
+\nonumber
+\ell(\Btheta) = \|\BZ - S\BG\BD\|
+\end{equation}
+where $\ldots$ for the case of the single radiating source
+>>>>>>> 43dc8503038a133480f04b998956d5084c55b021
 \subsection{Reformulation}
