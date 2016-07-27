@@ -490,7 +490,7 @@ This section provides an example of ...
 In this section, a reformulation of the maximum liklihood source localization using acoustic energy meausrements is offered.
 
 (from \cite{StLi}) "The source localization problem from range measurements is related to the problem of source localization from energy measurements \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
-The energy measurement based source localization approach, advocated in \cite{LiHu}, \cite{Saric} is based on the fact that the energy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, 2, \ldots,m$. For notational convenience it is assumed that there are $m$ sensors.
+The energy measurement based source localization approach, advocated in \cite{LiHu}, \cite{Saric} is based on the fact that the energy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, 2, \ldots,m$. 
 
 Using this fact and somesimple manipulations (see, e.g., \cite{LiHu} for details), it is possible to obtain an
 equation in the unknown vector x that is somewhat similar to (2), namely:....."
@@ -506,6 +506,14 @@ Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i
 \begin{equation}
 y_i = g_i \frac{S}{d_i^2} + \varepsilon_i
 \end{equation}
-where $d_i = \|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source. $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$ and is approximated with a normal distribution, namely, $\varepsilon_i \prod N(\mu_i, \sigma_i^2)$. For justification and validity of this energy attenuation model, please see \cite{ShengHu} and its references. 
+where $d_i = \|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source. $g_i$ is a factor that takes into account $i$th sensor gain. It is asssumed that the gain of individual sensors is either known, i.e. obtained at the sensor callibration stage, or is same for all sensors. $S$ is the unknown acoustic evergy 1 m away from the source. $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$ and is approximated with a normal distribution, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$. For justification and validity of this energy attenuation model, please see \cite{ShengHu} and its references. 
 
+
+Following reference \cite{ShengHu} notations \textbf{OR} as was derived in reference \cite{ShengHu}
+the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained by minimizing the quadratic form 
+\begin{equation}
+\nonumber
+\ell(\Btheta) = \|\BZ - S\BG\BD\|
+\end{equation}
+where $\ldots$ for the case of the single radiating source
 \subsection{Reformulation}
