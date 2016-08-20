@@ -57,13 +57,13 @@ g_i = \|{\Bx} - {\Ba}_i\|
 \end{equation}
 It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
-Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective function in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. Figure (\ref{ExampleOfRLSNonconvexity}) 
+Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective function in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem in the plane $n = 2$ with five sensors $ m = 5$ located at $(), (), (), () and ()$ with the signal emmiting souce at $(-2,3)$. Figure (\ref{fig:ExampleOfRLSNonconvexity}) describes a contour plot of the R-LS objective function in (\ref{eq:3.2}).
 
 \begin{figure*}[t]
 \centering
-  \includegraphics{figures/nonconvexity_rls_example_filled_ls-eps-converted-to}
-\caption{ stuff }
-\label{ExampleOfRLSNonconvexity}
+  \includegraphics{figures/nonconvexity_rls_example_ls}
+\caption{Contours of the R-LS objective over the region $\protect\Re = \protect\lbrace -15\protect\leq x_1 \protect\leq 15, -15\protect\leq x_2 \protect\leq 15 \protect\rbrace$}
+\label{fig:ExampleOfRLSNonconvexity}
 \end{figure*}
 
 Reference \cite{Cheung} addresses problem (\ref{eq:3.2}) by a convex relaxation technique where (\ref{eq:3.2}) is modified to a convex problem known as semidefinite programming (SDP) \cite{VBoyd}. A key step in this procedure is to use (\ref{eq:3.4}) with  $g_i$ as new variables, which leads (\ref{eq:3.2}) to the constrained problem
