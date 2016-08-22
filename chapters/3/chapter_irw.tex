@@ -57,12 +57,12 @@ g_i = \|{\Bx} - {\Ba}_i\|
 \end{equation}
 It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
-Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective function in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4), (0,-10), (5,-3), (1,-4)$ and  $(3,-3)$ with the source emmitting the signal at $\Bx_s = (-2,3)$. Figure (\ref{fig:ExampleOfRLSNonconvexity}) describes a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{ -15 \leq x_1 \leq 15, -15 \leq x_2 \leq 15 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)$ and $\widehat{\Bx} = (11.1152, -2.6785)$ with values of the objective function $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. \textit{As expected, the global minimizer is near the exact location of the source $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using the noisy range measurements.}
+Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure (\ref{fig:ExampleOfRLSNonconvexity}) describes a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
 
 \begin{figure*}[t]
 \centering
-  \includegraphics{figures/nonconvexity_rls_example_ls}
-\caption{Contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace -15\protect\leq x_1 \protect\leq 15, -15\protect\leq x_2 \protect\leq 15 \protect\rbrace$}
+  \includegraphics{figures/nonconvexity_example_ls_new_range}
+\caption{Contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-6\protect\leq x_1 \protect\leq 13, -10\protect\leq x_2 \protect\leq 9 \protect\rbrace$}
 \label{fig:ExampleOfRLSNonconvexity}
 \end{figure*}
 
@@ -344,27 +344,40 @@ and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guarant
 
 \subsection{Numerical Results}
 
-Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{12}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and 2, respectively. In both cases the system consisted of m sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated in terms of mean squared error in the form $\mbox{MSE} = E\{\|\Bx^*-\Bx_s\|\}$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS(SRD-LS) and IRWSR-LS(IRWSRD-LS) methods, respectively. Table \ref{tab:1} and \ref{tab:2} provide comparisons of these methods with SR-LS(SRD-LS), where each entry was averaged MSE over 10,000 Monte Carlo runs of the method. The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
+Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent andidentically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS, where each entry is a MSE averaged over 1,000 Monte Carlo runs of the method. The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
 
-Employing a set-up similar to that in \cite{12}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{12}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions.
+Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and hybrid IRWSR-LS solution is an improvement over both SR-LS and IRWSR-LS.
 
 
 \begin{table}
 \centering
-\caption{Averaged MSE for SR-LS and IRWSR-LS methods}
+\caption{MSE of position estimation for SR-LS, IRWSR-LS and \texit{hybrid} IRWSR-LS methods}
 \begin{tabular}{|c|c|c|c|} \hline
-$\sigma$ & SR - LS&IRWSR-LS & Improvement, \%\\ \hline
-%&&& \\
-1e-03&	1.897294e-06&	1.123411e-06& 40.8	\\ &&&\\
-1e-02&	1.779870e-04&	1.081470e-04& 39.2	\\ &&&\\
-1e-01&	1.831870e-02&	1.128165e-02& 38.4	\\ &&&\\
-1e+0&	2.415438e+00&	1.877930e+00& 22.3	\\ %&&&&\\
+$\sigma$ & SR - LS & IRWSR-LS(Im.,\%) & \textit{hybrid} IRWSR-LS(Im.,\%) \\ \hline
+%&&& \\ 
+1e-03&	1.897294e-06&	1.123411e-06 (40.8)	& \\ &&&\\
+1e-02&	1.779870e-04&	1.081470e-04 (39.2)	& \\ &&&\\
+1e-01&	1.831870e-02&	1.128165e-02 (38.4)	& \\ &&&\\
+1e+0&	2.415438e+00&	1.877930e+00 (22.3)	& \\ %&&&&\\
 \hline
 \end{tabular}
 \label{tab:1}
 \end{table}
 
-
+\begin{table}
+\centering
+\caption{MSE for SR-LS, IRWSR-LS and \texit{hybrid} IRWSR-LS methods}
+\begin{tabular}{|c|c|c|c|} \hline
+$\sigma$ & SR - LS & IRWSR-LS(Im.,\%) & \textit{hybrid} IRWSR-LS(Im.,\%) \\ \hline
+%&&& \\ 
+1e-03&	1.897294e-06&	1.123411e-06 (40.8)	& \\ &&&\\
+1e-02&	1.779870e-04&	1.081470e-04 (39.2)	& \\ &&&\\
+1e-01&	1.831870e-02&	1.128165e-02 (38.4)	& \\ &&&\\
+1e+0&	2.415438e+00&	1.877930e+00 (22.3)	& \\ %&&&&\\
+\hline
+\end{tabular}
+\label{tab:1}
+\end{table}
 
 \section{Source Localization From Range-Difference Measurements}%3
 \subsection{Problem Formulation} %3.1
