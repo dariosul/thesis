@@ -351,40 +351,72 @@ and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guarant
 \centering
 $\sigma$ & SR - LS & IRWSR-LS (Im.,\%) & \textit{hybrid} IRWSR-LS (Im.,\%) \\ \hline
 %&&& \\ 
-1e-03&	1.8098e-06&	1.2634e-06 (30)	& \\ &&&\\
-1e-02&	1.6690e-04&	1.1335e-04 (32)	& \\ &&&\\
-1e-01&	2.0376e-02&	1.3004e-02 (36)	& \\ &&&\\
-1e+0&	2.1055e+00&	1.4731e+00 (30)	& \\ %&&&&\\
+1e-03&	2.0325e-06&	1.1996e-06 (41)	& 1.1994e-06 (41)\\ &&&\\
+1e-02&	1.8372e-04&	1.2480e-04 (32)	& 1.2481e-04 (32)\\ &&&\\
+1e-01&	1.8361e-02&	1.2223e-02 (33)	& 1.2214e-02 (33)\\ &&&\\
+1e+0&	2.3752e+00&	1.5108e+00 (36)	& 1.5330e+00 (35)\\ %&&&&\\
 \hline
 \end{tabular}
 \label{tab:1}
 \end{table}
 
-Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent andidentically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS. Each table entry is a MSE averaged over 1,000 Monte Carlo runs of the method, for the columns representing preformance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods it lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: relative error($\%$ Improvement). 
+Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS. Each table entry is a MSE averaged over 1,000 Monte Carlo runs of a given method for a given noise level. For the columns representing performance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods each table entry lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: MSE($\%$ Improvement). 
 
 %Second and third column represent a MSE of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods and their relative improvement over SR-LS solutions in percentage, in the format: relative error($\%$ Improvement). 
 %The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
 
-Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 and its variant considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and hybrid IRWSR-LS solution is an improvement over both SR-LS and IRWSR-LS.
+Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 and its variant considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
 
-The results summarised in Table \ref{tab:2}
+Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} suggest that, again, IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures (\ref{fig:Noise03IRW} - \ref{fig:Noise00IRW}) describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. Here $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance. Also, the solutions obtained by running IRWSR-LS have fewer outliers with large error.
+
+
 
 \begin{table}
 \centering
-\caption{Standard deviation of the position estimation error for SR-LS, IRWSR-LS and \textit{hybrid} IRWSR-LS methods}
+\caption{Standard deviation of the squared estimation error for SR-LS, IRWSR-LS and \textit{hybrid} IRWSR-LS methods}
 \begin{tabular}{|c|c|c|c|} \hline
 $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 %&&& \\ 
-1e-03&	3.5594e-06&	1.9473e-06 & \\ &&&\\
-1e-02&	2.5309e-04&	1.5981e-04 & \\ &&&\\
-1e-01&	6.8724e-02&	2.8473e-02 & \\ &&&\\
-1e+0&	7.6489e+00&	6.1167e+00 & \\ %&&&&\\
+1e-03&	6.3438e-06&	2.0843e-06 & 2.0864e-06\\ &&&\\
+1e-02&	3.2575e-04&	2.0530e-04 & 2.0530e-04\\ &&&\\
+1e-01&	4.6998e-02&	2.1377e-02 & 2.1377e-02\\ &&&\\
+1e+0&	1.1920e+00&	4.3266e+00 & 4.3266e+00\\ %&&&&\\
 \hline
 \end{tabular}
 \label{tab:2}
 \end{table}
 
-The results summarised in Table
+
+
+\begin{figure}%[t]
+\centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.2\textwidth]{figures/range_IRWLS/Noise03LeftBeckRightIrw}}
+\caption{Histograms of the errors of the SR-LS (left) and IRWSR-LS (right) solutions, noise $\protect\sigma = 10^{-3}$}
+\label{fig:Noise03IRW}
+\end{figure}
+
+\begin{figure}%[t]
+\centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth,height=0.45\textheight]{figures/range_IRWLS/Noise02LeftBeckRightIrw}}
+\caption{Histograms of the errors of the SR-LS (left) and IRWSR-LS (right) solutions, noise $\protect\sigma = 10^{-2}$}
+\label{fig:Noise02IRW}
+\end{figure}
+
+\begin{figure}%[t]
+\centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth,height=0.4\textheight]{figures/range_IRWLS/Noise01LeftBeckRightIrw}}
+\caption{Histograms of the errors of the SR-LS (left) and IRWSR-LS (right) solutions, noise $\protect\sigma = 10^{-1}$}
+\label{fig:Noise01IRW}
+\end{figure}
+
+\begin{figure}%[t]
+\centering
+  \makebox[\textwidth][c]{\includegraphics[width=1.1\textwidth,height=0.4\textheight]{figures/range_IRWLS/Noise01LeftBeckRightIrw}}
+\caption{Histograms of the errors of the SR-LS (left) and IRWSR-LS (right) solutions, noise $\protect\sigma = 1$}
+\label{fig:Noise00IRW}
+\end{figure}
+
+\newpage
 
 \section{Source Localization From Range-Difference Measurements}%3
 \subsection{Problem Formulation} %3.1
