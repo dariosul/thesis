@@ -421,7 +421,7 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 \section{Source Localization From Range-Difference Measurements}%3
 \subsection{Problem Formulation} %3.1
 
-Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. In practice, range-difference measurements may be
+Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. \textbf{more involved description of the problem is necessary} In practice, range-difference measurements may be
 obtained by comparing the signal as it is received at the $m+1$ sensors taken in pairs. As usual, these sensors are denoted as $\{\Ba_0, \Ba_1,\ldots,\Ba_m\} \in R^n$ with $\Ba_0$ be placed at the origin and used as a \textit{reference sensor}.  The range-difference measurements are obtained as
  \begin{equation} \label{eq:3.21}
  d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, i = 1,\ldots,m
@@ -430,7 +430,7 @@ and the problem here is to estimate the location of a radiating source $\Bx$ bas
  \begin{equation} \label{eq:3.22}
 \Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2
  \end{equation}
- Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
+ Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. \textbf{include example of nonconvexity : a contour and a surface plots}. Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
 
  By writing (\ref{eq:3.21}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
   \begin{equation} \label{eq:3.23}
@@ -449,16 +449,17 @@ and the problem here is to estimate the location of a radiating source $\Bx$ bas
 \Min_{{\Bx} \in R^{n}} \sum_{i=1}^m \left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2
 \end{equation}
  By introducing new variable $\By=[\Bx^T \|\Bx\|]^T$ and noticing nonnegativity of the component $y_{n+1}$ problem (\ref{eq:3.26}) is converted to
- \begin{eqnarray}\label{eq:3.28}%40
+ \begin{eqnarray}\label{eq:3.27}%40
 \setcounter{abc}{1}
 \Min_{\By\in R^{n+1}} \|\BB\By-\Bg\|^2 \\
-\stepcounter{abc} \setcounter{equation}{28}
+\stepcounter{abc} \setcounter{equation}{27}
 \mbox{subject to: } \By^T\BC\By = 0 \\
-\stepcounter{abc} \setcounter{equation}{28}
+\stepcounter{abc} \setcounter{equation}{27}
 y_{n+1}\geq 0
 \end{eqnarray}
 where $\Bg=[g_1 \ldots g_m]^T$ and
 \begin{equation}
+\nonumber
 \setcounter{abc}{0}
 %\label{eq:3.28} %41
 \setcounter{abc}{0}
@@ -472,23 +473,22 @@ where $\Bg=[g_1 \ldots g_m]^T$ and
     \BO_{1 \times n} & -1
     \end{array}\right)
 \end{equation}
-
-Because of the presence of the nonnegativity constraint in (\ref{eq:3.28}c), (\ref{eq:3.28}) is no longer a GTRS problem hence the technique used for the case of range measurements does not apply. Nevertheless reference \cite{BeckStLi} presents a rigorous argument which shows that the optimal solution of (\ref{eq:3.28}) either assumes the form of
- \begin{equation}
- \nonumber
+Because of the presence of the nonnegativity constraint in (\ref{eq:3.27}c), (\ref{eq:3.27}) is no longer a GTRS problem hence the technique used for the case of range measurements does not apply. Nevertheless reference \cite{BeckStLi} presents a rigorous argument which shows that the optimal solution of (\ref{eq:3.27}) either assumes the form of
+ \begin{equation}\label{eq:3.28}
+ %\nonumber
  \tilde{\By}(\lambda)=\left(\BB^T\BB+\lambda\BC\right)^{-1}\BB^T\Bg
  \end{equation}
  where $\lambda$ solves
  \begin{equation}\label{eq:3.29}
  \tilde{\By}(\lambda)^T\BC\tilde{\By}(\lambda)=0
  \end{equation}
- and makes $\BB^T\BB+\lambda\BC$ positive, or is the vector among $\{\BO,$ $\tilde{\By}(\lambda_1),\ldots,\tilde{\By}(\lambda_p)\}$ that gives the smallest objective function in (\ref{eq:3.28}a), where $\{\lambda_i, i = 1,\ldots,p\}$ are all roots of (\ref{eq:3.29}) such that the $(n+1)$'th component of $\tilde{\By}(\lambda_i)$ is nonnegative and $\BB^T\BB+\lambda\BC$ has exactly one negative and $n$ positive eigenvalues. We shall refer the global solution of (\ref{eq:3.28}) to as the SRD-LS solution.
+ and makes $\BB^T\BB+\lambda\BC$ positive definite, or is the vector among $\{\BO,$ $\tilde{\By}(\lambda_1),\ldots,\tilde{\By}(\lambda_p)\}$ that gives the smallest objective function in (\ref{eq:3.27}a), where $\{\lambda_i, i = 1,\ldots,p\}$ are all roots of (\ref{eq:3.29}) such that the $(n+1)$'th component of $\tilde{\By}(\lambda_i)$ is nonnegative and $\BB^T\BB+\lambda\BC$ has exactly one negative and $n$ positive eigenvalues. We shall refer the global solution of (\ref{eq:3.27}) to as the SRD-LS solution.
 
 \subsection{Improved Solution Using Iterative Re-weighting} %3.2
 %\subsubsection{Weighted squared range-difference based least squares solution}
 \subsubsection{The Algorithm} %3.2.1
 
-We now present a method for improved solutions over SRD-LS solutions. The method incorporates an iterative re-weighting procedure into the SRD-LS approach, hence it is in spirit similar to the IRWRS-LS approach described in Sec. 2.3.2. We begin by considering the weighted SRD-LS problem
+We now present a method for improved solutions over SRD-LS solutions. The method incorporates an iterative re-weighting procedure into the SRD-LS approach, hence it is in spirit similar to the IRWRS-LS approach described in Sec. \ref{chapter:irw}.1.2. We begin by considering the weighted SRD-LS problem
 \begin{equation} \label{eq:3.30}
 \Min_{{\Bx} \in R^n} \sum_{i=1}^m w_i\left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2
 \end{equation}
@@ -496,12 +496,12 @@ where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The coun
 \begin{eqnarray} \label{eq:3.31}
 \setcounter{abc}{1}
 \Min_{\By \in R^{n+1}} \|\BB_w\By - \Bg_w\| \\
-\stepcounter{abc} \setcounter{equation}{32}
+\stepcounter{abc} \setcounter{equation}{31}
 \mbox{subject to: } \By^T\BC\By = 0 \\
-\stepcounter{abc} \setcounter{equation}{32}
+\stepcounter{abc} \setcounter{equation}{31}
 y_{n+1}\geq 0
 \end{eqnarray}
-where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ and $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. On comparing (\ref{eq:3.31}) with (\ref{eq:3.28}), it follows immediately that the global solver for problem (\ref{eq:3.28}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be sued for solving problem (\ref{eq:3.31}) by applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
+where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ and $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. On comparing (\ref{eq:3.31}) with (\ref{eq:3.28}), it follows immediately that the global solver for problem (\ref{eq:3.28}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be sued for solving problem (\ref{eq:3.31}) be used applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
 
 Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{eq:3.23}), (\ref{eq:3.24}) and observe that the $i$th term of the objective function in (\ref{eq:3.30}) can be written as
 \begin{equation} \label{w:srd}
@@ -512,7 +512,12 @@ Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{
 =&w_i\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)\left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)
 \end{aligned}
 \end{equation}
-Clearly, the last expression above would become the $i$th term of the objective function in the RD-LS problem (\ref{eq:3.22}) if weights $w_i$ were set to $1/\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)^2$ so that the first two factors are cancelled out. This suggests that a realizable weight assignment for performing practically the same cancellation can be made by means of iterative re-weighting for problems (\ref{eq:3.30}) and (\ref{eq:3.31}) where the weights in the $k$th iteration are assigned to
+Clearly, the last expression above would become the $i$th term of the objective function in the RD-LS problem (\ref{eq:3.22}) if weights $w_i$ were set to
+\begin{equation}
+\nonumber
+ \frac{1}{\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)^2}
+\end{equation} 
+so that the first two factors are cancelled out. This suggests that a realizable weight assignment for performing practically the same cancellation can be made by means of iterative re-weighting for problems (\ref{eq:3.30}) and (\ref{eq:3.31}) where the weights in the $k$th iteration are assigned to
 \begin{equation} \label{eq:3.32}
 \setcounter{abc}{0}
 w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}, i=1,\ldots,m
@@ -527,8 +532,8 @@ Based on the analysis above, a localization algorithm for range-difference measu
 
 1) Input data: Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\xi$.
 
-2) Generate data set $\{\BB, \Bg, \BC\}$
-\begin{equation}
+2) Generate data set $\{\BB, \Bg, \BC\}$ as
+\begin{equation} 
 \nonumber
 \setcounter{abc}{0}
 \Bg = \left(\begin{array}{c}
@@ -600,7 +605,7 @@ and
 \nonumber
 \BQ_{1i}=\frac{1}{\|\Bx-\Ba_i\|}\left(\BI-\Bq_i\Bq^T\right), \BQ_2=\frac{1}{\|\Bx\|}\left(\BI-\tilde{\Bx}\tilde{\Bx}^T\right)
 \end{equation}
-To ensure the positive definiteness of Hessian, eigendecomposition of $\BH(\Bx)$, namely,
+To ensure the positive definiteness of Hessian, eigen decomposition of $\BH(\Bx)$, namely,
 \begin{equation}
 \nonumber
 \BH(\Bx)=\BU\BLA\BU^T
@@ -638,10 +643,14 @@ $\sigma$ & SRD - LS&IRWSRD-LS& Improvement, \%\\ \hline
 \label{tab:3}
 \end{table}
 
-Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{12}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and 2, respectively. In both cases the system consisted of m sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated in terms of mean squared error in the form $\mbox{MSE} = E\{\|\Bx^*-\Bx_s\|\}$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS(SRD-LS) and IRWSR-LS(IRWSRD-LS) methods, respectively. Table \ref{tab:2} provide comparisons of these methods with SR-LS(SRD-LS), where each entry was averaged MSE over 10,000 Monte Carlo runs of the method. The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
+Performance of the proposed algorithms was evaluated and compared with the method of  \cite{BeckStLi} by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for Algorithm 2 and its variant. In both cases the system consisted of m sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated in terms of mean squared error in the form $\mbox{MSE} = E\{\|\Bx^*-\Bx_s\|\}$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SRD-LS, IRWSRD-LS and \textit{hybrid} IRWSRD-LS methods, respectively. Table \ref{tab:3} provides comparisons of these methods with SRD-LS, where each entry was averaged MSE over 10,000 Monte Carlo runs of the method. For the columns representing performance of the IRWSDR-LS and \textit{hybrid} IRWSDR-LS methods each table entry lists their MSE and relative improvement over SRD-LS solutions in percentage, in the format: MSE($\%$ Improvement).
 
-
-The simulation studies of Algorithm 2 considered $m = 11$ sensors $\{\Ba_i, i=1, 2,\ldots,10\}$ with $\Ba_0=\BO$ and other ten sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of five possible levels $\{10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range-difference measurements used in matrix $\BB$ in (20) were calculated as a noise-contaminated version of $d_i$ in (\ref{eq:13}) plus $\varepsilon_i$, and Step 4 of Algorithm 2 was carried out using the SRD-LS algorithm in \cite{12}. Again, the IRWSRD-LS solutions offer considerable improvement over SRD-LS solutions.
+The simulation studies of Algorithm 2 considered $m = 11$ sensors $\{\Ba_i, i=1, 2,\ldots,10\}$ with $\Ba_0=\BO$ and other ten sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of five possible levels $\{10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range-difference measurements used to form  matrix $\BB$ in Step 2 of the Algorithm 2 were calculated as a noise-contaminated version of $d_i$ in (\ref{eq:3.21}) as:
+\begin{equation}
+\nonumber
+d^{noisy}_i = d_i + \varepsilon_i.
+\end{equation}
+Step 4 of Algorithm 2 was carried out using the SRD-LS algorithm in \cite{BeckStLi}. Again, the IRWSRD-LS solutions offer considerable improvement over SRD-LS solutions.
 
 
 
