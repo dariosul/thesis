@@ -1,4 +1,5 @@
-\startchapter{Improved Least-Squares Methods for Source Localization: An Iterative Re-Weighting Approach}
+%\startchapter{Improved Least-Squares Methods for Source Localization: An Iterative Re-Weighting Approach}
+\startchapter{Iterative Re-Weighting Least-Squares Methods for Source Localization}
 \label{chapter:irw}
 
 Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are iterative, hence extremely sensitive to where the iteration begins, and give no guarantee to yield global solutions when applied to non-convex objective functions. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, various ``global'' localization techniques were investigated that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the least squares model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
@@ -428,23 +429,22 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 \section{Source Localization From Range-Difference Measurements}%3
 \subsection{Problem Formulation} %3.1
 
-Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}.In practice, range-difference measurements may be obtained from the time differences of arrival measured by an array of passive sensors.
-\textit{
-\cite{Geoloc}
-Time Difference of Arrival (TDOA) technique is based on the idea that the position of the mobile device can be determined by examining the difference in time at which the signal arrives at multiple reference points. Adopting this technique is useful in practical scenarios where syncronization between mobile devices is not available. Each TDOA measurement constrains the location of the mobile device to be on a hyperboloid with a constant range-difference between the two reference points. A TDOA measurement between base station (sensor) $i$ and $j$ can be given by 
+Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. In practice, range-difference measurements may be obtained from the time differences of arrival measured by an array of passive sensors. Time difference of arrival (TDOA) is a time-based positioning method based on the idea that the location of an active mobile unit (source of the signal)  can be determined by examining the difference in time at which the signal arrives at multiple reference points. 
+Adopting this technique is useful in practical scenarios where synchronization between mobile units is not available \cite{GeoLoc}. Typical example of such setup includes the observed time difference of arrival (O-TDOA) technique used in WCDMA (3G) networks to estimate the location of mobile terminals. In WCDMA networks only the base stations are synchronized with each other, but the mobile terminal is unsynchronized with base stations. 
+
+Each TDOA measurement constrains the location of the mobile device to be on a hyperboloid with a constant range-difference between the two reference points. A TDOA measurement between base station $BS_i$ and $BS_0$ can be given by 
 \begin{equation}
 \nonumber
-t_{ij} = (t_i - t_x) - (t_j - t_x) = t_i - t_j
+t_{i0} = (t_i - t_x) - (t_0 - t_x) = t_i - t_0
 \end{equation}
-where $t_x$ is the clock time of the mobile device, $t_i$ and $t_j$ are the TOA between the device and stations $i$ and $j$ respectively. The equation can be written in terms of distance through speed of light scaling or 
+where $t_x$ is the clock time of the mobile device, $t_i$ and $t_0$ are the time of arrival between the device and  stations $BS_i$ and $BS_0$ respectively. The equation can be written in terms of distance through scaling 
 \begin{equation}
 \nonumber
-d_{ij} =(t_i - t_j)c = d_i - d_j = \|\Ba_i - \Bx\| - \|\Ba_j - \Bx\|
+r_{i0} =(t_i - t_0)c = r_i - r_0 = \|\Ba_i - \Bx\| - \|\Ba_0 - \Bx\|
 \end{equation}
-Without loss of generality, the latter equation is valid with the assumption that the station $j$ is placed at the origin of the coordinate system. 
-\cite{Liu}
-The idea of TDOA is to determine the relative position of the mobile transmitter by examining the difference in time at shich the signal arrives at multiple measuring units, rather than the absolute arrival time. 
-} 
+where $c$ is the speed of signal propagation. Without loss of generality, the latter equation is valid with the assumption that the station $BS_0$ is placed at the origin of the coordinate system. 
+%\cite{Liu} The idea of TDOA is to determine the relative position of the mobile transmitter by examining the difference in time at which the signal arrives at multiple measuring units, rather than the absolute arrival time. 
+ 
 %obtained by comparing the signal as it is received at the $m+1$ sensors taken in pairs. 
 As usual, these sensors are denoted as $\{\Ba_0, \Ba_1,\ldots,\Ba_m\} \in R^n$ with $\Ba_0 = \BO$ be placed at the origin and used as a \textit{reference sensor}. The range-difference $r_i$ is defined as the difference between the distance from sensor $\Ba_i$ to source $\Bx$ and the distance from sensor $\Ba_0$ to source $\Bx$, namely %The range-difference measurements are obtained as
  \begin{equation} \label{eq:3.21}
@@ -459,7 +459,27 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
  \begin{equation} \label{eq:3.22}
 \Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2
  \end{equation}
- Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. \textbf{include example of nonconvexity : a contour and a surface plots}. Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
+ Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem.
+ 
+\textit{
+cite(fusion paper) Different aspects of positioning using passive ranging mea-
+surements have already been analyzed in the literature. Closed form solutions for hyperbolic positioning can be found for instance in [9]–[11]. Iterative algorithms for solving a nonlinear (weighted) least squares (N(W)LS) form another major group.
+The Gauss-Newton algorithm is studied in [12], constrained and non-constrained NLS solutions are discussed in [13], [14].
+The iterative approaches generally require good initialization to converge to the global optimum of the cost function and
+often many iterations. In order to avoid these issues, the solutions proposed in [15], [16] transform nonlinear equations into a set of linear ones, thus making real-time implementations possible. Factor graph-based methods carrying low-complex
+flags also attracted some attention [17], [18].
+......
+(cite NLOS mitigation)
+General nonlinear solutions are Maximum Likelihood (ML), Nonlinear Least Squares (NLS) or the Weighted Nonlinear Squares (WNLS) approach [5]. The WNLS solution
+requires minimization of a cost function, and performing ML estimation requires noise statistics. When the measurement
+noise n in (1) is zero-mean and Gaussian distributed with covariance matrix C n , ML scheme reduces to the WNLS solution. The ML approach requires a high complexity when grid search is performed, and therefore global solution may not
+be guaranteed, but in general its accuracy is the highest, especially when C n is also a function of subscriber position [6]. However, having a perfect error statistical characterization is
+difficult and others approaches are preferred. On the other hand, NLS does not require noise statistics but also involves
+the same issues as ML.
+} 
+
+
+Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
 
  By writing (\ref{eq:3.21}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
   \begin{equation} \label{eq:3.23}
@@ -690,6 +710,8 @@ As noted in \cite{StLi}, methods developed in this chapter for localization base
 
 The theory supporting this statement can be found in \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
 
+\textit{
+([14]  L.   Lu,   H.-C.   Wu,   K.   Yan,   and   S.   Iyengar,   “Robust   expectation maximization algorithm for multiple wideband acoustic source localization  in  the  presence  of  nonuniform  noise  variances,” IEEE Sensors J.,vol. 11, no. 3, pp. 536–544, Mar. 2011)}
 
 The energy, acoustic or RF, of the signal received by the sensor is inversely proportional to the distance between sensor and the radiating source (\cite{LiHu,ShengHu,Saric,Cheung,CheungSo}).
 
@@ -708,7 +730,7 @@ equation in the unknown vector x that is somewhat similar to (2), namely:....."
 Acoustic energy attenuation model presented here is based on assumptions of \cite{LiHu} and \cite{Saric} (or please refer for details). Only single sourse localization is investigated in this section.
 
 
-\subsection{Acoustic Energy Attenuation Model and Parameter Estimator}
+\subsection{Acoustic Energy Attenuation Model} %and Parameter Estimator}
 
 
 Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$, $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where M is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency.  (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
