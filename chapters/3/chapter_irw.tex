@@ -758,45 +758,39 @@ Step 4 of Algorithm 2 was carried out using the SRD-LS algorithm in \cite{BeckSt
 \section{Extensions}
 
 
-As noted in \cite{StLi}, methods developed in this chapter for localization based on range measurements can be adopted to solve the problem of sourse localization from energy measurements. 
+Methods developed in this chapter for localization based on range measurements can be adopted to solve the problem of signle sourse localization from energy measurements \cite{StLi}. 
+% \cite{LiHu,ShengHu,Saric} \cite{LuWuYan}
+%The energy, acoustic or RF, of the signal received by the sensor is inversely proportional to the distance between sensor and the radiating source (\cite{LiHu,ShengHu,Saric}).
+%The localization based on the received signal strength uses the property that sound energy attenuates with the square of the distance from the source \cite{Saric}.
+Energy-based source localization, advocated in \cite{LiHu}, \cite{Saric}, is motivated by a simple observation that the sound level decreases when the distance between sound source and the listener becomes large. By modeling the relation between sound level (energy) and distance from the sound source, one may estimate the source location using multiple energy readings at different known sensor locations. When the sound is propagating through the air, it is known that the acoustic energy emitted omnidirectionally from a sound source will attenuate at a rate that is inversely proportional to the square of the distance \cite{LiHu}. Using this fact and some simple manipulations, it is possible to obtain an equation in the vector of unknow source location $\Bx$ that is somewhat similar to (\ref{eq:3.9}). The rest of the section provides technical details of this reformulation. 
 
-The theory supporting this statement can be found in \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
+%(from \cite{StLi}) "The source localization problem from range measurements is related to the problem of source localization from energy measurements \cite{LiHu,ShengHu,Saric}.
+%The energy measurement based source localization approach, advocated in \cite{LiHu}, \cite{Saric} is based on the fact that the energy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, 2, \ldots,m$. 
 
-\textit{
-([14]  L.   Lu,   H.-C.   Wu,   K.   Yan,   and   S.   Iyengar,   “Robust   expectation maximization algorithm for multiple wideband acoustic source localization  in  the  presence  of  nonuniform  noise  variances,” IEEE Sensors J.,vol. 11, no. 3, pp. 536–544, Mar. 2011)}
+%Using this fact and some simple manipulations (see, e.g., \cite{LiHu} for details), it is possible to obtain an equation in the unknown vector x that is somewhat similar to (2), namely:....."
 
-The energy, acoustic or RF, of the signal received by the sensor is inversely proportional to the distance between sensor and the radiating source (\cite{LiHu,ShengHu,Saric,Cheung,CheungSo}).
-
-"The localization based on the received signal strength uses the property that sound energy attenuates with the square of the distance from the source."
-
-This section provides an example of ...
-
-In this section, a reformulation of the maximum liklihood source localization using acoustic energy meausrements is offered.
-
-(from \cite{StLi}) "The source localization problem from range measurements is related to the problem of source localization from energy measurements \cite{LiHu,ShengHu,Saric,Cheung,CheungSo}.
-The energy measurement based source localization approach, advocated in \cite{LiHu}, \cite{Saric} is based on the fact that the energy of the signal received by the $i$th sensor over a (relatively small) time interval is inversely proportional to $\| \Bx - \Ba_i \|$, for $i = 1, 2, \ldots,m$. 
-
-Using this fact and some simple manipulations (see, e.g., \cite{LiHu} for details), it is possible to obtain an
-equation in the unknown vector x that is somewhat similar to (2), namely:....."
-
-Acoustic energy attenuation model presented here is based on assumptions of \cite{LiHu} and \cite{Saric} (or please refer for details). Only single sourse localization is investigated in this section.
+%This section provides an example of ...
+%In this section, a reformulation of the maximum liklihood source localization using acoustic energy meausrements is offered.
+%Acoustic energy attenuation model presented here is based on assumptions of \cite{LiHu} and \cite{Saric} (or please refer for details). Only single sourse localization is investigated in this section.
 
 
 \subsection{Acoustic Energy Attenuation Model} %and Parameter Estimator}
 
 
-Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$, $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where M is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency.  (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
+Let $m$ be a number of acoustic sensors. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$, $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where M is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency. % (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
  Acoustic energy received by sensor $i$ over a time period $T$ can be represented as:
 \begin{equation} \label{eq:3.33}
 r_i = g_i \frac{S}{\|\Bx - \Ba_i\|^\alpha} + \varepsilon_i
 \end{equation}
 where $\|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source. $g_i$ is a factor that takes into account $i$th sensor gain. It is asssumed that the gain of individual sensors is either known, i.e. obtained at the sensor callibration stage, or is same for all sensors. $S$ is the unknown acoustic energy measured 1 unit distance away from the source. $\alpha$ is the energy decay factor %(pathloss exponent) 
-and is usually assumed to have a value 2 \cite{LiHu}, \cite{GeoLoc}.$\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$. Based on the central limit theorem, it can be approximated well as a normal distribution/ It is assumed to be a wide-sense stationary Gaussian random process \cite{LiuHuPan} / , namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$ with a positive mean value $\mu_i > \sigma_i$ that is no less that the standard deviation $\sigma_i$ that can be estimated empirically from data samples. For justification and validity of this energy attenuation model, please see \cite{ShengHu}, \cite{LiHu}, \cite{Saric}, \cite{LiuHuPan} and its references. 
+and is usually assumed to have a value 2 \cite{LiHu}. $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$. Based on the central limit theorem, it can be approximated well as a normal distribution%/ It is assumed to be a wide-sense stationary Gaussian random process \cite{LiuHuPan} / 
+, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$ with a positive mean value $\mu_i$ that is no less that the standard deviation $\sigma_i$ that can be estimated empirically from data samples \cite{LiHu}. More details on derivation and assumptions of this model can be found in %For justification and validity of this energy attenuation model, please see 
+\cite{LiHu-Saric}, \cite{LiuHuPan} and its references. %\cite{ShengHu},
 
 
-References \cite{ShengHu}, \cite{LiHu} argues that the maximum likelihood estimation of the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained my minimizing the quadratic form
+References \cite{LiHu,ShengHu} argue that the maximum likelihood estimation of the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained my minimizing the quadratic form
 \begin{equation} \label{eq:3.34}
-\Min_\theta \ell(\Btheta) = \|\BZ - S\BH\|
+\Min_\theta \quad \ell(\Btheta) = \|\BZ - S\BH\|
 \end{equation}
 where 
 \begin{equation}
@@ -817,7 +811,7 @@ where
 \end{array}
 \right] ,
 \end{equation}
-and $\BZ$ are (estimated) normalized energy measurements for the case of the single radiating source. Important assumption about \ref{eq:3.34} is that $\mu_i$ and $\sigma_i$ are considered known. 
+and $\BZ$ are (estimated) normalized energy measurements for the case of the single radiating source. Important assumption about (\ref{eq:3.34}) is that $\mu_i$ and $\sigma_i$ are considered known. 
 
 
 \subsection{Reformulation}
@@ -842,23 +836,22 @@ For the case when $k_{ij} \rightarrow 1$ the possible source locations $\Bx$ res
 \end{equation}
 where $\Bgamma_{ij} = \Ba_i - \Ba_j$ and $\tau_{ij} = (\|\Ba_i\|^2 - \|\Ba_j\|^2) / 2$. 
 
-Let $I_1$ and $I_2$ be two index sets such that $\forall$  $\{i, j \} \in I_1: 1 \leq i \leq m-1, i+1 \leq j \leq m$ it is true that $0 < k_{ij} \neq 1$ and $\forall$  $\{i, j\} \in I_2: 1 \leq i \leq m-1, i+1 \leq j \leq m $  $k_{ij} = 1$ and $I_1 \cap I_2 = \emptyset$.
-Let $L_1$ and $L_2$ denote the number of elements in sets $I_1$ and $I_2$ respectively (number of hyperspheres and hyperplanes) and $L_1 + L_2 = m(m-1)/2$. Then the unknown location of the source can be found via minimization of the criterion that is equivalent to (\ref{eq:3.34}):
+Let $I_1$ and $I_2$ be two index sets such that $0 < k_{ij} \neq 1$ for all $\{i, j \} \in I_1$ and $k_{ij} = 1$ for all $\{i, j\} \in I_2$ with $1 \leq i \leq m-1, i+1 \leq j \leq m $   and $I_1 \cap I_2 = \emptyset$.
+Let $L_1$ and $L_2$ denote the number of elements in sets $I_1$ and $I_2$ respectively (number of hyperspheres and hyperplanes) and $L_1 + L_2 = m(m-1)/2$. Then the unknown location of the source can be found via minimization of the criterion that is equivalent to (\ref{eq:3.34}) \cite{ShengHu}:
 \begin{equation} \label{eq:3.38}
 %\Min \sum_{i,j \in I_1}^{} \left(\ \|\Bx - \Bc_{ij}\|^2 - \rho_{ij}^2\right)^2 + \sum_{i,j \in I_2}^{} \left( \Bx^T \Bgamma_{ij}  - \tau_{ij}\right)^2
 \Min_{\Bx} \sum_{l_1 = 1}^{L_1} \left(\ \|\Bx - \Bc_{l_1}\|^2 - \rho_{l_1}^2\right)^2 + \sum_{l_2 = 1}^{L_2} \left( \Bx^T \Bgamma_{l_2}  - \tau_{l_2}\right)^2
 \end{equation}
-For the brevity of notation the double indexes $ij$ were replaced by single indexes $l_1$ and $l_2$. The unconstrained problem in (\ref{eq:3.38}), due to mathematical analogy with (\ref{eq:3.9}), can be solved using Algorithm 1 developed in section 3.1. After some simple manupilations and necessary variable changes, can be converted to the constrained problem that is similar to (\ref{eq:3.10}):
+For the brevity of notation the double indexes $ij$ were replaced by single indexes $l_1$ and $l_2$.  After some simple manupilations and necessary variable changes, (\ref{eq:3.38}) can be converted to the constrained problem that is similar to (\ref{eq:3.10}):
 \begin{eqnarray} \label{eq:3.39}
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BA\By-\Bb\|^2 \qquad\\
-\stepcounter{abc} \setcounter{equation}{40} \mbox{subject to: \ }
+\stepcounter{abc} \setcounter{equation}{39} \mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
 where
 \begin{equation} \label{eq:3.40}
 \setcounter{abc}{0}
-\setcounter{equation}{41}
 \By = \left[ \begin{array}{c}
  \Bx \\
  \|\Bx\|^2 
@@ -883,7 +876,7 @@ where
 and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
 \begin{equation} \label{eq:3.41}
 \setcounter{abc}{0}
-\setcounter{equation}{42}
+\setcounter{equation}{41}
 \BA_1 = \left(\begin{array}{cc}
     -2\Bc_1^T & 1 \\
     \vdots  & \vdots \\
@@ -908,3 +901,4 @@ and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
     \tau_{L_2}
     \end{array} \right)
 \end{equation}
+The unconstrained problem in (\ref{eq:3.38}), due to mathematical analogy with (\ref{eq:3.9}), can be solved using Algorithm 1 developed in section 3.1.
