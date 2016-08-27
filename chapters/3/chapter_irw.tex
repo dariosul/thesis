@@ -430,55 +430,63 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 \subsection{Problem Formulation} %3.1
 
 Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. In practice, range-difference measurements may be obtained from the time differences of arrival measured by an array of passive sensors. Time difference of arrival (TDOA) is a time-based positioning method based on the idea that the location of an active mobile unit (source of the signal)  can be determined by examining the difference in time at which the signal arrives at multiple reference points. 
-Adopting this technique is useful in practical scenarios where synchronization between mobile units is not available \cite{GeoLoc}. Typical example of such setup includes the observed time difference of arrival (O-TDOA) technique used in WCDMA (3G) networks to estimate the location of mobile terminals. In WCDMA networks only the base stations are synchronized with each other, but the mobile terminal is unsynchronized with base stations. 
+Adopting this technique is useful in practical scenarios where synchronization between mobile units is not available \cite{GeoLoc}. Typical example of such setup includes the observed time difference of arrival (O-TDOA) technique used in WCDMA (3G) networks to estimate the location of mobile units. In WCDMA networks only the base stations are synchronized with each other, but the mobile unit is unsynchronized with base stations. 
 
-Each TDOA measurement constrains the location of the mobile device to be on a hyperboloid with a constant range-difference between the two reference points. A TDOA measurement between base station $BS_i$ and $BS_0$ can be given by 
+Each TDOA measurement constrains the location of the signal source
+%mobile device 
+to be on a hyperboloid with a constant range-difference between the two reference points. A TDOA measurement between base stations $BS_i$ and $BS_0$ can be given by 
 \begin{equation}
 \nonumber
 t_{i0} = (t_i - t_x) - (t_0 - t_x) = t_i - t_0
 \end{equation}
-where $t_x$ is the clock time of the mobile device, $t_i$ and $t_0$ are the time of arrival between the device and  stations $BS_i$ and $BS_0$ respectively. The equation can be written in terms of distance through scaling 
+where $t_x$ is the clock time of the mobile unit, $t_i$ and $t_0$ are the time of arrival between the mobile unit and  stations $BS_i$ and $BS_0$ respectively. The equation can be written in terms of distance (range-difference) through scaling 
 \begin{equation}
 \nonumber
-r_{i0} =(t_i - t_0)c = r_i - r_0 = \|\Ba_i - \Bx\| - \|\Ba_0 - \Bx\|
+r_{i} =(t_i - t_0)c = r_i - r_0 = \|\Ba_i - \Bx\| - \|\Ba_0 - \Bx\|, i = 1,\ldots,m
 \end{equation}
-where $c$ is the speed of signal propagation. Without loss of generality, the latter equation is valid with the assumption that the station $BS_0$ is placed at the origin of the coordinate system. 
+where $c$ is the speed of signal propagation, $r_i$ is the distance from station $\Ba_i$ to source $\Bx$, $r_0$ is the distance from station $\Ba_0$ to source $\Bx$, and $\Ba_i \in R^n$, $n = 2$ or $3$, contains coordinates of the $i$th base station.  Without loss of generality, the latter equation is valid with the assumption that the station $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \BO$  and used as a \textit{reference} station \cite{GeoLoc}. 
 %\cite{Liu} The idea of TDOA is to determine the relative position of the mobile transmitter by examining the difference in time at which the signal arrives at multiple measuring units, rather than the absolute arrival time. 
  
 %obtained by comparing the signal as it is received at the $m+1$ sensors taken in pairs. 
-As usual, these sensors are denoted as $\{\Ba_0, \Ba_1,\ldots,\Ba_m\} \in R^n$ with $\Ba_0 = \BO$ be placed at the origin and used as a \textit{reference sensor}. The range-difference $r_i$ is defined as the difference between the distance from sensor $\Ba_i$ to source $\Bx$ and the distance from sensor $\Ba_0$ to source $\Bx$, namely %The range-difference measurements are obtained as
- \begin{equation} \label{eq:3.21}
- r_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, i = 1,\ldots,m
- \end{equation}
+%As usual, these sensors are denoted as $\{\Ba_0, \Ba_1,\ldots,\Ba_m\} \in R^n$ with $\Ba_0 = \BO$ be placed at the origin and used as a \textit{reference sensor}. The range-difference $r_i$ is defined as the difference between the distance from sensor $\Ba_i$ to source $\Bx$ and the distance from sensor $\Ba_0$ to source $\Bx$, namely %The range-difference measurements are obtained as
+
+% \begin{equation} \label{eq:3.21}
+% r_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, i = 1,\ldots,m
+% \end{equation}
 The localization problem here is to estimate the location of a radiating source $\Bx$ given the locations of the $m+1$ sensors $\{\Ba_i, i = 0, 1, \ldots, m\}$ and noise-contaminated range-difference measurements $\{d_i, i = 1, 2, \ldots, m\}$ where 
-\begin{equation}
-d_i = r_i + \varepsilon_i, \mbox{ for } i = i = 1, 2, \ldots, m
+\begin{equation} \label{eq:3.21}
+d_i = r_i + \varepsilon_i = \|\Ba_i - \Bx\| - \|\Bx\| + \varepsilon_i, \mbox{ for } i = 1, 2, \ldots, m
 \end{equation}
 %based on measurements $d_i$'s. 
 Therefore, the standard range-difference LS (RD-LS) problem is formulated as
  \begin{equation} \label{eq:3.22}
 \Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2
  \end{equation}
- Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem.
- 
-\textit{
-cite(fusion paper) Different aspects of positioning using passive ranging mea-
-surements have already been analyzed in the literature. Closed form solutions for hyperbolic positioning can be found for instance in [9]–[11]. Iterative algorithms for solving a nonlinear (weighted) least squares (N(W)LS) form another major group.
-The Gauss-Newton algorithm is studied in [12], constrained and non-constrained NLS solutions are discussed in [13], [14].
-The iterative approaches generally require good initialization to converge to the global optimum of the cost function and
-often many iterations. In order to avoid these issues, the solutions proposed in [15], [16] transform nonlinear equations into a set of linear ones, thus making real-time implementations possible. Factor graph-based methods carrying low-complex
-flags also attracted some attention [17], [18].
-......
-(cite NLOS mitigation)
-General nonlinear solutions are Maximum Likelihood (ML), Nonlinear Least Squares (NLS) or the Weighted Nonlinear Squares (WNLS) approach [5]. The WNLS solution
-requires minimization of a cost function, and performing ML estimation requires noise statistics. When the measurement
-noise n in (1) is zero-mean and Gaussian distributed with covariance matrix C n , ML scheme reduces to the WNLS solution. The ML approach requires a high complexity when grid search is performed, and therefore global solution may not
-be guaranteed, but in general its accuracy is the highest, especially when C n is also a function of subscriber position [6]. However, having a perfect error statistical characterization is
-difficult and others approaches are preferred. On the other hand, NLS does not require noise statistics but also involves
-the same issues as ML.
-} 
-
-
+ Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. Nonlinear least squares (NLLS) algorithm  \cite{{KimLeJe}} is widely used in TDOA localization systems for its performance. If  the range  measurement  errors  can  be  modeled  as  an  additive white  Gaussian  noise,  the  accuracy  of  NLLS approaches  the Cram$\acute{e}$r-Rao  lower  bound  (CRLB). However, NLLS is not guaranteed to converge  \cite{Chan}, \cite{KimLeJe} if the initial position is chosen far away from the actual source location. This becomes a more serious problem when the system coverage area is large since it becomes more difficult to fix one initial position that is close enough to the \textit{unknown} source location. Scaling by  MAjorizing  a  COmplicated  Function  (SMACOF)  strategy \cite{SMAC} can also be applied for position estimation. Compared with NLLS, it is not sensitive to the choice of the initial position and the mean-square error is guaranteed to decrease at each iteration, but  it  converges significantly slower.	
+%{
+%The proposed algorithm does not converge as fast as the NLLS algorithm, but it is not sensitive to the choice of
+%the initial position, and the mean-square error is guaranteed to decrease at each iteration. More importantly, it does not
+%require redundant receivers; when redundancy in the range measurements is unavailable, it can be used to provide the
+%initial target position estimate for the NLLS algorithm. 
+%Compared with  NLLS,  SMACOF  is  much  more  stable  but  it  converges significantly slower. When the number of anchors is large, both the  NLLS  and  SMACOF  methods  become  very  complex  to implement.  
+%} 
+%\textit{
+%cite(fusion paper) Different aspects of positioning using passive ranging mea-
+%surements have already been analyzed in the literature. Closed form solutions for hyperbolic positioning can be found for instance in [9]–[11]. Iterative algorithms for solving a nonlinear (weighted) least squares (N(W)LS) form another major group.
+%The Gauss-Newton algorithm is studied in [12], constrained and non-constrained NLS solutions are discussed in [13], [14].
+%The iterative approaches generally require good initialization to converge to the global optimum of the cost function and
+%often many iterations. In order to avoid these issues, the solutions proposed in [15], [16] transform nonlinear equations into a set of linear ones, thus making real-time implementations possible. Factor graph-based methods carrying low-complex
+%flags also attracted some attention [17], [18].
+%......
+%(cite NLOS mitigation)
+%General nonlinear solutions are Maximum Likelihood (ML), Nonlinear Least Squares (NLS) or the Weighted Nonlinear Squares (WNLS) approach [5]. The WNLS solution
+%requires minimization of a cost function, and performing ML estimation requires noise statistics. When the measurement
+%noise n in (1) is zero-mean and Gaussian distributed with covariance matrix C n , ML scheme reduces to the WNLS solution.
+%The ML approach requires a high complexity when grid search is performed, and therefore global solution may not
+%be guaranteed, but in general its accuracy is the highest, especially when C n is also a function of subscriber position [6]. However, having a perfect error statistical characterization is
+%difficult and others approaches are preferred. On the other hand, NLS does not require noise statistics but also involves
+%the same issues as ML.
+%} 
 Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
 
  By writing (\ref{eq:3.21}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
@@ -574,10 +582,54 @@ w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}, i=1,\l
 
 Based on the analysis above, a localization algorithm for range-difference measurements can be outlined as follows.
 
+%\begin{table} \label{alg:rd-ls}
+%\centering
+%\caption{Iterative re-weighting least-squares method for source localization based on range-difference measurements.}
+%\begin{tabular}{|l|l|} \hline
+%\centering
+%. & \textbf{Algorithm 3.2} \\ \hline
+%%&&& \\ 
+%\textbf{Input} &	Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$, convergence tolerance $\xi$.	
+%\\ &\\ \hline
+%\textbf{Output} & $\protect\Bx^*$ \\ & \\ \hline
+%\textbf{Step 1} & Generate data set $\{\BB, \Bg, \BC\}$ as 
+%$\Bg = \left(\begin{array}{c}
+%    d_1^2 - \|\Ba_1\|^2 \\
+%    \vdots \\
+%    d_m^2 - \|\Ba_m\|^2
+%    \end{array}\right), 
+%\BB = \left(\begin{array}{cc}
+%    -2\Ba_1^T & -2d_1 \\
+%    \vdots & \vdots \\
+%    -2\Ba_m^T & -2d_m
+%    \end{array}\right),
+%\BC =  \left(\begin{array}{cc}
+%    \BI_n & \BO_{n \times 1} \\
+%    \BO_{1 \times n} & -1
+%   \end{array}\right).
+%$
+%Set $k=1$, $w_i^{(1)}=1$ for $i=1,\ldots,m$.
+%\\ &\\ \hline
+%\textbf{Step 2} &	 Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BB_w=\BGA_k\BB$ and $\Bg_w=\BGA_k\Bg$.
+%\\ &\\ \hline
+%\textbf{Step 3} & Solve WSRD-LS problem
+%$\Min_{\By \in R^{n+1}} \|\BB_w\By - \Bg_w\|$
+%$ \mbox{subject to: } \By^T\BC\By = 0 $
+%$y_{n+1}\geq 0$
+%to obtain its global solution $\Bx_k$.	
+%\\& \\ \hline
+%\textbf{Step 4} & If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and output $\Bx_k$ as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ as 
+%$ w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2} $
+%and repeat from Step 2.
+%\\ %&&&&\\
+%\hline
+%\end{tabular}
+%\end{table}
+
 \phantom{m}
 \framebox{%
 \parbox{5.5in}{
-\textbf{Algorithm 2} \label{alg:rd-ls}
+\textbf{Algorithm 2} 
 
 1) Input data: Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\xi$.
 
@@ -623,7 +675,7 @@ w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}
 \end{equation}
 and repeat from Step 3).
 }
-}
+} \label{alg:rd-ls}
 
 \phantom{m}
 
@@ -694,11 +746,11 @@ $\sigma$ & SRD - LS&IRWSRD-LS& Improvement, \%\\ \hline
 
 Performance of the proposed algorithms was evaluated and compared with the method of  \cite{BeckStLi} by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for Algorithm 2 and its variant. In both cases the system consisted of m sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated in terms of mean squared error in the form $\mbox{MSE} = E\{\|\Bx^*-\Bx_s\|\}$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SRD-LS, IRWSRD-LS and \textit{hybrid} IRWSRD-LS methods, respectively. Table \ref{tab:3} provides comparisons of these methods with SRD-LS, where each entry was averaged MSE over 10,000 Monte Carlo runs of the method. For the columns representing performance of the IRWSDR-LS and \textit{hybrid} IRWSDR-LS methods each table entry lists their MSE and relative improvement over SRD-LS solutions in percentage, in the format: MSE($\%$ Improvement).
 
-The simulation studies of Algorithm 2 considered $m = 11$ sensors $\{\Ba_i, i=1, 2,\ldots,10\}$ with $\Ba_0=\BO$ and other ten sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of five possible levels $\{10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range-difference measurements used to form  matrix $\BB$ in Step 2 of the Algorithm 2 were calculated as a noise-contaminated version of $d_i$ in (\ref{eq:3.21}) as:
-\begin{equation}
-\nonumber
-d^{noisy}_i = d_i + \varepsilon_i.
-\end{equation}
+The simulation studies of Algorithm 2 considered $m = 11$ sensors $\{\Ba_i, i=1, 2,\ldots,10\}$ with $\Ba_0=\BO$ and other ten sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of five possible levels $\{10^{-4}, 10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range-difference measurements used to form  matrix $\BB$ in Step 2 of the Algorithm 2 were calculated as a noise-contaminated range-difference measurements $d_i$ in (\ref{eq:3.22}).% as:
+%\begin{equation}
+%\nonumber
+%d^{noisy}_i = d_i + \varepsilon_i.
+%\end{equation}
 Step 4 of Algorithm 2 was carried out using the SRD-LS algorithm in \cite{BeckStLi}. Again, the IRWSRD-LS solutions offer considerable improvement over SRD-LS solutions.
 
 
