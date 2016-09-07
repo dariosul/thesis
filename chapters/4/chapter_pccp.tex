@@ -1,15 +1,15 @@
 \startchapter{Penalty Convex-Concave Procedure for Source Localization Problem}
 \label{chapter:pccp}
 
-Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
-% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
-%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
-A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
-%One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
-%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
+%Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
+%% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
+%%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
+%A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
+%%One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
+%%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
 
 
-In this paper, we focus on LS formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points for the algorithm. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
+This chapter is focused on the least squares formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points for the algorithm. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
 % However, the solution provided by these algorithms is less accurate than than those produced by ML approaches, \textit{`'because they are suboptimal in the ML sence.''}
 %In this  paper we minimize the $l_2$ norm of residual errors and present it as a differece of convex functions programming (DCP). 
@@ -34,12 +34,15 @@ In this paper, we focus on LS formulation for the problem of localizing a single
 %\section{Source Localization From Range Measurements}%II
 \section{Problem Statement and Review of Related Work}%2.1
 
-The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains  $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+same:
+\emph{The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains  $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
 \begin{equation} \label{eq:4.1}
 \setcounter{equation}{1}
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
 \end{equation}    
-where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. }
+\textbf{In the rest of this section: shorten the review of the problem. add more lit review on methods}
+For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
 \begin{equation}\label{eq:4.2} %eq 2
 \Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \end{equation}
@@ -61,10 +64,13 @@ where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with $g_i = \|{\Bx} - {\Ba}_i\|$. It fo
 %
 %(in this work...)
 
+\textit{Advantages of convex-concave procedure from cite{LBoyd}}
+
 \section{Fitting the Localization Problem to the CCP Framework}% or Penalty CCCP}
 
 \subsection{Basic Convex-Concave Procedure}
 
+\textbf{describe what a DC problem is }
 The CCP refers to an effective heuristic method to deal with a class of \textit{nonconvex} problems of  the form 
 \begin{eqnarray} \label{eq:4.5}%eq 5
 \setcounter{abc}{1}
@@ -103,7 +109,7 @@ and
 \end{eqnarray}
 
 Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem (4) \cite{LBoyd}.
- The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (6b) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points \cite{StLi}.
+ The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (6b) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
 
 \subsection{Problem Reformulation}
 
@@ -431,3 +437,31 @@ As mentioned in Sec. 2, the original LS objective is highly non-convex with many
 %
 %\textbf{until} stopping criterion is satisfied.
 %\phantom{m}
+
+\section{Numerical Results}
+
+For illustration purposes, the proposed algorithm was applied to a network with five sensors, and its performance was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{12}. SR-LS solutions were used as performance benchmarks for the PCCP-based LS Algorithm. The system consisted of $5$ sensors $\{\Ba_i, i = 1, 2,\ldots,5\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1). Accuracy of source location estimation was evaluated in terms of average of the squared position error error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and PCCP methods, respectively.   In our simulations parameter $\gamma$ was set to 3 and the number of iterations was set to 20. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SR-LS followed \cite{12}. The PCCP algorithm was initialized with   intersection points of the two circles that are associated with the two smallest distance readings. A candidate solution point with lowest LS error in (2) was chosen as a PCCP solution. In  cases when the circles did not intersect due to high noise level, the initial point was set as a midpoint between the centers of the two circles.  
+
+Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP. It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement of the proposed method over SR-LS solutions in percentage. 
+
+%Employing a set-up similar to that in \cite{10}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{10}. It is observed that PCCP solutions offer considerable improvement over SR-LS solutions.
+
+\begin{table}
+\centering
+\caption{Averaged MSE for SR-LS and PCCP methods}
+\begin{tabular}{||c||c|c|c|c||} 
+%\hhline{|t:=====:t|} 
+%&&&& \\
+%& & & Relative\\  
+\textsc{\textbf{$\sigma$}} & \textsc{MLE} & \textsc{SR - LS}& \textsc{PCCP} &\textsc{R.I.} \\%elative improvement}\\ % \hhline
+&&&& \\ 
+%\hhline{|:=====:|}
+%&&&& \\ 
+{\fontsize{9}{10}\selectfont 1e-03}& {\fontsize{9}{10}\selectfont 6.0159e-01} & {\fontsize{9}{10}\selectfont1.3394e-06}   &	\textbf{{\fontsize{9}{10}\selectfont 9.5243e-07}}& {\fontsize{9}{10}\selectfont 29\%}	 \\ &&&&\\
+{\fontsize{9}{10}\selectfont1e-02}& {\fontsize{9}{10}\selectfont 3.5077e-01} & {\fontsize{9}{10}\selectfont1.4516e-04}     &	\textbf{{\fontsize{9}{10}\selectfont9.5831e-05}}& {\fontsize{9}{10}\selectfont34\%}	\\ &&&&\\
+{\fontsize{9}{10}\selectfont1e-01}& {\fontsize{9}{10}\selectfont3.7866e-01} & {\fontsize{9}{10}\selectfont1.2058e-02}     &	\textbf{{\fontsize{9}{10}\selectfont8.7107e-03}}& {\fontsize{9}{10}\selectfont28\%}	\\ &&&&\\
+{\fontsize{9}{10}\selectfont1e+0}& {\fontsize{9}{10}\selectfont1.4470e+00} & {\fontsize{9}{10}\selectfont1.3662e+00}      &	\textbf{{\fontsize{9}{10}\selectfont1.2346e+00}}& {\fontsize{9}{10}\selectfont10\%}	\\ &&&&\\
+%\hhline{|b:=====:b|} 
+\end{tabular}
+\label{tab:pccp}
+\end{table}

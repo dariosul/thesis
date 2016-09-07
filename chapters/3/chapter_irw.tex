@@ -2,9 +2,11 @@
 \startchapter{Iterative Re-Weighting Least-Squares Methods for Source Localization}
 \label{chapter:irw}
 
-Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are iterative, hence extremely sensitive to where the iteration begins, and give no guarantee to yield global solutions when applied to non-convex objective functions. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, various ``global'' localization techniques were investigated that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the least squares model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
+Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are
+%iterative, hence extremely 
+ sensitive to where the iteration begins, and give no guarantee to yield global solutions when applied to non-convex objective functions. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, various ``global'' localization techniques were investigated that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the least squares model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
 
-This chapter presents improved least squares methods that demonstrate improved localization performance when compared with the some best known results from the literature. The key new ingredient of the proposed algorithms is an iterative procedure where the SR-LS (SRD-LS) algorithm is iteratively applied to a weighted sum of squared terms where the weights are carefully designed so that the iterates produced quickly converge to a solution which, on comparing with the best known results, is found to be considerably closer to the original range-based (range-difference-based) LS solution. % that is known to be the maximum-likelihood estimator in the case of Gaussian white measurement noise. Numerical results are presented for performance evaluation and comparisons.
+This chapter presents improved least squares methods that demonstrate improved localization performance when compared with some best known results from the literature. The key new ingredient of the proposed algorithms is an iterative procedure where the SR-LS (SRD-LS) algorithm is iteratively applied to a weighted sum of squared terms where the weights are carefully designed so that the iterates produced quickly converge to a solution which is found to be considerably closer to the original range-based (range-difference-based) LS solution. % that is known to be the maximum-likelihood estimator in the case of Gaussian white measurement noise. Numerical results are presented for performance evaluation and comparisons.
 
 
 
@@ -48,7 +50,7 @@ Least squares approaches have proven effective for source localization problems 
 \end{equation}
 
 %\{As could be seen the problem (\ref{eq:3.2}) at hand is nonconvex [].\}
-The primary reason that justifies formulation (\ref{eq:3.2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independent identically distributed (Gaussian) variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
+The primary reason that justifies formulation (\ref{eq:3.2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independently and identically distributed (i.i.d) Gaussian variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
 \begin{equation} \label{eq:3.3}%eq 3
 \Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
 \end{equation}
@@ -58,7 +60,7 @@ g_i = \|{\Bx} - {\Ba}_i\|
 \end{equation}
 It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
-Although there are many methods for continuous unconstrained optimization \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about its global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure (\ref{fig:ExampleOfRLSNonconvexity}) describes a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
+Although many methods for unconstrained optimization are available \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:ExampleOfRLSNonconvexity} describes a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
 
 \begin{figure*}[t]
 \centering
@@ -116,16 +118,20 @@ By writing the objective in (\ref{eq:3.9}) as $\left(\alpha-2\Ba_i^T\Bx+\|\Ba_i\
 \stepcounter{abc} \setcounter{equation}{10} \mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
-where $\By = [\Bx^T \|\Bx\|^2]^T$ and
+where and
 \setcounter{abc}{0}
 \begin{equation} \label{eq:3.11}
 \setcounter{abc}{0}
 \setcounter{equation}{11}
+\By = \left(\begin{array}{c}
+\Bx \\
+\|\Bx\|^2 
+\end{array} \right), \;
 \BA=\left(\begin{array}{cc}
     -2\Ba_1^T & 1 \\
     \vdots  & \vdots \\
     -2\Ba_m^T & 1
-    \end{array} \right),
+    \end{array} \right), \;
 \Bb=\left(\begin{array}{c}
     r_1^2-\|\Ba_1\|^2 \\
     \vdots \\
@@ -137,12 +143,12 @@ where $\By = [\Bx^T \|\Bx\|^2]^T$ and
 \BD=\left(\begin{array}{cc}
     \BI\!_{n\times n} & \BO_{n\times n} \\
     \BO_{n\times n} & 0
-    \end{array} \right),
+    \end{array} \right), \;
 \Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right)
 \end{equation}
-This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:3.10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:3.10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in the case of GTRS \cite{More}.
+This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:3.10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:3.10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in this case \cite{More}.
 
-Few remarks are now in order. First, an unconstrained version of (\ref{eq:3.10}) may be obtained by neglecting the constraint in (\ref{eq:3.10}b) as
+We now conclude this section with a couple of remarks. First, an unconstrained version of (\ref{eq:3.10}) may be obtained by neglecting the constraint in (\ref{eq:3.10}b) as
 \begin{equation} \label{eq:3.12}%eq 13
 \Min_{{\By} \in R^{n+1}} \|\BA\By-\Bb\|^2
 \end{equation}
@@ -157,33 +163,33 @@ It is demonstrated by numerical experiments \cite{BeckStLi} that the SR-LS solut
 %An iterative re-weighting minimization schemes in several forms has been proposed in the literature \cite{BeckTeCh}, \cite{Beck15}. The standard fixed point (SFP) algorithm \cite{BeckTeCh} was constructed similarly to the Weizfeld method that was designed to solve the Fermat-Weber problem. The iterates of SPF were constructed from the optimality conditions for (\ref{eq:3.2}). SPF is a gradient method with a fixed step size. Proposed schemes for choosing the initial point $\Bx_0$ guarantees the convergence and eliminates points of non-smoothness
 %and the sequential weighted least squares algorithms (SWLS) \cite{BeckTeCh} are based 
 
-Iterative re-weighting least squares method is a popular technique used for solving problems involving the sums of norms $\{cite\}$. The method has found many applications, such as in robust regression $\{cite\}$, sparse recovery $\{cite\}$, but the most relevand application for the current case is for solving the Fermat-Weber location problem. The Fermat--Weber problem %is one of the oldest easily-stated nontrivial problems in computational geometry: 
-has a long history and has been extensively studied in the field of optimization and location theory $\{cite\}$. This problem can be stated as: given $m$ points $\Ba_1, \Ba_2, \ldots, \Ba_m \in R^n$ called \textit{ancors} and nonnegative weights $\omega_1, \omega_2, \ldots, \omega_m > 0$, find $\Bx \in R^n$ that minimizes the weighted sum of Euclidian distances between $\Bx$ and $m$ ancors:
+Iterative re-weighting least squares method is a popular technique used for solving problems involving the sums of norms. The method has found many applications, such as in robust regression \cite{RReg, GIRLS}, sparse recovery \cite{Daub}, but the most relevand application for the current case is for solving the Fermat-Weber location problem. The Fermat--Weber problem %is one of the oldest easily-stated nontrivial problems in computational geometry: 
+has a long history and has been extensively studied in the field of optimization and location theory \cite{GIRLS}. This problem can be stated as: Given $m$ points $\Ba_1, \Ba_2, \ldots, \Ba_m \in R^n$ called \textit{anchors} and nonnegative weights $\omega_1, \omega_2, \ldots, \omega_m > 0$, find $\Bx \in R^n$ that minimizes the weighted sum of Euclidian distances between $\Bx$ and the $m$ anchors:
 \begin{equation} \label{eq:FW}
 \nonumber
 \Min_{\Bx \in R^n} \sum_{i=1}^{m} \omega_i\|\Bx - \Ba_i\|.
 \end{equation}
-Fermat--Weber problem is much easier to analyze and solve than the ML problem (\ref{eq:3.2}) since it is a well-structured
-nonsmooth convex minimization problem, however the similarities of these problems has been noted in the literature \cite{BeckTeCh}.
+Fermat--Weber problem is much easier to analyze and solve than the ML problem (\ref{eq:3.2}) because it is a well-structured nonsmooth convex minimization problem. 
+%However the similarities of these problems has been noted in the literature \cite{BeckTeCh}.
 %This problem has a long history and has been extensively studied in the field of optimization and location theory.
 %the most famous and oldest example of the IRLS method is Weiszfeld’s method for solving the Fermat–Weber problem — an algorithm that was introduced in 1937.
 % Our objective here is to mimic the Weiszfeld algorithm [16] to obtain an algorithm for solving the nonsmooth and nonconvex ML problem (1.2). The Weiszfeld method is a very simple fixed-point scheme that is designed to solve the Fermat–Weber problem. One way to derive it is to write the first order global optimality conditions for the convex problem (2.1)
-The standard fixed point (SFP) algorithm proposed in \cite{BeckTeCh} is a gradient method with a fixed step size. However, being a gradient method, it has chances to converge to local minimum. The sequential weighted least squares algorithm (SWLS) proposed in \cite{BeckTeCh} is also an iterative method where each iteration involves solving a nonlinear least squares problem similar to (\ref{eq:3.9}). As discussed in  \cite{BeckTeCh} the SWLS method is superior over SFP in terms of convergence rate and a wider region of convergence to the global minimum. However, it still does have a chance to converge to a local minimum in case of certain sensor setup even if an initial point $\Bx_0$ is constructed by following a procedure developed specifically for this purpose. The method presented below is different from the above described approaches in a sense that it does not require an initial point and the solution produced is guranteed to converge to a \textit{global} solution. 
+The similarities between the Fermat--Weber problem and problem (\ref{eq:3.2}) have been noted and addressed in the literature \cite{BeckTeCh} with a gradient method with a fixed step size, known as the standard fixed point (SFP) algorithm, to deal with problem (\ref{eq:3.2}). However, being a gradient method, likelihood for the SFP algorithm to converge to a local solution exists. Another method, also proposed in \cite{BeckTeCh} and known  as the the sequential weighted least squares algorithm (SWLS), is also an iterative method where each iteration involves solving a nonlinear least squares problem similar to (\ref{eq:3.9}). The SWLS method is found to be superior over SFP in terms of convergence rate and a wider region of convergence to the global minimum \cite{BeckTeCh}. However, the possibility for SWLS to converge to a local minimum remains in certain sensor setup even if the initial point is constructed using a procedure developed specifically for SWLS. The method presented below takes an approach that is different those described above in the sense that it does not require an initial point and the solution produced is guranteed to converge to a \textit{global} solution. 
 
-\subsubsection{Weighted squared range-based least squares formulation} %2.3.1
+\subsubsection{Weighted squared range based least squares formulation} %2.3.1
 
-We now consider a weighted SR-LS (WSR-LS) problem, namely,
+We now consider the weighted squared range based least squares (WSR-LS) problem
 \begin{equation} \label{eq:3.14} %eq 15
 \Min_{\Bx} \sum_{i=1}^{m} w_i\left(\|{\Bx} - {\Ba}_i\|^2 - r_i^2\right)^2
 \end{equation}
-Following \cite{BeckStLi}, it is rather straightforward to convert (\ref{eq:3.14}) into a GTRS similar to (\ref{eq:3.10}) as
+which is obviously a weighted version of the SR-LS problem in (\ref{eq:3.9}). Following \cite{BeckStLi}, it is rather straightforward to convert (\ref{eq:3.14}) into a GTRS similar to (\ref{eq:3.10}) as
 \begin{eqnarray} \label{eq:3.15} %eq 16 a,b
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BGA\left(\BA\By-\Bb\right)\|^2 \qquad\\
 \stepcounter{abc} \setcounter{equation}{15} \mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
-where $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$. Clearly, problem (\ref{eq:3.15}) can be written as
+where $\BA$, $\Bb$, $\BD$, and $\Bf$ are defined in (\ref{eq:3.11}) and $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$. Clearly, problem (\ref{eq:3.15}) can be written as
 \begin{eqnarray}
 \setcounter{abc}{0}
 \label{eq:3.16}%eq 17 a,b
@@ -274,7 +280,7 @@ Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
 \nonumber 
 \Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2
 \end{equation}
-via (\ref{eq:3.16})
+by solving (\ref{eq:3.16}), i.e.
 % 3.21
 \begin{equation}
 \nonumber
@@ -296,13 +302,13 @@ and repeat from Step 3).
 
 \phantom{m}
 
-From the steps in Algorithm 1, it follows that the complexity of the algorithm is practically equal to the complexity of the WSR-LS solver involved in Step 4 times the number of iterations, $k$. The algorithm converges with a small number of iterations, typically a $k\leq6$  suffices. For simplicity, the solutions obtained from Algorithm 1 are called IRWSR-LS solutions. Technical details on how to solve (\ref{eq:3.20}) can be found in Appendix 1.
+From the steps in Algorithm 1, it follows that the complexity of the algorithm is practically equal to the complexity of the WSR-LS solver involved in Step 4 times the number of iterations, $k$. Computer simulations have indicated that the algorithm converges with a small number of iterations, typically a $k\leq6$  suffices. For simplicity, the solutions obtained from Algorithm 1 are called IRWSR-LS solutions. Technical details on how to solve (\ref{eq:3.16}) can be found in Appendix 1.
 
 \subsubsection{A variant of Algorithm 1}% 2.3.3
 
-As argued above, the IRWSR-LS solution from Algorithm 1 is expected to be an improved approximation of the global solution of R-LS problem in (\ref{eq:3.2}). However a small gap between the two solutions is inevitable owing to the approximate nature of the re-weighting strategy. This section presents a variant of Algorithm 1 that closes this gap by taking the IRWSR-LS solution as an initial point to run a good local unconstrained optimization algorithm for problem (\ref{eq:3.2}).  The rationale behind this two-step approach is that the initial point produced in the first step by Algorithm 1 is highly likely within a sufficiently small vicinity of the exact global solution of problem (\ref{eq:3.2}), hence a good local method will lead it to the exact solution in a small number of iterations. We remark that such a ``hybrid'' approach is also expected to work with other ``global'' methods including the SDR-LS and SR-LS methods, but with a difference that employing an IRWSR-LS solution in the first step improves the closeness of the initial point, hence increases the likelihood of securing the exact global solution of problem (\ref{eq:3.2}) by a local method in the second step.
+As argued above, the IRWSR-LS solution from Algorithm 1 is expected to be an improved approximation of the global solution of R-LS problem in (\ref{eq:3.2}). However a small gap between the two solutions is inevitable owing to the approximate nature of the re-weighting strategy. In what follows we present a variant of Algorithm 1 that closes this gap by taking the IRWSR-LS solution as an initial point to run a good local unconstrained optimization algorithm for problem (\ref{eq:3.2}).  The rationale behind this two-step approach is that the initial point produced in the first step by Algorithm 1 is highly likely within a sufficiently small vicinity of the exact global solution of problem (\ref{eq:3.2}), hence a good local method will lead it to the exact solution in a small number of iterations. We remark that such a ``hybrid'' approach is also expected to work with other ``global'' methods including the SDR-LS and SR-LS methods, but with a difference that employing an IRWSR-LS solution in the first step improves the closeness of the initial point, hence increases the likelihood of securing the exact global solution of problem (\ref{eq:3.2}) by a local method in the second step.
 
-The well-known Newton algorithm \cite{AntonLu} is chosen as a local method because of its fast convergence and low complexity. We note that, unlike in a general scenario where the Newton algorithm is often considered numerically expensive because it requires to compute the inverse of the Hessian matrix, computing such an inverse is not costly in the present case because the dimension of the unknown vector x is extremely low: $n = 2$ or 3. Moreover, the Hessian matrix involved can be efficiently evaluated by a closed-form formula, as shown below.
+For the localization problem in question, the well-known Newton algorithm \cite{AntonLu} is chosen as a local method because of its fast convergence and low complexity. We note that, unlike in a general scenario where the Newton algorithm is often considered numerically expensive because it requires to compute the inverse of the Hessian matrix, computing such an inverse is not costly in the present case because the dimension of the unknown vector $\Bx$ is extremely low: $n = 2$ or $3$. Moreover, the Hessian matrix involved can be efficiently evaluated by a closed-form formula, as shown below.
 
 To evaluate the Hessian of the objective $f(\Bx)$ in (\ref{eq:3.2}), we assume $\Bx\neq\Ba_i$  for $i = 1, \ldots, m$, so that $f(\Bx)$  is a smooth function of $\Bx$. The assumption simply means that the radiating source is away from the sensor at least by a certain distance, which appears to be reasonable for a practical localization problem. Under this circumstance, the gradient and Hessian of $f(\Bx)$ are found to be
 \begin{equation}\label{eq:grls}
@@ -352,7 +358,13 @@ where $g(\Bx_k)$ is given by (\ref{eq:grls}). In what follows, solutions obtaine
 
 \subsection{Numerical Results}
 
-\begin{table}
+
+Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS, where each table entry is a MSE averaged over 1,000 Monte Carlo runs of a given method for a given noise level. For the columns representing performance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods each table entry lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: MSE($\%$ Improvement). 
+
+%Second and third column represent a MSE of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods and their relative improvement over SR-LS solutions in percentage, in the format: relative error($\%$ Improvement). 
+%The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
+
+\begin{table}[h]
 \centering
 \caption{MSE of position estimation for SR-LS, IRWSR-LS and \textit{hybrid} IRWSR-LS methods}
 \begin{tabular}{|c|c|c|c|} \hline
@@ -368,18 +380,12 @@ $\sigma$ & SR - LS & IRWSR-LS (Im.,\%) & \textit{hybrid} IRWSR-LS (Im.,\%) \\ \h
 \label{tab:1}
 \end{table}
 
-Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS. Each table entry is a MSE averaged over 1,000 Monte Carlo runs of a given method for a given noise level. For the columns representing performance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods each table entry lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: MSE($\%$ Improvement). 
-
-%Second and third column represent a MSE of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods and their relative improvement over SR-LS solutions in percentage, in the format: relative error($\%$ Improvement). 
-%The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
-
 Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 and its variant considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
 
-Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} suggest that, again, IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures (\ref{fig:Noise03IRW} - \ref{fig:Noise00IRW}) describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. Here $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance. Also, the solutions obtained by running IRWSR-LS have fewer outliers with large error.
+Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} demonstrate again that IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise03IRW} - \ref{fig:Noise00IRW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Note that the histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance, and the solutions obtained by running IRWSR-LS have fewer outliers.
 
 
-
-\begin{table}
+\begin{table}[h]
 \centering
 \caption{Standard deviation of the squared estimation error for SR-LS, IRWSR-LS and \textit{hybrid} IRWSR-LS methods}
 \begin{tabular}{|c|c|c|c|} \hline
@@ -726,7 +732,6 @@ where $\tilde{\BLA}=\mbox{diag}\left(\tilde{\lambda}_1,\ldots,\tilde{\lambda}_n\
 and $\delta$ a small positive constant. Obviously, $\tilde{\BH}(\Bx)$ is guaranteed to be positive definite. In what follows, solutions obtained by the proposed two-step method are called \textit{hybrid} IRWSRD-LS solutions.
 
 \subsection{Numerical Results}
-
 
 Performance of the proposed algorithms was evaluated and compared with the method of  \cite{BeckStLi} by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for Algorithm 2 and its variant. In both cases the system consisted of m sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated in terms of mean squared error in the form $\mbox{MSE} = E\{\|\Bx^*-\Bx_s\|\}$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SRD-LS, IRWSRD-LS and \textit{hybrid} IRWSRD-LS methods, respectively. Table \ref{tab:3} provides comparisons of these methods with SRD-LS, where each entry was averaged MSE over 1,000 Monte Carlo runs of the method. For the columns representing performance of the IRWSDR-LS and \textit{hybrid} IRWSDR-LS methods each table entry lists their MSE and relative improvement over SRD-LS solutions in percentage, in the format: MSE($\%$ Improvement).
 
