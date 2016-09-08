@@ -50,7 +50,7 @@ Least squares approaches have proven effective for source localization problems 
 \end{equation}
 
 %\{As could be seen the problem (\ref{eq:3.2}) at hand is nonconvex [].\}
-The primary reason that justifies formulation (\ref{eq:3.2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independently and identically distributed (i.i.d) Gaussian variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
+The primary reason that justifies formulation (\ref{eq:3.2}) is its connection to the maximum-likelihood location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. Assuming the errors $\varepsilon_i$ are independent and identically distributed (i.i.d) Gaussian variables with zero mean and variance $\sigma_i^2$, then $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, and the maximum likelihood (ML) location estimator in this case is known to be
 \begin{equation} \label{eq:3.3}%eq 3
 \Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
 \end{equation}
@@ -60,7 +60,7 @@ g_i = \|{\Bx} - {\Ba}_i\|
 \end{equation}
 It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
-Although many methods for unconstrained optimization are available \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:ExampleOfRLSNonconvexity} describes a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
+Although many methods for unconstrained optimization are available \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:ExampleOfRLSNonconvexity} depicts a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
 
 \begin{figure*}[t]
 \centering
@@ -174,7 +174,7 @@ Fermat--Weber problem is much easier to analyze and solve than the ML problem (\
 %This problem has a long history and has been extensively studied in the field of optimization and location theory.
 %the most famous and oldest example of the IRLS method is Weiszfeld’s method for solving the Fermat–Weber problem — an algorithm that was introduced in 1937.
 % Our objective here is to mimic the Weiszfeld algorithm [16] to obtain an algorithm for solving the nonsmooth and nonconvex ML problem (1.2). The Weiszfeld method is a very simple fixed-point scheme that is designed to solve the Fermat–Weber problem. One way to derive it is to write the first order global optimality conditions for the convex problem (2.1)
-The similarities between the Fermat--Weber problem and problem (\ref{eq:3.2}) have been noted and addressed in the literature \cite{BeckTeCh} with a gradient method with a fixed step size, known as the standard fixed point (SFP) algorithm, to deal with problem (\ref{eq:3.2}). However, being a gradient method, likelihood for the SFP algorithm to converge to a local solution exists. Another method, also proposed in \cite{BeckTeCh} and known  as the the sequential weighted least squares algorithm (SWLS), is also an iterative method where each iteration involves solving a nonlinear least squares problem similar to (\ref{eq:3.9}). The SWLS method is found to be superior over SFP in terms of convergence rate and a wider region of convergence to the global minimum \cite{BeckTeCh}. However, the possibility for SWLS to converge to a local minimum remains in certain sensor setup even if the initial point is constructed using a procedure developed specifically for SWLS. The method presented below takes an approach that is different those described above in the sense that it does not require an initial point and the solution produced is guranteed to converge to a \textit{global} solution. 
+The similarities between the Fermat--Weber problem and problem (\ref{eq:3.2}) have been noted and addressed in the literature \cite{BeckTeCh} with a gradient method with a fixed step size, known as the standard fixed point (SFP) algorithm, to deal with problem (\ref{eq:3.2}). However, being a gradient method, likelihood for the SFP algorithm to converge to a local solution exists. Another method, also proposed in \cite{BeckTeCh} and known  as the the sequential weighted least squares algorithm (SWLS), is also an iterative method where each iteration involves solving a nonlinear least squares problem similar to (\ref{eq:3.9}). The SWLS method is found to be superior over SFP in terms of convergence rate and a wider region of convergence to the global minimum \cite{BeckTeCh}. However, the possibility for SWLS to converge to a local minimum remains in certain sensor setups even if the initial point is constructed using a procedure developed specifically for SWLS. The method presented below takes an approach that is different from those described above in the sense that it does not require an initial point and the solution produced is guranteed to converge to a \textit{global} solution. 
 
 \subsubsection{Weighted squared range based least squares formulation} %2.3.1
 
@@ -359,7 +359,9 @@ where $g(\Bx_k)$ is given by (\ref{eq:grls}). In what follows, solutions obtaine
 \subsection{Numerical Results}
 
 
-Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS and SRD-LS solutions were used as performance benchmarks for Algorithm 1 and its variant. In both cases the system consisted of $m$ sensors $\{\Ba_i, i=1, 2,\ldots,m\}$ randomly placed in the planar region in $R^2$, and a radiating source $\Bx_s$, located randomly in the region \textit{R}=$\{\Bx:(x_1,x_2)^T, -10\leq x_1,x_2\leq 10\}$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS, where each table entry is a MSE averaged over 1,000 Monte Carlo runs of a given method for a given noise level. For the columns representing performance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods each table entry lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: MSE($\%$ Improvement). 
+Performance of the proposed algorithms was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS solutions were used as performance benchmark for Algorithm 1 and its variant. Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 and its variant considered $m = 5$ sensors $\{\Ba_i, \ i=1, 2,\ldots,m\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$,
+%In both cases the system consisted of $m$ sensors , 
+ and a radiating source $\Bx_s$, located randomly in the region $[-10;10]\times[-10;10]$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. The range measurements $\{r_i, \ i=1, 2,\ldots, m\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. Measurement noise $\{\varepsilon_i, \ i=1,\ldots, m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS, IRWSR-LS and hybrid-IRWSR-LS methods, respectively. Table \ref{tab:1} provides comparisons of these methods with SR-LS, where each table entry is a MSE averaged over 1,000 Monte Carlo runs of a given method for a given noise level. For the columns representing performance of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods each table entry lists their MSE and relative improvement over SR-LS solutions in percentage, in the format: MSE($\%$ Improvement). 
 
 %Second and third column represent a MSE of the IRWSR-LS and \textit{hybrid} IRWSR-LS methods and their relative improvement over SR-LS solutions in percentage, in the format: relative error($\%$ Improvement). 
 %The last column in each table represents relative improvement of the proposed methods over SR-LS(SRD-LS) solutions in percentage.
@@ -380,9 +382,10 @@ $\sigma$ & SR - LS & IRWSR-LS (Im.,\%) & \textit{hybrid} IRWSR-LS (Im.,\%) \\ \h
 \label{tab:1}
 \end{table}
 
-Employing a set-up similar to that in \cite{BeckStLi}, the simulation studies of Algorithm 1 and its variant considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:3.1}) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{BeckStLi}. It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
 
-Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} demonstrate again that IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise03IRW} - \ref{fig:Noise00IRW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Note that the histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance, and the solutions obtained by running IRWSR-LS have fewer outliers.
+It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
+
+Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} demonstrate again that IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise03IRW} to \ref{fig:Noise00IRW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Note that the histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance, and the solutions obtained by running IRWSR-LS have fewer outliers.
 
 
 \begin{table}[h]
@@ -468,7 +471,7 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
  \begin{equation} \label{eq:3.22}
 \Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2
  \end{equation}
- Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. Nonlinear least squares (NLLS) algorithm  \cite{{KimLeJe}} is widely used in TDOA localization systems for its performance. If  the range  measurement  errors  can  be  modeled  as  an  additive white  Gaussian  noise,  the  accuracy  of  NLLS approaches  the Cram$\acute{e}$r-Rao  lower  bound  (CRLB). However, NLLS is not guaranteed to converge  \cite{Chan}, \cite{KimLeJe} if the initial position is chosen far away from the actual source location. This becomes a more serious problem when the system coverage area is large since it becomes more difficult to fix one initial position that is close enough to the \textit{unknown} source location. Scaling by  MAjorizing  a  COmplicated  Function  (SMACOF)  strategy \cite{SMAC} can also be applied for position estimation. Compared with NLLS, it is not sensitive to the choice of the initial position and the mean-square error is guaranteed to decrease at each iteration, but  it  converges significantly slower.	
+ Unfortunately, finding the global solution of (\ref{eq:3.22}) turns out to be a very hard problem. Nonlinear least squares (NLLS) algorithm  \cite{{KimLeJe}} is widely used in TDOA localization systems for its performance. If  the range  measurement  errors  can  be  modeled  as  an  additive white  Gaussian  noise,  the  accuracy  of  NLLS approaches  the Cram$\acute{e}$r-Rao  lower  bound  (CRLB). However, NLLS is not guaranteed to converge  \cite{Chan}, \cite{KimLeJe} if the initial point is chosen far away from the actual source location. This becomes a more serious problem when the system coverage area is large since it becomes more difficult to fix one initial point that is close enough to the \textit{unknown} source location. Scaling by  MAjorizing  a  COmplicated  Function  (SMACOF)  strategy \cite{SMAC} can also be applied for position estimation. Compared with NLLS, it is not sensitive to the choice of the initial point and the mean-square error is guaranteed to decrease at each iteration, but  it  converges significantly slower.	
 %{
 %The proposed algorithm does not converge as fast as the NLLS algorithm, but it is not sensitive to the choice of
 %the initial position, and the mean-square error is guaranteed to decrease at each iteration. More importantly, it does not
@@ -493,7 +496,7 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 %difficult and others approaches are preferred. On the other hand, NLS does not require noise statistics but also involves
 %the same issues as ML.
 %} 
-Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approach to address this problem, which is summarized below.
+Reference \cite{BeckStLi} proposes a squared range-difference least squares (SRD-LS) approach to address this problem, which is summarized below.
 
  By writing (\ref{eq:3.21}) as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
   \begin{equation} \label{eq:3.23}
@@ -520,25 +523,28 @@ Reference \cite{BeckStLi} proposes a squared range-difference LS (SRD-LS) approa
 \stepcounter{abc} \setcounter{equation}{27}
 y_{n+1}\geq 0
 \end{eqnarray}
-where $\Bg=[g_1 \ldots g_m]^T$ and
+where 
 \begin{equation}
-\nonumber
 \setcounter{abc}{0}
-%\label{eq:3.28} %41
-\setcounter{abc}{0}
+\Bg=\left(\begin{array}{cc}
+g_1 \\
+\vdots \\
+g_m 
+\end{array}\right), \;
 \BB = \left(\begin{array}{cc}
     -2\Ba_1^T & -2d_1 \\
     \vdots & \vdots \\
     -2\Ba_m^T & -2d_m
-    \end{array}\right),
+    \end{array}\right), \;
 \BC =  \left(\begin{array}{cc}
     \BI_n & \BO_{n \times 1} \\
     \BO_{1 \times n} & -1
     \end{array}\right)
-\end{equation}
+\label{eq:3.28} %41
+\end{equation} 
 Because of the presence of the nonnegativity constraint in (\ref{eq:3.27}c), (\ref{eq:3.27}) is no longer a GTRS problem hence the technique used for the case of range measurements does not apply. Nevertheless reference \cite{BeckStLi} presents a rigorous argument which shows that the optimal solution of (\ref{eq:3.27}) either assumes the form of
- \begin{equation}\label{eq:3.28}
- %\nonumber
+ \begin{equation}
+ \nonumber
  \tilde{\By}(\lambda)=\left(\BB^T\BB+\lambda\BC\right)^{-1}\BB^T\Bg
  \end{equation}
  where $\lambda$ solves
@@ -551,11 +557,11 @@ Because of the presence of the nonnegativity constraint in (\ref{eq:3.27}c), (\r
 %\subsubsection{Weighted squared range-difference based least squares solution}
 \subsubsection{The Algorithm} %3.2.1
 
-We now present a method for improved solutions over SRD-LS solutions. The method incorporates an iterative re-weighting procedure into the SRD-LS approach, hence it is in spirit similar to the IRWRS-LS approach described in Sec. \ref{chapter:irw}.1.2. We begin by considering the weighted SRD-LS problem
+We now present a method for improved solutions over SRD-LS solutions. The method incorporates an iterative re-weighting procedure into the SRD-LS approach, hence it is in spirit similar to the IRWRS-LS approach described in Sec. \ref{chapter:irw}.1.2. We begin by considering the weighted squared range-difference least squares (WSRD-LS) problem
 \begin{equation} \label{eq:3.30}
 \Min_{{\Bx} \in R^n} \sum_{i=1}^m w_i\left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2
 \end{equation}
-where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The counterpart of (\ref{eq:3.28}) for the problem (\ref{eq:3.30}) is given by
+where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The counterpart of (\ref{eq:3.27}) for the problem (\ref{eq:3.30}) is given by
 \begin{eqnarray} \label{eq:3.31}
 \setcounter{abc}{1}
 \Min_{\By \in R^{n+1}} \|\BB_w\By - \Bg_w\| \\
@@ -564,8 +570,10 @@ where weights $w_i$ for $i=1,\ldots,m$ are fixed nonnegative constants. The coun
 \stepcounter{abc} \setcounter{equation}{31}
 y_{n+1}\geq 0
 \end{eqnarray}
-where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ and $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. On comparing (\ref{eq:3.31}) with (\ref{eq:3.28}), it follows immediately that the global solver for problem (\ref{eq:3.28}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be sued for solving problem (\ref{eq:3.31}) be used applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
-
+where $\Bg_w=\BGA\Bg$, $\BB_w=\BGA\BB$, $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$, and $\Bg$, $\BB$ are defined in (2.28).
+%, which will be referred to as the weighted SRD-LS (WSRD-LS) problem. 
+ On comparing (\ref{eq:3.31}) with (\ref{eq:3.27}), it follows immediately that the global solver for problem (\ref{eq:3.27}) characterized by data set $\{\BB, \Bg, \BC\}$ can also be suited for solving problem (\ref{eq:3.31}) be used applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
+ 
 Concerning the assignment of weights $\{w_i, i=1,\ldots,w_m\}$, we recall (\ref{eq:3.23}), (\ref{eq:3.24}) and observe that the $i$th term of the objective function in (\ref{eq:3.30}) can be written as
 \begin{equation} \label{w:srd}
 \nonumber
@@ -775,7 +783,7 @@ The simulation studies of Algorithm 2 considered $m = 11$ sensors $\{\Ba_i, i=1,
 %\end{equation}
 Step 4 of Algorithm 2 was carried out using the SRD-LS algorithm in \cite{BeckStLi}. Again, the IRWSRD-LS solutions offer considerable improvement over SRD-LS solutions. Further analysis of the data that was used to generate Table \ref{tab:3} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
 
-Each entry in Table \ref{tab:4} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:3} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:4} suggest that, again, IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures (\ref{fig:Noise04IRDW} - \ref{fig:Noise00IRDW}) describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. Here $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS, have smaller variance, and in most cases have fewer outliers with large error.
+Each entry in Table \ref{tab:4} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:3} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:4} suggest that, again, IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise04IRDW} to \ref{fig:Noise00IRDW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. Here $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSRD-LS are shifted closer towards $0$ than those obtained by SR-LS, have smaller variance, and in most cases solutions obtained by IRWSRD-LS have fewer outliers.
 
 
 
@@ -857,21 +865,21 @@ References \cite{LiHu,ShengHu} argue that the maximum likelihood estimation of t
 where 
 \begin{equation}
 \nonumber
-\BH = \left[ \begin{array}{c}
+\BH = \left( \begin{array}{c}
 \frac{g_1}{\sigma_1\|\Bx - \Ba_1 \|^2} \\
 \frac{g_2}{\sigma_2|\Bx - \Ba_2 \|^2} \\
 \vdots \\
 \frac{g_m}{\sigma_m|\Bx - \Ba_m \|^2} \\
 \end{array}
-\right] ,
+\right) , \;
 \nonumber
-\BZ = \left[ \begin{array}{c}
+\BZ = \left( \begin{array}{c}
 \frac{y_1 - \mu_1}{\sigma_1} \\
 \frac{y_2 - \mu_2}{\sigma_2} \\
 \vdots \\
 \frac{y_m - \mu_m}{\sigma_m} \\
 \end{array}
-\right] ,
+\right)
 \end{equation}
 and $\BZ$ are (estimated) normalized energy measurements for the case of the single radiating source. Important assumption about (\ref{eq:3.34}) is that $\mu_i$ and $\sigma_i$ are considered known. 
 
@@ -881,7 +889,7 @@ and $\BZ$ are (estimated) normalized energy measurements for the case of the sin
 There are two things to note about (\ref{eq:3.34}). First, (\ref{eq:3.34}) is a \textit{nonlinear} least square objective function because the vector $\BH$ is a nonlinear function of the $n$  unknown source coordinates, where $n$ is the dimention of the location coordinates. Second, although there are $m$ sensors reporting the acousting energy reading in fact there are $n + 1 \leq m$ unknowns, including the unknown acoustic energy $S$ radiated from the source. 
 To eliminate the unknown source energy $S$ \cite{ShengHu}  propose first to compute the ratio $k_{ij}$ of the calibrated energy readings from $i$th and $j$th sensor as
 \begin{equation} \label{eq:3.35}
-k_{ij} = \left[ \frac{z_i / g_i}{z_j / g_j} \right]^{-1/\alpha} = \frac{\|\Bx - \Ba_i\|}{\|\Bx - \Ba_j\|}
+k_{ij} = \left( \frac{z_i / g_i}{z_j / g_j} \right)^{-1/\alpha} = \frac{\|\Bx - \Ba_i\|}{\|\Bx - \Ba_j\|}
 \end{equation}
 for $i = 1, 2, \ldots, m-1$, and $j = i+1, \ldots, m$. For the case $0 < k_{ij} \neq 1$ all possible source coordinates $\Bx$ that form a solution to (\ref{eq:3.35}) reside on a $n$-dimensional hyper-sphere described by the equation:
 \begin{equation} \label{eq:3.36}
@@ -889,7 +897,8 @@ for $i = 1, 2, \ldots, m-1$, and $j = i+1, \ldots, m$. For the case $0 < k_{ij} 
 \end{equation}
 where the center $\Bc_{ij}$ and the radius $\rho_{ij}$ of the hyper-sphere associated with the sensors $i$ and $j$  are given by:
 \begin{equation} \label{eq:3.37}
-\Bc_{ij} = \frac{\Ba_i - k_{ij}^2\cdot\Ba_j}{1-k_{ij}^2}, \rho_{ij} = \frac{k_{ij}\|\Ba_i - \Ba_j\|}{1-k_{ij}^2}
+\Bc_{ij} = \frac{\Ba_i - k_{ij}^2\cdot\Ba_j}{1-k_{ij}^2}, \;
+ \rho_{ij} = \frac{k_{ij}\|\Ba_i - \Ba_j\|}{1-k_{ij}^2}
 \end{equation}
 For the case when $k_{ij} \rightarrow 1$ the possible source locations $\Bx$ reside on the hyperplane between sensors $\Ba_i$ and $\Ba_j$:
 \begin{equation}
@@ -914,14 +923,14 @@ For the brevity of notation the double indexes $ij$ were replaced by single inde
 where
 \begin{equation} \label{eq:3.40}
 \setcounter{abc}{0}
-\By = \left[ \begin{array}{c}
+\By = \left( \begin{array}{c}
  \Bx \\
  \|\Bx\|^2 
- \end{array}\right],
+ \end{array}\right), \;
 \BA=\left(\begin{array}{c}
     \BA_1 \\
     \BA_2
-    \end{array} \right),
+    \end{array} \right), \;
 \Bb=\left(\begin{array}{c}
     \Bb_1 \\
     \Bb_2
@@ -932,7 +941,7 @@ where
 \BD=\left(\begin{array}{cc}
     \BI\!_{n\times n} & \BO_{n\times 1} \\
     \BO_{1\times n} & 0
-    \end{array} \right),
+    \end{array} \right), \;
 \Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right)
 \end{equation}
 and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
@@ -943,7 +952,7 @@ and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
     -2\Bc_1^T & 1 \\
     \vdots  & \vdots \\
     -2\Ba_{L_1}^T & 1
-    \end{array} \right),
+    \end{array} \right), \;
 \Bb_1 = \left(\begin{array}{c}
     \rho_1^2-\|\Bc_1\|^2 \\
     \vdots \\
@@ -956,7 +965,7 @@ and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
     \gamma_1^T & 0 \\
     \vdots  & \vdots \\
     \gamma_{L_2}^T & 0
-    \end{array} \right),
+    \end{array} \right), \;
 \Bb_2 = \left(\begin{array}{c}
     \tau_1 \\
     \vdots \\
