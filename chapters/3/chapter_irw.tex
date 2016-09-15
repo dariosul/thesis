@@ -884,12 +884,13 @@ Let $m$ be a number of acoustic sensors involved. For consistency of notation, l
 r_i = g_i \frac{S}{\|\Bx - \Ba_i\|^\alpha} + \varepsilon_i
 \end{equation}
 where $\|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and the source, and $g_i$ is a scaling factor that takes into account $i$th sensor gain. It is asssumed that the gain of individual sensors is either known, i.e. obtained at the sensor callibration stage, or is same for all sensors. In (\ref{eq:3.33}) $S$ is the unknown acoustic energy measured 1 unit distance away from the source, $\alpha$ is the energy decay factor %(pathloss exponent) 
-and is usually assumed to have a value 2 \cite{LiHu}, and $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$. Based on the central limit theorem, it can be approximated well as a normal distribution%/ It is assumed to be a wide-sense stationary Gaussian random process \cite{LiuHuPan} / 
-, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$ with a positive mean value $\mu_i$ that is no less than the standard deviation $\sigma_i$ that can be estimated empirically from data samples \cite{LiHu}. More details on derivation and assumptions of this model can be found in %For justification and validity of this energy attenuation model, please see 
-\cite{LiHu}\cite{Saric}, \cite{LiuHuPan} and its references. %\cite{ShengHu},
+and is usually assumed to have a value 2 \cite{LiHu}, and $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$. If the number of sample points $M$ used for estimating the acoustic energy  is large, the error $\varepsilon_i$ can be approximated well as a normal distribution with positive mean $\mu_i$ and variance $\sigma_i^2$ %/ It is assumed to be a wide-sense stationary Gaussian random process \cite{LiuHuPan} / 
+%, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$ with a positive mean value $\mu_i$ that is no less than the standard deviation $\sigma_i$ that can be estimated empirically from data samples 
+\cite{LiHu}, \cite{ShengHu}. More details on derivation and assumptions of this model can be found in %For justification and validity of this energy attenuation model, please see 
+\cite{LiHu} - \cite{Saric}, \cite{LiuHuPan} and the references therein. %\cite{ShengHu},
 
 
-References \cite{LiHu,ShengHu} argue that the maximum likelihood estimation of the vector of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained my minimizing the quadratic form
+References \cite{LiHu,ShengHu} argue that the maximum likelihood estimation of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained by solving the minimization problem
 \begin{equation} \label{eq:3.34}
 \Min_\theta \quad \ell(\Btheta) = \|\BZ - S\BH\|
 \end{equation}
@@ -912,26 +913,25 @@ where
 \end{array}
 \right)
 \end{equation}
-and $\BZ$ are (estimated) normalized energy measurements for the case of the single radiating source. Important assumption about (\ref{eq:3.34}) is that $\mu_i$ and $\sigma_i$ are considered known. 
+and $\BZ$ are (estimated) normalized energy measurements for the case of the single radiating source. We remark that $\mu_i$ and $\sigma_i$ in (\ref{eq:3.34}) are assumed to be known. 
 
 
 \subsection{Reformulation}
 
-There are two things to note about (\ref{eq:3.34}). First, (\ref{eq:3.34}) is a \textit{nonlinear} least square objective function because the vector $\BH$ is a nonlinear function of the $n$  unknown source coordinates, where $n$ is the dimention of the location coordinates. Second, although there are $m$ sensors reporting the acousting energy reading in fact there are $n + 1 \leq m$ unknowns, including the unknown acoustic energy $S$ radiated from the source. 
-To eliminate the unknown source energy $S$ \cite{ShengHu}  propose first to compute the ratio $k_{ij}$ of the calibrated energy readings from $i$th and $j$th sensor as
+There are two things to note about (\ref{eq:3.34}). First, (\ref{eq:3.34}) involves a \textit{nonlinear} least square objective function because the vector $\BH$ is a nonlinear function of the $n$  unknown source coordinates, where $n$ is the dimention of the location coordinates. Second, there are $m$ sensors reporting the acousting readings and there are a total of $n + 1$ unknowns with  $n + 1 \leq m$, including the unknown acoustic energy $S$ radiated from the source. To eliminate the unknown source energy $S$ from formultion, reference \cite{ShengHu}  propose first to compute the ratio $k_{ij}$ of the calibrated energy readings from $i$th and $j$th sensor as
 \begin{equation} \label{eq:3.35}
 k_{ij} = \left( \frac{z_i / g_i}{z_j / g_j} \right)^{-1/\alpha} = \frac{\|\Bx - \Ba_i\|}{\|\Bx - \Ba_j\|}
 \end{equation}
-for $i = 1, 2, \ldots, m-1$, and $j = i+1, \ldots, m$. For the case $0 < k_{ij} \neq 1$ all possible source coordinates $\Bx$ that form a solution to (\ref{eq:3.35}) reside on a $n$-dimensional hyper-sphere described by the equation:
+for $i = 1, 2, \ldots, m-1$, and $j = i+1, \ldots, m$. For the case $0 < k_{ij} \neq 1$ all possible source coordinates $\Bx$ that form a solution to (\ref{eq:3.35}) reside on an $n$-dimensional hyper-sphere described by the equation:
 \begin{equation} \label{eq:3.36}
 \| \Bx - \Bc \|^2 = \rho_{ij}^2
 \end{equation}
-where the center $\Bc_{ij}$ and the radius $\rho_{ij}$ of the hyper-sphere associated with the sensors $i$ and $j$  are given by:
+where the center $\Bc_{ij}$ and the radius $\rho_{ij}$ of the hyper-sphere associated with the sensors $i$ and $j$  are given by
 \begin{equation} \label{eq:3.37}
 \Bc_{ij} = \frac{\Ba_i - k_{ij}^2\cdot\Ba_j}{1-k_{ij}^2}, \;
  \rho_{ij} = \frac{k_{ij}\|\Ba_i - \Ba_j\|}{1-k_{ij}^2}
 \end{equation}
-For the case when $k_{ij} \rightarrow 1$ the possible source locations $\Bx$ reside on the hyperplane between sensors $\Ba_i$ and $\Ba_j$:
+For the case when $k_{ij} \rightarrow 1$, the possible source locations $\Bx$ reside on the hyperplane between sensors $\Ba_i$ and $\Ba_j$, i.e.:
 \begin{equation}
 \nonumber
 \Bx^T \Bgamma_{ij} = \tau_{ij}
@@ -939,12 +939,12 @@ For the case when $k_{ij} \rightarrow 1$ the possible source locations $\Bx$ res
 where $\Bgamma_{ij} = \Ba_i - \Ba_j$ and $\tau_{ij} = (\|\Ba_i\|^2 - \|\Ba_j\|^2) / 2$. 
 
 Let $I_1$ and $I_2$ be two index sets such that $0 < k_{ij} \neq 1$ for all $\{i, j \} \in I_1$ and $k_{ij} = 1$ for all $\{i, j\} \in I_2$ with $1 \leq i \leq m-1, i+1 \leq j \leq m $   and $I_1 \cap I_2 = \emptyset$.
-Let $L_1$ and $L_2$ denote the number of elements in sets $I_1$ and $I_2$ respectively (number of hyperspheres and hyperplanes) and $L_1 + L_2 = m(m-1)/2$. Then the unknown location of the source can be found via minimization of the criterion that is equivalent to (\ref{eq:3.34}) \cite{ShengHu}:
+Let $L_1$ and $L_2$ denote the number of elements in sets $I_1$ and $I_2$ respectively (number of hyperspheres and hyperplanes) and $L_1 + L_2 = m(m-1)/2$. Then the unknown location of the source can be found via minimization of the following criterion which is equivalent to (\ref{eq:3.34}) \cite{ShengHu}
 \begin{equation} \label{eq:3.38}
 %\Min \sum_{i,j \in I_1}^{} \left(\ \|\Bx - \Bc_{ij}\|^2 - \rho_{ij}^2\right)^2 + \sum_{i,j \in I_2}^{} \left( \Bx^T \Bgamma_{ij}  - \tau_{ij}\right)^2
 \Min_{\Bx} \sum_{l_1 = 1}^{L_1} \left(\ \|\Bx - \Bc_{l_1}\|^2 - \rho_{l_1}^2\right)^2 + \sum_{l_2 = 1}^{L_2} \left( \Bx^T \Bgamma_{l_2}  - \tau_{l_2}\right)^2
 \end{equation}
-For the brevity of notation the double indexes $ij$ were replaced by single indexes $l_1$ and $l_2$.  After some simple manupilations and necessary variable changes, (\ref{eq:3.38}) can be converted to the constrained problem that is similar to (\ref{eq:3.10}):
+For the brevity of notation, the double indexes $ij$ were replaced by single indexes $l_1$ and $l_2$.  After some simple manupilations and necessary variable changes, (\ref{eq:3.38}) can be converted to the following constrained problem which is similar to (\ref{eq:3.10})
 \begin{eqnarray} \label{eq:3.39}
 \setcounter{abc}{1}
 \Min_{{\By} \in R^{n+1}} \|\BA\By-\Bb\|^2 \qquad\\
@@ -1003,4 +1003,4 @@ and submatrices of $\BA$ and elements of $\Bb$ are formed as follows:
     \tau_{L_2}
     \end{array} \right)
 \end{equation}
-The unconstrained problem in (\ref{eq:3.38}), due to mathematical analogy with (\ref{eq:3.9}), can be solved using Algorithm 1 developed in section 3.1.
+The unconstrained problem in (\ref{eq:3.38}), due to mathematical analogy with (\ref{eq:3.9}), can be solved using Algorithm 1 developed in Section 3.1.
