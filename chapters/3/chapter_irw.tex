@@ -390,9 +390,10 @@ $\sigma$ & SR - LS & IRWSR-LS (Im.,\%) & \textit{hybrid} IRWSR-LS (Im.,\%) \\ \h
 %%1e+0&	2.3752e+00&	1.5108e+00 (36)	& 1.5330e+00 (35)\\ %&&&&\\
 
 
-It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS.
+It is observed that IRWSR-LS solutions offer considerable improvement over SR-LS solutions, and, as expected, in most cases hybrid IRWSR-LS solutions provide further but only incremental improvement. This is not surprising because the IRWSR-LS solutions themselves are already fairly close to the solutions of problem (\ref{eq:3.2}). It should also be noted again that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$. One might argue that the SR-LS solution already provides a rather good approximation for R-LS in the sense that SR-LS and IRWSR-LS (hybrid IRWSR-LS) have the same order of magnitude of the mean squared error. However, further analysis of the data that was used to generate Table \ref{tab:1} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS. 
 
-Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} demonstrate again that IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise03IRW} to \ref{fig:Noise01IRW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all three noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Note that the histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance, and the solutions obtained by running IRWSR-LS have fewer outliers.
+
+Each entry in Table \ref{tab:2} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:1} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:2} demonstrate again that IRWSR-LS and hybrid IRWSR-LS outperform SR-LS. Figures \ref{fig:Noise03IRW} to \ref{fig:Noise01IRW} depict the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all three noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Note that the histograms that correspond to the results obtained by IRWSR-LS are shifted closer towards $0$ than those obtained by SR-LS and have smaller variance, and the solutions obtained by running IRWSR-LS have fewer outliers.
 
 
 \begin{table}[h]
@@ -410,8 +411,6 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 \end{tabular}
 \label{tab:2}
 \end{table}
-
-
 
 \begin{figure}%[t]
 \centering
@@ -791,7 +790,7 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 \label{tab:4}
 \end{table}
 
-Figures \ref{fig:Noise00IRDW} to \ref{fig:Noise04IRDW} describe the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSRD-LS are shifted closer towards $0$ than those obtained by SR-LS, have smaller variance, and in most cases solutions obtained by IRWSRD-LS have fewer outliers.
+Figures \ref{fig:Noise00IRDW} to \ref{fig:Noise04IRDW} represent the histograms of the location estimation errors $\|\Bx^* - \Bx_s\|$ of the SR-LS solution (left images) and IRWSR-LS (right images) for all four noise levels with $\sigma$ being one of $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$, where $\Bx^*$ denotes the estimated location and $\Bx_s$ is the exact location of the source. Histograms that correspond to the results obtained by IRWSRD-LS are shifted closer towards $0$ than those obtained by SR-LS, have smaller variance, and in most cases solutions obtained by IRWSRD-LS have fewer outliers.
 
 %\phantom{m}
 %1e-4		1.383015982829804e-08     8.227059183670454e-09     8.227059183670454e-09
@@ -811,9 +810,8 @@ Figures \ref{fig:Noise00IRDW} to \ref{fig:Noise04IRDW} describe the histograms o
 %\setlength{\floatsep}{3pt}
 %\setlength{\textfloatsep}{0.9\baselineskip plus 0.2\baselineskip minus 0.2\baselineskip}
 
-\newpage
 
-\begin{figure}[h]
+\begin{figure}
 \centering
   %\makebox[\textwidth][c]{
 \includegraphics[width=1\textwidth,height=0.4\textheight]{figures/range_dif_IRWLS/Noise00LeftBeckRightRD}%}
@@ -830,7 +828,7 @@ Figures \ref{fig:Noise00IRDW} to \ref{fig:Noise04IRDW} describe the histograms o
 
 %\newpage
 
-\begin{figure}[h]
+\begin{figure}
 \centering
  %\makebox[\textwidth][c]{
 \includegraphics[width=1\textwidth,height=0.42\textheight]{figures/range_dif_IRWLS/Noise02LeftBeckRightRD}%}
@@ -845,9 +843,9 @@ Figures \ref{fig:Noise00IRDW} to \ref{fig:Noise04IRDW} describe the histograms o
 \label{fig:Noise03IRDW}
 \end{figure}
 
-%\newpage
+\newpage
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \centering
  %\makebox[\textwidth][c]{
 \includegraphics[width=1\textwidth,height=0.42\textheight]{figures/range_dif_IRWLS/Noise04LeftBeckRightRD}%}
@@ -898,10 +896,10 @@ where
 \begin{equation}
 \nonumber
 \BH = \left( \begin{array}{c}
-\frac{g_1}{\sigma_1\|\Bx - \Ba_1 \|^2} \\
-\frac{g_2}{\sigma_2|\Bx - \Ba_2 \|^2} \\
+\frac{g_1}{\sigma_1\|\boldsymbol{x} - \boldsymbol{a}_1 \|^2} \\
+\frac{g_2}{\sigma_2\|\boldsymbol{x} - \boldsymbol{a}_2 \|^2} \\
 \vdots \\
-\frac{g_m}{\sigma_m|\Bx - \Ba_m \|^2} \\
+\frac{g_m}{\sigma_m\|\boldsymbol{x} - \boldsymbol{a}_m \|^2} \\
 \end{array}
 \right) , \;
 \nonumber
