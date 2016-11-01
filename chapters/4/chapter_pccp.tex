@@ -1,15 +1,35 @@
 \startchapter{Penalty Convex-Concave Procedure for Source Localization Problem}
 \label{chapter:pccp}
 
-%Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
-%% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
-%%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
-%A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
-%%One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
-%%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
 
 
 This chapter is focused on the least squares formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points for the algorithm. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
+
+\section{Notes TODO}
+
+Min number of iterations: 3 - proof?
+
+stop when $\vartriangle F_{objective funstion}$ is increasing?
+
+set Max number of iterations?
+
+study the geometry of not-so-well results
+
+add cases with 5 - 15 sensors
+
+use SMACOF paper as an example of the divergence proof
+
+\phantom{m}
+
+%\section{Source Localization From Range Measurements}%II
+\section{Problem Statement and Review of Related Work}%2.1
+
+Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
+% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
+%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
+A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
+%One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
+%%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
 
 % However, the solution provided by these algorithms is less accurate than than those produced by ML approaches, \textit{`'because they are suboptimal in the ML sence.''}
 %In this  paper we minimize the $l_2$ norm of residual errors and present it as a differece of convex functions programming (DCP). 
@@ -31,8 +51,6 @@ This chapter is focused on the least squares formulation for the problem of loca
 
 %[ASSP10] ``An approximate solution to the maximum likelihood location estimation problem is proposed, by redefining the problem in the complex plane and relaxing the minimization problem into semidefinite programming form. ... Our relaxation for source localization in the complex plane (SLCP) is motivated by the near-convexity of the objective function and constraints in the complex formulation of the original (non-relaxed) problem.''
 
-%\section{Source Localization From Range Measurements}%II
-\section{Problem Statement and Review of Related Work}%2.1
 
 same:
 \emph{The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains  $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
@@ -350,6 +368,8 @@ A technical problem making the formulation in (15) difficult to implement is tha
 
 \noindent
 where the weight  $\tau_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\tau_{max}$. By using a monotonically increasing  $\tau_k$ for the penalty term in (16a), the algorithm reduces the slack variables $s_i$  and $\hat{s}_i$  very quickly. As a result, new iterates quickly become feasible as    $s_i$  and $\hat{s}_i$    vanish. The upper limit $\tau_{max}$  is imposed to avoid numerical difficulties that may occur if $\tau_k$  becomes too large and to ensure convergence if a feasible region is not found [9]. Consequently, while formulation (16) accepts \textit{infeasible} initial points, the iterates obtained by solving (16) are practically identical to those obtained by solving (15).
+
+\textit{\cite{LBoyd} PCCP is not descent algorithm, but it will converge. }
 %To keep the set of violated constraints small so that a lower value of the objective can be achieved we put a low penalty on the sum of violations which is  equivalent to using the $l_1$ - norm that is known to induce sparsity.
 %
 %\begin{equation} %\label{eq:4.5}%eq6
