@@ -2,32 +2,45 @@
 \label{chapter:pccp}
 
 
+%\section{Notes TODO}
+%
+%Min number of iterations: 3 - proof?
+%
+%stop when $\vartriangle F_{objective funstion}$ is increasing?
+%
+%set Max number of iterations?
+%
+%study the geometry of not-so-well results
+%
+%add cases with 5 - 15 sensors
+%
+%use SMACOF paper as an example of the divergence proof
+%
+%\phantom{m}
 
-This chapter is focused on the least squares formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points for the algorithm. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
-\section{Notes TODO}
+This chapter is focused on the least squares (LS) formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points.% for the algorithm. 
+Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
-Min number of iterations: 3 - proof?
-
-stop when $\vartriangle F_{objective funstion}$ is increasing?
-
-set Max number of iterations?
-
-study the geometry of not-so-well results
-
-add cases with 5 - 15 sensors
-
-use SMACOF paper as an example of the divergence proof
-
-\phantom{m}
 
 %\section{Source Localization From Range Measurements}%II
 \section{Problem Statement and Review of Related Work}%2.1
 
-Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
-% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
-%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
-A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
+Non-linear least squares (from that review paper) provide an accurate solution / generally perform well \textit{cite GhStr}. However, as discussed in Chapter 2, these problems are problematic to solve globally. Various ( a large amount of) relaxation and approximation methods were developed. SDP and  SR-LS reviewed in the previous chapter, MDS (\textit{cite}) and ....
+Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
+
+
+cited:
+In this chapter, we focus on the LS formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner.
+
+%%%%%%%%% comment start
+%Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
+%% In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere. 
+%%, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, we are interested in \textit{global} localization techniques that are either non-iterative or insensitive to initial iterate. 
+%A global solution may be obtained by relaxing the LS model at hand to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. In doing so, however, the convexification based solution is no longer optimal in LS sense. Another representative in this class is the method proposed in \cite{BeckStLi}, where localization problems for  range measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) problems. Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sense because the solutions produced are merely approximations of the ML estimate.
+
+%%%%%%%%% comment end
+
 %One representative in the class of global localization methods is the convex-relaxation based algorithm proposed in \cite{Cheung}, where the LS model is relaxed to a semidefinite programming (SDP) problem which is known to be convex \cite{VBoyd}. 
 %%\textit{``However, as discussed in [3], the optimal solution of this relaxed SDP does not always satisfy the near-rank-1 constraints of acceptable solutions to the source localization problem.''} 
 
@@ -59,20 +72,23 @@ same:
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
 \end{equation}    
 where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. }
+
 \textbf{In the rest of this section: shorten the review of the problem. add more lit review on methods}
 For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
 \begin{equation}\label{eq:4.2} %eq 2
 \Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \end{equation}
 
-Formulation (\ref{eq:4.2}) is connected to the maximum-likelihood (ML) location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. If $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, then the maximum likelihood (ML) location estimator in this case is known to be
-\begin{equation} \label{eq:4.3}%eq 3
-\Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
-\end{equation}
-where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with $g_i = \|{\Bx} - {\Ba}_i\|$. It follows immediately that the ML solution in (\ref{eq:4.3}) is identical to the R-LS solution of problem (\ref{eq:4.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2 = 1$. In the literature this is known as the equal noise power case. For notation simplicity this paper focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:4.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
+%%%%%%%%% comment start
+%Formulation (\ref{eq:4.2}) is connected to the maximum-likelihood (ML) location estimation that determines $\Bx$ by examining the probabilistic model of the error vector $\Beps$. If $\Beps$ obeys a Gaussian distribution with zero mean and covariance $\symb{\Sigma} = \mbox{diag}(\sigma_1^2, \ldots, \sigma_m^2)$, then the maximum likelihood (ML) location estimator in this case is known to be
+%\begin{equation} \label{eq:4.3}%eq 3
+%\Bx_{ML} = \mbox{arg}\!\min_{{\Bx} \in R^n} (\Br - \Bg)^T\Sigma^{-1}(\Br - \Bg)
+%\end{equation}
+%where $\Bg = [g_1 \ g_2 \ldots \ g_m]^T$ with $g_i = \|{\Bx} - {\Ba}_i\|$. It follows immediately that the ML solution in (\ref{eq:4.3}) is identical to the R-LS solution of problem (\ref{eq:4.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2 = 1$. In the literature this is known as the equal noise power case. For notation simplicity this paper focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:4.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
+%
+% There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point, and give no guarantee to yield global solutions when applied to non-convex objective functions. Unfortunately, the objective function in (\ref{eq:4.2}) is highly non-convex, possessing many local minimizers even for small-scale systems. In this paper we present an different approach to solve the positioning problem, which employs a successive convex-concave procedure.
 
-
- There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point, and give no guarantee to yield global solutions when applied to non-convex objective functions. Unfortunately, the objective function in (\ref{eq:4.2}) is highly non-convex, possessing many local minimizers even for small-scale systems. In this paper we present an different approach to solve the positioning problem, which employs a successive convex-concave procedure.
+%%%%%%%%% comment end
 
 %Reference \cite{Cheung} addresses problem (\ref{eq:4.2}) by a convex relaxation technique where (\ref{eq:4.2}) is modified to a convex problem known as semidefinite programming \cite{VBoyd}. A rather different approach is proposed in \cite{BeckStLi} where the localization problem (\ref{eq:4.2}) is tackled by developing techniques to address the \textit{squared range based LS} (SR-LS) problem
 %\begin{equation} \label{eq:4.4}%eq 4
