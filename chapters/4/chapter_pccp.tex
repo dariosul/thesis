@@ -19,14 +19,26 @@
 %\phantom{m}
 
 
-This chapter is focused on the least squares (LS) formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points.% for the algorithm. 
+This chapter is focused on the least squares (LS) formulation for the problem of localizing a single radiating source based on range measurements.   We exploit special structure of the cost function of an unconstrained LS formulation and show that it is well suited for being investigated in a setting known as difference-of-convex-functions (DC) programming. Further, we present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points. We also provide algorithmic details that are tailored to the localization problem at hand, these include additional constraints that enforce the algorithm’s  iteration path towards the LS solution and strategies to secure good initial points. % for the algorithm. 
 Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
 
 %\section{Source Localization From Range Measurements}%II
 \section{Problem Statement and Review of Related Work}%2.1
 
-Non linear least squares \cite{Liu} (check ref) provide an accurate solution / generally perform well \textit{cite GhStr}. However, as discussed in Chapter 2, these problems are problematic to solve globally. Various ( a large amount of) relaxation and approximation methods were developed. SDP and  SR-LS reviewed in the previous chapter, MDS (\textit{cite}) and ....
+Typically, loca
+In general, the range estimates can be based on different types of measurements, e.g. radio frequency (RF) , ultrasonic, sonic, light \cite{new book}. All ranging techniques approximate the distance between nodes, therefore error related to measurement accuracy, multi-path effects and non-line of sight is expected \cite{new book}
+
+
+ \cite{UWB}, e.g. received signal strength or, as the case with this chapter, time of arrival (TOA)
+
+
+
+Non linear least squares  (check ref) provide an accurate solution / generally perform well \textit{cite GhStr}. However, as discussed in Chapter 2, these problems are problematic to solve globally. Various ( a large amount of) relaxation and approximation methods were developed. SDP and  SR-LS were reviewed in the previous chapter.
+, MDS (\cite{classMDS},\cite{fastMDS}, \cite{dwMDS}) 
+
+
+and ....
 Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
 
 
