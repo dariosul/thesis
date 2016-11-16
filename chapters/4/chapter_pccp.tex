@@ -24,7 +24,7 @@ Numerical results are presented to demonstrate that the proposed algorithm offer
 
 
 %\section{Source Localization From Range Measurements}%II
-\section{Problem Statement and Review of Related Work}%2.1
+\section{Problem Statement and Review of Related\\ Work}%2.1
 
 
 Typically non-survey based localization techniques compute the location estimates through two steps: range/angle estimation and tri-lateration/angulation\cite{GeoLoc}. In general, the range estimates can be based on different types of measurements, e.g. received signal strength (RSS), %angle of arrival (AOA), time difference of arrival (TDOA) 
@@ -45,29 +45,33 @@ Nonlinear least squares (NLLS) estimate refers to the solution of the problem
 \end{equation}
 If ranging errors $\varepsilon_i$ are i.i.d. variables that follow Gaussian distribution with zero mean and covariance matrix proportional to the identity matrix, then NLLS estimate becomes identical to the maximum likelihood estimate. 
 
-\textit{
-Non linear least squares  \cite{UWB, GhStr}, (check ref) provide an accurate solution / generally perform well \cite{UWB, GhStr}. and .... NLLS has often been used as a benchmark to compare more novel algorithms \cite{UWB, BeckStLi, more-more}....
-Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
-}
-
-% The reader is referred to Chapter 5, Sec. 5.1 for definition of TV p (U).
-% In Chapter 5, it is demonstrated that the s
-
-In Chapter 2, Sec.2.1, it is demonstrated that these problems are problematic to solve globally. A large amount of relaxation and approximation methods were developed that offer either lower computational complexity, robustness againt positive bias in the distance estimates due to non line-of-site situations, or better performance 
-
-Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in Chapter 2, Sec.2.1. Another 
-The SDP and squared-range approaches were disscussed in detail in Chapter 2, Sec. 2.1.  were reviewed in the previous chapter.
+%re-phrase the below
+%\textit{
+%Non linear least squares  \cite{UWB, GhStr}, (check ref) provide an accurate solution / generally perform well \cite{UWB, GhStr}. and .... NLLS has often been used as a benchmark to compare more novel algorithms \cite{UWB, BeckStLi, more-more}....
+%Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
+%}
 
 
-, MDS \cite{classMDS, fastMDS, dwMDS}
+In Chapter 2, Sec.2.1, it is demonstrated that these problems are hard to solve globally. A large amount of relaxation and approximation methods were developed that offer either lower computational complexity, robustness againt positive bias in the distance estimates due to non line-of-site situations, or better performance compared to standard unconstrain optimization methods applied to the NLLS problem. Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in Chapter 2, Sec.2.1. Another localization approach that received considerable interest is applying classical multidimentional scaling (MDS) algorithm or its modifications to the problem at hand \cite{classMDS, fastMDS, dwMDS}. 
 
-Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. 
+%\textbf{
+%Multidimensional scaling (MDS) algorithm is an attractive technique for analysing experimental data in psychology, geography and molecular biology and is also used to determine the relative coordinates of points given only their pairwise distances.
+Multidimensional scaling  is a field of study concerned with the search for a low-dimensional space, in which points  represent the objects of interest, such that the pairwise distances (or dissimilarities) between the points (objects) in such space match given values. MDS has been an attractive technique for analyzing experimental data in physical, biological, and behavioral science. Classical MDS is a subset of MDS where the relative coordinates of points  are determined given only their pairwise Euclidean distances \cite{classMDS}.
+%By the same principle, it is expected that the MS location can be determined if the distances among the MS and BSs are provided.
+%
+%Classical MDS was first introduced in the discipline of psychology and its basic idea is to assume that the dissimilarities between objects are distances and then find coordinates that explain them.
+%
+%MDS provides fast and globally convergence solution
+%}
+When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix
+ 
+The main assumption of this method is that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance.
+
+Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS.  %The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
 
 
-
-
-In this chapter, we focus on the least  formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
+Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. In this chapter, we focus on the least  formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
 
 %%%%%%%%% comment start
 %Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 

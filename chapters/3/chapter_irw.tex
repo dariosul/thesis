@@ -10,7 +10,7 @@ This chapter presents improved least squares methods that demonstrate improved l
 
 
 
-\section{Source Localization Using Range Measurements}%II
+\section{Source Localization Using Range \\ Measurements}%II
 \subsection{Problem Statement}%2.1
 
 
@@ -61,6 +61,8 @@ g_i = \|{\Bx} - {\Ba}_i\|
 It follows immediately that the ML solution in (\ref{eq:3.3}) is identical to the R-LS solution of problem (\ref{eq:3.2}) when covariance $\symb{\Sigma}$ is proportional to the identity matrix, i.e., $\sigma_1^2=\ldots =\sigma_m^2$. In the literature this is known as the equal noise power case. For notation simplicity the method described in this chapter focuses on the equal noise power case, however the method developed below is also applicable to the unequal noise power case by working on a weighted version of the objective in  (\ref{eq:3.2})  with $\{\sigma_i^{-2}, i = 1, \ldots, m\}$ as the weights.
 
 Although many methods for unconstrained optimization are available \cite{AntonLu}, most of them are \textit{local} methods in the sense they are sensitive to the choice of initial point where the iteration of an optimization algorithm begins. Especially when applied to a nonconvex objective function which possesses a number of local minimizers, unless a chosen local method starts at an initial point that happens to be sufficiently close to the (unknown) global minimizer, the solution obtained by the method gives no guaranty about global minimality. Unfortunately, the objective in (\ref{eq:3.2}) is highly nonconvex, possessing many local minimizers even for small-scale systems. As an example, consider an instance of the source localization problem on the plane $n = 2$ with five sensors $ m = 5$ located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:ExampleOfRLSNonconvexity} depicts a contour plot of the R-LS objective function in (\ref{eq:3.2}) over the region $\Re = \{\Bx: -6 \leq x_1 \leq 13, -10 \leq x_2 \leq 9 \}$. It can be observed from the plot that there are two minimizers at $\tilde{\Bx} = (-1.9907, 3.0474)^T$ and $\widehat{\Bx} = (11.1152, -2.6785)^T$ with values of the objective  $f(\tilde{\Bx}) = 0.1048 $ and $f(\widehat{\Bx}) = 15.0083$ respectively. As expected, the global minimizer of R-LS objective offers a good approximation of the exact source location $\Bx_s$, but is unlikely to be precisely at point $\Bx_s$ because the objective $f(\Bx)$ is defined using noisy range measurements. Note that for the exact source location $\Bx_s$ we have $f(\Bx_s) = \sum_{i=1}^m \varepsilon_i^2$.
+
+\phantom{m}
 
 \begin{figure*}[t]
 \centering
@@ -444,7 +446,7 @@ $\sigma$ & SR - LS & IRWSR-LS & \textit{hybrid} IRWSR-LS \\ \hline
 
 \newpage
 
-\section{Source Localization Using Range-Difference Measurements}%3
+\section{Source Localization Using Range-Difference\\ Measurements}%3
 \subsection{Problem Formulation} %3.1
 
 Another type of source localization problem that has attracted considerable attention is that of localizing a radiating source using range-difference measurements \cite{ StLi, BeckStLi}. In practice, range-difference measurements may be obtained from the time differences of arrival measured by an array of passive sensors. Time difference of arrival (TDOA) is a time-based positioning method based on the idea that the location of an active mobile unit (source of the signal)  can be determined by examining the difference in time at which the signal arrives at multiple reference points. 
@@ -875,7 +877,7 @@ Energy-based source localization, advocated in \cite{LiHu}, \cite{Saric}, is mot
 
 %\subsection{Acoustic Energy Attenuation Model} %and Parameter Estimator}
 
-\subsection{Acoustic Energy Attenuation Model and Problem Statement}
+\subsection{Acoustic Energy Attenuation Model and Problem \\Statement}
 
 Let $m$ be a number of acoustic sensors involved. For consistency of notation, let $\Ba_i$ denote the known location of the sensor $i$ in space $R^n$ with $n = 2$ or $3$. Each sensor measures the acoustic intensity radiated by a source $\Bx\in R^n$ over a time period $T = \frac{M}{f_s}$, where $M$ is the number of sample points used for estimating the acoustic enery and $f_s$ is the sampling frequency. % (\textbf{OR} Received signal is an acoustic pulse $M$-samples wide.)
  Acoustic energy received by sensor $i$ over a time period $T$ can be represented as
