@@ -30,30 +30,44 @@ Numerical results are presented to demonstrate that the proposed algorithm offer
 Typically non-survey based localization techniques compute the location estimates through two steps: range/angle estimation and tri-lateration/angulation\cite{GeoLoc}. In general, the range estimates can be based on different types of measurements, e.g. received signal strength (RSS), %angle of arrival (AOA), time difference of arrival (TDOA) 
 or time of arrival (TOA). %radio frequency (RF) , ultrasonic, sonic, light \cite{new book}. 
 This chapter will focus on the  problem of range-based localization given the TOA information. In the TOA method, the one-way propagation time of the signal traveling between radiating source and the sensor node is measured. Each TOA measurement then provides a circle centered at the sensor node on which the source of the signal must lie. With three or more sensor nodes the measurements are converted into a set of circular equations that, with knowledge of the geometry of the sensor network, allow to determine the unknown source position \cite{GeoLoc}. The accuracy of the positioning depends on the quality of the range measurements, network geometry, and the performace of the localization algorithm. In real-world situations, multipath and non line-of-sight (NLOS) propagation are two major sources of error, which can introduce large biases in the TOA measurements and result in unreliable position esitmation \cite{classMDS}. In fact, mitigation of the impairments due to multipath and/or NLOS is another key
-research topic in wireless location and recent works in this area have reported some promising results \cite{DarWin}. Ultra-wideband (UWB) technology has the potential to deliver very accurate range measurements, thus enabling accurate positioning \cite{UWB, Rydstrom}. As a result, we assume that the multipath and NLOS errors in the TOA measurements have been successfully mitigated.  
+research topic in wireless location and recent works in this area have reported some promising results \cite{DarWinUWB}. Ultra-wideband (UWB) technology has the potential to deliver very accurate range measurements, thus enabling accurate positioning \cite{UWB, DarWinUWB, RydstromUWB}. As a result, we assume that the multipath and NLOS errors in the TOA measurements have been successfully mitigated.  
 
-The source localization problem considered here involves a given array of $m$ sensors specified by $\{\Ba_1,\ldots, \Ba_m\}$ where $\Ba_i\in R^n$  contains  $n$ coordinates of the $i$th sensor in space $R^n$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+The source localization problem discussed in this chapter involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
 \begin{equation} \label{eq:4.1}
 \setcounter{equation}{1}
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
 \end{equation}    
-where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from the noisy range measurements $\Br$. 
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from noisy range measurements $\Br$. 
 
-\textbf{In the rest of this section: shorten the review of the problem. add more lit review on methods}
-For the localization problem at hand, the range-based least squares (R-LS) estimate refers to the solution of the problem
+Nonlinear least squares (NLLS) estimate refers to the solution of the problem
 \begin{equation}\label{eq:4.2} %eq 2
 \Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \end{equation}
+If ranging errors $\varepsilon_i$ are i.i.d. variables that follow Gaussian distribution with zero mean and covariance matrix proportional to the identity matrix, then NLLS estimate becomes identical to the maximum likelihood estimate. 
 
-Non linear least squares  \cite{UWB}, (check ref) provide an accurate solution / generally perform well \textit{cite GhStr}. However, as discussed in Chapter 2, these problems are problematic to solve globally. Various ( a large amount of) relaxation and approximation methods were developed. SDP and  SR-LS were reviewed in the previous chapter.
+\textit{
+Non linear least squares  \cite{UWB, GhStr}, (check ref) provide an accurate solution / generally perform well \cite{UWB, GhStr}. and .... NLLS has often been used as a benchmark to compare more novel algorithms \cite{UWB, BeckStLi, more-more}....
+Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
+}
+
+% The reader is referred to Chapter 5, Sec. 5.1 for definition of TV p (U).
+% In Chapter 5, it is demonstrated that the s
+
+In Chapter 2, Sec.2.1, it is demonstrated that these problems are problematic to solve globally. A large amount of relaxation and approximation methods were developed that offer either lower computational complexity, robustness againt positive bias in the distance estimates due to non line-of-site situations, or better performance 
+
+Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in Chapter 2, Sec.2.1. Another 
+The SDP and squared-range approaches were disscussed in detail in Chapter 2, Sec. 2.1.  were reviewed in the previous chapter.
+
+
 , MDS \cite{classMDS, fastMDS, dwMDS}
 
-
-and ....
-Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. Moreover, in some cases ( mention that review paper from 2010) the PDF may not be available. In some literature the NLLS \textit{cite GhStr} was mentioned to perform well for range measurements if it the solution converged to the global minimum.
+Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. 
 
 
-In this chapter, we focus on the LS formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
+
+
+
+In this chapter, we focus on the least  formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
 
 %%%%%%%%% comment start
 %Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
@@ -393,7 +407,7 @@ A technical problem making the formulation in (15) difficult to implement is tha
 \noindent
 where the weight  $\tau_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\tau_{max}$. By using a monotonically increasing  $\tau_k$ for the penalty term in (16a), the algorithm reduces the slack variables $s_i$  and $\hat{s}_i$  very quickly. As a result, new iterates quickly become feasible as    $s_i$  and $\hat{s}_i$    vanish. The upper limit $\tau_{max}$  is imposed to avoid numerical difficulties that may occur if $\tau_k$  becomes too large and to ensure convergence if a feasible region is not found [9]. Consequently, while formulation (16) accepts \textit{infeasible} initial points, the iterates obtained by solving (16) are practically identical to those obtained by solving (15).
 
-\textit{\cite{LBoyd} PCCP is not descent algorithm, but it will converge. }
+\textit{\cite{LBoyd} \cite{CCPConv} PCCP is not descent algorithm, but it will converge. }
 %To keep the set of violated constraints small so that a lower value of the objective can be achieved we put a low penalty on the sum of violations which is  equivalent to using the $l_1$ - norm that is known to induce sparsity.
 %
 %\begin{equation} %\label{eq:4.5}%eq6
