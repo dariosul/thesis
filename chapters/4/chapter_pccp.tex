@@ -43,7 +43,7 @@ Nonlinear least squares (NLLS) estimate refers to the solution of the problem
 \begin{equation}\label{eq:4.2} %eq 2
 \Min_{\Bx} \quad F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2
 \end{equation}
-If ranging errors $\varepsilon_i$ are i.i.d. variables that follow Gaussian distribution with zero mean and covariance matrix proportional to the identity matrix, then NLLS estimate becomes identical to the maximum likelihood estimate. 
+If ranging errors $\varepsilon_i$ are i.i.d. variables that follow Gaussian distribution with zero mean and covariance matrix proportional to the identity matrix, then NLLS estimate becomes identical to the maximum likelihood estimate. NLLS formulation is also geometrically meaningful and has been often used as a benchmark to compare new algorithms \cite{BeckStLi,UWB}. 
 
 %re-phrase the below
 %\textit{
@@ -63,11 +63,10 @@ Multidimensional scaling  is a field of study concerned with the search for a lo
 %
 %MDS provides fast and globally convergence solution
 %}
-When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix. 
 
 %The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
-Let $\BX$ denote  an $m$ by $n$ distance matrix 
+When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix. Let $\BX$ denote  an $m$ x $n$ distance matrix 
 \begin{equation}
 \nonumber
 \BX = \left( \begin{array}{c}
@@ -78,18 +77,17 @@ Let $\BX$ denote  an $m$ by $n$ distance matrix
 \end{array}
 \right)
 \end{equation}
-The multidimentional similarity matrix is then defined by $\BQ = \BX\BX^T$ which can also be expressed in terms of pairwise distances between sensor nodes and error-free range measurements. Since the exact distances between the sourse $\Bx$ and sensors are not available, the noisy range measurements $r_i$ are used to construct an approximate version of $\BD$, denoted $\hat{\BD}$ as
+The multidimentional similarity matrix is then defined by $\BD = \BX\BX^T$ which can also be expressed in terms of pairwise distances between sensor nodes and error-free range measurements. Since the exact distances between the sourse $\Bx$ and sensors are not available, the noisy range measurements $r_i$ are used to construct an approximate version of $\BD$, denoted $\hat{\BD}$ as
 \begin{equation}
 \nonumber
-\hat{\BD} = \, \frac{1}{2} \left( \begin{array}{cccc}
-2r_1^2 & r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & \ldots & r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 \\
-r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & 2 r_2^2 & \ldots & r_2^2 + r_m^2 - \|\Ba_2 - \Ba_m\|^2 \\
+\hat{\BD}\!=\!\frac{1}{2}\!\left(\!\!\begin{array}{cccc}
+2r_1^2 & r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & \ldots & r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2\\
+r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & 2 r_2^2 & \ldots & r_2^2 + r_m^2 - \|\Ba_2 - \Ba_m\|^2\\
 \vdots & \vdots & \ddots & \vdots \\
-r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & r_2^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & \ldots & 2r_m^2\\
-\end{array}
-\right)
+r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & r_2^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & \ldots & 2r_m^2\end{array}\!\right)
 \end{equation}
-Since $\hat{\BD}$ is symmetric and positive semi-definite, it can be decomposed  using eigenvalue factorization
+%Since $\hat{\BD}$ is symmetric and positive semi-definite, it can be decomposed  using eigenvalue factorization
+Decomposing the symmetric $\hat{\BD}$ using eigenvalue factorization
 \begin{equation}
 \nonumber
 \hat{\BD} = \BU\BLA\BU^T
@@ -99,23 +97,20 @@ where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ i
 \nonumber
 \BX_r = \mbox{arg}\min_{\tilde{\BX}} \|\hat{\BD} - \tilde{\BX}\tilde{\BX}^T\|^2_{F} = \BU_s\BLA_s^{(1/2)}
 \end{equation}
-where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the Frobenius norm, $\BU_s = \left[\Bu_1 \Bu_2\right]$ corresponds to the signal subspase, and $\BLA^{(1/2)} = \mbox{diag}(\lambda_1^{(1/2)}, \lambda_2^{(1/2})$. In practical situations of nonzero range errors, the relationship between  $\BX_r$ and $\BX$ is then 
+where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the Frobenius norm, $\BU_s = \left[\Bu_1 \ \ \Bu_2\right]$ corresponds to the signal subspase, and $\BLA^{(1/2)} = \mbox{diag}(\lambda_1^{(1/2)}, \lambda_2^{(1/2})$. In practical situations of nonzero range errors, the relationship between  $\BX_r$ and $\BX$ is then 
 \begin{equation}
 \nonumber
 \BX  \approx \BX_r\BOmega
 \end{equation} 
-where $\BOmega$ is an unknown rotation matrix to be determined. The estimate of the unknown rotation matrix $\BOmega$ and source location $\Bx$ can be obtained by solving an overdetermined system of linear equations \cite{classMDS}.
+where $\BOmega$ is an unknown rotation matrix to be determined. The estimate of the unknown rotation matrix $\BOmega$ and source location $\Bx$ can be obtained by solving an overdetermined system of linear equations \cite{classMDS}. In the absence of noise the symmetric $\hat{\BD}$ is identical to $\BD$, is positive semi-definite, and has a rank of 2. In the practical situations of nonzero range errors, $\hat{\BD}$ will have a full rank. 
 
-So and Chan \cite{genMDS} propose to perform the position estimation in the noise subspace. 
+Other methods based on MDS include a generalized subspace approach by So and Chan \cite{genMDS}, that performs  position estimation based on the noise subspace. A subspase-based weighting Lagrangian multiplier estimator \cite{fastMDS} reduces computational complexity by avoiding the process of eigendecomposition or inverse computation, but it requires some a priori knowledge about noise statistic to construct the weighting matrix. On the other hand, the distributed weighted-multidimentional scaling (DW-MDS) \cite{dwMDS} adds a penalty term to the standard MDS objective function which accounts for prior knowledge about node locations. \textit{Although these methods are efficient in terms of complexity, they can show poor performance in certain sensor deployments \cite{UWB}.}%they remain to be suboptimal in the maximum likelihood (ML) sence.
 
-\textit{In the practical situations of nonzero range errors, will not be of rank 2 but has full rank.
-It is assumed that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. }
-
+%\textit{It is assumed that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. }
 %Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS. The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
-
-
-Although these methods are efficient in terms of complexity, they remain to be suboptimal in the maximum likelihood (ML) sence. In this chapter, we focus on the least  formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
+ 
+In this chapter, we focus on the least squares formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
 
 %%%%%%%%% comment start
 %Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
@@ -168,33 +163,33 @@ Although these methods are efficient in terms of complexity, they remain to be s
 %
 %(in this work...)
 
-\textit{Advantages of convex-concave procedure from cite{LBoyd}}
+
 
 \section{Fitting the Localization Problem to the CCP Framework}% or Penalty CCCP}
 
 \subsection{Basic Convex-Concave Procedure}
 
-\textbf{describe what a DC problem is }
+
 The CCP refers to an effective heuristic method to deal with a class of \textit{nonconvex} problems of  the form 
-\begin{eqnarray} \label{eq:4.5}%eq 5
+\begin{eqnarray} \label{eq:DC}%eq 5
 \setcounter{abc}{1}
  \Min_{\Bx} & {} & f(\Bx) - g(\Bx)  %\nonumber 
 \\ \mbox{subject to:} & {} & f_i(\Bx) \leq g_i(\Bx) \quad \mbox{for: }  i = 1, 2, \ldots, m
- \setcounter{equation}{4}
+ \setcounter{equation}{3}
  \stepcounter{abc}
 \end{eqnarray}
 where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. The basic CCP algorithm is an iterative procedure including two key steps (in the $k$-th iteration where iterate $\Bx_k$ is known):
 
 (i) Convexification of the objective function and constraints by replacing $g(\Bx)$ and $g_i(\Bx)$, respectively, with their affine approximations
 \begin{equation} %\label{eq:4.5}%eq 5
-\setcounter{equation}{5}
+\setcounter{equation}{4}
 \setcounter{abc}{1}
 \hat{g}(\Bx,\Bx_k)   =    g(\Bx_k) +  \bigtriangledown g(\Bx_k)^T(\Bx - \Bx_k)  %\nonumber
 \end{equation}
 and
 \begin{eqnarray}
 \begin{aligned} 
-\setcounter{equation}{5}
+\setcounter{equation}{4}
 \stepcounter{abc}
 \hat{g}_i(\Bx,\Bx_k)  =   g_i(\Bx_k) +  \bigtriangledown g_i(\Bx_k)^T(\Bx - \Bx_k)   & {} \\
 \hfill \  \mbox{for: }  i = 1, 2, \ldots, m &{}
@@ -202,18 +197,20 @@ and
 \end{eqnarray}
 
 (ii) Solving the convex problem
-\begin{eqnarray} %\label{eq:4.5}%eq6
-\setcounter{equation}{6}
+\begin{eqnarray} \label{eq:ii}%eq6
+\setcounter{equation}{5}
 \setcounter{abc}{1}
  \Min_{\Bx}  & &f(\Bx) - \hat{g}(\Bx, \Bx_k) 
 \\ \mbox{subject to:} & &f_i(\Bx) -  \hat{g}_i(\Bx, \Bx_k) \leq 0  
- \setcounter{equation}{6}  
+ \setcounter{equation}{5}  
  \stepcounter{abc} \\ 
 \quad & & \mbox{for: }  i = 1, 2, \ldots, m \nonumber
 \end{eqnarray}
 
-Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem (4) \cite{LBoyd}.
- The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (6b) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
+Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem (\ref{eq:DC}) \cite{LBoyd}. The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (\ref{eq:ii}) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
+ 
+ \textit{Advantages of convex-concave procedure from cite{LBoyd}}
+ \textit{\cite{LBoyd} \cite{CCPConv} \cite{CCPGlob} PCCP is not descent algorithm, but it will converge. Global convergence of CCP was }
 
 \subsection{Problem Reformulation}
 
@@ -455,7 +452,6 @@ A technical problem making the formulation in (15) difficult to implement is tha
 \noindent
 where the weight  $\tau_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\tau_{max}$. By using a monotonically increasing  $\tau_k$ for the penalty term in (16a), the algorithm reduces the slack variables $s_i$  and $\hat{s}_i$  very quickly. As a result, new iterates quickly become feasible as    $s_i$  and $\hat{s}_i$    vanish. The upper limit $\tau_{max}$  is imposed to avoid numerical difficulties that may occur if $\tau_k$  becomes too large and to ensure convergence if a feasible region is not found [9]. Consequently, while formulation (16) accepts \textit{infeasible} initial points, the iterates obtained by solving (16) are practically identical to those obtained by solving (15).
 
-\textit{\cite{LBoyd} \cite{CCPConv} PCCP is not descent algorithm, but it will converge. }
 %To keep the set of violated constraints small so that a lower value of the objective can be achieved we put a low penalty on the sum of violations which is  equivalent to using the $l_1$ - norm that is known to induce sparsity.
 %
 %\begin{equation} %\label{eq:4.5}%eq6
@@ -556,17 +552,21 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 \centering
 \caption{Averaged MSE for SR-LS and PCCP methods}
 \begin{tabular}{||c||c|c|c|c||} 
-%\hhline{|t:=====:t|} 
-%&&&& \\
+\hline  %{|t:=====:t|} 
+\hline 
+&&&& \\
 %& & & Relative\\  
-\textsc{\textbf{$\sigma$}} & \textsc{MLE} & \textsc{SR - LS}& \textsc{PCCP} &\textsc{R.I.} \\%elative improvement}\\ % \hhline
+\textsc{\textbf{$\sigma$}} & \textsc{MLE} & \textsc{SR - LS}& \textsc{PCCP} &\textsc{R.I.} \\%elative improvement}\\ 
+\hline
+\hline%{|:=====:|}
 &&&& \\ 
-%\hhline{|:=====:|}
 %&&&& \\ 
 {\fontsize{9}{10}\selectfont 1e-03}& {\fontsize{9}{10}\selectfont 6.0159e-01} & {\fontsize{9}{10}\selectfont1.3394e-06}   &	\textbf{{\fontsize{9}{10}\selectfont 9.5243e-07}}& {\fontsize{9}{10}\selectfont 29\%}	 \\ &&&&\\
 {\fontsize{9}{10}\selectfont1e-02}& {\fontsize{9}{10}\selectfont 3.5077e-01} & {\fontsize{9}{10}\selectfont1.4516e-04}     &	\textbf{{\fontsize{9}{10}\selectfont9.5831e-05}}& {\fontsize{9}{10}\selectfont34\%}	\\ &&&&\\
 {\fontsize{9}{10}\selectfont1e-01}& {\fontsize{9}{10}\selectfont3.7866e-01} & {\fontsize{9}{10}\selectfont1.2058e-02}     &	\textbf{{\fontsize{9}{10}\selectfont8.7107e-03}}& {\fontsize{9}{10}\selectfont28\%}	\\ &&&&\\
 {\fontsize{9}{10}\selectfont1e+0}& {\fontsize{9}{10}\selectfont1.4470e+00} & {\fontsize{9}{10}\selectfont1.3662e+00}      &	\textbf{{\fontsize{9}{10}\selectfont1.2346e+00}}& {\fontsize{9}{10}\selectfont10\%}	\\ &&&&\\
+\hline  
+\hline 
 %\hhline{|b:=====:b|} 
 \end{tabular}
 \label{tab:pccp}
