@@ -37,7 +37,7 @@ The source localization problem discussed in this chapter involves a given array
 \setcounter{equation}{1}
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
 \end{equation}    
-where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$, the source localization problem can be stated as to estimate the exact source location $\Bx$ from noisy range measurements $\Br$. 
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$.  The source localization problem can be stated as to estimate the exact source location $\Bx$ from noisy range measurements $\Br$. 
 
 Nonlinear least squares (NLLS) estimate refers to the solution of the problem
 \begin{equation}\label{eq:4.2} %eq 2
@@ -52,22 +52,66 @@ If ranging errors $\varepsilon_i$ are i.i.d. variables that follow Gaussian dist
 %}
 
 
-In Chapter 2, Sec.2.1, it is demonstrated that these problems are hard to solve globally. A large amount of relaxation and approximation methods were developed that offer either lower computational complexity, robustness againt positive bias in the distance estimates due to non line-of-site situations, or better performance compared to standard unconstrain optimization methods applied to the NLLS problem. Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in Chapter 2, Sec.2.1. Another localization approach that received considerable interest is applying classical multidimentional scaling (MDS) algorithm or its modifications to the problem at hand \cite{classMDS, fastMDS, dwMDS}. 
+In Chapter 2, Sec.2.1, it is demonstrated that these problems are hard to solve globally. A large amount of relaxation and approximation methods were developed that offer either lower computational complexity, robustness against positive bias in the distance estimates due to non line-of-site situations, or better performance compared to standard unconstrain optimization methods applied to the NLLS problem. Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in Chapter 2, Sec.2.1 and \cite{IRWSg}. Another localization approach that received considerable interest is applying classical multidimentional scaling (MDS) algorithm or its modifications to the problem at hand \cite{classMDS, fastMDS, dwMDS, genMDS}. 
 
 %\textbf{
 %Multidimensional scaling (MDS) algorithm is an attractive technique for analysing experimental data in psychology, geography and molecular biology and is also used to determine the relative coordinates of points given only their pairwise distances.
-Multidimensional scaling  is a field of study concerned with the search for a low-dimensional space, in which points  represent the objects of interest, such that the pairwise distances (or dissimilarities) between the points (objects) in such space match given values. MDS has been an attractive technique for analyzing experimental data in physical, biological, and behavioral science. Classical MDS is a subset of MDS where the relative coordinates of points  are determined given only their pairwise Euclidean distances \cite{classMDS}.
+Multidimensional scaling  is a field of study concerned with the search for a low-dimensional space, in which points  represent the objects of interest, such that the pairwise distances (or dissimilarities) between the points (objects) in such space match given values. MDS has been an attractive technique for analyzing experimental data in physical, biological, and behavioral science  \cite{classMDS}. Classical MDS is a subset of MDS where the relative coordinates of points  are determined given only their pairwise Euclidean distances.
 %By the same principle, it is expected that the MS location can be determined if the distances among the MS and BSs are provided.
 %
 %Classical MDS was first introduced in the discipline of psychology and its basic idea is to assume that the dissimilarities between objects are distances and then find coordinates that explain them.
 %
 %MDS provides fast and globally convergence solution
 %}
-When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix
- 
-The main assumption of this method is that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance.
+When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix. 
 
-Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS.  %The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
+%The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
+
+Let $\BX$ denote  an $m$ by $n$ distance matrix 
+\begin{equation}
+\nonumber
+\BX = \left( \begin{array}{c}
+(\Bx - \Ba_1)^T \\
+(\Bx - \Ba_2)^T \\
+\vdots \\
+(\Bx - \Ba_m)^T
+\end{array}
+\right)
+\end{equation}
+The multidimentional similarity matrix is then defined by $\BQ = \BX\BX^T$ which can also be expressed in terms of pairwise distances between sensor nodes and error-free range measurements. Since the exact distances between the sourse $\Bx$ and sensors are not available, the noisy range measurements $r_i$ are used to construct an approximate version of $\BD$, denoted $\hat{\BD}$ as
+\begin{equation}
+\nonumber
+\hat{\BD} = \, \frac{1}{2} \left( \begin{array}{cccc}
+2r_1^2 & r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & \ldots & r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 \\
+r_1^2 + r_2^2 - \|\Ba_1 - \Ba_2\|^2 & 2 r_2^2 & \ldots & r_2^2 + r_m^2 - \|\Ba_2 - \Ba_m\|^2 \\
+\vdots & \vdots & \ddots & \vdots \\
+r_1^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & r_2^2 + r_m^2 - \|\Ba_1 - \Ba_m\|^2 & \ldots & 2r_m^2\\
+\end{array}
+\right)
+\end{equation}
+Since $\hat{\BD}$ is symmetric and positive semi-definite, it can be decomposed  using eigenvalue factorization
+\begin{equation}
+\nonumber
+\hat{\BD} = \BU\BLA\BU^T
+\end{equation}
+where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ is the diagonal matrix of eigenvalues of $\hat{\BD}$ with $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m \geq 0$, and $\BU = \left[\Bu_1 \quad \Bu_2  \ldots \Bu_m \right]$ is an orthonormatl matrix whose columns are the corresponding eigenvectors. Since the rank of the ideal $\BD$ is 2, an LS estimate of $\BX$, denoted by $\BX_r$, can be computed up to an arbitrary rotation as \cite{classMDS}
+\begin{equation}
+\nonumber
+\BX_r = \mbox{arg}\min_{\tilde{\BX}} \|\hat{\BD} - \tilde{\BX}\tilde{\BX}^T\|^2_{F} = \BU_s\BLA_s^{(1/2)}
+\end{equation}
+where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the Frobenius norm, $\BU_s = \left[\Bu_1 \Bu_2\right]$ corresponds to the signal subspase, and $\BLA^{(1/2)} = \mbox{diag}(\lambda_1^{(1/2)}, \lambda_2^{(1/2})$. In practical situations of nonzero range errors, the relationship between  $\BX_r$ and $\BX$ is then 
+\begin{equation}
+\nonumber
+\BX  \approx \BX_r\BOmega
+\end{equation} 
+where $\BOmega$ is an unknown rotation matrix to be determined. The estimate of the unknown rotation matrix $\BOmega$ and source location $\Bx$ can be obtained by solving an overdetermined system of linear equations \cite{classMDS}.
+
+So and Chan \cite{genMDS} propose to perform the position estimation in the noise subspace. 
+
+\textit{In the practical situations of nonzero range errors, will not be of rank 2 but has full rank.
+It is assumed that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. }
+
+%Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS. The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
 
 
