@@ -92,7 +92,7 @@ Decomposing the symmetric $\hat{\BD}$ using eigenvalue factorization
 \nonumber
 \hat{\BD} = \BU\BLA\BU^T
 \end{equation}
-where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ is the diagonal matrix of eigenvalues of $\hat{\BD}$ with $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m \geq 0$, and $\BU = \left[\Bu_1 \quad \Bu_2  \ldots \Bu_m \right]$ is an orthonormatl matrix whose columns are the corresponding eigenvectors. Since the rank of the ideal $\BD$ is 2, an LS estimate of $\BX$, denoted by $\BX_r$, can be computed up to an arbitrary rotation as \cite{classMDS}
+where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ is the diagonal matrix of eigenvalues of $\hat{\BD}$ with $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m \geq 0$, and $\BU = \left[\Bu_1 \quad \Bu_2  \ldots \Bu_m \right]$ is an orthonormatl matrix whose columns are the corresponding eigenvectors. Since the rank of the ideal $\BD$ is 2, an LS estimate of $\BX$, denoted by $\BX_r$, can be computed up to an arbitrary rotation as a solution to the following problem  \cite{classMDS}
 \begin{equation}
 \nonumber
 \BX_r = \mbox{arg}\min_{\tilde{\BX}} \|\hat{\BD} - \tilde{\BX}\tilde{\BX}^T\|^2_{F} = \BU_s\BLA_s^{(1/2)}
@@ -104,7 +104,7 @@ where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the F
 \end{equation} 
 where $\BOmega$ is an unknown rotation matrix to be determined. The estimate of the unknown rotation matrix $\BOmega$ and source location $\Bx$ can be obtained by solving an overdetermined system of linear equations \cite{classMDS}. In the absence of noise the symmetric $\hat{\BD}$ is identical to $\BD$, is positive semi-definite, and has a rank of 2. In the practical situations of nonzero range errors, $\hat{\BD}$ will have a full rank. 
 
-Other methods based on MDS include a generalized subspace approach by So and Chan \cite{genMDS}, that performs  position estimation based on the noise subspace. A subspase-based weighting Lagrangian multiplier estimator \cite{fastMDS} reduces computational complexity by avoiding the process of eigendecomposition or inverse computation, but it requires some a priori knowledge about noise statistic to construct the weighting matrix. On the other hand, the distributed weighted-multidimentional scaling (DW-MDS) \cite{dwMDS} adds a penalty term to the standard MDS objective function which accounts for prior knowledge about node locations. \textit{Although these methods are efficient in terms of complexity, they can show poor performance in certain sensor deployments \cite{UWB}.}%they remain to be suboptimal in the maximum likelihood (ML) sence.
+Other methods based on MDS include a generalized subspace approach by So and Chan \cite{genMDS}, that performs  position estimation based on the noise subspace. A subspase-based weighting Lagrangian multiplier estimator \cite{fastMDS} reduces computational complexity by avoiding the process of eigendecomposition or inverse computation, but it requires some a priori knowledge about noise statistic to construct the weighting matrix. On the other hand, the distributed weighted-multidimentional scaling (DW-MDS) \cite{dwMDS} adds a penalty term to the standard MDS objective function which accounts for prior knowledge about node locations. Although these methods can be efficient in terms of complexity and generraly work well, they can show poor performance in certain sensor deployments \cite{UWB}.%they remain to be suboptimal in the maximum likelihood (ML) sence.
 
 %\textit{It is assumed that range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. }
 %Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS. The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
@@ -170,15 +170,17 @@ In this chapter, we focus on the least squares formulation for the localization 
 \subsection{Basic Convex-Concave Procedure}
 
 
-The CCP refers to an effective heuristic method to deal with a class of \textit{nonconvex} problems of  the form 
-\begin{eqnarray} \label{eq:DC}%eq 5
+The CCP refers to an effective heuristic method to deal with a class of difference of convex (DC) programming problems, which have the form 
+\begin{eqnarray}\label{eq:DC}%eq 5
 \setcounter{abc}{1}
  \Min_{\Bx} & {} & f(\Bx) - g(\Bx)  %\nonumber 
 \\ \mbox{subject to:} & {} & f_i(\Bx) \leq g_i(\Bx) \quad \mbox{for: }  i = 1, 2, \ldots, m
  \setcounter{equation}{3}
  \stepcounter{abc}
-\end{eqnarray}
-where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. The basic CCP algorithm is an iterative procedure including two key steps (in the $k$-th iteration where iterate $\Bx_k$ is known):
+\end{eqnarray}  
+where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. A DC program is not convex unless the functions $g$ and $g_i$ are affine, and therefore is hard to solve in general.  The class of DC functions is very broad. For example, any $C^2$ function can be expressed as a difference of convex functions \cite{Har}. Classes of problems that can be expressed as difference of convex programming among others include Boolean linear program, circle packing, circuit layout, and multi-matrix proncipal component analysis, examples of which are described in \cite{LBoyd} and references therein. 
+
+The basic CCP algorithm is an iterative procedure including two key steps (in the $k$-th iteration where iterate $\Bx_k$ is known):
 
 (i) Convexification of the objective function and constraints by replacing $g(\Bx)$ and $g_i(\Bx)$, respectively, with their affine approximations
 \begin{equation} %\label{eq:4.5}%eq 5
@@ -207,22 +209,45 @@ and
 \quad & & \mbox{for: }  i = 1, 2, \ldots, m \nonumber
 \end{eqnarray}
 
-Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem (\ref{eq:DC}) \cite{LBoyd}. The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (\ref{eq:ii}) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
+Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem \cite{LBoyd}. In fact, the global convergence analysis for CCP has also been studied \cite{CCPConv, CCPGlob}.
+ \textit{ other Advantages of convex-concave procedure from cite{LBoyd}} 
  
- \textit{Advantages of convex-concave procedure from cite{LBoyd}}
- \textit{\cite{LBoyd} \cite{CCPConv} \cite{CCPGlob} PCCP is not descent algorithm, but it will converge. Global convergence of CCP was }
+% \phantom{m}
+
+\begin{figure*}[t]
+\centering
+  \includegraphics{figures/nonconvexity_example_ls_new_range}
+\caption{An example of the CCP procedure. (a) A nonconvex function in the form of the difference of two convex functions and its contour, (b) separation of the nonconvex function into two convex functions, (c) the first order approximation of the
+second function, and (d) a convex approximation of the original nonconvex function at point $\protect\Bx_0$ = [0 0]$\protect^T$. }
+\label{fig:ExampleCCP}
+\end{figure*}
+
+Figure \ref{fig:ExampleCCP} shows an example of the CCP approach for an unconstrained DC problem in the form of (\ref{eq:DC}a), where $f(\Bx)$ and  $g(\Bx)$ are as follows:
+\begin{eqnarray}
+\nonumber
+f(\Bx) & = & \|\Bx - \Ba_1\| + \|\Bx - \Ba_2\| + \|\Bx - \Ba_3\| \\
+\nonumber
+g(\Bx) & = & \|2\Bx - \Ba_4\|
+\end{eqnarray}
+with $\Ba_1$ = [3 1.7]$^T$, $\Ba_2$ = [−6 5]$^T$, $\Ba_3$ = [−4 − 7]$^T$, and $\Ba_4$ = [0.5 1]$^T$. In this figure, the original nonconvex problem is transferred to a convex problem by replacing a nonconvex part $(-g(\Bx))$ by its affine approximation around the point $\Bx_0$ = [0 0]$^T$.
+
+
+
+ 
+The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (\ref{eq:ii}) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
+
 
 \subsection{Problem Reformulation}
 
-We begin by re-writing the objective function in (2) up to a constant as:
-\begin{equation}
+We begin by re-writing the objective function in (\ref{eq:DC}) up to a constant as:
+\begin{equation} \label{eq:F}
 \setcounter{abc}{0}
-\begin{aligned}
- F(\Bx) = \ & m\Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i
-  \\ & - 2\sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
-\end{aligned}
+%\begin{aligned}
+ F(\Bx) =  m\Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i
+  - 2\sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
+%\end{aligned}
 \end{equation}
-The objective in (7) is not convex. This is because, for points $\Bx$ that are not coincided with $\Ba_i$ for $1 \leq i \leq m$ , the Hessian of $F(\Bx)$ is given by
+The objective in (\ref{eq:F}) is not convex. This is because, for points $\Bx$ that are not coincided with $\Ba_i$ for $1 \leq i \leq m$ , the Hessian of $F(\Bx)$ is given by
 %\begin{equation}
 %\begin{aligned}
 %\nonumber
@@ -238,11 +263,12 @@ The objective in (7) is not convex. This is because, for points $\Bx$ that are n
 %\end{aligned}
 %\end{equation}
 \begin{equation}
-\begin{aligned}
+%\begin{aligned}
 \nonumber
-\bigtriangledown ^2 F(\Bx)  = 2m\BI  + &2\sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \cdot \\
-\cdot &\left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T - \|\Bx - \Ba_i\|^2 \BI \right)
-\end{aligned}
+\bigtriangledown ^2 F(\Bx)  = 2m\BI  + %&
+2\sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \cdot %\\ \cdot &
+\left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T - \|\Bx - \Ba_i\|^2 \BI \right)
+%\end{aligned}
 \end{equation}
 which is not always positive semidefinite.  On the other hand, by defining 
 \begin{equation} % \nonumber % \label{eq:4.8}
