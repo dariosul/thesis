@@ -1,4 +1,4 @@
-\startchapter{Penalty Convex-Concave Procedure for Source Localization Problem}
+\startchapter{Penalty Convex-Concave Procedure for Source Localization}% Problem}
 \label{chapter:pccp}
 
 
@@ -208,17 +208,39 @@ and
  \stepcounter{abc} \\ 
 \quad & & \mbox{for: }  i = 1, 2, \ldots, m \nonumber
 \end{eqnarray}
+Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem \cite{LBoyd}. In fact, the global convergence analysis for CCP has also been studied \cite{CCPConv, CCPGlob}. Note that functions $g(\Bx)$ and $g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are required to be convex but not necessarily differentiable. If any of  $g(\Bx)$ or $g_i(\Bx)$ are not differentiable at some point $\tilde{\Bx}$ then the corresponding term $\bigtriangledown g(\tilde{\Bx})$ (or $\bigtriangledown g_i(\tilde{\Bx})$) is replaced by a subgradient  of $g(\Bx)$ (or $g_i(\Bx)$) at point $\tilde{\Bx}$.
 
-Because of the convexity of all the functions involved, it can be shown that the basic CCP is a descent algorithm and the iterates $\Bx_k$ converge to the critical point of the original problem \cite{LBoyd}. In fact, the global convergence analysis for CCP has also been studied \cite{CCPConv, CCPGlob}.
- \textit{ other Advantages of convex-concave procedure from cite{LBoyd}} 
+Let $\mathcal{D}$ be a nonempty set in $R^n$. A vector $\Bh \in R^n$ is said to be a subgradient of  a convex function $f:\mathcal{D} \rightarrow R$  at $\Bx \in \mathcal{D}$ if \cite{AntonLu}
+\begin{equation}
+\nonumber
+f(\By) \geq f(\Bx) + \Bg^T (\By - \Bx) \mbox{for all } \By \in \mathcal{D}
+\end{equation}
+
+
+% \textit{ other Advantages of convex-concave procedure from cite{LBoyd}} 
  
 % \phantom{m}
 
-\begin{figure*}[t]
+\begin{figure*}%[t]
 \centering
-  \includegraphics{figures/nonconvexity_example_ls_new_range}
-\caption{An example of the CCP procedure. (a) A nonconvex function in the form of the difference of two convex functions and its contour, (b) separation of the nonconvex function into two convex functions, (c) the first order approximation of the
-second function, and (d) a convex approximation of the original nonconvex function at point $\protect\Bx_0$ = [0 0]$\protect^T$. }
+  \includegraphics[width=0.85\textwidth,height=0.45\textheight]{figures/ccp/ccp_a}
+   
+  (a) A nonconvex function in the form of the difference of two convex functions and its contour plot.
+  
+  \includegraphics[width=0.9\textwidth,height=0.45\textheight]{figures/ccp/ccp_b}
+  
+  (b) Separation of the nonconvex function into two convex functions $f(\protect\Bx)$ and $g(\protect\Bx)$.
+\end{figure*} \label{fig:ExampleCCP}
+\begin{figure*}%[t]
+\centering
+  \includegraphics[width=0.85\textwidth,height=0.45\textheight]{figures/ccp/ccp_c}
+  
+  (c) First order approximation of $g(\protect\Bx)$.%the second function
+  
+  \includegraphics[width=0.85\textwidth,height=0.45\textheight]{figures/ccp/ccp_d}
+  
+  (d) A convex approximation of the original nonconvex function at $\protect\Bx_0$ = [0 0]$\protect^T$. 
+\caption{An example of the CCP procedure (re-generated based on \cite{clock}).}
 \label{fig:ExampleCCP}
 \end{figure*}
 
@@ -229,19 +251,18 @@ f(\Bx) & = & \|\Bx - \Ba_1\| + \|\Bx - \Ba_2\| + \|\Bx - \Ba_3\| \\
 \nonumber
 g(\Bx) & = & \|2\Bx - \Ba_4\|
 \end{eqnarray}
-with $\Ba_1$ = [3 1.7]$^T$, $\Ba_2$ = [−6 5]$^T$, $\Ba_3$ = [−4 − 7]$^T$, and $\Ba_4$ = [0.5 1]$^T$. In this figure, the original nonconvex problem is transferred to a convex problem by replacing a nonconvex part $(-g(\Bx))$ by its affine approximation around the point $\Bx_0$ = [0 0]$^T$.
-
-
+with $\Ba_1$ = [3 2]$^T$, $\Ba_2$ = [−6 5]$^T$, $\Ba_3$ = [−4 −7]$^T$, and $\Ba_4$ = [1 2]$^T$. In this figure, the original nonconvex problem is transferred to a convex problem by replacing a nonconvex part $(-g(\Bx))$ by its affine approximation around the point $\Bx_0$ = [0 0]$^T$.
 
  
 The basic CCP requires a \textit{feasible} initial point $\Bx_0$ (in the sense that $\Bx_0$ satisfies (\ref{eq:ii}) for $ i = 1, 2, \ldots, m$)  to start the procedure. By introducing additional slack variables, a penalty CCP has been adopted to accept infeasible initial points.
 
+\phantom{m}
 
 \subsection{Problem Reformulation}
 
 We begin by re-writing the objective function in (\ref{eq:DC}) up to a constant as:
+\setcounter{abc}{0} 
 \begin{equation} \label{eq:F}
-\setcounter{abc}{0}
 %\begin{aligned}
  F(\Bx) =  m\Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i
   - 2\sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
