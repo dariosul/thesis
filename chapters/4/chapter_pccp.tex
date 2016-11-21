@@ -602,12 +602,12 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 %Employing a set-up similar to that in \cite{10}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{10}. It is observed that PCCP solutions offer considerable improvement over SR-LS solutions.
 
 
-Figure \ref{fig:MSE} illustrates the bar chart of location estimation errors for SR-LS solution and the proposed algorithm for various number of sensors. Each entry is a square error of the method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$.
+Figure \ref{fig:MSE} illustrates the bar chart of location estimation errors for the SR-LS solution and the proposed algorithm for various numbers of sensors. Each entry is a squared error of the method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$.
  
-Finally, we study convergence of the  PCCP-based LS Algorithm. Figure \ref{fig:path} shows an example of the iteration path the PCCP-based LS follows. 
+Finally, we study the convergence of the  PCCP-based LS Algorithm. As an example, consider an instance of the source localization problem on the plane ($n = 2$) as discussed in Sec. 2.1 of the thesis. The system consists of five sensors ($m = 5$) located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:path} shows the iteration path the PCCP-based LS follows when initialized with a randomly selected point $\Bx_0 = (-20,-10)^T$. It takes 8 iterations for the PCCP-based LS to converge to a point $\Bx^* = (,)^T$ which is a good estimate of the R-LS approximation of the exact source location $\Bx_s$.
 
 
-Figure  \ref{fig:convergence} depicts the convergence speed of the proposed approach for 50 random initialization of the system with given number of $m$ sensors. In simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fast, in most cases after $10$ iterations. For systems with larger number of sensor nodes ($m = 10$) PCCP-based LS converges approximately
+Figure  \ref{fig:convergence} depicts the convergence speed of the proposed approach for 50 random initializations of the system with given number of sensors ($m$). In simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fast, in most cases after $10$ iterations. For systems with large numbers of sensor nodes ($m = 10$) PCCP-based LS converges approximately
 in three sequential updatings.
 
 \begin{table}[t]
@@ -652,6 +652,7 @@ in three sequential updatings.
 \begin{figure} \label{fig:path}
 \centering
 \includegraphics{figures/ccp/iteration_path}
+\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$. Large circles denote possible source locations given the range reading at a particular sensor.}
 \end{figure}
 
 \begin{figure}[t]
