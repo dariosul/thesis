@@ -601,10 +601,19 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 
 %Employing a set-up similar to that in \cite{10}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{10}. It is observed that PCCP solutions offer considerable improvement over SR-LS solutions.
 
-\begin{table}
+
+Figure \ref{fig:MSE} illustrates the bar chart of location estimation errors for SR-LS solution and the proposed algorithm for various number of sensors. Each entry is a square error of the method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$.
+ 
+Finally, we study convergence of the  PCCP-based LS Algorithm. Figure \ref{fig:path} shows an example of the iteration path the PCCP-based LS follows. 
+
+
+Figure  \ref{fig:convergence} depicts the convergence speed of the proposed approach for 50 random initialization of the system with given number of $m$ sensors. In simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fast, in most cases after $10$ iterations. For systems with larger number of sensor nodes ($m = 10$) PCCP-based LS converges approximately
+in three sequential updatings.
+
+\begin{table}[t]
 \centering
 \caption{Averaged MSE for SR-LS and PCCP methods}
-\begin{tabular}{||c||c|c|c|c||} 
+\begin{tabular}{|c|c|c|c|c|} 
 \hline  %{|t:=====:t|} 
 \hline 
 &&&& \\
@@ -625,21 +634,38 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 \label{tab:pccp}
 \end{table}
 
-
-\ref{fig:MSE} shows the bar chart of location estimation errors for SR-LS solution and the proposed algorithm for various number of sensors. Each entry is a square error of the method averaged over 50 random initializations of the system 
- consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$.
-
-\begin{figure} \label{fig:MSE}
+\begin{figure}[t]
 \centering
- \includegraphics[width=0.45\textwidth]{figures/ccp/MSE_1e3}
- \hfill
-  \includegraphics[width=0.45\textwidth]{figures/ccp/MSE_1e2}
+\begin{tabular}{cc}
+ \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e3}
+ &
+  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e2} 
+  \\   (a)&  (b)   \\
+ \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e1}
+&
+  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e0} 
+    \\  (c)&  (d)   \\
+\end{tabular}
+\caption{MSE for different methods and various number of sensor nodes $m$ and different noise levels with (a) $\protect\sigma = 10\protect^{-3}$, (b) $\protect\sigma = 10\protect^{-2}$, (c) $\protect\sigma = 10\protect^{-1}$, and (d) $\protect\sigma = 1$.} \label{fig:MSE}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure} \label{fig:path}
 \centering
- \includegraphics[width=0.45\textwidth]{figures/ccp/MSE_1e1}
- \hfill
-  \includegraphics[width=0.45\textwidth]{figures/ccp/MSE_1e0} 
-\caption{MSE} 
+\includegraphics{figures/ccp/iteration_path}
+\end{figure}
+
+\begin{figure}[t]
+\label{fig:convergence}
+\centering
+\begin{tabular}{cc}
+ \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m4}
+&
+  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m5} 
+  \\   (a) & (b)    \\
+ \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m7}    
+ &
+  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m10} 
+  \\   (c) & (d)  
+\end{tabular}
+\caption{Convergernce of the proposed PCCP-based LS for random initializations with $\protect\sigma = 10\protect^{-1}$ for (a) 4 sensor nodes, (b) 5 sensor nodes, (c) 7 sensor nodes, and (d) 10 sensor nodes.} 
 \end{figure}
