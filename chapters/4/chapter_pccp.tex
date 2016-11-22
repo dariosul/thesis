@@ -602,13 +602,14 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 %Employing a set-up similar to that in \cite{10}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{10}. It is observed that PCCP solutions offer considerable improvement over SR-LS solutions.
 
 
-Figure \ref{fig:MSE} illustrates the bar chart of location estimation errors for the SR-LS solution and the proposed algorithm for various numbers of sensors. Each entry is a squared error of the method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$.
+Figure \ref{fig:MSE} illustrates the  location estimation errors for the SR-LS solution and the proposed algorithm for various numbers of sensors. Each entry is a squared error of the given method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$. The MLE was implemented using Matlab function \textit{lsqnonlin}, initialized with the same point as PCCP-based LS. It is observed that at all noise levels the proposed approach performes well compared to SR-LS, especially for a low number of reference nodes. From the figure, it is noted that for the high standard deviation of the noise, as the number of sensor nodes increases, the PCCP-based LS and SR-LS show similar performance.
+
  
-Finally, we study the convergence of the  PCCP-based LS Algorithm. As an example, consider an instance of the source localization problem on the plane ($n = 2$) as discussed in Sec. 2.1 of the thesis. The system consists of five sensors ($m = 5$) located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:path} shows the iteration path the PCCP-based LS follows when initialized with a randomly selected point $\Bx_0 = (-20,-10)^T$. It takes 8 iterations for the PCCP-based LS to converge to a point $\Bx^* = (,)^T$ which is a good estimate of the R-LS approximation of the exact source location $\Bx_s$.
+Finally, we study the convergence of the  PCCP-based LS Algorithm. As an example, consider an instance of the source localization problem on the plane ($n = 2$) as discussed in Sec. 2.1 of the thesis. The system consists of five sensors ($m = 5$) located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:path} shows the iteration path the PCCP-based LS follows when initialized with a randomly selected point $\Bx_0 = (-20,-10)^T$. It took 8 iterations for the PCCP-based LS to converge to a point $\Bx^* = (-1.9914,3.1632)^T$ which is a good estimate of the R-LS approximation of the exact source location $\Bx_s$.
 
 
-Figure  \ref{fig:convergence} depicts the convergence speed of the proposed approach for 50 random initializations of the system with given number of sensors ($m$). In simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fast, in most cases after $10$ iterations. For systems with large numbers of sensor nodes ($m = 10$) PCCP-based LS converges approximately
-in three sequential updatings.
+Figure  \ref{fig:convergence} depicts the convergence speed of the proposed algorithm for 50 random initializations of the system with a fixed number of sensors ($m$). In the simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fairly fast, in most cases after $10$ iterations. For systems with large numbers of sensor nodes ($m = 10$) PCCP-based LS converges approximately
+in three sequential updates.
 
 \begin{table}[t]
 \centering
@@ -634,39 +635,41 @@ in three sequential updatings.
 \label{tab:pccp}
 \end{table}
 
+ 
 \begin{figure}[t]
 \centering
 \begin{tabular}{cc}
- \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e3}
+ \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/MSE_1e3_sensors}
  &
-  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e2} 
+  \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/MSE_1e2_sensors} 
   \\   (a)&  (b)   \\
- \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e1}
+ \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/MSE_1e1_sensors}
 &
-  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/MSE_1e0} 
+  \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/MSE_1e0_sensors} 
     \\  (c)&  (d)   \\
 \end{tabular}
-\caption{MSE for different methods and various number of sensor nodes $m$ and different noise levels with (a) $\protect\sigma = 10\protect^{-3}$, (b) $\protect\sigma = 10\protect^{-2}$, (c) $\protect\sigma = 10\protect^{-1}$, and (d) $\protect\sigma = 1$.} \label{fig:MSE}
+\caption{MSE for different methods, various number of sensor nodes $m$ and different noise levels with (a) $\protect\sigma = 10\protect^{-3}$, (b) $\protect\sigma = 10\protect^{-2}$, (c) $\protect\sigma = 10\protect^{-1}$, and (d) $\protect\sigma = 1$.} \label{fig:MSE}
 \end{figure}
 
-\begin{figure} \label{fig:path}
+\begin{figure} 
 \centering
-\includegraphics{figures/ccp/iteration_path}
-\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$. Large circles denote possible source locations given the range reading at a particular sensor.}
+\includegraphics{figures/ccp/iteration_path2}
+\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(6,4)^T$, $(0,-10)^T$, $(5,-3)^T$, $(1,-4)^T$ and  $(3,-3)^T$. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
+\label{fig:path}
 \end{figure}
 
-\begin{figure}[t]
-\label{fig:convergence}
+\begin{figure}[t] 
 \centering
 \begin{tabular}{cc}
- \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m4}
+ \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/convergence_m4_2}
 &
-  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m5} 
+  \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/convergence_m5_2} 
   \\   (a) & (b)    \\
- \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m7}    
+ \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/convergence_m7_2}    
  &
-  \includegraphics[width=0.5\textwidth,height =0.4\textheight]{figures/ccp/convergence_m10} 
+  \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/convergence_m10_2} 
   \\   (c) & (d)  
 \end{tabular}
 \caption{Convergernce of the proposed PCCP-based LS for random initializations with $\protect\sigma = 10\protect^{-1}$ for (a) 4 sensor nodes, (b) 5 sensor nodes, (c) 7 sensor nodes, and (d) 10 sensor nodes.} 
+\label{fig:convergence}
 \end{figure}

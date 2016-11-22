@@ -1,0 +1,92 @@
+\startappendix{Matlab Files}
+\label{chapter:app2}
+
+
+%\section{Iterative Re-Weighting LS  for Source Localization Using Range Measurements}
+\section{IRWSR-LS}
+3.21
+
+%\section{Iterative Re-Weighting LS  for Source Localization Using Range-Difference Measurements}
+\section{IRWSRD-LS}
+3.32
+
+\section{PCCP-Based LS}
+
+\begin{lstlisting}
+ Apply a constrained CCP to the localization problem based on range
+ measurements. Both upper-bound and lower-bound constraints are imposed.
+ Input:
+ Am: Am = [a1 a2 ... am] with ai the location of the ith sensor.
+ r: noise-free range measurements r = [r1 r2 ... rm] with ri = norm(xs-ai).
+ st: initial state for noise generation.
+ sig: standard deviation of measurement noise.
+ gam: a parameter that controls the bounds in the constraints.
+ x0: initial point for the source location.
+ K: number of CCG iterations.
+ Output:
+ xw: estimated location of the source.
+ xw1: estimated location of the source using SR-LS.
+ Written by W.-S. Lu, University of Victoria.
+ Last modified: Feb. 2, 2015.
+ Example: load data_ex1
+ [xw,xw1] = pccp(Am,r,1e-2,3,zeros(2,1),20);
+ 
+function [F_ccp,F_rls,solution,slack] = pccp(Am,rn,sig,gam,x0,K)
+[n,m] = size(Am);
+k = 0;
+xk = x0;
+rnb_p = rn + gam*sig;
+rnb_n = rn - gam*sig;
+ab = (mean(Am'))';
+tau = 1;
+tau_max = 100000;
+mi = 1/m;
+m2 = 2*m;
+nn = 1000;
+Xk=[];
+while (k < K) %&& (nn >= 1e-5)
+    cvx_begin quiet
+       variable x(n)
+       variable s(m2);
+       v = ab;
+       for i = 1:m,
+           xai = xk - Am(:,i);
+           v = v + (mi*rn(i)/norm(xai))*xai;
+       end
+       minimize(x'*x - 2*x'*v + tau*sum(s));
+       subject to
+       for i = 1:m,
+           norm(x-Am(:,i)) <= rnb_p(i) + s(i);
+           xai = xk - Am(:,i);
+           ni = norm(xai);
+           xain = xai/ni;
+           -xain'*(x-xk) - ni + rnb_n(i) <= s(m+i);
+       end
+       s >= 0;
+    cvx_end
+    x=x(:);
+    Xk = [Xk x];
+    nn = norm(xk-x);
+    xk = x;
+    tau = min(1.5*tau,tau_max);
+    k = k + 1;
+end
+% disp(sprintf('Solution point after %d CCP iterations:',k))
+solution = xk;
+F_rls = zeros(K,1);
+F_ccp = zeros(K,1);
+for k = 1:K
+    %value of the NNLS objective at the solution point
+    sol  = Xk(:,k);
+    v = zeros(2,1);
+    for i = 1:m,
+       xai = sol - Am(:,i);
+       v = v + (mi*rn(i)/norm(xai))*xai;
+       F_rls(k) = F_rls(k) + (rn(i) - norm(sol - Am(:,i)))^2;
+    end
+    % disp(sprintf('Final value of the objective function'))
+    F_ccp(k) = sol'*sol - 2*sol'*v ;%+ tau*sum(s);
+end
+% disp('Final values of relaxation parameters:')
+ slack = s;
+\end{lstlisting}
