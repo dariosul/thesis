@@ -1,12 +1,71 @@
 \startchapter{Least Squares Localization by Sequential Convex Relaxation}
 \label{chapter:socp}
 
-\textbf{Notes for further development.}
+%\textbf{Notes for further development.}
+%
+%2-step approach:
+%
+%1) identify outliers to reduce the error-prone data points
+%
+%2) apply the algorithm  to the redused data set
+%
+%Projection onto convex sets and projection onto rings \textit{cite GhStr}
 
-2-step approach:
+\section{Second Order Cone Programming}
 
-1) identify outliers to reduce the error-prone data points
+\section{Range-based localization}
 
-2) apply the algorithm  to the redused data set
+Problem:
+Given sensor array ${\Ba_i, i = 1, 2, ..., m}$ and noisey range measurements $r_i$ find the true \textit{unknown} location of $\Bx$ as 
+\begin{equation} % 5.1
+\Min \sum^m_i \left( \|\Bx - \Ba_i\| - r_i \right)^2 
+\end{equation}
+which can be (equivalently) written as 
+\begin{eqnarray} %5.2
+\Min_{\Bx, \Bz} \sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{2}
+\mbox{subject to: } \|\Bx - \Ba_i\| = z_i, i = 1, 2, ..., m
+\end{eqnarray}
+The constraint in 5.2 is hard to suffice, therefore we allow a relaxation:
+\begin{eqnarray} %5.3
+\Min_{\Bx, \Bz} \sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{3}
+\mbox{subject to: } \|\Bx - \Ba_i\| \leq (1+ \gamma)z_i  \\
+\setcounter{equation}{3}
+\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i, \quad i = 1, 2, ..., m
+\end{eqnarray}
+where $\gamma$ is small, typically $0 < \gamma < 0.5$.
+This would yield an approximate solution to 5.2 and therefore to 5.1. 
+By allowing $\gamma$ to sequentially/monotonically decrease from some small $0 < \gamma_0 < 0.5$ to 0 solution of 5.3 will converge to 5.2.
+\textit{Proof} Let $\gamma(k)$ be monotonically decteasing, where $k$ is an iteration count and $0 < \gamma_0 < 0.5$. Then 
+$\lim_{\gamma \rightarrow 0} (1 + \gamma)z_i = z_i$ and $\lim_{\gamma \rightarrow 0} (1 - \gamma)z_i = z_i$. Therefore as $\gamma$ approaches 0, the feasible region of the problem in 5.3 will become equivalent to that in 5.2.
+As iterations proceed, the objective in 5.3 will not be monotonically decreasing but it will converge to the critical point.
 
-Projection onto convex sets and projection onto rings \textit{cite GhStr}
+Problem in 5.3 is nonconvex due to nonconvexity of one of its inequality constraint. The constraint in 5.3b $\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i$ is convex, the constraint in 5.3c is not, because
+\begin{equation}
+\nonumber
+\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i \Longleftrightarrow \underbrace{-\|\Bx - \Ba_i\|}_{nonconvex} \leq -(1 - \gamma)z_i
+\end{equation}
+From convexity of the norm $\|\Bx - \Ba_i\|$ it follows that for some \textit{known} $\Bx_k$
+\begin{equation}
+\nonumber
+\|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i)
+\end{equation}
+Hence the constraint in 5.3c can be convexified by replacing it with its affine approximation
+\begin{equation}
+\nonumber
+-\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i
+\end{equation}
+At the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in 5.3 can be relaxed to an SOCP problem
+\begin{eqnarray} %5.4
+\Min_{\Bx, \Bz} \sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{4}
+\mbox{subject to: } \|\Bx - \Ba_i\| \leq (1+ \gamma)z_i  \\
+\setcounter{equation}{4}
+-\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i \\
+\nonumber
+\quad i = 1, 2, ..., m
+\end{eqnarray}
+
+
+\section{Range-Difference Localization}
