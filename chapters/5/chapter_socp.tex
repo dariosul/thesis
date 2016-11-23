@@ -67,5 +67,54 @@ At the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem 
 \quad i = 1, 2, ..., m
 \end{eqnarray}
 
+The relaxation parameter $\gamma$ controls the size of the convex hull that defines a feasibility region of the problem 5.4.
+$\gamma$ needs to be monotonically decreasing with increase of the iteration count. Start with some $0 < \gamma_0 < 0.5$, typically $\gamma0 = 0.3$ or 0.2 is good. After $k$th iteration update $\gamma_{k+1}$ linearly as
+\begin{equation}
+\nonumber
+\gamma_{k+1} = \gamma_0 - k\frac{\gamma_0}{K_{max} - 1}
+\end{equation}
+or quadratically as
+\begin{equation}
+\nonumber
+\gamma_{k+1} = \gamma_0\frac{(K_{max} - 1 - k)^2}{(K_{max} - 1)^2}
+\end{equation}
+
+
 
 \section{Range-Difference Localization}
+
+Measurement model
+\begin{equation}
+\nonumber
+d_i = \|\Bx - \Ba_i\| - \|\Bx\| + noise
+\end{equation}
+
+Least-squares formulation
+\begin{equation}
+\nonumber
+\Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
+\end{equation}
+write an equivalent form
+\begin{eqnarray}
+\nonumber
+\Min \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
+\nonumber
+\mbox{subject to: } \|\Bx - \Ba_i\| = z_i \\
+\nonumber
+\|\Bx\| = y, i = 1, 2, \ldots m
+\end{eqnarray}
+
+Denote $\hat{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$. At the $k$th iterations with $\hat{\Bx_k}$ \textit{known} update $(\Bx_k, y_k, \Bz_k)$ to 
+\begin{eqnarray}
+\nonumber
+\Bx_{k+1} = \Bx_k + \sigma_x \\
+\nonumber
+y_{k+1} = y_k + \sigma_y \\
+\nonumber
+\Bz_{k+1} = \Bz_k + \sigma_z
+\end{eqnarray}
+
+Then the objective can be written as
+...\\
+and the constraints
+..
