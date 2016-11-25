@@ -80,23 +80,20 @@ or quadratically as
 \end{equation}
 
 
-
+\startchapter{SOCP}
 \section{Range-Difference Localization}
 
 Measurement model
-\begin{equation}
-\nonumber
+\begin{equation} \label{eq:6.1}
 d_i = \|\Bx - \Ba_i\| - \|\Bx\| + noise
 \end{equation}
 
 Least-squares formulation
-\begin{equation}
-\nonumber
+\begin{equation} \label{eq:6.2}
 \Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
 \end{equation}
-write an equivalent form
-\begin{eqnarray}
-\nonumber
+The problem in 6.2 can be equivalently written as
+\begin{eqnarray} \label{eq:6.3}
 \Min \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
 \nonumber
 \mbox{subject to: } \|\Bx - \Ba_i\| = z_i \\
@@ -104,17 +101,19 @@ write an equivalent form
 \|\Bx\| = y, i = 1, 2, \ldots m
 \end{eqnarray}
 
-Denote $\hat{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$. At the $k$th iterations with $\hat{\Bx_k}$ \textit{known} update $(\Bx_k, y_k, \Bz_k)$ to 
-\begin{eqnarray}
+Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$, $\tilde{\Bx} \in R^{m+n+1}$ be a known feasible point of the problem in 6.3 and $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$ a small perturbation to it, such that $\tilde{\Bdelta} \leq \beta$, and $\beta > 0$ is a small positive constant. At the $k$th iterations with $\tilde{\Bx}^k$ \textit{known} update $(\Bx^k, y^k, \Bz^k)$ to 
+\begin{eqnarray} \label{eq:6.4}
+\Bx^{k+1} = \Bx^k + \delta_x \\
 \nonumber
-\Bx_{k+1} = \Bx_k + \sigma_x \\
+y^{k+1} = y^k + \delta_y \\
 \nonumber
-y_{k+1} = y_k + \sigma_y \\
-\nonumber
-\Bz_{k+1} = \Bz_k + \sigma_z
+\Bz^{k+1} = \Bz^k + \delta_z
 \end{eqnarray}
-
+Substituting
 Then the objective can be written as
-...\\
+\begin{equation}
+\nonumber
+\Min \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2
+\end{equation}
 and the constraints
 ..
