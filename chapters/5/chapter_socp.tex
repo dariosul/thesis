@@ -80,7 +80,8 @@ or quadratically as
 \end{equation}
 
 
-\startchapter{SOCP}
+%\startchapter{SOCP}
+
 \section{Range-Difference Localization}
 
 Measurement model
@@ -104,19 +105,81 @@ z_i \geq 0, \ y \geq 0
 \\ \nonumber  i = 1, 2, \ldots m
 \end{eqnarray}
 
-Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$, $\tilde{\Bx} \in R^{m+n+1}$ be a known feasible point of the problem in 6.3 and $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$ a small perturbation to it, such that $\tilde{\Bdelta} \leq \beta$, and $\beta > 0$ is a small positive constant. At the $k$th iterations with $\tilde{\Bx}^k$ \textit{known} update $(\Bx^k, y^k, \Bz^k)$ to 
+Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$, $\tilde{\Bx} \in R^{m+n+1}$ be a known feasible point of the problem in 6.3 and $\Bdelta_{\tilde{\Bx}} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$ a small perturbation to it, such that $|\Bdelta_{\tilde{\Bx}}| \leq \beta$, and $\beta > 0$ is a small positive constant. At the $k$th iterations with $\tilde{\Bx}^k$ \textit{known} update $(\Bx^k, y^k, \Bz^k)$ to 
 \begin{eqnarray} \label{eq:6.4}
-\Bx^{k+1} = \Bx^k + \delta_x \\
+\Bx^{k+1} = \Bx^k + \Bdelta_x \\
 \nonumber
 y^{k+1} = y^k + \delta_y \\
 \nonumber
-\Bz^{k+1} = \Bz^k + \delta_z
+\Bz^{k+1} = \Bz^k + \Bdelta_z
 \end{eqnarray}
 Substituting 6.4 in 6.3 the objective in 6.3a cam be written as
 \begin{eqnarray} \label{eq:6.5}
 F(\hat{\Bx}) & =  & \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2 \\
 \nonumber
-& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \hat{d_i} \right)^2
+& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \tilde{d_i} \right)^2
 \end{eqnarray}
-where $\hat{d_i} = y^k - z_i^k + d_i$ are grouped known constant terms.
+where $\tilde{d_i} = y^k - z_i^k + d_i$ are grouped known constant terms.
 Substituting 6.4b in 6.3b
+\begin{equation}
+\nonumber
+\|\Bx^k + \Bdelta^k_x - \Ba_i\| = z^k_i +\delta_{z_i}, \quad i = 1, 2, \ldots, m
+\end{equation}
+Re-grouping the terms on the left side of the equality and squaring both sides 
+\begin{eqnarray}
+\nonumber
+\|(\Bx^k  - \Ba_i) + \Bdelta^k_x\|^2 & = & \left(z^k_i +\delta_{z_i}\right)^2 \\
+\nonumber
+\Leftrightarrow 
+\|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + \cancelto{\mbox{\scriptsize{small}}}{\|\Bdelta_x\|^2}  & = & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} + \cancelto{\mbox{\scriptsize{small}}}{\Bdelta^2_{z_i}} \\
+\nonumber
+\Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
+\nonumber
+\Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
+\nonumber
+- 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  & \approx & \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2
+\end{eqnarray}
+Repeating the similar procedure with the constraint in 6.3c
+\begin{eqnarray}
+\nonumber
+\|\Bx^k + \Bdelta_x\| & = & y^k + \delta_y \\
+\nonumber
+\|\Bx^k + \Bdelta_x\|^2 & = & \left(y^k + \delta_y \right)^2 \\
+\nonumber
+\Leftrightarrow \|\Bx^k\|^2 + 2\Bdelta_x^T\Bx^k + \cancelto{\mbox{\scriptsize{small}}}{\|\Bdelta_x\|^2} & = & \left(y^k\right)^2 + 2y^k\delta_y +  \cancelto{\mbox{\scriptsize{small}}}{\delta_y^2} \\
+\nonumber
+\Leftrightarrow -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta & \approx & \|\Bx\|^2 - \left(y^k\right)^2
+\end{eqnarray}
+The problem in 6.3 can now be written in terms of the \textit{known} feasible  iterate $\tilde{\Bx}$ and its \textit{unknown} perturbation  $\Bdelta_{\tilde{\Bx}}$ as
+\begin{eqnarray} \label{eq:6.6}
+\Min_{\tilde{\Bx}, \Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2\\
+\nonumber
+\mbox{subject to: } \Leftrightarrow -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\nonumber
+-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\nonumber
+|\Bdelta_{\tilde{\Bx}}|  \leq \beta \\
+\nonumber
+z_i^k + \delta_{z_i} \geq 0, \ 
+y^k + \delta_y \geq 0
+\\ \nonumber  i = 1, 2, \ldots m
+\end{eqnarray}
+where $\tilde{d_i} = y^k - z_i^k + d_i$. 
+The constraint $\beta$ was imposed on each element of the vector $\Bdelta_{\tilde{\Bx}}$ to guarantee that at each iteration is sufficiently small.
+The iterate $\tilde{\Bx}^k$ is feasible and known but it is not guaranteed that the $\tilde{\Bx}^{k+1}$ will also be feasible. To allow non-feasible perturbations $\Bdelta_{\tilde{\Bx}}$, the problem can be overcome by introducing a
+nonnegative slack variable $s \geq 0$ 6.6c to replace their right-hand sides  by a  relaxed upper bound (as this new bound itself is a nonnegative variable). This leads to a following formulation of the problem in 6.3
+\begin{eqnarray} \label{eq:6.7}
+\Min_{s, \tilde{\Bx}, \Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2 + \mu s \\
+\nonumber
+\mbox{subject to: }  -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\nonumber
+-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\nonumber
+|\Bdelta_{\tilde{\Bx}}|  \leq \beta + s\\
+\nonumber
+s \geq 0 \\ 
+\nonumber
+z_i^k + \delta_{z_i} \geq 0, \ 
+y^k + \delta_y \geq 0
+\\ \nonumber  i = 1, 2, \ldots m
+\end{eqnarray}
