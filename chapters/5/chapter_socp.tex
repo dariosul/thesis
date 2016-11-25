@@ -98,7 +98,10 @@ The problem in 6.2 can be equivalently written as
 \nonumber
 \mbox{subject to: } \|\Bx - \Ba_i\| = z_i \\
 \nonumber
-\|\Bx\| = y, i = 1, 2, \ldots m
+\|\Bx\| = y \\
+\nonumber
+z_i \geq 0, \ y \geq 0
+\\ \nonumber  i = 1, 2, \ldots m
 \end{eqnarray}
 
 Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$, $\tilde{\Bx} \in R^{m+n+1}$ be a known feasible point of the problem in 6.3 and $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$ a small perturbation to it, such that $\tilde{\Bdelta} \leq \beta$, and $\beta > 0$ is a small positive constant. At the $k$th iterations with $\tilde{\Bx}^k$ \textit{known} update $(\Bx^k, y^k, \Bz^k)$ to 
@@ -109,11 +112,11 @@ y^{k+1} = y^k + \delta_y \\
 \nonumber
 \Bz^{k+1} = \Bz^k + \delta_z
 \end{eqnarray}
-Substituting
-Then the objective can be written as
-\begin{equation}
+Substituting 6.4 in 6.3 the objective in 6.3a cam be written as
+\begin{eqnarray} \label{eq:6.5}
+F(\hat{\Bx}) & =  & \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2 \\
 \nonumber
-\Min \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2
-\end{equation}
-and the constraints
-..
+& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \hat{d_i} \right)^2
+\end{eqnarray}
+where $\hat{d_i} = y^k - z_i^k + d_i$ are grouped known constant terms.
+Substituting 6.4b in 6.3b
