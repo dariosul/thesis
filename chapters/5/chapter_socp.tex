@@ -80,7 +80,7 @@ or quadratically as
 \end{equation}
 
 
-%\startchapter{SOCP}
+\startchapter{SOCP}
 
 \section{Range-Difference Localization}
 
@@ -101,7 +101,7 @@ The problem in 6.2 can be equivalently written as
 \nonumber
 \|\Bx\| = y \\
 \nonumber
-z_i \geq 0, \ y \geq 0
+z_i \geq 0, \ y \geq 0 \mbox{added by me}
 \\ \nonumber  i = 1, 2, \ldots m
 \end{eqnarray}
 
@@ -152,34 +152,35 @@ Repeating the similar procedure with the constraint in 6.3c
 \end{eqnarray}
 The problem in 6.3 can now be written in terms of the \textit{known} feasible  iterate $\tilde{\Bx}$ and its \textit{unknown} perturbation  $\Bdelta_{\tilde{\Bx}}$ as
 \begin{eqnarray} \label{eq:6.6}
-\Min_{\tilde{\Bx}, \Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2\\
+\Min_{\Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2\\
 \nonumber
-\mbox{subject to: } \Leftrightarrow -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\mbox{subject to: } - 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  = \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2 \\
 \nonumber
--2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx^k\|^2 - \left(y^k\right)^2 \\
 \nonumber
 |\Bdelta_{\tilde{\Bx}}|  \leq \beta \\
 \nonumber
 z_i^k + \delta_{z_i} \geq 0, \ 
-y^k + \delta_y \geq 0
+y^k + \delta_y \geq 0 \mbox{added by me}
 \\ \nonumber  i = 1, 2, \ldots m
 \end{eqnarray}
 where $\tilde{d_i} = y^k - z_i^k + d_i$. 
 The constraint $\beta$ was imposed on each element of the vector $\Bdelta_{\tilde{\Bx}}$ to guarantee that at each iteration is sufficiently small.
 The iterate $\tilde{\Bx}^k$ is feasible and known but it is not guaranteed that the $\tilde{\Bx}^{k+1}$ will also be feasible. To allow non-feasible perturbations $\Bdelta_{\tilde{\Bx}}$, the problem can be overcome by introducing a
-nonnegative slack variable $s \geq 0$ 6.6c to replace their right-hand sides  by a  relaxed upper bound (as this new bound itself is a nonnegative variable). This leads to a following formulation of the problem in 6.3
+nonnegative slack variable $s \geq 0$ 6.6c to replace their right-hand sides  by a  relaxed upper bound (as this new bound itself is a nonnegative variable). Since the iterate $\tilde{\Bx}^k$ is feasible, then the constraints 6.3d,e are satisfied, i.e. $z_i^k \geq 0$ and $y^k \geq 0$. This leads to a following formulation of the problem in 6.3
 \begin{eqnarray} \label{eq:6.7}
-\Min_{s, \tilde{\Bx}, \Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2 + \mu s \\
+\Min_{s, \Bdelta_{\tilde{\Bx}}} \sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}\right)^2 + \mu^k s \\
 \nonumber
-\mbox{subject to: }  -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+\mbox{subject to: }  - 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  = \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2 \\
 \nonumber
--2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx\|^2 - \left(y^k\right)^2 \\
+-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx^k\|^2 - \left(y^k\right)^2 \\
 \nonumber
 |\Bdelta_{\tilde{\Bx}}|  \leq \beta + s\\
 \nonumber
 s \geq 0 \\ 
 \nonumber
-z_i^k + \delta_{z_i} \geq 0, \ 
-y^k + \delta_y \geq 0
+\delta_{z_i} \geq 0, \ 
+\delta_y \geq 0 \mbox{  added by me}
 \\ \nonumber  i = 1, 2, \ldots m
 \end{eqnarray}
+$\mu^k \geq 0$ is the weight that monotonically increases as iterations proceed until it reaches an upper limit $\mu_{max}$. 
