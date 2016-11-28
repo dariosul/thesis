@@ -1,6 +1,95 @@
 \startappendix{}
 \label{chapter:app1}
 
+\section{Solving \ref{eq:3.16}}
+
+% TODO reword as this is too similar to contents of paper 'original.pdf'
+Next we show how to compute an exact solution to the SR-LS problem
+(\ref{eq:3.16}). Note that \ref{eq:3.16} belongs to the class of problems
+consisting of minimizing a quadratic function subject to a single
+quadratic constraint. Problems of this type are called generalized trust
+region subproblems (GTRS) \cite{More}. GTRS problems, although usually 
+nonconvex, possess necessary and sufficient optimality conditions from
+which efficient solution methods can be derived. In particular, by 
+Theorem 3.2 of \cite{More}, $\By \in R^{n+1}$ is an optimal solution
+of \ref{eq:3.16} if and only if there exists $\lambda \in R^{n}$ 
+such that
+
+\begin{equation} \label{eq:A.1}
+(\BA^{T}\BA + \lambda\BD)\By = \BA^{T}\Bb - \lambda\Bf
+\end{equation}
+
+\begin{equation} \label{eq:A.2}
+\By^{T}\BD\By + 2\Bf^{T}\By = 0
+\end{equation}
+
+\begin{equation} \label{eq:A.3}
+\BA^{T}\BA + \lambda\BD \geq 0
+\end{equation}
+
+It follows that the optimal solution of \ref{eq:3.16} is given by
+
+\begin{equation} \label{eq:A.4}
+\hat{\mathbf{y}}(\lambda) = (\BA^{T}\BA + \lambda\BD)^{-1}(\BA^{T}\Bb - \lambda\Bf)
+\end{equation}
+
+where $\lambda$ is the unique solution of
+
+\begin{equation} \label{eq:A.5}
+\varphi(\lambda) = 0, \lambda \in I
+\end{equation}
+
+and the function $\varphi$ is defined by
+
+\begin{equation} \label{eq:A.6}
+\varphi(\lambda) \equiv \hat{\mathbf{y}}(\lambda)^{T}\BD\hat{\mathbf{y}}(\lambda) + 2\Bf^{T}\hat{\mathbf{y}}(\lambda)
+\end{equation}
+
+The interval $I$ consists of all $\lambda$ for which 
+$\BA^{T}\BA + \lambda\BD$ is positive definite, which immediately implies
+that 
+
+\begin{equation} \label{eq:A.7}
+I = \left(-\dfrac{1}{\lambda_1(\BD,\BA^{T}\BA)}, \infty\right)
+\end{equation}
+
+Moreover, it is known by Theorem 5.2 of \cite{More} that
+$\varphi(\lambda)$ is strictly decreasing over $I$ and therefore
+a simple bisection algorithm can be used to find the optimal $\lambda$
+over the interval $I$.
+
+Note that we have limited the discussion to the case in which 
+$\BA^{T}\BA + \lambda\BD$ is strictly positive definite, which is
+equivalent to saying that the optimal $\lambda$ is different from
+$-1/\lambda_1(\BD, \BA^{T}\BA)$. The case in which the optimal $\lambda$
+is equal to $-1/\lambda_1(\BD, \BA^{T}\BA)$ is the so-called
+``hard case'' of the GRTS problem \cite{FortinWol}, which can 
+also be treated by a more refined analysis. However, the value 
+$\lambda = -1/\lambda_1(\BD, \BA^{T}\BA)$ 
+is very unlikely to occur both theoretically and practically
+(it never occurred in the tens of thousands of simulations we 
+have performed). Therefore, for the sake of simplicity, we have
+tacitly assumed that $\BA^{T}\BA + \lambda\BD$
+is positive semi-definite.
+
+The procedure for calculating the SR-LS estimate is summarized next:
+
+a) Use a bisection algorithm to obtain a solution $\lambda$ to 
+\ref{eq:A.5}.
+
+b) The SR-LS estimate is given by the first $n$ components of the 
+vector $\hat{\mathbf{y}}(\lambda)$ in \ref{eq:A.4}.
+
+An alternative approach for computing the SR-LS estimate is considered
+in \cite{CheungChan}. The method in \cite{CheungChan} consists of 
+finding all the five roots
+of the equation $varphi(\lambda) = 0$ over the real line. This is done
+by invoking a root finding procedure for polynomials of degree five.
+In a second stage, the global optimal solution of SR-LS is chosen as
+the best of the derived possible solutions. Interestingly, in the
+above we proved that there is no need to find all the roots of
+$\varphi(\lambda) = 0$ and that a simple bisection algorithm is 
+sufficient.
 
 \section{Solving \ref{eq:3.21}}
 
@@ -9,5 +98,3 @@
 \section{Solving \ref{eq:3.32}}
 
 3.32
-
-
