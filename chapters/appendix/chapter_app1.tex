@@ -91,6 +91,92 @@ above we proved that there is no need to find all the roots of
 $\varphi(\lambda) = 0$ and that a simple bisection algorithm is 
 sufficient.
 
+\section{Simultaneous Matrix Diagonalization}
+
+\begin{equation} \label{eq:A.5}
+\Bv^{T}(\BB^{T}\BB)\Bv = \|\BB\Bv\|^{2} 
+\end{equation}
+
+$\BB^{T}\BB$ is at least PSD (full rank), ?? x ??
+
+\begin{equation} \label{eq:A.6}
+\BU^{T}\BB^{T}\BB\BU = \begin{bmatrix}
+\lambda_1 & & 0 \\
+ & \ddots & \\
+0 & & \lambda_n
+\end{bmatrix}
+\end{equation}
+
+$\BU^{T}\BC\BU$ is symmetric.
+
+Non-symmetric square root (of $\BB^{T}\BB$):
+
+\begin{equation} \label{eq:A.7}
+\BU\begin{bmatrix}
+\sqrt{\lambda_1} & & 0 \\
+ & \ddots & \\
+0 & & \sqrt{\lambda_n}
+\end{bmatrix}
+\end{equation}
+
+Symmetric square root:
+
+\begin{equation} \label{eq:A.8}
+\BB^{T}\BB = \BU\begin{bmatrix}
+\lambda_1 & & 0 \\
+ & \ddots & \\
+0 & & \lambda_n
+\end{bmatrix}\BU^{T} = \BU\begin{bmatrix}
+\sqrt{\lambda_1} & & 0 \\
+ & \ddots & \\
+0 & & \sqrt{\lambda_n}
+\end{bmatrix}\BU^{T}\BU\begin{bmatrix}
+\sqrt{\lambda_1} & & 0 \\
+ & \ddots & \\
+0 & & \sqrt{\lambda_n}
+\end{bmatrix}\BU^{T}
+\end{equation}
+
+i.e.
+
+\begin{equation} \label{eq:A.9}
+\BB^{T}\BB = (\BB^{T}\BB)^{1/2}(\BB^{T}\BB)^{1/2}
+\end{equation}
+
+\begin{equation} \label{eq:A.10}
+\BV(\BB^{T}\BB)^{-1/2}(\BB^{T}\BB)(\BB^{T}\BB)^{-1/2}\BV^{T} = \BV\BI\BV = \begin{bmatrix}
+\gamma_1 & & 0 \\
+ & \ddots & \\
+0 & & \gamma_{n+1}
+\end{bmatrix}
+\end{equation}
+
+Then for the matrix $\BC$:
+
+\begin{equation} \label{eq:A.11}
+\BV(\BB^{T}\BB)^{-1/2}\BC(\BB^{T}\BB)^{-1/2}\BV^{T} = \begin{bmatrix}
+\delta_1 & & 0 \\
+ & \ddots & \\
+0 & & \delta_{n+1}
+\end{bmatrix}
+\end{equation}
+
+where $\BV$ is orthogonal.
+
+Hence the matrix $\BP$ we seek to compute is given by:
+
+\begin{equation} \label{eq:A.12}
+\BP = (\BB^T\BB)^{-1/2}\BV^T
+\end{equation}
+
+Share same eigenspace, i.e. the basis of the eigenspace is the same.
+
+\begin{eqnarray}
+\BP^{-1}\BA\BP = diag{\lambda_A} \\
+\nonumber
+\BP^{-1}\BB\BP = diag{\lambda_B}
+\end{eqnarray}
+
 \section{Solving \ref{eq:3.21}}
 
 3.21
