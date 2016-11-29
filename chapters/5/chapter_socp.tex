@@ -96,10 +96,34 @@ or quadratically as
 
 \subsection{Problem Statement}
 
+
+This section will focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA, also known as hyperbolic positioning, is a method whereby the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}. A hyperbola is the basis for solving multilateration problems. 
+
+In particular, the set of possible positions (OR  the locus of possible source locations ) of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
+ 
+ 
+Given two base station locations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, with $BS_0$ placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station, and a known TDOA, the locus of possible source locations is one half of a two-sheeted hyperboloid. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
+
+
+The estimation using TDOA is shown in Figure 7
+
+
+%Each TDOA measurement constrains the location of the signal source to be on a hyperboloid with a constant range-difference between the two reference points.
+
+%\textit{Matlab} Using the arrival times, the time differences of arrival between each pair of eNodeBs is calculated using hPositioningTDOA.m. The particular time difference of arrival between a pair of eNodeBs can result from the UE being located at any position where two circles, each centered on an eNodeB, intersect. The two circles have radii which differ by the distance covered at the speed of light in the given time difference. The complete set of possible UE positions across all possible radii for one circle (with the other circle maintaining a radius appropriate to the time difference as already described) forms a hyperbola. The "hyperbolas of constant delay difference" for all the different pairs of eNodeBs are plotted relative to the known eNodeB positions and intersect at the position of the UE.
+%A hyperbola is the basis for solving multilateration problems, the task of locating a point from the differences in its distances to given points — or, equivalently, the difference in arrival times of synchronized signals between the point and the given points. Such problems are important in navigation, particularly on water; a ship can locate its position from the difference in arrival times of signals from a LORAN or GPS transmitters. Conversely, a homing beacon or any transmitter can be located by comparing the arrival times of its signals at two separate receiving stations; such techniques may be used to track objects and people. In particular, the set of possible positions of a point that has a distance difference of 2a from two given points is a hyperbola of vertex separation 2a whose foci are the two given points.
+
+%\textit{Wiki} If a pulse is emitted from a platform, it will generally arrive at slightly different times at two spatially separated receiver sites, the TDOA being due to the different distances of each receiver from the platform. In fact, for given locations of the two receivers, a whole set of emitter locations would give the same measurement of TDOA. Given two receiver locations and a known TDOA, the locus of possible emitter locations is one half of a two-sheeted hyperboloid.
+
+%\textit{Wiki} In simple terms, with two receivers at known locations, an emitter can be located onto a hyperboloid.[1] Note that the receivers do not need to know the absolute time at which the pulse was transmitted – only the time difference is needed. A fourth receiver is needed for another independed TDOA, this wil give an extra hyperboloid, the intersection of the curve with this hyperboloid gives one or two solutions, the emitter is then located at the one or at the one of the two solutions.
+
+
+The source localization problem discussed in this chapter involves a given array of $m+1$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1, . . . , \Ba_m , a_i \in R^n\}$ and  $\Ba_0 = \symb{0}_n$ plaaced at the origin and used as a refference sensor.
 Measurement model
 \begin{equation} \label{eq:6.1}
 d_i = \|\Bx - \Ba_i\| - \|\Bx\| + noise
 \end{equation}
+
 
 Least-squares formulation
 \begin{equation} \label{eq:6.2}
