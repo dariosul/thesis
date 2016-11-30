@@ -97,16 +97,18 @@ or quadratically as
 \subsection{Problem Statement}
 
 
-This section will focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA, also known as hyperbolic positioning, is a method whereby the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}. A hyperbola is the basis for solving multilateration problems. 
-
-In particular, the set of possible positions (OR  the locus of possible source locations ) of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
+This section will focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA, also known as hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}. A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions (OR  the locus of possible source locations ) of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and foci located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids.
  
+An example of location estimation using TDOA is shown in Figure \ref{fig:hyperbola}. Consider an instance of the source localization problem on the plane $n = 2$ with the reference sensor placed at the origin and five sensors $m = 5$ located at $(-5,-13)^T, (-12,1)^T, (-1,-5)^T, (-9,-12)^T$ and  $(-3,-12)^T$. The source emmitting the signal was located at $\Bx_s = (-2,3)^T$. Figure \ref{fig:hyperbola} depicts a .
+
+\begin{figure} 
+\centering
+\includegraphics{figures/ccp/iteration_path2}
+\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(6,4)^T$, $(0,-10)^T$, $(5,-3)^T$, $(1,-4)^T$ and  $(3,-3)^T$. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
+\label{fig:hyperbola}
+\end{figure}
  
-Given two base station locations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, with $BS_0$ placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station, and a known TDOA, the locus of possible source locations is one half of a two-sheeted hyperboloid. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
-
-
-The estimation using TDOA is shown in Figure 7
-
+%Given two base station locations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, with $BS_0$ placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station, and a known TDOA, the locus of possible source locations is one half of a two-sheeted hyperboloid. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
 
 %Each TDOA measurement constrains the location of the signal source to be on a hyperboloid with a constant range-difference between the two reference points.
 
