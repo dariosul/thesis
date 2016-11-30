@@ -119,12 +119,13 @@ An example of location estimation using TDOA is shown in Figure \ref{fig:hyperbo
 \end{bmatrix}
 \\
 \end{equation}
-The source emmitting the signal was located at $\Bx_s = (-2,3)^T$. Figure \ref{fig:hyperbola} depicts a .
+
+The source emmitting the signal was located at $\Bx_s = (-2,3)^T$. Figure \ref{fig:hyperbola} depicts the locus of possible source locations as one half of a two-sheeted hyperbola.
 
 \begin{figure} 
 \centering
 \includegraphics{figures/ccp/iteration_path2}
-\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(-5, -13)^T$, $(-12, 1)^T$, $(-1, -5)^T$, $(-9, -12)^T$ and  $(-3, -12)^T$. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
+\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(-5, -13)^T$, $(-12, 1)^T$, $(-1, -5)^T$, $(-9, -12)^T$ and  $(-3, -12)^T$. Hyperbolas denote possible source locations given the pairwise range-difference readings. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
 \label{fig:hyperbola}
 \end{figure}
  
