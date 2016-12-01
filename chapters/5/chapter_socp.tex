@@ -216,7 +216,43 @@ where $\partial_x$ is the subdifferential operator with respect to variable $\Bx
 \end{equation}
 where $\Be$ is the all-one vector. Hence
 
-\label{eq:6.5} %1.9
+%\setcounter{abc}{0}
+\begin{equation} \label{eq:6.5}
+\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} \approx z^{(k)}_i + \delta_{z_{j}}, i = 1, 2,...,m
+\end{equation}
+
+\begin{equation} \label{eq:6.6}
+\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} \approx y_k + \delta_y
+\end{equation}
+
+Based on this, the problem to be solved in the
+\textit{k}th iteration is formulated as
+
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:6.7}
+\stepcounter{abc}
+\Min_{\Bdelta} & & f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = z_i^{(k)} + \delta_{z_{j}}, i = 1, 2,...,m \\
+\nonumber
+& &\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
+\nonumber
+\begin{bmatrix}
+-\beta\BOne_2 \\
+-min\{\beta, y_k\} \\
+-min\{\beta, \Bz_k\}
+\end{bmatrix} \leq \begin{bmatrix}
+\Bdelta_x \\
+\delta_y \\
+\Bdelta_z
+\end{bmatrix} \leq \begin{bmatrix}
+\beta\BOne_2 \\
+\beta \\
+\beta\BOne_m
+\end{bmatrix}
+\end{eqnarray}
+
+%\label{eq:6.5} %1.9
 
 \subsection{Numerical Results}
 
