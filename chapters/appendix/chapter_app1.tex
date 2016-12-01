@@ -214,6 +214,32 @@ for the case when $\BA\BB = \BB\BA$.
 \BA = \BP\BLambda_a\BP^T
 \end{eqnarray}
 
+Decomposition of $\BB^T\BB$:
+
+\begin{eqnarray}
+\nonumber
+[\BV, \BD] = eig(\BB^T\BB) \\
+\nonumber
+\Bd = diag(\BD) \\
+\nonumber
+\Bd_1 = -1/\sqrt{\Bd} \\
+\nonumber
+\BD_1 = diag(\Bd_1) \\
+\nonumber
+\BS_{b+b} = \BV\BD_1\BV^T = (\BB^T\BB)^{-1/2} \\
+\nonumber
+[\BV, \Bh] = eig(\BS_{b+b}\BC\BS_{b+b}) \\
+\nonumber
+\BP = \BS_{b+b}\BV^T
+\end{eqnarray}
+
+To ensure that all computations were performed correctly,
+the following should hold:
+
+\begin{equation}
+\BP^T\BB^T\BB\BP \equiv \BI
+\end{equation}
+
 \section{Solving \ref{eq:3.32}}
 
 \subsection{Finding roots of the polynomial}
