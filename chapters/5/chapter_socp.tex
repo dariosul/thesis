@@ -157,7 +157,7 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 \begin{equation} \label{eq:6.2}
 \Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
 \end{equation}
-As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches has been developed to address this problem. (\textbf{if so many methods already exist - wny new one??}) In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.1}), when at each iteration we we find an increment vector (\textbf{of what?}) by sequentially solving an SOCP problem.   
+As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches have been developed to address this problem. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. It operates by  solving an SOCP problem at each iteration to find an increment vector  that sequentially moves the initial estimate of the solution towards the minimum.
 
 \subsection{Sequential SOCP}
 
