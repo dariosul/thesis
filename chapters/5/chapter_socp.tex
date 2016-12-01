@@ -62,7 +62,7 @@ Hence the constraint in \ref{eq:5.3}c can be convexified by replacing it with it
 \nonumber
 -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i
 \end{equation}
-At the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in \ref{eq:5.3} can be relaxed to an SOCP problem
+At the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in \ref{eq:5.3} can be converted to an SOCP problem
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:5.4}
 \stepcounter{abc}
@@ -91,43 +91,52 @@ or quadratically as
 
 
 %\startchapter{SOCP}
+\newpage
 
 \section{Range-Difference Localization}
 
-\subsection{Problem Statement}
+\subsection{Problem Formulation}
 
 
-This section will focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA, also known as hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}. A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and foci located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids.
- 
-An example of location estimation using TDOA is shown in Figure \ref{fig:hyperbola}. Consider an instance of the source localization problem on the plane $n = 2$ with the reference sensor $\Ba_0$ placed at the origin and five sensors $m = 5$ located at 
-\begin{equation}
-\nonumber
-\Ba_1 = \begin{bmatrix}
--5 \\ -13
-\end{bmatrix}, \
-\Ba_2 = \begin{bmatrix}
--12 \\ 1
-\end{bmatrix},  \
-\Ba_3 = \begin{bmatrix}
--1 \\ -5
-\end{bmatrix}, \
-\Ba_4 = \begin{bmatrix}
--9 \\ -12
-\end{bmatrix}, \
-\Ba_5 = \begin{bmatrix}
--3 \\ -12
-\end{bmatrix}
-\\
-\end{equation}
+This section will focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent TDOA measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
 
-The source emmitting the signal was located at $\Bx_s = (-2,3)^T$. Figure \ref{fig:hyperbola} depicts the locus of possible source locations as one half of a two-sheeted hyperbola.
-
-\begin{figure} 
+\begin{figure}[h] 
 \centering
-\includegraphics{figures/ccp/iteration_path2}
-\caption{Iteration path of the PCCP-based LS Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(-5, -13)^T$, $(-12, 1)^T$, $(-1, -5)^T$, $(-9, -12)^T$ and  $(-3, -12)^T$. Hyperbolas denote possible source locations given the pairwise range-difference readings. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
-\label{fig:hyperbola}
+\includegraphics{figures/socp_rd/TDOA_example}
+\caption{Range-difference localization.  At least three base stations are required for the planar localization. The red cross indicates the location of the signal source. Sensors are placed at $\protect\Ba_j = (10, -10)^T$, and  $\protect\Ba_0$ is the reference sensor. The time (range) differences $r_j - r_0$ and $r_i - r_0$ form two hyperboloids with focii located at $\protect\Ba_i, \protect\Ba_j$ and $\protect\Ba_0$. Note that the hyperboloids are actually double sheeted, but for visual clarity only the halves which are part of the solution are shown. The intersection of these hyperboloids is the estimated position.
+The figure depicts the locus of possible source locations as one half of a two-sheeted hyperboloids.}
+\label{fig:tdoa}
 \end{figure}
+ 
+%An example of location estimation using TDOA is shown in Figure \ref{fig:hyperbola}. Consider an instance of the source localization problem on the plane $n = 2$ with the reference sensor $\Ba_0$ placed at the origin and five sensors $m = 5$ located at 
+%\begin{equation}
+%\nonumber
+%\Ba_1 = \begin{bmatrix}
+%-5 \\ -13
+%\end{bmatrix}, \
+%\Ba_2 = \begin{bmatrix}
+%-12 \\ 1
+%\end{bmatrix},  \
+%\Ba_3 = \begin{bmatrix}
+%-1 \\ -5
+%\end{bmatrix}, \
+%\Ba_4 = \begin{bmatrix}
+%-9 \\ -12
+%\end{bmatrix}, \
+%\Ba_5 = \begin{bmatrix}
+%-3 \\ -12
+%\end{bmatrix}
+%\\
+%\end{equation}
+%
+%The source emitting the signal was located at $\Bx_s = (-5,11)^T$. Figure \ref{fig:hyperbola} depicts the locus of possible source locations as one half of a two-sheeted hyperboloids.
+
+%\begin{figure} 
+%\centering
+%\includegraphics{figures/socp_rd/TDOA_example}
+%\caption{Algorithm and contours of the R-LS objective function over the region $\protect\Re = \protect\lbrace \protect\Bx:-15\protect\leq x_1 \protect\leq 15, -25\protect\leq x_2 \protect\leq 15 \protect\rbrace$. The red cross indicates the location of the signal source. Sensors are located at $(-5, -13)^T$, $(-12, 1)^T$, $(-1, -5)^T$, $(-9, -12)^T$ and  $(-3, -12)^T$. Hyperbolas denote possible source locations given the pairwise range-difference readings. Large circles denote possible source locations given the noisy range reading at a particular sensor.}
+%\label{fig:hyperbola}
+%\end{figure}
  
 %Given two base station locations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, with $BS_0$ placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station, and a known TDOA, the locus of possible source locations is one half of a two-sheeted hyperboloid. Consider now a third base station $BS_j$ at a third location. This would provide one extra independed TDOA measurement and the source is located on the curve determined by the two intersecting hyperboloids.
 
@@ -140,29 +149,43 @@ The source emmitting the signal was located at $\Bx_s = (-2,3)^T$. Figure \ref{f
 
 %\textit{Wiki} In simple terms, with two receivers at known locations, an emitter can be located onto a hyperboloid.[1] Note that the receivers do not need to know the absolute time at which the pulse was transmitted – only the time difference is needed. A fourth receiver is needed for another independed TDOA, this wil give an extra hyperboloid, the intersection of the curve with this hyperboloid gives one or two solutions, the emitter is then located at the one or at the one of the two solutions.
 
-
-The source localization problem discussed in this chapter involves a given array of $m+1$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1, . . . , \Ba_m , a_i \in R^n\}$ and  $\Ba_0 = \symb{0}_n$ plaaced at the origin and used as a refference sensor.
-Measurement model
+The localization problem discussed in this section involves a given array of $m+1$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1, \Ba_2, . . . , \Ba_m , a_i \in R^n\}$ and  $\Ba_0 = \symb{0}_n$ placed at the origin and used as a refference sensor. The localization problem here is to estimate the location of a radiating source $\Bx$ given the locations of the $m+1$ sensors and noise-contaminated range-difference measurements $\{d_i, i = 1, 2, \ldots, m\}$ where 
 \begin{equation} \label{eq:6.1}
-d_i = \|\Bx - \Ba_i\| - \|\Bx\| + noise
+d_i = \|\Bx - \Ba_i\| - \|\Bx\| + \varepsilon_i, \mbox{ for } i = 1, 2, \ldots, m
 \end{equation}
-
-
-Least-squares formulation
+Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 \begin{equation} \label{eq:6.2}
 \Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
 \end{equation}
+As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches has been developed to address this problem. (\textbf{if so many methods already exist - wny new one??}) In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.1}), when at each iteration we we find an increment vector (\textbf{of what?}) by sequentially solving an SOCP problem.   
 
-\subsection{Sequential Relaxation}
-The problem in \ref{eq:6.2} can be equivalently written as
+\subsection{Sequential SOCP}
+
+We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrained problem with second-order cone constraints%can be equivalently written as
+\setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.3}
-\Min \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
-\nonumber
-\mbox{subject to: } \|\Bx - \Ba_i\| = z_i \\
-\nonumber
-\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
+\stepcounter{abc}
+\setcounter{equation}{7}
+\Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
+\stepcounter{abc}
+\setcounter{equation}{7}
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i \\
+\stepcounter{abc}
+\setcounter{equation}{7}
+& &\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
 \end{eqnarray}
-Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$, $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known feasible point of the problem in \ref{eq:6.3}. Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ is a small perturbation to it, such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ and $\beta > 0$ is a small positive constant. We need to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
+Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known strictly feasible point of the problem in \ref{eq:6.3}. 
+%\setcounter{abc}{0}
+%\begin{eqnarray} 
+%\nonumber
+%\Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2 \\
+%\nonumber
+%\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq z_i \\
+%\nonumber
+%& &\|\Bx\|  \leq y, \quad  i = 1, 2, \ldots m
+%\end{eqnarray}
+Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ is a small perturbation to it, such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ and $\beta > 0$ is a small positive constant. We need to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
+\setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.4}
 \Bx^{k+1} = \Bx^k + \Bdelta_x \\
 \nonumber
