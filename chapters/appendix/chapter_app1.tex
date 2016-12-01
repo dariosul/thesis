@@ -186,18 +186,68 @@ Share same eigenspace, i.e. the basis of the eigenspace is the same.
 \BP^{-1}\BB\BP = diag\{\lambda_B\}
 \end{eqnarray}
 
-%Eigenspace $\B{E}_{\lambda\A}$ of $\BA$ is equivalent to null space of
-%?? $(\BA - \lambda_A\BI)$. Hence for $(\BB^T\BB)$ rank = 2 it is true
-%that
+Eigenspace $\BE_{\lambda A}$ of $\BA$ is equivalent to null 
+space of $(\BA - \lambda_A\BI)$. 
+Hence for $(\BB^T\BB)$ rank = 2 it is true
+that
 
-%\begin{eqnarray}
-%\BA = \BV\BDelta_a\BV^T \\
-%\BB = \BV\BDelta_b\BV^T \\
-%\BB\BA = \BV\BDelta_b\BV^T\BV\BDelta_a\BV^T = \BV\BDelta_b\BDelta_a\BV^T \\
-%\leftrightarrow \BA\BB = \BV\BDelta_a\BDelta_b\BV^T
-%\end{eqnarray}
-%
-%for the case when $\BA\BB = \BB\BA$.
+\begin{eqnarray}
+\BA = \BV\BLambda_a\BV^T \\
+\BB = \BV\BLambda_b\BV^T \\
+\BB\BA = \BV\BLambda_b\BV^T\BV\BLambda_a\BV^T = \BV\BLambda_b\BLambda_a\BV^T \\
+\Leftrightarrow \BA\BB = \BV\BLambda_a\BLambda_b\BV^T
+\end{eqnarray}
+
+for the case when $\BA\BB = \BB\BA$.
+
+\begin{eqnarray}
+\nonumber
+\BA\BV = \BB\BV\BD \\
+\nonumber
+\BA = \BP\BLambda_a\BP^T \\
+\nonumber
+\BB = \BP\BLambda_b\BP^T \\
+\nonumber
+\BH\BP = \BP\BLambda_a \\
+\nonumber
+\BB\BP = \BP\BLambda_b \Rightarrow \BP = \BB^{-1}\BP\BLambda_b \\
+\nonumber
+\BA = \BB\BV\BD\BV^T \\
+\nonumber
+\BP\BLambda_a\BP^T = \BP\BLambda_b\BP^T\BV\BD\BV^T \\
+\nonumber
+\BA\BB^{-1}\BP\BLambda_b = \BB^{-1}\BP\BLambda_b\BLambda_a \\
+\nonumber
+\BB\BA\BB^{-1}\BP = \BP\BLambda_b\BLambda_a\BLambda_b^{-1} \\
+\nonumber
+\BA = \BP\BLambda_a\BP^T
+\end{eqnarray}
+
+Decomposition of $\BB^T\BB$:
+
+\begin{eqnarray}
+\nonumber
+[\BV, \BD] = eig(\BB^T\BB) \\
+\nonumber
+\Bd = diag(\BD) \\
+\nonumber
+\Bd_1 = -1/\sqrt{\Bd} \\
+\nonumber
+\BD_1 = diag(\Bd_1) \\
+\nonumber
+\BS_{b+b} = \BV\BD_1\BV^T = (\BB^T\BB)^{-1/2} \\
+\nonumber
+[\BV, \Bh] = eig(\BS_{b+b}\BC\BS_{b+b}) \\
+\nonumber
+\BP = \BS_{b+b}\BV^T
+\end{eqnarray}
+
+To ensure that all computations were performed correctly,
+the following should hold:
+
+\begin{equation}
+\BP^T\BB^T\BB\BP \equiv \BI
+\end{equation}
 
 \section{Solving \ref{eq:3.32}}
 
@@ -217,6 +267,39 @@ For the planar case, i.e. n = 2
 \end{aligned}
 \end{equation}
 
+\begin{eqnarray}
+\nonumber
+a_0 = f^2_1\delta_1 + f^2_2\delta_2 + f^2_3\delta_3 \\
+\nonumber
+a_1 = f^2_1\delta_1(2\delta_2 + 2\delta_3) + f^2_2\delta_2(2\delta_1 + 2\delta_3) + f^2_3\delta_3(2\delta_1 + 2\delta_2) \\
+\nonumber
+a_2 = f^2_1\delta_1(\delta^2_2 + \delta^2_3 + 4\delta_2\delta_3) + f^2_2\delta^2_2(\delta^2_1 + \delta^2_3 + 4\delta_1\delta_3) + f^2_3\delta_3(\delta^2_1 + \delta^2_2 + 4\delta_1\delta_2) \\
+\nonumber
+a_3 = f^2_1\delta_12(\delta^2_3\delta_2 + \delta^2_2\delta_3) + f^2_2\delta_22(\delta_1\delta^2_3 + \delta^2_1\delta_3) + f^2_3\delta_32(\delta_1\delta^2_2 + \delta^2_1\delta_2) \\
+\nonumber
+a_4 = f^2_1\delta_1\delta^2_2\delta^2_3 + f^2_2\delta_2\delta^2_1\delta^2_3 + f^2_3\delta_3\delta^2_1\delta^2_2
+\end{eqnarray}
 
+\subsection{Intervals}
 
-3.32
+\begin{equation}
+\BI_1 = \left(-\frac{\BP}{\lambda_1(\BD_1\BA^T\BA)}, \infty\right)
+\end{equation}
+
+where $\lambda_1 = max\{\lambda_i\}$.
+
+\begin{equation}
+\tilde{\By}(\lambda) = (\BB^T\BB + \lambda\BC^{-1})\BB^T\Bg
+\end{equation}
+
+\begin{equation}
+\alpha_0 = -\frac{1}{\lambda_{n+1}(\BC_1\BB^T\BB)}
+\end{equation}
+
+\begin{equation}
+\alpha_1 = -\frac{1}{\lambda_1(\BC_1\BB^T\BB)}
+\end{equation}
+
+\begin{equation}
+\alpha_2 = -\frac{1}{\lambda_2(\BC_1\BB^T\BB)}
+\end{equation}
