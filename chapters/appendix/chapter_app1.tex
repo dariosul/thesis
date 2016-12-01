@@ -10,7 +10,7 @@ Beck \textit{et al.} \cite{BeckStLi} argue that the problem
 &\mbox{subject to: \ }  \By^T\BD\By + 2\Bf^T\By = 0
 \end{aligned}
 \end{equation} 
-belongs to the class of the generalized trust region subproblems (GTRS). They investigate the neccessary and 
+belongs to the class of the generalized trust region subproblems (GTRS). They investigate the neccessary and sufficient optimality conditions of (\ref{eq:A.0})
 
 % TODO reword as this is too similar to contents of paper 'original.pdf'
 Next we show how to compute an exact solution to the SR-LS problem
@@ -262,22 +262,23 @@ For the planar case, i.e. n = 2
 \begin{equation}
 \nonumber
 \begin{aligned}
-& f^2_1\delta_1(1 + \lambda\delta_2)^2(1 + \lambda\delta_3)^2 + f^2_2\delta_2(1 + \lambda\delta_1)^2(1 + \lambda\delta_3)^2 + f^2_3\delta_3(1 + \lambda\delta_2)^2(1 + \lambda\delta_1)^2 \\ 
-& = a_0 + \lambda a_1 + \lambda^2 a_2 + \lambda^3 a_3 + \lambda^4 a_4
+ f^2_1\delta_1(1 + \lambda\delta_2)^2(1 + \lambda\delta_3)^2 + f^2_2\delta_2(1 + \lambda\delta_1)^2(1 + \lambda\delta_3)^2 + f^2_3\delta_3(1 + \lambda\delta_2)^2(1 + \lambda\delta_1)^2 \\ 
+ = a_0 + \lambda a_1 + \lambda^2 a_2 + \lambda^3 a_3 + \lambda^4 a_4
 \end{aligned}
 \end{equation}
-
+where the polynomial coefficients are given by
 \begin{eqnarray}
 \nonumber
-a_0 = f^2_1\delta_1 + f^2_2\delta_2 + f^2_3\delta_3 \\
+&a_0 &= f^2_1\delta_1 + f^2_2\delta_2 + f^2_3\delta_3 \\
 \nonumber
-a_1 = f^2_1\delta_1(2\delta_2 + 2\delta_3) + f^2_2\delta_2(2\delta_1 + 2\delta_3) + f^2_3\delta_3(2\delta_1 + 2\delta_2) \\
+&a_1 &= f^2_1\delta_1(2\delta_2 + 2\delta_3) + f^2_2\delta_2(2\delta_1 + 2\delta_3) + f^2_3\delta_3(2\delta_1 + 2\delta_2)
+ \\
 \nonumber
-a_2 = f^2_1\delta_1(\delta^2_2 + \delta^2_3 + 4\delta_2\delta_3) + f^2_2\delta^2_2(\delta^2_1 + \delta^2_3 + 4\delta_1\delta_3) + f^2_3\delta_3(\delta^2_1 + \delta^2_2 + 4\delta_1\delta_2) \\
+&a_2 &= f^2_1\delta_1(\delta^2_2 + \delta^2_3 + 4\delta_2\delta_3) + f^2_2\delta^2_2(\delta^2_1 + \delta^2_3 + 4\delta_1\delta_3) + f^2_3\delta_3(\delta^2_1 + \delta^2_2 + 4\delta_1\delta_2) \\
 \nonumber
-a_3 = f^2_1\delta_12(\delta^2_3\delta_2 + \delta^2_2\delta_3) + f^2_2\delta_22(\delta_1\delta^2_3 + \delta^2_1\delta_3) + f^2_3\delta_32(\delta_1\delta^2_2 + \delta^2_1\delta_2) \\
+&a_3 &= f^2_1\delta_12(\delta^2_3\delta_2 + \delta^2_2\delta_3) + f^2_2\delta_22(\delta_1\delta^2_3 + \delta^2_1\delta_3) + f^2_3\delta_32(\delta_1\delta^2_2 + \delta^2_1\delta_2) \\
 \nonumber
-a_4 = f^2_1\delta_1\delta^2_2\delta^2_3 + f^2_2\delta_2\delta^2_1\delta^2_3 + f^2_3\delta_3\delta^2_1\delta^2_2
+&a_4 &= f^2_1\delta_1\delta^2_2\delta^2_3 + f^2_2\delta_2\delta^2_1\delta^2_3 + f^2_3\delta_3\delta^2_1\delta^2_2
 \end{eqnarray}
 
 \subsection{Intervals}
