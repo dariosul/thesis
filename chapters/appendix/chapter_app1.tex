@@ -35,7 +35,8 @@ It follows that the optimal solution of \ref{eq:3.16} is given by
 
 where $\lambda$ is the unique solution of
 
-\begin{equation} \label{eq:A.5}
+\begin{equation} 
+\label{eq:A.5}
 \varphi(\lambda) = 0, \lambda \in I
 \end{equation}
 
@@ -74,8 +75,7 @@ is positive semi-definite.
 
 The procedure for calculating the SR-LS estimate is summarized next:
 
-a) Use a bisection algorithm to obtain a solution $\lambda$ to 
-\ref{eq:A.5}.
+a) Use a bisection algorithm to obtain a solution $\lambda$ to (\ref{eq:A.5}).
 
 b) The SR-LS estimate is given by the first $n$ components of the 
 vector $\hat{\mathbf{y}}(\lambda)$ in \ref{eq:A.4}.
@@ -83,7 +83,7 @@ vector $\hat{\mathbf{y}}(\lambda)$ in \ref{eq:A.4}.
 An alternative approach for computing the SR-LS estimate is considered
 in \cite{CheungChan}. The method in \cite{CheungChan} consists of 
 finding all the five roots
-of the equation $varphi(\lambda) = 0$ over the real line. This is done
+of the equation $\varphi(\lambda) = 0$ over the real line. This is done
 by invoking a root finding procedure for polynomials of degree five.
 In a second stage, the global optimal solution of SR-LS is chosen as
 the best of the derived possible solutions. Interestingly, in the
@@ -195,14 +195,18 @@ Share same eigenspace, i.e. the basis of the eigenspace is the same.
 \subsection{Finding roots of the polynomial}
 
 \begin{eqnarray}
-\sum^{n+1}_{j=1} \frac{f^2_j\delta_j}{(\gamma_0+\lambda\delta_j)^2} = 0 \\
+\sum^{n+1}_{j=1} \frac{f^2_j\delta_j}{\left(\gamma_j+\lambda\delta_j\right)^2} = 0 \\
 \nonumber
-\Leftrightarrow \sum^{n+1}_{j=1} f^2_j\delta_j \prod^{n+1}_{k=1,k\neq j}(\gamma_k + \lambda_k\delta_k)^2 = 0 \\
-\nonumber
-\begin{align}
-\Leftrightarrow f^2_1\delta_1(1 + \lambda\delta_2)^2(1 + \lambda\delta_3)^2 + f^2_2\delta_2(1 + \lambda\delta_1)^2(1 + \lambda\delta_3)^2 + f^2_3\delta_3(1 + \lambda\delta_2)^2(1 + \lambda\delta_1)^2 = a_0 + \lambda a_1 + \lambda^2 a_2 + \lambda^3 a_3 + \lambda^4 a_4
-\end{align}
+\Leftrightarrow \sum^{n+1}_{j=1} f^2_j\delta_j \prod^{n+1}_{k=1,k\neq j}\left(\gamma_k + \lambda_k\delta_k\right)^2 = 0 
 \end{eqnarray}
+For the planar case, i.e. n = 2
+\begin{equation}
+\nonumber
+\begin{aligned}
+& f^2_1\delta_1(1 + \lambda\delta_2)^2(1 + \lambda\delta_3)^2 + f^2_2\delta_2(1 + \lambda\delta_1)^2(1 + \lambda\delta_3)^2 + f^2_3\delta_3(1 + \lambda\delta_2)^2(1 + \lambda\delta_1)^2 \\ 
+& = a_0 + \lambda a_1 + \lambda^2 a_2 + \lambda^3 a_3 + \lambda^4 a_4
+\end{aligned}
+\end{equation}
 
 
 
