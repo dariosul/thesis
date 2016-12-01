@@ -180,34 +180,37 @@ Assume we are in the $k$th iteration and we are to update the $k$th iterate $\{\
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.4} %1.8
 \stepcounter{abc}
-\Bx^{k+1} = \Bx^k + \Bdelta_x \\
+\Bx^{k+1} &=& \Bx^k + \Bdelta_x \\
 \stepcounter{abc}
 \setcounter{equation}{8}
-y^{k+1} = y^k + \delta_y \\
+y^{k+1} &=& y^k + \delta_y \\
 \stepcounter{abc}
 \setcounter{equation}{8}
-\Bz^{k+1} = \Bz^k + \Bdelta_z
+\Bz^{k+1} &=& \Bz^k + \Bdelta_z
 \end{eqnarray}
 where $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ are such that the constraints in (\ref{eq:6.3}b) and (\ref{eq:6.3}c) are better approximated at $\{\Bx_{k+1},y_{k+1},\Bz_{k+1}\}$ in the sense that
 \setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
-\|\Bx_{k+1} - \Ba_i\| \approx z_i^{k+1}, \quad i = 1, 2, \ldots, m \\
-\|\Bx_{k+1}\| \approx y_{k+1}
+\|\Bx_{k+1} - \Ba_i\| &\approx &z_i^{k+1}, \quad i = 1, 2, \ldots, m \\
+\nonumber
+\|\Bx_{k+1}\| &\approx &y_{k+1}
 \end{eqnarray}
 namely,
 \setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
-\|\Bx_{k} + \Bdelta_x - \Ba_i\| \approx z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
-\|\Bx_{k} + \Bdelta_x\| \approx y_{k}  + \Bdelta_y
+\|\Bx_{k} + \Bdelta_x - \Ba_i\| &\approx &z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\nonumber
+\|\Bx_{k} + \Bdelta_x\| &\approx &y_{k}  + \Bdelta_y
 \end{eqnarray}
 By replacing the left-hand sides of the above equations with their first-order Taylor approximations, we obtain
 \setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
-\|\Bx_{k} - \Ba_i\| + \partial_x^T\|\Bx_{k} - \Ba_i\|\Bdelta_x \approx z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
-\|\Bx_{k}\|  + \partial_x^T\|\Bx_{k}\|\Bdelta_x\ \approx y_{k}  + \Bdelta_y
+\|\Bx_{k} - \Ba_i\| + \partial_x^T\|\Bx_{k} - \Ba_i\|\Bdelta_x &\approx & z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\nonumber
+\|\Bx_{k}\|  + \partial_x^T\|\Bx_{k}\|\Bdelta_x\ &\approx & y_{k}  + \Bdelta_y
 \end{eqnarray}
 where $\partial_x$ is the subdifferential operator with respect to variable $\Bx$. Assuming $\Bx_k \neq \Ba_i$ and $\Bx_k$ is nonzero, then
 \begin{equation}
@@ -215,32 +218,31 @@ where $\partial_x$ is the subdifferential operator with respect to variable $\Bx
 \partial_x\|\Bx_{k} - \Ba_i\| = \frac{\Be}{\|\Bx_{k} - \Ba_i\|} \ \mbox{and } \partial_x\|\Bx_{k}\| = \frac{\Be}{\|\Bx_{k}\|}
 \end{equation}
 where $\Be$ is the all-one vector. Hence
-
-%\setcounter{abc}{0}
-\begin{equation} \label{eq:6.5}
-\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} \approx z^{(k)}_i + \delta_{z_{j}}, i = 1, 2,...,m
-\end{equation}
-
-\begin{equation} \label{eq:6.6}
-\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} \approx y_k + \delta_y
-\end{equation}
-
-Based on this, the problem to be solved in the
-\textit{k}th iteration is formulated as
-
 \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.7}
+\begin{eqnarray} \label{eq:6.5} %1.9
 \stepcounter{abc}
-\Min_{\Bdelta} & & f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
-\nonumber
+\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} &\approx &z^{(k)}_i + \delta_{z_{j}}, \quad i = 1, 2,...,m \\
+\stepcounter{abc}
+\setcounter{equation}{9}
+\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} &\approx &y_k + \delta_y
+\end{eqnarray}
+Based on this, the problem to be solved in the \textit{k}th iteration is formulated as
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:6.6} %1.10
+\stepcounter{abc}
+\Min_{\Bdelta}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
+\stepcounter{abc}
+\setcounter{equation}{10}
 \mbox{subject to:}& &\|\Bx - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = z_i^{(k)} + \delta_{z_{j}}, i = 1, 2,...,m \\
-\nonumber
+\stepcounter{abc}
+\setcounter{equation}{10}
 & &\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
-\nonumber
-\begin{bmatrix}
+\stepcounter{abc}
+\setcounter{equation}{10}
+& &\begin{bmatrix}
 -\beta\BOne_2 \\
--min\{\beta, y_k\} \\
--min\{\beta, \Bz_k\}
+-\mbox{min}\{\beta, y_k\} \\
+-\mbox{min}\{\beta, \Bz_k\}
 \end{bmatrix} \leq \begin{bmatrix}
 \Bdelta_x \\
 \delta_y \\
@@ -251,8 +253,45 @@ Based on this, the problem to be solved in the
 \beta\BOne_m
 \end{bmatrix}
 \end{eqnarray}
+The constraints in (\ref{eq:6.6}d) not only assure that the magnitude of each component in $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ is no greater than $\beta$, but also they assure that all components of $\{y_{k + 1}, \Bz_{k + 1}\}$ are nonnegative as long as $\{y_{k}, \Bz_{k}\}$ are nonnegative, which are natural to impose as can be seen from (\ref{eq:6.3}b) and (\ref{eq:6.3}c) because they are vector norms. Obviously, the problem in (\ref{eq:6.6}) is a convex QP problem. One
+technical difficulty that may occur in solving problem (\ref{eq:6.6}) is that the feasible region defined by (\ref{eq:6.6}b), (\ref{eq:6.6}c), and (\ref{eq:6.6}d) may be empty. In such a case the constraints in problem (\ref{eq:6.6})
+much be adequately relaxed in order for the problem to be solvable. To this end we rewrite (\ref{eq:6.6}) as
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:6.7} %1.11
+\stepcounter{abc}
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) \\
+\stepcounter{abc}
+\setcounter{equation}{11}
+\mbox{subject to}& &\BA\tilde{\Bdelta} = \Bb \\
+\stepcounter{abc}
+\setcounter{equation}{11}
+& &\BC\tilde{\Bdelta} \leq \Bd
+\end{eqnarray}
+By introducing nonnegative slack variables $\Bu, \Bv$ and $\Bw$, we relax the problem in (\ref{eq:6.7}) to
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:6.8} %1.12
+\stepcounter{abc}
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau\sum_{j=1}^{2(m+3)} w_j\\
+\stepcounter{abc}
+\setcounter{equation}{12}
+\mbox{subject to}& &\BA\tilde{\Bdelta} - \Bb = \Bu - \Bv \\
+\stepcounter{abc}
+\setcounter{equation}{12}
+& &\BC\tilde{\Bdelta} - \Bd \leq \Bw \\
+\stepcounter{abc}
+\setcounter{equation}{12}
+& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, \Bw \geq \symb{0}
+\end{eqnarray}
+where $\tau > 0$ is a sufficiently large scalar. It is easy to verify that the feasible region defined by (\ref{eq:6.8}b) -  (\ref{eq:6.8}d) is always nonempty. For example, if we fix $\tilde{\Bdelta} = \tilde{\Bdelta_0}$ arbitrarily, then obviously the point $\{\tilde{\Bdelta_0}, \Bu_0, \Bv_0, \Bw_0\}$ with
+\setcounter{abc}{0}
+\begin{equation}
+\nonumber
+\Bu_0 = \mbox{max}\{\symb{0},\BA\tilde{\Bdelta_0} -\Bb\}, \quad \Bv_0 = \mbox{max}\{\symb{0},-(\BA\tilde{\Bdelta_0} -\Bb)\}, \mbox{and } \Bw_0 = \mbox{max}\{\symb{0},\BC\tilde{\Bdelta_0} -\Bd\}
+\end{equation}
 
-%\label{eq:6.5} %1.9
+\noindent
+is a feasible point for problem (\ref{eq:6.8}). The penalty term tries to reduce the magnitudes of the slack variables while minimizing the original objective function. If the solution slack variables turn out to be all zero, then the solution  of (\ref{eq:6.8}) also solves problem (\ref{eq:6.7}). Otherwise, we conclude that problem (\ref{eq:6.7}) in not solvable and the solution obtained by solving (\ref{eq:6.8}) is a reasonable candidate for the kth iteration to update $\{\Bx_k, y_k, \Bz_k\}$.
+
 
 \subsection{Numerical Results}
 

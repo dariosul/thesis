@@ -426,7 +426,7 @@ We remark that constraint (\ref{eq:4.13}) is not only convex but also tighter th
 
 \noindent
 Therefore, a point $\Bx$ satisfying (\ref{eq:4.13}) automatically satisfies (\ref{eq:4.12}b). Summarizing, the convexified problem in the $k$-th iteration can be stated as
-\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
+%\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
 \begin{eqnarray} \label{eq:4.14}
 \setcounter{abc}{1}
   \Min_{\Bx}&&\Bx^T\Bx - 2\Bx^T \Bv_k \\
@@ -440,7 +440,7 @@ Therefore, a point $\Bx$ satisfying (\ref{eq:4.13}) automatically satisfies (\re
   -\|\Bx_k-\Ba_i\|-\partial\|\Bx_k-\Ba_i\|^T\left(\Bx-\Bx_k\right) +r_i-\delta_i\leq 0 \quad
 \end{eqnarray}
 
-\phantom{m}
+%\phantom{m}
 
 \noindent
 A technical problem making the formulation in (\ref{eq:4.14}) difficult to implement is that it requires a feasible initial point $\Bx_0$. The problem can be overcome by introducing nonnegative slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, for $i =1, \ldots, m$} into the constraints in (\ref{eq:4.14}b) and (\ref{eq:4.14}c) to replace their right-hand sides (which are zeros) by relaxed upper bounds (as these new bounds themselves are nonnegative variables). This leads to a \textit{penalty} CCP (PCCP) based formulation as follows: 
@@ -463,7 +463,7 @@ A technical problem making the formulation in (\ref{eq:4.14}) difficult to imple
 \qquad s_i \geq 0,  \hat{s_i}  \geq 0, \ \mbox{for: }  i = 1, 2, \ldots, m  
 \end{eqnarray}
 
-\phantom{m}
+%\phantom{m}
 
 \noindent
 where the weight  $\tau_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\tau_{max}$. By using a monotonically increasing  $\tau_k$ for the penalty term in (\ref{eq:PCCP}a), the algorithm reduces the slack variables $s_i$  and $\hat{s}_i$  very quickly. As a result, new iterates quickly become feasible as    $s_i$  and $\hat{s}_i$    vanish. The upper limit $\tau_{max}$  is imposed to avoid numerical difficulties that may occur if $\tau_k$  becomes too large and to ensure convergence if a feasible region is not found [9]. Consequently, while formulation (\ref{eq:PCCP}) accepts \textit{infeasible} initial points, the iterates obtained by solving (16) are practically identical to those obtained by solving (\ref{eq:4.14}).
