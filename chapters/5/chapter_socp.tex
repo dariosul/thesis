@@ -163,7 +163,7 @@ As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) 
 
 We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrained problem with second-order cone constraints%can be equivalently written as
 \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.3}
+\begin{eqnarray} \label{eq:6.3} %1.7
 \stepcounter{abc}
 \setcounter{equation}{7}
 \Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
@@ -174,7 +174,7 @@ We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrai
 \setcounter{equation}{7}
 & &\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
 \end{eqnarray}
-Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known strictly feasible point of the problem in \ref{eq:6.3}. 
+Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known strictly feasible point of the problem in (\ref{eq:6.3}). 
 %\setcounter{abc}{0}
 %\begin{eqnarray} 
 %\nonumber
@@ -186,16 +186,20 @@ Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \
 %\end{eqnarray}
 Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ is a small perturbation to it, such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ and $\beta > 0$ is a small positive constant. We need to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
 \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.4}
+\begin{eqnarray} \label{eq:6.4} %1.8
+\stepcounter{abc}
 \Bx^{k+1} = \Bx^k + \Bdelta_x \\
-\nonumber
+\stepcounter{abc}
+\setcounter{equation}{8}
 y^{k+1} = y^k + \delta_y \\
-\nonumber
+\stepcounter{abc}
+\setcounter{equation}{8}
 \Bz^{k+1} = \Bz^k + \Bdelta_z
 \end{eqnarray}
 remains strictly feasible. 
-At the $k$th iterations with $\tilde{\Bx}^k$ \textit{known} update $(\Bx^k, y^k, \Bz^k)$ to 
-Substituting \ref{eq:6.4} in \ref{eq:6.3} the objective in \ref{eq:6.3}a can be written as
+At the $k+1$th iteration with $\tilde{\Bx}^k$ \textit{known} %update $(\Bx^k, y^k, \Bz^k)$ to 
+%Substituting \ref{eq:6.4} in \ref{eq:6.3}
+ the objective in \ref{eq:6.3} can be written as
 \begin{eqnarray} \label{eq:6.5}
 F(\hat{\Bx}) & =  & \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2 \\
 \nonumber
