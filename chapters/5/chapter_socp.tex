@@ -157,9 +157,11 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 \begin{equation} \label{eq:6.2}
 \Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
 \end{equation}
-As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches have been developed to address this problem. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. It operates by  solving an SOCP problem at each iteration to find an increment vector  that sequentially moves the initial estimate of the solution towards the minimum.
+As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches have been developed to address this problem. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. It operates by  solving a QP problem at each iteration to find an increment vector  that sequentially moves the initial estimate of the solution towards the minimum.
 
 \subsection{Sequential SCP}
+
+%\input chapters/5/scp_rd_ls
 
 We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrained problem with second-order cone constraints%can be equivalently written as
 \setcounter{abc}{0}
@@ -174,17 +176,7 @@ We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrai
 \setcounter{equation}{7}
 & &\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
 \end{eqnarray}
-Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known strictly feasible point of the problem in (\ref{eq:6.3}). 
-%\setcounter{abc}{0}
-%\begin{eqnarray} 
-%\nonumber
-%\Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2 \\
-%\nonumber
-%\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq z_i \\
-%\nonumber
-%& &\|\Bx\|  \leq y, \quad  i = 1, 2, \ldots m
-%\end{eqnarray}
-Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ is a small perturbation to it, such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ and $\beta > 0$ is a small positive constant. We need to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
+Assume we are in the $k$th iteration and we are to update the $k$th iterate $\{\Bx_k,y_k,\Bz_k\}$. Let the next iterate be
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.4} %1.8
 \stepcounter{abc}
@@ -196,240 +188,35 @@ y^{k+1} = y^k + \delta_y \\
 \setcounter{equation}{8}
 \Bz^{k+1} = \Bz^k + \Bdelta_z
 \end{eqnarray}
-remains strictly feasible. 
-At the $k+1$th iteration with $\tilde{\Bx}^k$ \textit{known} %update $(\Bx^k, y^k, \Bz^k)$ to 
-%Substituting \ref{eq:6.4} in \ref{eq:6.3}
- the objective in \ref{eq:6.3} can be written as
- \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.5} %1.9
-F(\hat{\Bx}) & =  & \sum^m_{i = 1} \left(z^k_i + \delta_{z_i} - (y^k + \delta_y) - d_i \right)^2 \\
-\nonumber
-& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \tilde{d_i^k} \right)^2
-\end{eqnarray}
-where 
-\begin{equation}
-\nonumber
-\tilde{d}^k_i =  d_i - y^k - z_i^k
-\end{equation}
- are grouped known constant terms.
-Substituting \ref{eq:6.4}b in \ref{eq:6.3}b
-\begin{equation}
-\nonumber
-\|\Bx^k + \Bdelta^k_x - \Ba_i\| = z^k_i +\delta_{z_i}, \quad i = 1, 2, \ldots, m
-\end{equation}
-The constraints can be convexified by squaring both sides of the equality and then re-grouping the terms on the left-hand side as follows
+where $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ are such that the constraints in (\ref{eq:6.3}b) and (\ref{eq:6.3}c) are better approximated at $\{\Bx_{k+1},y_{k+1},\Bz_{k+1}\}$ in the sense that
+\setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
-\|(\Bx^k  - \Ba_i) + \Bdelta^k_x\|^2 & = & \left(z^k_i +\delta_{z_i}\right)^2 \\
-\nonumber
-\Leftrightarrow 
-\|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + \cancelto{\mbox{\scriptsize{0}}}{\|\Bdelta_x\|^2}  & = & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} + \cancelto{\mbox{\scriptsize{0}}}{\Bdelta^2_{z_i}} \\
-\nonumber
-\Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
-\nonumber
-\Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
-\nonumber
-- 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  & \approx & \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2
+\|\Bx_{k+1} - \Ba_i\| \approx z_i^{k+1}, \quad i = 1, 2, \ldots, m \\
+\|\Bx_{k+1}\| \approx y_{k+1}
 \end{eqnarray}
-Repeating the similar procedure with the constraint in \ref{eq:6.3}c
+namely,
+\setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
-\|\Bx^k + \Bdelta_x\| & = & y^k + \delta_y \\
-\nonumber
-\|\Bx^k + \Bdelta_x\|^2 & = & \left(y^k + \delta_y \right)^2 \\
-\nonumber
-\Leftrightarrow \|\Bx^k\|^2 + 2\Bdelta_x^T\Bx^k + \cancelto{\mbox{\scriptsize{0}}}{\|\Bdelta_x\|^2} & = & \left(y^k\right)^2 + 2y^k\delta_y +  \cancelto{\mbox{\scriptsize{0}}}{\delta_y^2} \\
-\nonumber
-\Leftrightarrow -2\left(\Bx^k\right)^T\delta_x + 2y^k\delta & \approx & \|\Bx\|^2 - \left(y^k\right)^2
+\|\Bx_{k} + \Bdelta_x - \Ba_i\| \approx z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\|\Bx_{k} + \Bdelta_x\| \approx y_{k}  + \Bdelta_y
 \end{eqnarray}
-The problem in \ref{eq:6.3} can now be written in terms of the \textit{known} feasible  iterate $\tilde{\Bx}^k$ and its \textit{unknown} increment  $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ as
+By replacing the left-hand sides of the above equations with their first-order Taylor approximations, we obtain
 \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.6} %1.10
-\stepcounter{abc}
-\Min_{\Bdelta_x, \delta_y, \Bdelta_z}& &\sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}^k\right)^2\\
-\setcounter{equation}{10}
-\stepcounter{abc}
-\mbox{subject to:}& &- 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  = \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2 \\
-\setcounter{equation}{10}
-\stepcounter{abc}
-& &-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx^k\|^2 - \left(y^k\right)^2 \\
-\setcounter{equation}{10}
-\stepcounter{abc}
-& &|{\tilde{\Bdelta}}|  \leq \beta\symb{1_{m+3}}, \quad  i = 1, 2, \ldots m
+\begin{eqnarray}
+\nonumber
+\|\Bx_{k} - \Ba_i\| + \partial_x^T\|\Bx_{k} - \Ba_i\|\Bdelta_x \approx z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\|\Bx_{k}\|  + \partial_x^T\|\Bx_{k}\|\Bdelta_x\ \approx y_{k}  + \Bdelta_y
 \end{eqnarray}
-It is obvious to see that the  problem in \ref{eq:6.6} can be written in the following form
-\setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.7} %1.11
-\stepcounter{abc}
-\Min_{{\Bdelta_x, \delta_y, \Bdelta_z}}& &\| -\delta_y\symb{1_m} + \Bdelta_z - \tilde{\Bd_k} \|_2 
-\\ 
-\setcounter{equation}{11}
-\stepcounter{abc}
-\mbox{subject to:}& &\BC_k\tilde{\Bdelta}  = \Bp_k \\
-\setcounter{equation}{11}
-\stepcounter{abc}
- & &|\tilde{\Bdelta}|  \leq \beta \symb{1_{m+3}}
-\end{eqnarray}
-where
-\setcounter{abc}{0}
-\begin{equation} \label{eq:6.8} %12
-\tilde{\Bd_k} = 
-\begin{bmatrix}
-d_1 + y^k - z_1^k \\
-d_2 + y^k - z_2^k \\
-\vdots \\
-d_m + y^k - z_m^k \\
-\end{bmatrix}, 
-\quad \Bp_k = \begin{bmatrix}
-\|\Bx^k\|^2 -\left(y^k\right)^2  \\
-\|\Bx^k - \Ba_1\|^2 -\left(z_1^k\right)^2 \\
-\vdots \\
-\|\Bx^k - \Ba_m\|^2 -\left(z_m^k\right)^2 \\
-\end{bmatrix}
-\end{equation}
+where $\partial_x$ is the subdifferential operator with respect to variable $\Bx$. Assuming $\Bx_k \neq \Ba_i$ and $\Bx_k$ is nonzero, then
 \begin{equation}
 \nonumber
-\BC_k = \begin{bmatrix}
--2\left(\Bx^k\right)^T & 2y^k & 0 & \hdots & 0 \\
--2\left(\Bx^k - \Ba_1\right)^T & 0 & 2z^k_1 & \hdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
--2\left(\Bx^k - \Ba_m\right)^T & 0 & 0 & \hdots & 2z_m^k
-\end{bmatrix},
-\quad \tilde{\Bdelta} = \begin{bmatrix}
-\Bdelta_x \\
-\delta_y \\
-\Bdelta_z
-\end{bmatrix}
+\partial_x\|\Bx_{k} - \Ba_i\| = \frac{\Be}{\|\Bx_{k} - \Ba_i\|} \ \mbox{and } \partial_x\|\Bx_{k}\| = \frac{\Be}{\|\Bx_{k}\|}
 \end{equation}
-A technical problem making the formulation in (\ref{eq:6.7}) difficult to implement is that it requires a feasible initial point $\Bx^k$. The iterate $\tilde{\Bx}^k$ is known and  strictly feasible  but it is not guaranteed that the $\tilde{\Bx}^{k+1}$ will also be feasible. The problem can be overcome by introducing nonnegative slack variable $s$ into the constraints in \ref{eq:6.7}c to replace their right-hand sides by relaxed upper bounds (as these new bounds themselves are nonnegative variables). To allow non-feasible increments $\tilde{\Bdelta}$, the problem can be overcome by introducing a
-nonnegative slack variable $s \geq 0$ \ref{eq:6.8}c to replace their right-hand sides  by a  relaxed upper bound (as this new bound itself is a nonnegative variable). We allow the constraint in $|\tilde{\Bdelta}|  \leq \beta \symb{1_{m+3}}$ be violated so that the  region with lower value of the objective function can be found. 
-This leads to a following sequential relaxation step for the problem in \ref{eq:6.3}
-\setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.9} %13
-\stepcounter{abc}
-\Min_{\Bdelta_x, \delta_y, \Bdelta_z, s}& &\| -\delta_y\symb{1_m} + \Bdelta_z - \tilde{\Bd_k} \|_2 + \mu_ks
-\\ 
-\stepcounter{abc}
-\setcounter{equation}{13}
-\mbox{subject to:}& &\BC_k\tilde{\Bdelta}  = \Bp_k 
-\\
-\stepcounter{abc}
-\setcounter{equation}{13}
- & &|\tilde{\Bdelta}|  \leq \left(\beta + s\right)\symb{1_{m+3}} 
- \\
-\stepcounter{abc}
-\setcounter{equation}{13}
-& & s \geq 0
-\end{eqnarray}
-where the weight $\mu_k \geq 0$ increases as iterations proceed until it reaches an upper limit $\mu_{max}$. By using a monotonically increasing $\mu_k$ for the penalty term in \ref{eq:6.9}a, the algorithm reduces the slack variable $s$  very quickly. As a result, new iterates
-quickly become feasible as $s$  vanishes. The upper limit $\mu_{max}$ is imposed to avoid numerical difficulties that may occur if $\mu_{k}$ becomes too large and to ensure convergence if a feasible region is not found.
+where $\Be$ is the all-one vector. Hence
 
-
-\subsection{The Algorithm}
-
-Based on the analysis above, the localization algorithm for range-difference measurements can be outlined as follows.
-
-%The constraint $\beta$ was imposed on each element of the vector $\tilde{\Bdelta}$ to guarantee that at each iteration is sufficiently small.
-
-%Dropping the constraints in \ref{eq:6.8}f,g allows more variety in choosing the search direction, which increases the likelihood of the algorithm not to get trapped in the local minimimum.
-
-%\phantom{m}
-%\framebox{%
-%\parbox{5.4in}{
-\label{alg:socp_rd}
-%\phantom{m}
-
-\noindent \textbf{Algorithm 4. }
-
-%\phantom{m}
-
-1) Input data: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range-difference measurements $\{d_i, i=1,\ldots,m\}$, initial point $\Bx_0$, maximum number of iterations $K_{max}$, initial weight $\mu_0$ and upper limit of weight $\mu_{max}$, increment bound $\beta$. %\gamma, \sigma$, 
-Set iteration count to $k = 0$. Form
-
-\begin{equation} 
-\setcounter{abc}{0}
-\nonumber
-y_0 = \|\Bx_0\| ,\quad
-\Bz_0 = \begin{bmatrix}
-\|\Bx_0 - \Ba_1\|^2  \\
-\|\Bx_0 - \Ba_2\|^2  \\
-\vdots \\
-\|\Bx_0 - \Ba_m\|^2  \\
-\end{bmatrix}
-\end{equation}
-
-%\phantom{m}
-
-2) Form $\tilde{\Bd_k}, \Bp_k$ and $\BC_k $ as 
-\begin{equation} 
-\setcounter{abc}{0}
-\nonumber
-\tilde{\Bd_k} = 
-\begin{bmatrix}
-d_1 + y^k - z_1^k \\
-d_2 + y^k - z_2^k \\
-\vdots \\
-d_m + y^k - z_m^k \\
-\end{bmatrix}, 
-\quad \Bp_k = \begin{bmatrix}
-\|\Bx^k\|^2 -\left(y^k\right)^2  \\
-\|\Bx^k - \Ba_1\|^2 -\left(z_1^k\right)^2 \\
-\vdots \\
-\|\Bx^k - \Ba_m\|^2 -\left(z_m^k\right)^2 \\
-\end{bmatrix}
-\end{equation}
-\begin{equation}
-\nonumber
-\BC_k = \begin{bmatrix}
--2\left(\Bx^k\right)^T & 2y^k & 0 & \hdots & 0 \\
--2\left(\Bx^k - \Ba_1\right)^T & 0 & 2z^k_1 & \hdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
--2\left(\Bx^k - \Ba_m\right)^T & 0 & 0 & \hdots & 2z_m^k
-\end{bmatrix},
-\end{equation}
-
-%\phantom{m}
-\noindent
-an solve
-\setcounter{abc}{0}
-\begin{eqnarray} 
-\nonumber
-\Min_{\Bdelta_x, \delta_y, \Bdelta_z, s}& &\| -\delta_y\symb{1_m} + \Bdelta_z - \tilde{\Bd_k} \|_2 + \mu_ks
-\\ 
-\nonumber
-\mbox{subject to:}& &\BC_k\tilde{\Bdelta}  = \Bp_k 
-\\
-\nonumber
- & &|\tilde{\Bdelta}|  \leq \left(\beta + s\right)\symb{1_{m+3}} 
- \\
-\nonumber
-& & s \geq 0
-\end{eqnarray}
-\noindent
-Denote the solution as $\tilde{\Bdelta}^k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$. 
-
-%\phantom{m}
-
-
-3) Update  $\mu_{k+1} $ = min $(1.5\mu_k, \mu_{max})$, set $k = k+1$. Update $\tilde{\Bx}^{*}$ to
-\setcounter{abc}{0}
-\begin{eqnarray} 
-\nonumber
-\Bx^{*} = \Bx^k + \Bdelta_x^* \\
-\nonumber
-y^{*} = y^k + \delta_y^* \\
-\nonumber
-\Bz^{*} = \Bz^k + \Bdelta_z^*
-\end{eqnarray}
-
-%\phantom{m}
-
-
-4) If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\tilde{\Bx}^{k} = \tilde{\Bx}^{*}$  and repeat from Step 2. 
-
-%\phantom{m}
-%}
-%}
+\label{eq:6.5} %1.9
 
 \subsection{Numerical Results}
 
