@@ -15,19 +15,27 @@
 
 \section{Range-based localization}
 
-Problem:
-Given sensor array ${\Ba_i, i = 1, 2, ..., m}$ and noisey range measurements $r_i$ find the true \textit{unknown} location of $\Bx$ as 
+The source localization problem discussed in this section involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+\begin{equation} \label{eq:5.0}
+\setcounter{equation}{0}
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}    
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$.  The source localization problem can be stated as to estimate the true \textit{unknown} location of $\Bx$ from noisy range measurements $\Br$ as
 \setcounter{abc}{0}
 \begin{equation} \label{eq:5.1}
-\Min \sum^m_i \left( \|\Bx - \Ba_i\| - r_i \right)^2 
+\Min_{\Bx} \sum^m_i \left( \|\Bx - \Ba_i\| - r_i \right)^2 
 \end{equation}
-which can be (equivalently) written as 
+The problem in (\ref{eq:5.1}) can be (equivalently) written as 
+\setcounter{abc}{0}
 \begin{eqnarray} \label{eq:5.2}
-\setcounter{abc}{1}
+\stepcounter{abc}
 \Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
 \setcounter{equation}{2}
 \stepcounter{abc}
-\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad i = 1, 2, ..., m
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad i = 1, 2, ..., m \\
+\setcounter{equation}{2}
+\stepcounter{abc}
+& &\Bz \geq \symb{0}
 \end{eqnarray}
 The constraint in \ref{eq:5.2} is hard to suffice, therefore we allow a relaxation:
 \setcounter{abc}{0}
@@ -47,7 +55,7 @@ By allowing $\gamma$ to sequentially/monotonically decrease from some small $0 <
 $\lim_{\gamma \rightarrow 0} (1 + \gamma)z_i = z_i$ and $\lim_{\gamma \rightarrow 0} (1 - \gamma)z_i = z_i$. Therefore as $\gamma$ approaches 0, the feasible region of the problem in \ref{eq:5.3} will become equivalent to that in \ref{eq:5.2}.
 As iterations proceed, the objective in \ref{eq:5.3} will not be monotonically decreasing but it will converge to the critical point.
 
-Problem in \ref{eq:5.3} is nonconvex due to nonconvexity of one of its inequality constraint. The constraint in \ref{eq:5.3}b $\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i$ is convex, the constraint in \ref{eq:5.3}c is not, because
+Problem in \ref{eq:5.3} is nonconvex due to nonconvexity of one of its inequality constraint. The constraint in \ref{eq:5.3}b $\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i$ is convex, the constraint in \ref{eq:5.3}c is not
 \begin{equation}
 \nonumber
 \|\Bx - \Ba_i\| \geq (1 - \gamma)z_i \Longleftrightarrow \underbrace{-\|\Bx - \Ba_i\|}_{nonconvex} \leq -(1 - \gamma)z_i
@@ -57,7 +65,7 @@ From convexity of the norm $\|\Bx - \Ba_i\|$ it follows that for some \textit{kn
 \nonumber
 \|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i)
 \end{equation}
-Hence the constraint in \ref{eq:5.3}c can be convexified by replacing it with its affine approximation
+Hence the constraint in \ref{eq:5.3}c can be replaced with its affine approximation
 \begin{equation}
 \nonumber
 -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i
@@ -98,7 +106,7 @@ or quadratically as
 \subsection{Problem Formulation}
 
 
-In this section we focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent TDOA measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
+In this section we focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent  measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
 
 \begin{figure}[h] 
 \centering
@@ -159,9 +167,13 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 \end{equation}
 As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non trivial problem and many approaches have been developed to address this problem. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. It operates by  solving a QP problem at each iteration to find an increment vector  that sequentially moves the initial estimate of the solution towards the minimum.
 
-\subsection{Sequential SCP}
+\subsection{Sequential Convex Relaxation}
 
+%\newpage 
+%
 %\input chapters/5/scp_rd_ls
+%
+%\newpage
 
 We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrained problem with second-order cone constraints%can be equivalently written as
 \setcounter{abc}{0}
@@ -226,14 +238,27 @@ where $\Be$ is the all-one vector. Hence
 \setcounter{equation}{9}
 \|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} &\approx &y_k + \delta_y
 \end{eqnarray}
-Based on this, the problem to be solved in the \textit{k}th iteration is formulated as
+The objective in \ref{eq:6.3} can be written as
+ \setcounter{abc}{0}
+\begin{eqnarray} 
+\nonumber
+F(\Bx_{k+1}) & =  & \sum^m_{i = 1} \left(z^{(k)}_i + \delta_{z_i} - (y_k + \delta_y) - d_i \right)^2 \\
+\nonumber
+& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \tilde{d_i^{(k)}} \right)^2
+\end{eqnarray}
+where 
+\begin{equation}
+\nonumber
+\tilde{d}^{(k)}_i =  d_i - y_k - z_i^{(k)}
+\end{equation}
+are grouped known constant terms. Based on the above, the problem to be solved in the \textit{k}th iteration is formulated as
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.6} %1.10
 \stepcounter{abc}
 \Min_{\Bdelta}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
 \stepcounter{abc}
 \setcounter{equation}{10}
-\mbox{subject to:}& &\|\Bx - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = z_i^{(k)} + \delta_{z_{j}}, i = 1, 2,...,m \\
+\mbox{subject to:}& &\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k - \Ba_i\| } = z_i^{(k)} + \delta_{z_{j}}, i = 1, 2,...,m \\
 \stepcounter{abc}
 \setcounter{equation}{10}
 & &\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
@@ -267,6 +292,37 @@ much be adequately relaxed in order for the problem to be solvable. To this end 
 \setcounter{equation}{11}
 & &\BC\tilde{\Bdelta} \leq \Bd
 \end{eqnarray}
+where
+
+2) Form $\tilde{\Bd_k}, \Bp_k$ and $\BC_k $ as 
+\begin{equation} 
+\setcounter{abc}{0}
+\nonumber
+\tilde{\Bd_k} = 
+\begin{bmatrix}
+d_1 + y^k - z_1^k \\
+d_2 + y^k - z_2^k \\
+\vdots \\
+d_m + y^k - z_m^k \\
+\end{bmatrix}, 
+\quad \Bp_k = \begin{bmatrix}
+\|\Bx^k\|^2 -\left(y^k\right)^2  \\
+\|\Bx^k - \Ba_1\|^2 -\left(z_1^k\right)^2 \\
+\vdots \\
+\|\Bx^k - \Ba_m\|^2 -\left(z_m^k\right)^2 \\
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\nonumber
+\BC_k = \begin{bmatrix}
+-2\left(\Bx^k\right)^T & 2y^k & 0 & \hdots & 0 \\
+-2\left(\Bx^k - \Ba_1\right)^T & 0 & 2z^k_1 & \hdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+-2\left(\Bx^k - \Ba_m\right)^T & 0 & 0 & \hdots & 2z_m^k
+\end{bmatrix},
+\end{equation}
+ $\tilde{\Bdelta}^k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$. 
+
 By introducing nonnegative slack variables $\Bu, \Bv$ and $\Bw$, we relax the problem in (\ref{eq:6.7}) to
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.8} %1.12
