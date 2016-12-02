@@ -314,3 +314,32 @@ f = \frac{1}{2} \sum (\|\Bx - \Ba_i\| - \|\Bx\| - d_i)^2
 \begin{equation}
 d_i = \|\Bx - \Ba_i\| - \|\Bx\| + noise
 \end{equation}
+
+\begin{equation}
+g(\Bx) = \sum_i \Bc_i (\Bq_i - \tilde{\Bx})
+\end{equation}
+
+\begin{equation}
+H(\Bx) = \sum [(\Bq_i - \tilde{\Bx})(\Bq_i - \tilde{\Bx})^T + \Bc_i(\BQ_1^{(i)} + \BQ_2)]
+\end{equation}
+
+\begin{equation}
+\Bc_i = \|\Bx - \Ba_i\| - \|\Bx\| \in R^{M+1}
+\end{equation}
+
+\begin{equation}
+\Bq_i = \frac{\Bx - \Ba_i}{\|\Bx - \Ba_i\|} \in R^{M+1}
+\end{equation}
+
+% TODO couldn't read
+\begin{equation}
+\tilde{\Bx} = \frac{\Bx}{\|\Bx\|} = \textit{unknown}, \in R^n
+\end{equation}
+
+\begin{equation}
+\BQ_1^{(i)} = \frac{1}{\|\Bx - \Ba_i\||}(\BI - \Ba_i\Ba_i^T), i = 1, 2,...,m
+\end{equation}
+
+\begin{equation}
+\BQ_2 = \frac{1}{\|\Bx\||}(\BI - \tilde{\Bx}\tilde{\Bx}^T), i = 1, 2,...,m
+\end{equation}
