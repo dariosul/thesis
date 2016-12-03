@@ -1,5 +1,5 @@
 
-\phantom{m}
+%\phantom{m}
 
 \section{Range-based localization}
 
@@ -87,7 +87,8 @@ or quadratically as
 \gamma_{k+1} = \gamma_0\frac{(K_{max} - 1 - k)^2}{(K_{max} - 1)^2}
 \end{equation}
 where $K_{max}$ is the number of iterations to be executed.
-Summarizing the analysis above, the localization algorithm based on range measurements can be outlined as follows (for the ease of notation the proposed algorithm will be reffered to as Sequential Convex Relaxation for Range-based Least Squares (SCR-RLS).
+
+For the ease of notation the proposed algorithm will be reffered to as Sequential Convex Relaxation for Range-based Least Squares (SCR-RLS). It is important to note that the SCR-RLS is a local method and its performance often depend on the choise of the initial point. Several available techniques described in Sec.4.1.3 of the thesis can be applied here. Summarizing the analysis above, the localization algorithm based on range measurements can be outlined as follows.
 
 \phantom{m}
 \framebox{%
@@ -97,12 +98,12 @@ Summarizing the analysis above, the localization algorithm based on range measur
 
 \noindent \textbf{Algorithm 5. Sequential Convex Relaxation for Range-based Localization}
 
-%\phantom{m}
+\phantom{m}
 
 1) Input data: Sensor locations $\{\Ba_i,  i=1,\ldots,m\}$, range measurements $\{r_i, i=1,\ldots,m\}$, initial point $\Bx_0$, initial relaxation parameter $\gamma_0$, and the number of iterations to be executed $K_{max}$. %\gamma, \sigma$, 
 Set iteration count to $k = 0$.
  
-%\phantom{m}
+\phantom{m}
 
 2) Solve
 \setcounter{abc}{0}
@@ -120,11 +121,11 @@ Set iteration count to $k = 0$.
 \noindent
 Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$. 
 
-%\phantom{m}
+\phantom{m}
 
 3) Update  $\gamma_{k+1} = f(\gamma_k)$ linearly, as in (\ref{eq:lin}), or quadratically, as in (\ref{eq:quad}). Set $k = k+1$. 
 
-%\phantom{m}
+\phantom{m}
 
 4) If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_{k} = \Bx^{*}$  and repeat from Step 2. 
 
@@ -132,6 +133,7 @@ Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$.
 }
 }
 
+\phantom{m}
 
 \subsection{Numerical Results}
 
@@ -142,7 +144,11 @@ Measurement noise $\{\varepsilon_i, \ i=1,\ldots, m\}$ was modelled as i.i.d. Ga
 \nonumber
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
 \end{equation}
-Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and SCR-RLS methods, respectively. Table \ref{tab:scr_rls} provides comparisons of the proposed sequential relaxation method with SR-LS, where each table entry is a squared error averaged over 200 Monte Carlo runs of a given method for a given noise level. The last column of the table  represents relative improvement (R.I.) of the proposed method over SR-LS solutions in percentage. It is observed that SCR-RLS solutions offer considerable improvement over SR-LS solutions
+Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and SCR-RLS methods, respectively. Implementation of SR-LS followed \cite{BeckStLi} and the method proposed in this section was implemented using CVX \cite{cvx}. In our simulations, we set the value of $\gamma_0$ to 0.2 and the number of iterations $K_{max}$ to 9. The SCR-RLS algorithm was initialized with the midpoint between the two sensors associated with the two smallest distance readings. 
+
+
+Table \ref{tab:scr_rls} provides comparisons of the proposed sequential relaxation method with SR-LS, where each table entry is a squared error averaged over 200 Monte Carlo runs of a given method for a given noise level. The last column of the table  represents relative improvement (R.I.) of the proposed method over SR-LS solutions in percentage. %It is observed that SCR-RLS solutions offer considerable improvement over SR-LS solutions.
+Table \ref{tab:rls} compares a standard deviation of the squared  estimation errors  aggregated over the  same 200 Monte Carlo runs described above in Table \ref{tab:scr_rls} (where the MSE of the position estimation are shown). The results summarised in  Table \ref{tab:scr_rls} and Table \ref{tab:rls} suggest that, SCR-RLS solutions outperform SR-LS.
 
 
 \begin{table}[h]
@@ -153,13 +159,27 @@ Accuracy of source location estimation was evaluated as the average of the squar
 \centering
 $\sigma$ & SR - LS & SCR-RLS & (R.I.,\%)  \\ \hline
 %&&& \\
-1e-03&	1.60398717e-06 & 1.03880406e-06 &   \\ &&&\\
-1e-02&	1.11632818e-04 & 6.67785604e-05 &   \\ &&&\\
-1e-01&	1.20947651e-02 & 7.20891487e-03 &    \\ &&&\\
-1e+0&	1.57050323e+00 & 9.70756420e-01 &     \\ %&&&\\
+1e-02&	2.5360e-04 & 2.0596e-04 &  18 \\ &&&\\
+1e-01&	1.8696e-02  & 1.4802e-02 & 21   \\ &&&\\
+1e+0&	1.4440e+00 & 9.6327e-01 &  33   \\ %&&&\\
 \hline
 \end{tabular}
 \label{tab:scr_rls}
+%\end{table}
+%\begin{table*}[t]
+\centering
+\caption{Standard deviation of the squared position estimation error for SR-LS and SCR-RLS methods}
+\phantom{m}
+\begin{tabular}{|c|c|c|c|} \hline
+\centering
+$\sigma$ & SR - LS & SCR-RLS  \\ \hline
+%&&& \\
+1e-02&	1.1711e-03  & 3.7880e-04  \\ &&\\
+1e-01&	3.5513e-02 & 2.4685e-02    \\ &&\\
+1e+0&	1.7519e+00  & 9.6863e-01   \\ %&&&\\
+\hline
+\end{tabular}
+\label{tab:rls}
 \end{table}
 
 %\startchapter{SOCP}

@@ -309,20 +309,7 @@ The input parameters for the algorithm include the bound $\beta$ on the incremen
 \Bdelta_x, \delta_y, \Bdelta_z\right)$. It controls the size of a "trust region" over which a convex subproblem is carried out and is responsible for the performance of the algorithm. If parameter $\beta$ is chosen too large, then approximation $\Bx_{k+1}$ will perform poorly because in this case the convex model is less accurate \cite{OPTII}. If $\beta$ is too small the progress of the algorithm will be too slow. In our simulations we set  $\beta$ to the value between 3 and 6. Other input parameters are initial point $\Bx_0$, initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ (to avoid numerical problems that may occur  if $\tau_k$ becomes too large).
 
 The method discussed in this section is \textit{local}, therefore is not guaranteed to converge to the global minimum when applied to the nonconvex problem. As discussed in Sec. 2.2 of the thesis, the original LS objective in (\ref{eq:6.2}) is highly nonconvex with many local minimums even for small-scale systems. Consequently, the choise of a good initial point is critical to ensure good performance of the method. Several techniques are available, these include: i) set the initial point to the origin; ii) select the initial point uniformly randomly over the same region as the unknown radiating source; iii) run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error.  The candidate initial points can be selected either randomly over the region or based on some  a priori information, for example, the geometry of the sensor network; iv) solve an approximating problem or apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. 
-In our simulations we set the inital point $\Bx_0$ to the solution of the following subproblem
 
-\setcounter{abc}{0}
-\begin{eqnarray} \label{eq:initpnt}
-\stepcounter{abc}
-\Min_{\Bx, y, \Bz} & &\sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
-\stepcounter{abc}
-\setcounter{equation}{10}
-\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq z_i, \quad  i = 1, 2, \ldots m \\
-\stepcounter{abc}
-\setcounter{equation}{10}
-& &\|\Bx\|  \leq y
-\end{eqnarray}
-\noindent
 Based on the analysis above, the localization algorithm for range-difference measurements can be outlined as follows. For the ease of notation we will refer to the proposed algorithm as Sequential Convex Relaxation for Range-Difference-based Least Squares (SCR-RDLS).
 
 %The constraint $\beta$ was imposed on each element of the vector $\tilde{\Bdelta}$ to guarantee that at each iteration is sufficiently small.
@@ -402,11 +389,21 @@ y^{*} = y^k + \delta_y^* \\
 }
 }
 
-
 \subsection{Numerical Results}
 
 Performance of the proposed algorithm was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for the Algorithm 4. The sensor network consisted of $11$ sensors with $\Ba_0 = \BO$ placed at the origin and other ten sensors  $\{\Ba_i, i = 1, 2,\ldots,10\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$. A radiating source $\Bx_s$ was located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range-difference measurements $\{d_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:6.1}). Accuracy of source location estimation was evaluated in terms of average of the squared position error error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and proposed methods, respectively.  
-In our simulations parameter $\beta$ was set to 3, the initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ were set to 10 and 10 000 respectively. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. The proposed algorithm was initialized with the solution point of (\ref{eq:initpnt}) and the iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ did not reduce to $\epsilon = 10^{-6}$ or smaller. 
+In our simulations parameter $\beta$ was set to 3, the initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ were set to 10 and 10 000 respectively. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. In our simulations we set the inital point $\Bx_0$ to the solution of the following subproblem
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:initpnt}
+\nonumber
+\Min_{\Bx, y, \Bz} & &\sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq z_i, \quad  i = 1, 2, \ldots m \\
+\nonumber
+& &\|\Bx\|  \leq y
+\end{eqnarray}
+\noindent
+The iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ did not reduce to $\epsilon = 10^{-6}$ or smaller. 
 
 Table \ref{tab:scr_rdls}  provides comparisons of the SCR-RDLS with SRD-LS, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. %The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP.
  It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the SCR-RDLS solution over the SR-LS. 
