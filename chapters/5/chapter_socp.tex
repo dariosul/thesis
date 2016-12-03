@@ -13,14 +13,9 @@
 
 %\section{Second Order Cone Programming}
 
-In connection with the problem of localizing a single radiating source based on range and range-difference measurements, in this chapter
-we study the 
 
-we convert the unconstrained least squares (LS) formulation to a constrained problem and 
-we study the application of the sequential convex programming approaches
+In this chaper we adress the problems of localizing a single radiating source based on range or range-difference measurements. In both cases we focus on the efficient computation of the least squares estimates of the source coordinates. We start with converting the unconstrained LS problem to  constrained problems. We then develop solution methods for these nonconvex problems that are ispired by the sequential convex programming based on exact penalty formulation and Taylor expansion. In Sec. 4.1 we describe the  algorithm for the range-difference based localization. Then in Sec. 4.2 we consider the problem of range-based localization. Numerical results, that conclude each section, are presented to demonstrate that the proposed algorithms offer substantial performance improvement relative to some best known results from the literature.
 
-
- we explore special structure of the cost function of an unconstrained least squares (LS) formulation and show that it is well suited in a setting known as ... Our focus in this chapter will be placed on the localization problem based on ... measurements.
 
  %We present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points in solving a fairly large class of \textit{nonconvex} constrained problems. Algorithmic details are provided to show that the PCCP-based formulation is tailored to the localization problem at hand. These include additional constraints that enforce the algorithms iteration path towards the LS solution, and several strate321q223wgies to secure good initial points. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
@@ -31,9 +26,9 @@ we study the application of the sequential convex programming approaches
 
 
 In this section we focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent  measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
-
- \phantom{m}
-
+%
+% \phantom{m}
+%
 \begin{figure*}[h]
 \centering
 %\includegraphics[height=0.45\textheight]{figures/socp_rd/TDOA_example}
@@ -42,8 +37,8 @@ In this section we focus on the problem of range-difference based localization g
 The figure depicts the locus of possible source locations as one half of a two-sheeted hyperboloids.}
 \label{fig:tdoa}
 \end{figure*}
-
- \phantom{m}
+%
+% \phantom{m}
 %An example of location estimation using TDOA is shown in Figure \ref{fig:hyperbola}. Consider an instance of the source localization problem on the plane $n = 2$ with the reference sensor $\Ba_0$ placed at the origin and five sensors $m = 5$ located at 
 %\begin{equation}
 %\nonumber
@@ -96,7 +91,7 @@ Therefore, the standard range-difference LS (RD-LS) problem is formulated as
 \begin{equation} \label{eq:6.2}
 \Min \sum^m_{i=1}\left( \|\Bx - \Ba_i\| - \|\Bx\| - d_i\right)^2
 \end{equation}
-As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non-trivial problem and many approaches have been developed to address this problem. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. The central part of the procedure is a convex quadratic programming (QP) problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
+As described in Sec.2.2 of the thesis, finding the solution to ($\ref{eq:6.2}$) is a non-trivial problem and many approaches have been developed to address it. In the following we propose a new iterative procedure to tackle the RD-LS problem (\ref{eq:6.2}), with the goal of achieving a more accurate and robust solution. The central part of the procedure is a convex quadratic programming (QP) problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
 
 \subsection{Sequential Convex Relaxation}
 
@@ -114,10 +109,10 @@ We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrai
 \Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
 \stepcounter{abc}
 \setcounter{equation}{3}
-\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i \\
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad  i = 1, 2, \ldots m \\
 \stepcounter{abc}
 \setcounter{equation}{3}
-& &\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
+& &\|\Bx\|  = y
 \end{eqnarray}
 Assume we are in the $k$th iteration and we are to update the $k$th iterate $\{\Bx_k,y_k,\Bz_k\}$. Let the next iterate be
 \setcounter{abc}{0}
@@ -158,16 +153,16 @@ By replacing the left-hand sides of the above equations with their first-order T
 where $\partial_x$ is the subdifferential operator with respect to variable $\Bx$. Assuming $\Bx_k \neq \Ba_i$ and $\Bx_k$ is nonzero, then
 \begin{equation}
 \nonumber
-\partial_x\|\Bx_{k} - \Ba_i\| = \frac{\Be}{\|\Bx_{k} - \Ba_i\|} \ \mbox{and } \partial_x\|\Bx_{k}\| = \frac{\Be}{\|\Bx_{k}\|}
+\partial_x\|\Bx_{k} - \Ba_i\| = \frac{\Bx_{k} - \Ba_i}{\|\Bx_{k} - \Ba_i\|} \ \mbox{and } \partial_x\|\Bx_{k}\| = \frac{\Bx_{k}}{\|\Bx_{k}\|}
 \end{equation}
-where $\Be$ is the all-one vector. Hence
+Hence
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.5} %1.9
 \stepcounter{abc}
-\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} &\approx &z^{(k)}_i + \delta_{z_{j}}, \quad i = 1, 2,...,m \\
+\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k\|} &\approx &z^{(k)}_i + \delta_{z_{j}}, \quad i = 1, 2,...,m \\
 \stepcounter{abc}
 \setcounter{equation}{5}
-\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} &\approx &y_k + \delta_y
+\|\Bx_k\| + \frac{\Bx_{k}^T\Bdelta_x}{\|\Bx_k\|} &\approx &y_k + \delta_y
 \end{eqnarray}
 The objective in \ref{eq:6.3} can be written as
  \setcounter{abc}{0}
@@ -189,16 +184,18 @@ are grouped known constant terms. Based on the above, the problem to be solved i
 \Min_{\Bdelta}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
 \stepcounter{abc}
 \setcounter{equation}{6}
-\mbox{subject to:}& &\|\Bx_k - \Ba_i\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k - \Ba_i\| } = z_i^{(k)} + \delta_{z_{j}}, i = 1, 2,...,m \\
+\mbox{subject to:}& &\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k - \Ba_i\| } = z_i^{(k)} + \delta_{z_{j}}, \\
+\nonumber
+& &\qquad \qquad \qquad \qquad \qquad \qquad \qquad  \qquad i = 1, 2, \ldots m \\
 \stepcounter{abc}
 \setcounter{equation}{6}
-& &\|\Bx_k\| + \frac{\Be^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
+& &\|\Bx_k\| + \frac{\Bx_k^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
 \stepcounter{abc}
 \setcounter{equation}{6}
 & &\begin{bmatrix}
 -\beta\BOne_2 \\
--\mbox{min}\{\beta, y_k\} \\
--\mbox{min}\{\beta, \Bz_k\}
+-\beta \\
+-\beta\BOne_m
 \end{bmatrix} \leq \begin{bmatrix}
 \Bdelta_x \\
 \delta_y \\
@@ -209,8 +206,8 @@ are grouped known constant terms. Based on the above, the problem to be solved i
 \beta\BOne_m
 \end{bmatrix}
 \end{eqnarray}
-The constraints in (\ref{eq:6.6}d) not only assure that the magnitude of each component in $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ is no greater than $\beta$, but also they assure that all components of $\{y_{k + 1}, \Bz_{k + 1}\}$ are nonnegative as long as $\{y_{k}, \Bz_{k}\}$ are nonnegative, which are natural to impose as can be seen from (\ref{eq:6.3}b) and (\ref{eq:6.3}c) because they are vector norms. Obviously, the problem in (\ref{eq:6.6}) is a convex QP problem. One
-technical difficulty that may occur in solving problem (\ref{eq:6.6}) is that the feasible region defined by (\ref{eq:6.6}b), (\ref{eq:6.6}c), and (\ref{eq:6.6}d) may be empty. In such a case the constraints in problem (\ref{eq:6.6})
+The constraints in (\ref{eq:6.6}d) assure that the magnitude of each component in $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ is no greater than $\beta$. %, but also they assure that all components of $\{y_{k + 1}, \Bz_{k + 1}\}$ are nonnegative as long as $\{y_{k}, \Bz_{k}\}$ are nonnegative, which are natural to impose as can be seen from (\ref{eq:6.3}b) and (\ref{eq:6.3}c) because they are vector norms. 
+Obviously, the problem in (\ref{eq:6.6}) is a convex QP problem. One technical difficulty that may occur in solving problem (\ref{eq:6.6}) is that the feasible region defined by (\ref{eq:6.6}b), (\ref{eq:6.6}c), and (\ref{eq:6.6}d) may be empty. In such a case the constraints in problem (\ref{eq:6.6})
 much be adequately relaxed in order for the problem to be solvable. To this end we rewrite (\ref{eq:6.6}) as
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.7} %1.11
@@ -218,154 +215,176 @@ much be adequately relaxed in order for the problem to be solvable. To this end 
 \Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) \\
 \stepcounter{abc}
 \setcounter{equation}{7}
-\mbox{subject to}& &\BA\tilde{\Bdelta} = \Bb \\
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} = \Bb_k \\
 \stepcounter{abc}
 \setcounter{equation}{7}
-& &\BC\tilde{\Bdelta} \leq \Bd
+& &\BC\tilde{\Bdelta} \leq \Bq
 \end{eqnarray}
-where
-
-2) Form $\tilde{\Bd_k}, \Bp_k$ and $\BC_k $ as 
-\begin{equation} 
+where the objective function is
 \setcounter{abc}{0}
+\begin{eqnarray}
 \nonumber
+f\left(\tilde{\Bdelta}\right) = \|\BS\tilde{\Bdelta} - \tilde{\Bd_k} \|_2
+ %\| -\delta_y\symb{1_m} + \Bdelta_z - \tilde{\Bd_k} \|_2
+\end{eqnarray}
+and
+\setcounter{abc}{0}
+\begin{equation}\label{eq:6.8}
+\stepcounter{abc}
+\BS = \begin{bmatrix}
+\symb{0}_{m \times 1} & -\symb{1}_{m \times 1} & -\symb{I}_m
+\end{bmatrix} , 
+\tilde{\Bdelta} = \begin{bmatrix}
+\Bdelta_x \\
+\delta_y \\
+\Bdelta_z
+\end{bmatrix} , 
+\BA_k = \begin{bmatrix}
+\BA_1^{(k)} & \symb{0}_{m \times 1} & -\symb{I}_m \\
+\Bx_k & -1 & \symb{0}_{1 \times m}\\
+\end{bmatrix} 
+\end{equation}
+\setcounter{abc}{1}
+\begin{equation}
+\stepcounter{abc}
+\setcounter{equation}{8}
+\BA_1^{(k)} = \begin{bmatrix}
+\frac{\left(\Bx_k - \Ba_1\right)^T}{\|\Bx_k - \Ba_1\|} \\
+\frac{\left(\Bx_k - \Ba_2\right)^T}{\|\Bx_k - \Ba_2\|} \\
+\vdots \\
+\frac{\left(\Bx_k - \Ba_m\right)^T}{\|\Bx_k - \Ba_m\|} \\
+\end{bmatrix}, 
+\quad \Bb_k = \begin{bmatrix}
+z_1^{(k)} - \|\Bx_k - \Ba_1\| \\
+z_2^{(k)} - \|\Bx_k - \Ba_2\| \\
+\vdots \\
+z_m^{(k)} - \|\Bx_k - \Ba_m\| \\
+y_k - \|\Bx_k\| \\
+\end{bmatrix}
+\end{equation}
+\begin{equation}
+\stepcounter{abc}
+\setcounter{equation}{8}
 \tilde{\Bd_k} = 
 \begin{bmatrix}
 d_1 + y^k - z_1^k \\
 d_2 + y^k - z_2^k \\
 \vdots \\
 d_m + y^k - z_m^k \\
-\end{bmatrix}, 
-\quad \Bp_k = \begin{bmatrix}
-\|\Bx^k\|^2 -\left(y^k\right)^2  \\
-\|\Bx^k - \Ba_1\|^2 -\left(z_1^k\right)^2 \\
-\vdots \\
-\|\Bx^k - \Ba_m\|^2 -\left(z_m^k\right)^2 \\
-\end{bmatrix}
-\end{equation}
-\begin{equation}
-\nonumber
-\BC_k = \begin{bmatrix}
--2\left(\Bx^k\right)^T & 2y^k & 0 & \hdots & 0 \\
--2\left(\Bx^k - \Ba_1\right)^T & 0 & 2z^k_1 & \hdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
--2\left(\Bx^k - \Ba_m\right)^T & 0 & 0 & \hdots & 2z_m^k
 \end{bmatrix},
+\BC = \begin{bmatrix}
+\symb{I}_{m+3} \\
+-\symb{I}_{m+3}
+\end{bmatrix},
+\Bq = \beta\Be
 \end{equation}
- $\tilde{\Bdelta}^k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$. 
-
-By introducing nonnegative slack variables $\Bu, \Bv$ and $\Bw$, we relax the problem in (\ref{eq:6.7}) to
+\noindent
+where $\Be = \symb{1}_{2(m+3)}$ is the all-one vector. By introducing nonnegative slack variables $\Bu, \Bv$ and $w$, we relax the problem in (\ref{eq:6.7}) to
 \setcounter{abc}{0}
-\begin{eqnarray} \label{eq:6.8} %1.12
+\begin{eqnarray} \label{eq:6.9} %1.12
 \stepcounter{abc}
-\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau\sum_{j=1}^{2(m+3)} w_j\\
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau w\\
 \stepcounter{abc}
-\setcounter{equation}{8}
-\mbox{subject to}& &\BA\tilde{\Bdelta} - \Bb = \Bu - \Bv \\
+\setcounter{equation}{9}
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} - \Bb_k = \Bu - \Bv \\
 \stepcounter{abc}
-\setcounter{equation}{8}
-& &\BC\tilde{\Bdelta} - \Bd \leq \Bw \\
+\setcounter{equation}{9}
+& &\BC\tilde{\Bdelta} - \Bq \leq w\Be \\
 \stepcounter{abc}
-\setcounter{equation}{8}
-& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, \Bw \geq \symb{0}
+\setcounter{equation}{9}
+& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, w \geq 0
 \end{eqnarray}
-where $\tau > 0$ is a sufficiently large scalar. It is easy to verify that the feasible region defined by (\ref{eq:6.8}b) -  (\ref{eq:6.8}d) is always nonempty. For example, if we fix $\tilde{\Bdelta} = \tilde{\Bdelta_0}$ arbitrarily, then obviously the point $\{\tilde{\Bdelta_0}, \Bu_0, \Bv_0, \Bw_0\}$ with
+where $\tau > 0$ is a sufficiently large scalar. It is easy to verify that the feasible region defined by (\ref{eq:6.9}b) -  (\ref{eq:6.9}d) is always nonempty. For example, if we fix $\tilde{\Bdelta} = \tilde{\Bdelta_0}$ arbitrarily, then obviously the point $\{\tilde{\Bdelta_0}, \Bu_0, \Bv_0, w_0\}$ with
 \setcounter{abc}{0}
 \begin{equation}
 \nonumber
-\Bu_0 = \mbox{max}\{\symb{0},\BA\tilde{\Bdelta_0} -\Bb\}, \quad \Bv_0 = \mbox{max}\{\symb{0},-(\BA\tilde{\Bdelta_0} -\Bb)\}, \mbox{and } \Bw_0 = \mbox{max}\{\symb{0},\BC\tilde{\Bdelta_0} -\Bd\}
+\Bu_0 = \mbox{max}\{\symb{0},\BA_0\tilde{\Bdelta_0} -\Bb_0\}, \quad \Bv_0 = \mbox{max}\{\symb{0},-(\BA_0\tilde{\Bdelta_0} -\Bb_0)\}, \mbox{and } w_0 = \mbox{max}\{0,\BC\tilde{\Bdelta_0} -\Bq\}
 \end{equation}
 
 \noindent
-is a feasible point for problem (\ref{eq:6.8}). The penalty term tries to reduce the magnitudes of the slack variables while minimizing the original objective function. If the solution slack variables turn out to be all zero, then the solution  of (\ref{eq:6.8}) also solves problem (\ref{eq:6.7}). Otherwise, we conclude that problem (\ref{eq:6.7}) in not solvable and the solution obtained by solving (\ref{eq:6.8}) is a reasonable candidate for the $k$th iteration to update $\{\Bx_k, y_k, \Bz_k\}$.
+is a feasible point for problem (\ref{eq:6.9}). The penalty term tries to reduce the magnitudes of the slack variables while minimizing the original objective function. If the solution slack variables turn out to be all zero, then the solution  of (\ref{eq:6.9}) also solves problem (\ref{eq:6.7}). Otherwise, we conclude that problem (\ref{eq:6.7}) in not solvable and the solution obtained by solving (\ref{eq:6.9}) is a reasonable candidate for the $k$th iteration to update $\{\Bx_k, y_k, \Bz_k\}$.
 
 \subsection{The Algorithm}
 
-Based on the analysis above, the localization algorithm for range-difference measurements can be outlined as follows.
+The input parameters for the algorithm include the bound $\beta$ on the increment vector $\tilde{\Bdelta} =\left(
+\Bdelta_x, \delta_y, \Bdelta_z\right)$. It controls the size of a "trust region" over which a convex subproblem is carried out and is responsible for the performance of the algorithm. If parameter $\beta$ is chosen too large, then approximation $\Bx_{k+1}$ will perform poorly because in this case the convex model is less accurate \cite{OPTII}. If $\beta$ is too small the progress of the algorithm will be too slow. In our simulations we set  $\beta$ to the value between 3 and 6. Other input parameters are initial point $\Bx_0$, initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ (to avoid numerical problems that may occur  if $\tau_k$ becomes too large).
+
+The method discussed in this section is \textit{local}, therefore is not guaranteed to converge to the global minimum when applied to the nonconvex problem. As discussed in Sec. 2.2 of the thesis, the original LS objective in (\ref{eq:6.2}) is highly nonconvex with many local minimums even for small-scale systems. Consequently, the choise of a good initial point is critical to ensure good performance of the method. Several techniques are available, these include: i) set the initial point to the origin; ii) select the initial point uniformly randomly over the same region as the unknown radiating source; iii) run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error.  The candidate initial points can be selected either randomly over the region or based on some  a priori information, for example, the geometry of the sensor network; iv) solve an approximating problem or apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. 
+In our simulations we set the inital point $\Bx_0$ to the solution of the following subproblem
+
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:initpnt}
+\stepcounter{abc}
+\Min_{\Bx, y, \Bz} & &\sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
+\stepcounter{abc}
+\setcounter{equation}{10}
+\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq z_i, \quad  i = 1, 2, \ldots m \\
+\stepcounter{abc}
+\setcounter{equation}{10}
+& &\|\Bx\|  \leq y
+\end{eqnarray}
+\noindent
+Based on the analysis above, the localization algorithm for range-difference measurements can be outlined as follows. For the ease of notation we will refer to the proposed algorithm as Sequential Convex Relaxation for Range-Difference-based Least Squares (SCR-RDLS).
 
 %The constraint $\beta$ was imposed on each element of the vector $\tilde{\Bdelta}$ to guarantee that at each iteration is sufficiently small.
 
 %Dropping the constraints in \ref{eq:6.8}f,g allows more variety in choosing the search direction, which increases the likelihood of the algorithm not to get trapped in the local minimimum.
 
-%\phantom{m}
-%\framebox{%
-%\parbox{5.4in}{
-\label{alg:socp_rd}
-%\phantom{m}
+\phantom{m}
+\framebox{%
+\parbox{5.4in}{
+\label{alg:scp_rd}
+\phantom{m}
 
-\noindent \textbf{Algorithm 4. }
+\noindent \textbf{Algorithm 4. Sequential Convex Relaxation for Range-Difference Localization}
 
-%\phantom{m}
+\phantom{m}
 
-1) Input data: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range-difference measurements $\{d_i, i=1,\ldots,m\}$, initial point $\Bx_0$, maximum number of iterations $K_{max}$, initial weight $\mu_0$ and upper limit of weight $\mu_{max}$, increment bound $\beta$. %\gamma, \sigma$, 
-Set iteration count to $k = 0$. Form
-
-\begin{equation} 
+1) Input data: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range-difference measurements $\{d_i, i=1,\ldots,m\}$, initial point $\Bx_0$, initial weight $\tau_0$ and upper limit of weight $\tau_{max}$, increment bound $\beta$ and convergence tolerance $\epsilon$. %\gamma, \sigma$, 
+Set iteration count to $k = 0$. Form $\BS, \BC$ and $\Bq$ as
 \setcounter{abc}{0}
-\nonumber
-y_0 = \|\Bx_0\| ,\quad
-\Bz_0 = \begin{bmatrix}
-\|\Bx_0 - \Ba_1\|^2  \\
-\|\Bx_0 - \Ba_2\|^2  \\
-\vdots \\
-\|\Bx_0 - \Ba_m\|^2  \\
-\end{bmatrix}
-\end{equation}
-
-%\phantom{m}
-
-2) Form $\tilde{\Bd_k}, \Bp_k$ and $\BC_k $ as 
-\begin{equation} 
-\setcounter{abc}{0}
-\nonumber
-\tilde{\Bd_k} = 
-\begin{bmatrix}
-d_1 + y^k - z_1^k \\
-d_2 + y^k - z_2^k \\
-\vdots \\
-d_m + y^k - z_m^k \\
-\end{bmatrix}, 
-\quad \Bp_k = \begin{bmatrix}
-\|\Bx^k\|^2 -\left(y^k\right)^2  \\
-\|\Bx^k - \Ba_1\|^2 -\left(z_1^k\right)^2 \\
-\vdots \\
-\|\Bx^k - \Ba_m\|^2 -\left(z_m^k\right)^2 \\
-\end{bmatrix}
-\end{equation}
 \begin{equation}
 \nonumber
-\BC_k = \begin{bmatrix}
--2\left(\Bx^k\right)^T & 2y^k & 0 & \hdots & 0 \\
--2\left(\Bx^k - \Ba_1\right)^T & 0 & 2z^k_1 & \hdots & 0 \\
-\vdots & \vdots & \vdots & \ddots & \vdots \\
--2\left(\Bx^k - \Ba_m\right)^T & 0 & 0 & \hdots & 2z_m^k
+\BS = \begin{bmatrix}
+\symb{0}_{m \times 1} & -\symb{1}_{m \times 1} & -\symb{I}_m
 \end{bmatrix},
+\BC = \begin{bmatrix}
+\symb{I}_{m+3} \\
+-\symb{I}_{m+3}
+\end{bmatrix},
+\Bq = \beta\Be
 \end{equation}
-
 %\phantom{m}
-\noindent
-an solve
+
+2) Form $y_k$ and $\Bz_k$ as
+\begin{equation}
+\nonumber
+y_k =\|\Bx_k\|, \Bz_k = \begin{bmatrix}
+\|\Bx_k - \Ba_1\| \\
+\vdots \\
+\|\Bx_k - \Ba_m\|
+\end{bmatrix} 
+\end{equation}
+form $\BA_k, \tilde{\Bd_k}, \Bb_k$ and $\BC_k $ as in (\ref{eq:6.8}) and solve
+%\phantom{m}
+%\noindent
 \setcounter{abc}{0}
 \begin{eqnarray} 
 \nonumber
-\Min_{\Bdelta_x, \delta_y, \Bdelta_z, s}& &\| -\delta_y\symb{1_m} + \Bdelta_z - \tilde{\Bd_k} \|_2 + \mu_ks
-\\ 
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau_k\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau_k w\\
 \nonumber
-\mbox{subject to:}& &\BC_k\tilde{\Bdelta}  = \Bp_k 
-\\
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} - \Bb_k = \Bu - \Bv \\
 \nonumber
- & &|\tilde{\Bdelta}|  \leq \left(\beta + s\right)\symb{1_{m+3}} 
- \\
+& &\BC\tilde{\Bdelta} - \Bq \leq w\Be \\
 \nonumber
-& & s \geq 0
+& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, w \geq 0
 \end{eqnarray}
 \noindent
-Denote the solution as $\tilde{\Bdelta}^k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$. 
+Denote the solution as $\tilde{\Bdelta}_k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$. 
 
 %\phantom{m}
 
-
-3) Update  $\mu_{k+1} $ = min $(1.5\mu_k, \mu_{max})$, set $k = k+1$. Update $\tilde{\Bx}^{*}$ to
+3) Update  $\tau_{k+1} $ = min $(1.5\tau_k, \tau_{max})$, set $k = k+1$. Update $\tilde{\Bx}^{*}$ to
 \setcounter{abc}{0}
 \begin{eqnarray} 
 \nonumber
@@ -378,18 +397,54 @@ y^{*} = y^k + \delta_y^* \\
 
 %\phantom{m}
 
+4) If $\|\tilde{\Bdelta}_k\| \leq \epsilon$, terminate and output $\Bx^*$ as the solution; otherwise, set $\tilde{\Bx}_{k} = \Bx^{*}$  and repeat from Step 2. 
 
-4) If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\tilde{\Bx}^{k} = \tilde{\Bx}^{*}$  and repeat from Step 2. 
-
-%\phantom{m}
-%}
-%}
+\phantom{m}
+}
+}
 
 
 \subsection{Numerical Results}
 
-For illustration purposes, the proposed algorithm was applied to a network with five sensors, and its performance was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SR-LS solutions were used as performance benchmarks for the PCCP-based LS Algorithm. The system consisted of $5$ sensors $\{\Ba_i, i = 1, 2,\ldots,5\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$, and a radiating source $\Bx_s$, located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range-difference measurements $\{d_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:6.1}). Accuracy of source location estimation was evaluated in terms of average of the squared position error error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and proposed methods, respectively.  
-In our simulations parameter $\beta$ was set to () and the number of iterations was set to (). The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. The proposed algorithm was initialized with ...  
+Performance of the proposed algorithm was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for the Algorithm 4. The sensor network consisted of $11$ sensors with $\Ba_0 = \BO$ placed at the origin and other ten sensors  $\{\Ba_i, i = 1, 2,\ldots,10\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$. A radiating source $\Bx_s$ was located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range-difference measurements $\{d_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:6.1}). Accuracy of source location estimation was evaluated in terms of average of the squared position error error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and proposed methods, respectively.  
+In our simulations parameter $\beta$ was set to 3, the initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ were set to 10 and 10 000 respectively. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. The proposed algorithm was initialized with the solution point of (\ref{eq:initpnt}) and the iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ did not reduce to $\epsilon = 10^{-6}$ or smaller. 
+
+Table \ref{tab:scr_rdls}  provides comparisons of the SCR-RDLS with SRD-LS, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. %The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP.
+ It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS. 
+Each entry in Table \ref{tab:rdls} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:scr_rdls} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:rdls} suggest that, SRD-LS solutions outperform SR-LS.
+
+\begin{table}[h]
+\centering
+\caption{MSE of position estimation for SRD-LS and SCR-RDLS methods}
+\phantom{m}
+\begin{tabular}{|c|c|c|c|} \hline
+\centering
+$\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
+%&&& \\
+1e-03&	1.2655e-06  & 8.4626e-07 &  33 \\ &&&\\
+1e-02&	1.4492e-04 &  6.8385e-05 &  52 \\ &&&\\
+1e-01&	1.3329e-02 & 7.1676e-03 &   46 \\ &&&\\
+1e+0&	1.6077e+00 &  9.5371e-01 &   40  \\ %&&&\\
+\hline
+\end{tabular}
+\label{tab:scr_rdls}
+%\end{table}
+%\begin{table}[h]
+\centering
+\caption{Standard deviation of the squared position estimation error for SRD-LS and SCR-RDLS methods}
+\phantom{m}
+\begin{tabular}{|c|c|c|} \hline
+$\sigma$ & SRD - LS & IRWSRD-LS  \\ \hline
+%&&& \\ 
+1e-03&	3.3990e-06 &  3.2917e-06 \\ &&\\
+1e-02&	5.9818e-04 &   1.3673e-04 \\ &&\\
+1e-01&	3.6154e-02  & 2.4337e-02 \\ &&\\
+1e+0&	4.2206e+00 &  3.4931e+00 \\ %&&&&\\
+\hline
+\end{tabular}
+\label{tab:rdls}
+\end{table}
+
 
 
 %\newpage
