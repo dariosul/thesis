@@ -1,5 +1,8 @@
 
+\phantom{m}
+
 \section{Range-based localization}
+
 
 In this section we explore a sequential convex relaxation approach to the range based localization problem that you had studied in previous chapters. The localization problem discussed in this section involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
 \setcounter{abc}{0}
@@ -131,6 +134,15 @@ Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$.
 
 
 \subsection{Numerical Results}
+
+Performance of the proposed SCR-RLS algorithm was evaluated and compared with existing state-of-the-art SR-LS solutions \cite{BeckStLi} with a set-up similar to that of \cite{BeckStLi}.   Our simulation studies of Algorithm 5 considered a scenario that consists of  $m = 5$ sensors $\{\Ba_i, \ i=1, 2,\ldots,m\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$, and a radiating source $\Bx_s$, located randomly in the region $[-10;10]\times[-10;10]$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. 
+Measurement noise $\{\varepsilon_i, \ i=1,\ldots, m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of three possible levels $\{10^{-3}, 10^{-2}, 10^{-1}\}$. The range measurements $\{r_i, \ i=1, 2,\ldots, m\}$ were calculated using 
+\setcounter{abc}{0}
+\begin{equation} \label{eq:5.0}
+\nonumber
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}
+Accuracy of source location estimation was evaluated as the average of the squared position error $\|\Bx^* - \Bx_s\|^2$ where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and SCR-RLS methods, respectively. Table \ref{tab:scr_rls} provides comparisons of the proposed sequential relaxation method with SR-LS, where each table entry is a squared error averaged over 200 Monte Carlo runs of a given method for a given noise level. The last column of the table  represents relative improvement (R.I.) of the proposed method over SR-LS solutions in percentage. It is observed that SCR-RLS solutions offer considerable improvement over SR-LS solutions
 
 
 \begin{table}[h]

@@ -13,19 +13,18 @@
 
 %\section{Second Order Cone Programming}
 
-
 In this chaper we adress the problems of localizing a single radiating source based on range or range-difference measurements. In both cases we focus on the efficient computation of the least squares estimates of the source coordinates. We start with converting the unconstrained LS problem to  constrained problems. We then develop solution methods for these nonconvex problems that are ispired by the sequential convex programming based on exact penalty formulation and Taylor expansion. In Sec. 4.1 we describe the  algorithm for the range-difference based localization. Then in Sec. 4.2 we consider the problem of range-based localization. Numerical results, that conclude each section, are presented to demonstrate that the proposed algorithms offer substantial performance improvement relative to some best known results from the literature.
 
 
  %We present an algorithm for solving the LS problem at hand based on a penalty convex-concave procedure (PCCP) \cite{LBoyd} that accommodates infeasible initial points in solving a fairly large class of \textit{nonconvex} constrained problems. Algorithmic details are provided to show that the PCCP-based formulation is tailored to the localization problem at hand. These include additional constraints that enforce the algorithms iteration path towards the LS solution, and several strate321q223wgies to secure good initial points. Numerical results are presented to demonstrate that the proposed algorithm offers substantial performance improvement relative to some best known results from the literature.
 
-
-
 \section{Range-Difference Localization}
 \subsection{Problem Formulation}
 
-
-In this section we focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent  measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
+In this section we focus on the problem of range-difference based localization given the time-difference of arrival information. TDOA localization, also known as multilateration, or hyperbolic positioning, is a method where the position of the mobile unit (signal source) can be determined using the differences in the TOAs from different base stations. By using this method the clock biases between the mobile units and base stations are automatically removed, since only the pairwise differences between 
+\newpage
+\noindent
+the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the basis for solving multilateration problems. In particular, the set of possible positions of a mobile unit that has a range difference of $d_i$ from two given base stations $BS_i$ and $BS_0$, placed at $\Ba_i$ and $\Ba_0$ respectively, is a hyperbola with vertex separation of $d_i$ and focii located at $\Ba_i$ and $\Ba_0$. $BS_0$ is placed at the origin of the coordinate system, i.e. $\Ba_0 = \symb{0}_n$, and used as a reference station. Consider now a third base station $BS_j$ at a third location. This would provide one extra independent  measurement between $BS_j$ and $BS_0$ and the source is located on the curve determined by the two intersecting hyperboloids. Figure \ref{fig:tdoa} illustrates an example of the range-difference localization based on TDOA measurements.
 %
 % \phantom{m}
 %
@@ -410,7 +409,7 @@ Performance of the proposed algorithm was evaluated and compared with existing s
 In our simulations parameter $\beta$ was set to 3, the initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ were set to 10 and 10 000 respectively. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. The proposed algorithm was initialized with the solution point of (\ref{eq:initpnt}) and the iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ did not reduce to $\epsilon = 10^{-6}$ or smaller. 
 
 Table \ref{tab:scr_rdls}  provides comparisons of the SCR-RDLS with SRD-LS, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. %The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP.
- It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the IRWSR-LS (hybrid IRWSR-LS) solution over the SR-LS. 
+ It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the SCR-RDLS solution over the SR-LS. 
 Each entry in Table \ref{tab:rdls} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:scr_rdls} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:rdls} suggest that, SRD-LS solutions outperform SR-LS.
 
 \begin{table}[h]
@@ -445,7 +444,7 @@ $\sigma$ & SRD - LS & IRWSRD-LS  \\ \hline
 \label{tab:rdls}
 \end{table}
 
-
+\phantom{m}
 
 %\newpage
 \input chapters/5/range_based
