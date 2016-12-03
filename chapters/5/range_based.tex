@@ -1,0 +1,87 @@
+
+\section{Range-based localization}
+
+In this section we explore a sequential convex relaxation approach to the range based localization problem that you had studied in previous chapters. The localization problem discussed in this section involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+\setcounter{abc}{0}
+\begin{equation} \label{eq:5.0}
+\nonumber
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}    
+where $\varepsilon_i$ denotes the unknown noise that has occurred when the $i$th sensor measures its distance to source $\Bx$. %Let $\Br=[r_1 \ r_2 \ldots r_m]^T$ and $\Beps=[\varepsilon_1 \ \varepsilon_2 \ldots \varepsilon_m]^T$.  
+The localization problem can be stated as to  estimate the \textit{unknown} location of the radiating device, $\Bx$, by solving the problem 
+\setcounter{abc}{0}
+\begin{equation} \label{eq:5.1}
+\Min_{\Bx} \sum^m_i \left( \|\Bx - \Ba_i\| - r_i \right)^2 
+\end{equation}
+The problem in (\ref{eq:5.1}) can be (equivalently) written as 
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:5.2}
+\stepcounter{abc}
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{10}
+\stepcounter{abc}
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad i = 1, 2, ..., m \\
+\setcounter{equation}{10}
+\stepcounter{abc}
+& &\Bz \geq \symb{0}
+\end{eqnarray}
+The constraints in (\ref{eq:5.2}b) are difficult to satisfy exactly. This motivates a relaxed set of constraints that lead to the  following constrained problem
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:5.3}
+\setcounter{abc}{1}
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{11}
+\stepcounter{abc}
+\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i  \\
+\setcounter{equation}{11}
+\stepcounter{abc}
+& &\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i, \quad i = 1, 2, ..., m
+\end{eqnarray}
+where $\gamma > 0$ is a small scalar, initially set in the range $\gamma_0 \in (0,0.5)$. The solution of the problem (\ref{eq:5.3}) may be taken as an approximate solution of the problem in (\ref{eq:5.2}), hence of problem (\ref{eq:5.1}) as well. By allowing $\gamma$ to sequentially and monotonically decrease from $\gamma_0$  to zero, the solution of the problem in (\ref{eq:5.3}) converges that of the problem in (\ref{eq:5.2}), because as $\gamma$ approaches 0, the feasible region of the problem in (\ref{eq:5.3}) will become equivalent to that in (\ref{eq:5.2}). As iterations proceed, the objective in (\ref{eq:5.3}) will not be monotonically decreasing in general but it will converge to a critical point.
+
+Problem in (\ref{eq:5.3}) is nonconvex due to the nonconvexity of some of the inequality constraints. To be precise, the constraints in (\ref{eq:5.3}b), namely $\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i$, are convex, while those in (\ref{eq:5.3}c) are not
+\begin{equation}
+\nonumber
+\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i \Longleftrightarrow \underbrace{-\|\Bx - \Ba_i\|}_{nonconvex} \leq -(1 - \gamma)z_i
+\end{equation}
+Because the norm $\|\Bx - \Ba_i\|$  is a convex function with respect to $\Bx$, it follows that for
+a \textit{known} $\Bx_k$
+\begin{equation}
+\nonumber
+\|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i)
+\end{equation}
+Hence the constraint in \ref{eq:5.3}c can be replaced with its affine approximation
+\begin{equation}
+\nonumber
+-\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i
+\end{equation}
+In this way, in the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in \ref{eq:5.3} can be converted to a convex second-order cone
+programming (SOCP) problem
+\setcounter{abc}{0}
+\begin{eqnarray} \label{eq:5.4}
+\stepcounter{abc}
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\setcounter{equation}{12}
+\stepcounter{abc}
+\mbox{subject to:}& &\|\Bx - \Ba_i\|  \leq  (1+ \gamma)z_i  
+\end{eqnarray}
+\begin{equation}
+\setcounter{equation}{12}
+\stepcounter{abc}
+\qquad \qquad \qquad  -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Ba_i)  \leq  -(1 - \gamma)z_i, \quad i = 1, 2, ..., m
+\end{equation}
+\setcounter{abc}{0}
+where the relaxation parameter $\gamma$ controls the size of the convex hull that defines a feasibility region of the problem (\ref{eq:5.4}), and $\gamma$ needs to be monotonically decreasing as the iteration proceeds. Specifically, a reasonable choice of the value for $\gamma_0$ is 0.2 or 0.3, and we update the value of $\gamma_{k+1}$ linearly as
+\begin{equation}
+\nonumber
+\gamma_{k+1} = \gamma_0 - k\frac{\gamma_0}{K_{max} - 1}
+\end{equation}
+or quadratically as
+\begin{equation}
+\nonumber
+\gamma_{k+1} = \gamma_0\frac{(K_{max} - 1 - k)^2}{(K_{max} - 1)^2}
+\end{equation}
+where $K_{max}$ is the number of iterations to be executed.
+
+%\startchapter{SOCP}
+%\newpage

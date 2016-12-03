@@ -1,3 +1,4 @@
+\section{LQP}
 
 We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrained problem with second-order cone constraints%can be equivalently written as
 \setcounter{abc}{0}
@@ -7,10 +8,10 @@ We begin by re-writing the unconstrained problem in (\ref{eq:6.2}) as a constrai
 \Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
 \stepcounter{abc}
 \setcounter{equation}{7}
-\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i \\
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad  i = 1, 2, \ldots m \\
 \stepcounter{abc}
 \setcounter{equation}{7}
-& &\|\Bx\|  = y, \quad  i = 1, 2, \ldots m
+& &\|\Bx\|  = y
 \end{eqnarray}
 Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \Bz \in R^m$ be a known strictly feasible point of the problem in (\ref{eq:6.3}). 
 %\setcounter{abc}{0}
@@ -22,7 +23,7 @@ Let $\tilde{\Bx} = [\Bx^T \ y \ z_1 \ldots z_m]^T$ with $\Bx \in R^n, y \in R, \
 %\nonumber
 %& &\|\Bx\|  \leq y, \quad  i = 1, 2, \ldots m
 %\end{eqnarray}
-Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ is a small perturbation to it, such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ and $\beta > 0$ is a small positive constant. We need to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
+Let $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \delta_{z_1} \ \ldots \  \delta_{z_m}]^T$, $\Bdelta_x \in R^n, \Bdelta_y \in R, \Bdelta_z \in R^m$ be a set of small perturbations to the above variables such that $|\tilde{\Bdelta}| \leq \beta\symb{1_{m+3}}$ where $\beta > 0$ is a small positive constant. We seek to find an increment vector $\tilde{\Bdelta} = [\Bdelta_x^T \  \delta_y \ \Bdelta_{z}^T]^T$ such that the next iterate
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.4} %1.8
 \stepcounter{abc}
@@ -34,8 +35,7 @@ y^{k+1} = y^k + \delta_y \\
 \setcounter{equation}{8}
 \Bz^{k+1} = \Bz^k + \Bdelta_z
 \end{eqnarray}
-remains strictly feasible. 
-At the $k+1$th iteration with $\tilde{\Bx}^k$ \textit{known} %update $(\Bx^k, y^k, \Bz^k)$ to 
+reduces the objective function in (\ref{eq:6.4}a) and, at the same time, better satisfies the constraints in (\ref{eq:6.4}b) and (\ref{eq:6.4}c). At the $(k+1)$th iteration with $\tilde{\Bx}^k$ \textit{known}, %update $(\Bx^k, y^k, \Bz^k)$ to 
 %Substituting \ref{eq:6.4} in \ref{eq:6.3}
  the objective in \ref{eq:6.3} can be written as
  \setcounter{abc}{0}
@@ -49,13 +49,12 @@ where
 \nonumber
 \tilde{d}^k_i =  d_i - y^k - z_i^k
 \end{equation}
- are grouped known constant terms.
-Substituting \ref{eq:6.4}b in \ref{eq:6.3}b
+ are grouped known constant terms. By substituting (\ref{eq:6.4}b) into (\ref{eq:6.3}b), the constraints in (\ref{eq:6.3}b) become
 \begin{equation}
 \nonumber
 \|\Bx^k + \Bdelta^k_x - \Ba_i\| = z^k_i +\delta_{z_i}, \quad i = 1, 2, \ldots, m
 \end{equation}
-The constraints can be convexified by squaring both sides of the equality and then re-grouping the terms on the left-hand side as follows
+These constraints can be convexified by squaring both sides of the equality and then re-grouping the terms on the left-hand side as follows
 \begin{eqnarray}
 \nonumber
 \|(\Bx^k  - \Ba_i) + \Bdelta^k_x\|^2 & = & \left(z^k_i +\delta_{z_i}\right)^2 \\
@@ -65,11 +64,9 @@ The constraints can be convexified by squaring both sides of the equality and th
 \nonumber
 \Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
 \nonumber
-\Leftrightarrow \|\Bx^k  - \Ba_i\|^2 + 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x   & \approx & \left(z_i^k\right)^2 + 2z_i^k\delta_{z_i} \\
-\nonumber
 - 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  & \approx & \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2
 \end{eqnarray}
-Repeating the similar procedure with the constraint in \ref{eq:6.3}c
+The constraint in (\ref{eq:6.3}c) can be treated in a similar way as
 \begin{eqnarray}
 \nonumber
 \|\Bx^k + \Bdelta_x\| & = & y^k + \delta_y \\
@@ -87,15 +84,18 @@ The problem in \ref{eq:6.3} can now be written in terms of the \textit{known} fe
 \Min_{\Bdelta_x, \delta_y, \Bdelta_z}& &\sum^m_{i=1}\left( -\delta_y + \delta_{z_i} -\tilde{d_i}^k\right)^2\\
 \setcounter{equation}{10}
 \stepcounter{abc}
-\mbox{subject to:}& &- 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  = \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2 \\
+\mbox{subject to:}& &-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx^k\|^2 - \left(y^k\right)^2 \\
 \setcounter{equation}{10}
 \stepcounter{abc}
-& &-2\left(\Bx^k\right)^T\delta_x + 2y^k\delta = \|\Bx^k\|^2 - \left(y^k\right)^2 \\
+& &- 2\left( \Bx^k  - \Ba_i \right)^T\Bdelta_x + 2z_i^k\delta_{z_i}  = \|\Bx^k  - \Ba_i\|^2 - \left(z_i^k\right)^2, \\
+\nonumber
+& &\qquad \qquad \qquad \qquad \qquad \qquad \qquad  \qquad i = 1, 2, \ldots m \\
 \setcounter{equation}{10}
 \stepcounter{abc}
-& &|{\tilde{\Bdelta}}|  \leq \beta\symb{1_{m+3}}, \quad  i = 1, 2, \ldots m
+& &|{\tilde{\Bdelta}}|  \leq \beta\symb{1_{m+3}}
 \end{eqnarray}
-It is obvious to see that the  problem in \ref{eq:6.6} can be written in the following form
+Clearly, (\ref{eq:6.6}) is a convex QP problem which can be written more
+compactly as follows:
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.7} %1.11
 \stepcounter{abc}
@@ -139,6 +139,8 @@ d_m + y^k - z_m^k \\
 \Bdelta_z
 \end{bmatrix}
 \end{equation}
+\textbf{starting form this point: "Page 57
+• Darya, the text (before Section 4.2.3) right after the first equation at the top needs to be revised. You can do so using some part of my write-up with necessary modification for notation consistency."}
 A technical problem making the formulation in (\ref{eq:6.7}) difficult to implement is that it requires a feasible initial point $\Bx^k$. The iterate $\tilde{\Bx}^k$ is known and  strictly feasible  but it is not guaranteed that the $\tilde{\Bx}^{k+1}$ will also be feasible. The problem can be overcome by introducing nonnegative slack variable $s$ into the constraints in \ref{eq:6.7}c to replace their right-hand sides by relaxed upper bounds (as these new bounds themselves are nonnegative variables). To allow non-feasible increments $\tilde{\Bdelta}$, the problem can be overcome by introducing a
 nonnegative slack variable $s \geq 0$ \ref{eq:6.8}c to replace their right-hand sides  by a  relaxed upper bound (as this new bound itself is a nonnegative variable). We allow the constraint in $|\tilde{\Bdelta}|  \leq \beta \symb{1_{m+3}}$ be violated so that the  region with lower value of the objective function can be found. 
 This leads to a following sequential relaxation step for the problem in \ref{eq:6.3}
