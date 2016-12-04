@@ -13,40 +13,75 @@ the existing methods, and describe the main contributions and structure of the t
 
 \section{The Localization Problem: Motivation} \label{problem}
 
-Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS}.
+Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS} ([1]–[10]).
 
-Different technologies have been used to build geolocation systems. Several global navigation satellite systems  are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a a computational technique known as trilateration. The location of the receiver can be calculated from the
 tracked positions of the satellites and the times measured, each known as the Time-of-Arrival \cite{GeoLoc}.
 
+%Consequently, it
+%has been incorporated into many services and applications. Currently, outdoor
+%localization, thanks to GPS, has revolutionized navigation-based applications running on automotive GPS-enabled devices and smart phones. Applications range from location awareness, to point-by-point directions between destinations, to identifying the closest cinema or coffee shop. The success of GPS has been due to the reliability, availability, and practical accuracy that the system can deliver; however, GPS lacks coverage indoors and in urban areas, in particular near buildings when the signal is blocked;
+%even in the best of conditions, the accuracy is on the order of several meters. 
+%navigation:
+%auto
+%aerial
+%ships and boats
+%heavy equipment
+%fitness trackers (for example, Garmin gps enabled smart watches for tracking the run distance/routes/speed)
 
+As localization technologies become more accurate and robust, location services are becoming increasingly integrated into daily life.
+GPS was the first to be developed and made available to the public. Therefore it has been used as the basis of many services and applications.
+In particular it has revolutionized navigation-based applications running on smartphones and in automobiles. Use cases include point-by-point directions between destinations and identifying nearby facilities or points of interest (such as the closest coffee shop).
+GPS is also widely used in navigation of other vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit and Garmin \textit{FitBit and Garmin websites} which automatically collect data about the user's activities (distance run, speed, routes taken).
 
- Consequently, it
-has been incorporated into many services and applications. Currently, outdoor
-localization, thanks to GPS, has revolutionized navigation-based applications running on automotive GPS-enabled devices and smart phones. Applications range from location awareness, to point-by-point directions between destinations, to identifying the closest cinema or coffee shop. The success of GPS has been due to the reliability, availability, and practical accuracy that the system can deliver; however, GPS lacks coverage indoors and in urban areas, in particular near buildings when the signal is blocked;
-even in the best of conditions, the accuracy is on the order of several meters. 
-navigation:
-auto
-aerial
-ships and boats
-heavy equipment
-fitness trackers (for example, Garmin gps enabled smart watches for tracking the run distance/routes/speed)
+The widespread adoption and success of GPS in these different application domains is due to its accuracy, reliability and availability. However, there are still limitations to be overcome. GPS coverage is limited indoors and in urban areas due to buildings obstructing the signals between the GPS device and satellites. Additionally, the accuracy is on the order of several meters. While this is sufficient for many applications such as navigating to the nearest coffee shop, greater accuracy will open up new opportunities, particularly for indoor positioning where spaces are smaller and greater precision is required.
 
+%The integration of location services into our day-to-day life will grow significantly
+%over the next decade as technologies mature and accuracy improves. 
+%Development of localization technologies has been occurring independently for different wireless systems.
+%The Global Positioning System (GPS) was the first to be developed and made available to the public. Therefore it has been used as the basis of many services and applications.
+%The evolution
+%of localization technologies has occurred independently for different wireless sys-
+%tems/standards. The Global Positioning System (GPS) was the first system to bring
+%to light the benefits of accurate and reliable location information. Consequently, it
+%has been incorporated into many services and applications. 
+%Currently, outdoor
+%localization, thanks to GPS, has revolutionized navigation-based applications
+%running on automotive GPS-enabled devices and smart phones. Applications range
+%from location awareness, to point-by-point directions between destinations, to
+%identifying the closest cinema or coffee shop. 
+%The basic technology behind the
+%system is to measure the time elapsed for a signal to travel between a number of
+%satellites orbiting the globe and a mobile device. 
+%Through a computational tech-
+%nique known as triangulation, the location of the mobile can be calculated from the
+%tracked positions of the satellites and the times measured, each known as the Time-
+%of-Arrival. The success of GPS has been due to the reliability, availability, and
+%practical accuracy that the system can deliver; however, GPS lacks coverage
+%indoors and in urban areas, in particular near buildings when the signal is blocked;
+%even in the best of conditions, the accuracy is on the order of several meters.
 
+As a result there has been a desire for new location-based services with improved accuracy and coverage.
+Novel solutions have been developed which attempt to integrate various wireless technologies with GPS. One such approach is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers. This can greatly reduce the search space and time to first fix on location. \textit{TODO cite Richton}
 
-As the growth of the number of smart devices and mobile users continues to
-increase without bound, the desire for new location-based services that require
-enhanced accuracy, including in GPS-denied areas, has emerged. To address this
-challenge, novel solutions attempt to integrate different wireless technologies with
-GPS. For example, assisted GPS (A-GPS) was developed to provide better locali-
-zation information in limited coverage areas by decreasing the time necessary for
-GPS to obtain a position fix (Richton 2001). Specifically, in A-GPS, cellular
+% Paper: http://www.cs.columbia.edu/~drexel/CandExam/Geolocation_assistedGPS.pdf
 
-networks furnish GPS-equipped mobile devices with satellite constellation infor-
-mation such that they can identify the closest orbiting satellites a priori, providing a
-faster lock. In addition, A-GPS relieves the burden of the computationally intensive
-triangulation technique from the CPU-limited mobile device by forwarding the links
-the GPS receiver measures to the base stations (BSs), which then calculate the
-mobile’s position and return the information to the mobile device.
+%utilizes cellular networks to provide devices with information about which are the closest GPS satellites. This allows the GPS device to determine its position more quickly \cite{Richton, 2001}. The burden of the computationally expensive triangulation calculations can also be offloaded from the mobile device to base stations which do the computation and return the position information to the mobile device. This can significantly improve performance on CPU-constrained devices.
+
+%As the growth of the number of smart devices and mobile users continues to
+%increase without bound, the desire for new location-based services that require
+%enhanced accuracy, including in GPS-denied areas, has emerged. To address this
+%challenge, novel solutions attempt to integrate different wireless technologies with
+%GPS. For example, assisted GPS (A-GPS) was developed to provide better locali-
+%zation information in limited coverage areas by decreasing the time necessary for
+%GPS to obtain a position fix (Richton 2001). Specifically, in A-GPS, cellular
+%
+%networks furnish GPS-equipped mobile devices with satellite constellation infor-
+%mation such that they can identify the closest orbiting satellites a priori, providing a
+%faster lock. In addition, A-GPS relieves the burden of the computationally intensive
+%triangulation technique from the CPU-limited mobile device by forwarding the links
+%the GPS receiver measures to the base stations (BSs), which then calculate the
+%mobile’s position and return the information to the mobile device.
 
 
 
