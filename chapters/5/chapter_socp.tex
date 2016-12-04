@@ -125,7 +125,9 @@ y^{k+1} &=& y^k + \delta_y \\
 \setcounter{equation}{4}
 \Bz^{k+1} &=& \Bz^k + \Bdelta_z
 \end{eqnarray}
-where $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ are such that the constraints in (\ref{eq:6.3}b) and (\ref{eq:6.3}c) are better approximated at $\{\Bx_{k+1},y_{k+1},\Bz_{k+1}\}$ in the sense that
+where $\{\Bdelta_x, \delta_y, \Bdelta_z\}$
+are such that the objective function in (
+\ref{eq:6.4}a) is reduced and, at the same time, the constraints in (\ref{eq:6.3}b) and (\ref{eq:6.3}c) are better approximated at $\{\Bx_{k+1},y_{k+1},\Bz_{k+1}\}$ in the sense that
 \setcounter{abc}{0}
 \begin{eqnarray}
 \nonumber
@@ -158,12 +160,12 @@ Hence
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.5} %1.9
 \stepcounter{abc}
-\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k\|} &\approx &z^{(k)}_i + \delta_{z_{j}}, \quad i = 1, 2,...,m \\
+\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k - \Ba_i\|} &\approx &z^{(k)}_i + \delta_{z_{j}}, \quad i = 1, 2,...,m \\
 \stepcounter{abc}
 \setcounter{equation}{5}
 \|\Bx_k\| + \frac{\Bx_{k}^T\Bdelta_x}{\|\Bx_k\|} &\approx &y_k + \delta_y
 \end{eqnarray}
-The objective in \ref{eq:6.3} can be written as
+The objective in (\ref{eq:6.3}a) can be written as
  \setcounter{abc}{0}
 \begin{eqnarray} 
 \nonumber
@@ -180,7 +182,7 @@ are grouped known constant terms. Based on the above, the problem to be solved i
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.6} %1.10
 \stepcounter{abc}
-\Min_{\Bdelta}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
+\Min_{\tilde{\Bdelta}}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
 \stepcounter{abc}
 \setcounter{equation}{6}
 \mbox{subject to:}& &\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k - \Ba_i\| } = z_i^{(k)} + \delta_{z_{j}}, \\
@@ -207,7 +209,7 @@ are grouped known constant terms. Based on the above, the problem to be solved i
 \end{eqnarray}
 The constraints in (\ref{eq:6.6}d) assure that the magnitude of each component in $\{\Bdelta_x, \delta_y, \Bdelta_z\}$ is no greater than $\beta$. %, but also they assure that all components of $\{y_{k + 1}, \Bz_{k + 1}\}$ are nonnegative as long as $\{y_{k}, \Bz_{k}\}$ are nonnegative, which are natural to impose as can be seen from (\ref{eq:6.3}b) and (\ref{eq:6.3}c) because they are vector norms. 
 Obviously, the problem in (\ref{eq:6.6}) is a convex QP problem. One technical difficulty that may occur in solving problem (\ref{eq:6.6}) is that the feasible region defined by (\ref{eq:6.6}b), (\ref{eq:6.6}c), and (\ref{eq:6.6}d) may be empty. In such a case the constraints in problem (\ref{eq:6.6})
-much be adequately relaxed in order for the problem to be solvable. To this end we rewrite (\ref{eq:6.6}) as
+must be adequately relaxed in order for the problem to be solvable. To this end we express the problem in (\ref{eq:6.6}) in a more compact form as
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.7} %1.11
 \stepcounter{abc}
@@ -278,7 +280,7 @@ d_m + y^k - z_m^k \\
 \Bq = \beta\Be
 \end{equation}
 \noindent
-where $\Be = \symb{1}_{2(m+3)}$ is the all-one vector. By introducing nonnegative slack variables $\Bu, \Bv$ and $w$, we relax the problem in (\ref{eq:6.7}) to
+where $\Be = \symb{1}_{2(m+3)}$ is the all-one vector of dimention $2(m+3)$. By introducing nonnegative slack variables $\Bu, \Bv$, and $w$, we relax the problem in (\ref{eq:6.7}) to
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:6.9} %1.12
 \stepcounter{abc}
@@ -301,14 +303,14 @@ where $\tau > 0$ is a sufficiently large scalar. It is easy to verify that the f
 \end{equation}
 
 \noindent
-is a feasible point for problem (\ref{eq:6.9}). The penalty term tries to reduce the magnitudes of the slack variables while minimizing the original objective function. If the solution slack variables turn out to be all zero, then the solution  of (\ref{eq:6.9}) also solves problem (\ref{eq:6.7}). Otherwise, we conclude that problem (\ref{eq:6.7}) in not solvable and the solution obtained by solving (\ref{eq:6.9}) is a reasonable candidate for the $k$th iteration to update $\{\Bx_k, y_k, \Bz_k\}$.
+is a feasible point for problem (\ref{eq:6.9}). Penalty terms $\tau\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau w$ are included in the objective function in (\ref{eq:6.9}a) in order to reduce the magnitudes of the slack variables while minimizing the original objective function. If the solution slack variables turn out to be all zero, then the solution  of (\ref{eq:6.9}) also solves problem (\ref{eq:6.7}). Otherwise, we conclude that problem (\ref{eq:6.7}) in not solvable and the solution obtained by solving (\ref{eq:6.9}) is a reasonable candidate for the $k$th iteration to update $\{\Bx_k, y_k, \Bz_k\}$.
 
 \subsection{The Algorithm}
 
 The input parameters for the algorithm include the bound $\beta$ on the increment vector $\tilde{\Bdelta} =\left(
-\Bdelta_x, \delta_y, \Bdelta_z\right)$. It controls the size of a "trust region" over which a convex subproblem is carried out and is responsible for the performance of the algorithm. If parameter $\beta$ is chosen too large, then approximation $\Bx_{k+1}$ will perform poorly because in this case the convex model is less accurate \cite{OPTII}. If $\beta$ is too small the progress of the algorithm will be too slow. In our simulations we set  $\beta$ to the value between 3 and 6. Other input parameters are initial point $\Bx_0$, initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ (to avoid numerical problems that may occur  if $\tau_k$ becomes too large).
+\Bdelta_x, \delta_y, \Bdelta_z\right)$. It controls the size of a "trust region" over which a convex subproblem is carried out and is responsible for the performance of the algorithm. If parameter $\beta$ is chosen too large, then approximation $\Bx_{k+1}$ will perform poorly because in this case the convex model is less accurate \cite{OPTII}. If $\beta$ is too small the progress of the algorithm will be too slow. In our simulations a $\beta$ between 3 and 6 was found to work very well. Other input parameters are initial point $\Bx_0$, initial weight for penalty terms $\tau_0$, and upper limit of the weight  $\tau_{max}$ (to avoid numerical problems that may occur  if $\tau_k$ becomes too large).
 
-The method discussed in this section is \textit{local}, therefore is not guaranteed to converge to the global minimum when applied to the nonconvex problem. As discussed in Sec. 2.2 of the thesis, the original LS objective in (\ref{eq:6.2}) is highly nonconvex with many local minimums even for small-scale systems. Consequently, the choise of a good initial point is critical to ensure good performance of the method. Several techniques are available, these include: i) set the initial point to the origin; ii) select the initial point uniformly randomly over the same region as the unknown radiating source; iii) run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error.  The candidate initial points can be selected either randomly over the region or based on some  a priori information, for example, the geometry of the sensor network; iv) solve an approximating problem or apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. 
+We remark that the method proposed in this section is \textit{local}, therefore is not guaranteed to converge to the global minimum when applied to the nonconvex problem. As discussed in Sec. 2.2 of the thesis, the original LS objective in (\ref{eq:6.2}) is highly nonconvex with many local minimums even for small-scale systems. Consequently, the choise of a good initial point is critical to ensure good performance of the method. Several techniques are available, these include: i) set the initial point to the origin; ii) select the initial point uniformly randomly over the same region as the unknown radiating source; iii) run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error.  The candidate initial points can be selected either randomly over the region or based on some  a priori information, for example, the geometry of the sensor network; iv) solve an approximating problem or apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. 
 
 Based on the analysis above, the localization algorithm for range-difference measurements can be outlined as follows. For the ease of notation we will refer to the proposed algorithm as Sequential Convex Relaxation for Range-Difference-based Least Squares (SCR-RDLS).
 
@@ -403,11 +405,11 @@ In our simulations parameter $\beta$ was set to 3, the initial penalty term $\ta
 & &\|\Bx\|  \leq y
 \end{eqnarray}
 \noindent
-The iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ did not reduce to $\epsilon = 10^{-6}$ or smaller. 
+The iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ falls below a convergence tolerance $\epsilon$ which was set to $\epsilon = 10^{-6}$. 
 
 Table \ref{tab:scr_rdls}  provides comparisons of the SCR-RDLS with SRD-LS, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. %The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP.
  It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the SCR-RDLS solution over the SR-LS. 
-Each entry in Table \ref{tab:rdls} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:scr_rdls} (where the MSE of the position estimation are shown). The results summarised in Table \ref{tab:rdls} suggest that, SRD-LS solutions outperform SR-LS.
+Each entry in Table \ref{tab:rdls} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:scr_rdls} where the MSEs of the position estimation are shown. The results summarised in Table \ref{tab:rdls} indicate that the SCR-RDLS algorithm provides considerable performance improvement relative to the SRD-LS algorithm.
 
 \begin{table}[h]
 \centering
@@ -430,7 +432,7 @@ $\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
 \caption{Standard deviation of the squared position estimation error for SRD-LS and SCR-RDLS methods}
 \phantom{m}
 \begin{tabular}{|c|c|c|} \hline
-$\sigma$ & SRD - LS & IRWSRD-LS  \\ \hline
+$\sigma$ & SRD - LS & SCR-RDLS  \\ \hline
 %&&& \\ 
 1e-03&	3.3990e-06 &  3.2917e-06 \\ &&\\
 1e-02&	5.9818e-04 &   1.3673e-04 \\ &&\\
