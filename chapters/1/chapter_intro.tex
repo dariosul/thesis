@@ -2,12 +2,6 @@
 \label{chapter:introduction}
 
 
-
-
-With the proliferation of smartphone devices and the internet,
-WiFi access points are becoming increasingly widespread, 
-providing another means of determining location.
-
 In this thesis, we consider solving linear inverse problems using nonconvex l p and TV p
 regularizers with 0 < p < 1, and applications of the proposed optimization models in
 the general area of signal recovery including signal denoising and compressive sensing
@@ -21,8 +15,15 @@ the existing methods, and describe the main contributions and structure of the t
 
 Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS} ([1]–[10]).
 
-Different technologies have been used to build geolocation systems. One of the most famous and widely used is the Global
-Positioning System (GPS). It determines location based on signals from an array of satellites.
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach it. This information is used to calculate the position of the receiver by trilaterating the difference in received signals from multiple satellites \textit{cite Wiki}.
+
+navigation:
+auto
+aerial
+ships and boats
+heavy equipment
+fitness trackers (for example, Garmin gps enabled smart watches for tracking the run distance/routes/speed)
+
 
 
 The integration of location services into our day-to-day life will grow significantly
@@ -57,6 +58,14 @@ faster lock. In addition, A-GPS relieves the burden of the computationally inten
 triangulation technique from the CPU-limited mobile device by forwarding the links
 the GPS receiver measures to the base stations (BSs), which then calculate the
 mobile’s position and return the information to the mobile device.
+
+
+
+With the proliferation of smartphone devices and the internet,
+WiFi access points are becoming increasingly widespread, 
+providing another means of determining location.
+
+
 Unsurprisingly, the next logical evolution of localization systems emerged from
 the cellular domain, where the requirement for localization was spearheaded by the
 Emergency-911 (E-911) mandate. Before GPS was widely available on mobile
@@ -120,7 +129,11 @@ infrastructure-based solutions in uncontrolled environments such as emergency or
 combat operations where the infrastructure may not exist; however, for commer-
 cial use, the accuracy and reliability provided may be adequate (Baker 2011; Mia
 2011; Young 2008).
+
+
 1.1.2 Indoor Localization
+
+
 The lucrative business opportunities for location-enabled services are not limited
 to outdoors. In fact, the potential for indoor services has been projected by dif-
 ferent sources as an untapped multibillion dollar industry (Patel 2011). The variety
@@ -182,8 +195,11 @@ limitations—due to low-cost hardware that introduces errors/drifts/biases to t
 speed/acceleration estimation. The development of inertial technology integrates
 naturally with the evolution of ‘‘RF localization’’ in the sense that their comple-
 mentary error properties can make possible even more accurate and robust geo-
-location systems.1.1 Overview
-5
+location systems.
+
+1.1 Overview 5
+
+
 In general, providing accurate location and navigation indoors will require
 extensive infrastructure or the implementation of multiple, complementary tech-
 nologies (RF, gyroscopes, pressure sensors, speed sensors, etc.). In fact, the trend
