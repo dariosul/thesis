@@ -61,20 +61,23 @@ The widespread adoption and success of GPS in these different application domain
 %indoors and in urban areas, in particular near buildings when the signal is blocked;
 %even in the best of conditions, the accuracy is on the order of several meters.
 
-As the growth of the number of smart devices and mobile users continues to
-increase without bound, the desire for new location-based services that require
-enhanced accuracy, including in GPS-denied areas, has emerged. To address this
-challenge, novel solutions attempt to integrate different wireless technologies with
-GPS. For example, assisted GPS (A-GPS) was developed to provide better locali-
-zation information in limited coverage areas by decreasing the time necessary for
-GPS to obtain a position fix (Richton 2001). Specifically, in A-GPS, cellular
+As a result there has been a desire for new location-based services with improved accuracy and coverage.
+Novel solutions have been developed which attempt to integrate various wireless technologies with GPS. One such approach is called Assisted GPS (A-GPS), which utilizes cellular networks to provide devices with information about which are the closest GPS satellites. This allows the GPS device to determine its position more quickly \cite{Richton, 2001}. The burden of the computationally expensive triangulation calculations can also be offloaded from the mobile device to base stations which do the computation and return the position information to the mobile device. This can significantly improve performance on CPU-constrained devices.
 
-networks furnish GPS-equipped mobile devices with satellite constellation infor-
-mation such that they can identify the closest orbiting satellites a priori, providing a
-faster lock. In addition, A-GPS relieves the burden of the computationally intensive
-triangulation technique from the CPU-limited mobile device by forwarding the links
-the GPS receiver measures to the base stations (BSs), which then calculate the
-mobile’s position and return the information to the mobile device.
+%As the growth of the number of smart devices and mobile users continues to
+%increase without bound, the desire for new location-based services that require
+%enhanced accuracy, including in GPS-denied areas, has emerged. To address this
+%challenge, novel solutions attempt to integrate different wireless technologies with
+%GPS. For example, assisted GPS (A-GPS) was developed to provide better locali-
+%zation information in limited coverage areas by decreasing the time necessary for
+%GPS to obtain a position fix (Richton 2001). Specifically, in A-GPS, cellular
+%
+%networks furnish GPS-equipped mobile devices with satellite constellation infor-
+%mation such that they can identify the closest orbiting satellites a priori, providing a
+%faster lock. In addition, A-GPS relieves the burden of the computationally intensive
+%triangulation technique from the CPU-limited mobile device by forwarding the links
+%the GPS receiver measures to the base stations (BSs), which then calculate the
+%mobile’s position and return the information to the mobile device.
 
 
 
