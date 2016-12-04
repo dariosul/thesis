@@ -1,4 +1,4 @@
-
+\newpage
 %\phantom{m}
 
 \section{Range-based localization}
@@ -103,7 +103,7 @@ For the ease of notation the proposed algorithm will be reffered to as Sequentia
 1) Input data: Sensor locations $\{\Ba_i,  i=1,\ldots,m\}$, range measurements $\{r_i, i=1,\ldots,m\}$, initial point $\Bx_0$, initial relaxation parameter $\gamma_0$, and the number of iterations to be executed $K_{max}$. %\gamma, \sigma$, 
 Set iteration count to $k = 0$.
  
-\phantom{m}
+%\phantom{m}
 
 2) Solve
 \setcounter{abc}{0}
@@ -115,17 +115,17 @@ Set iteration count to $k = 0$.
 \end{eqnarray}
 \begin{equation}
 \nonumber
-\qquad \qquad   -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Ba_i)  \leq  -(1 - \gamma)z_i, \ i = 1, 2, ..., m
+\qquad \quad   -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Ba_i)  \leq  -(1 - \gamma)z_i, \ i = 1, 2, ..., m
 \end{equation}
 %\phantom{m}
 \noindent
 Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$. 
 
-\phantom{m}
+%\phantom{m}
 
 3) Update  $\gamma_{k+1} = f(\gamma_k)$ linearly, as in (\ref{eq:lin}), or quadratically, as in (\ref{eq:quad}). Set $k = k+1$. 
 
-\phantom{m}
+%\phantom{m}
 
 4) If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_{k} = \Bx^{*}$  and repeat from Step 2. 
 
@@ -151,8 +151,9 @@ Table \ref{tab:scr_rls} provides comparisons of the proposed sequential relaxati
 Table \ref{tab:rls} compares a standard deviation of the squared  estimation errors  aggregated over the  same 200 Monte Carlo runs described above in Table \ref{tab:scr_rls} where the MSE of the position estimation are shown. The results
 summarised in  Table \ref{tab:scr_rls} and Table \ref{tab:rls} indicate that the SCR-RLS algorithm yields improved performance relative to the SR-LS algorithm.
 
+%\phantom{m}
 
-\begin{table}[h]
+\begin{table*}[h]
 \centering
 \caption{MSE of position estimation for SR-LS and SCR-RLS methods}
 \phantom{m}
@@ -166,8 +167,12 @@ $\sigma$ & SR - LS & SCR-RLS & (R.I.,\%)  \\ \hline
 \hline
 \end{tabular}
 \label{tab:scr_rls}
-%\end{table}
-%\begin{table*}[t]
+\end{table*}
+
+
+\newpage
+
+\begin{table*}[h]
 \centering
 \caption{Standard deviation of the squared position estimation error for SR-LS and SCR-RLS methods}
 \phantom{m}
@@ -181,7 +186,7 @@ $\sigma$ & SR - LS & SCR-RLS  \\ \hline
 \hline
 \end{tabular}
 \label{tab:rls}
-\end{table}
+\end{table*}
 
 %\startchapter{SOCP}
 %\newpage
