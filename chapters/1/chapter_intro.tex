@@ -15,11 +15,13 @@ the existing methods, and describe the main contributions and structure of the t
 
 Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS} ([1]–[10]).
 
-Different technologies have been used to build geolocation systems. Several global navigation satellite systems are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Atomic clocks onboard the satellites allow high-accuracy timing of how long it takes signals to reach them.
-% Satellites are equipped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach it. 
-Time measurements can be used to calculate range since velocity of the signal is known. By using range measurements from multiple satellites, trilateration can be used to determine the position.
-%This information is used to calculate the position of the receiver by trilaterating the difference in received signals from multiple satellites \textit{cite Wiki}.
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a a computational technique known as trilateration. The location of the receiver can be calculated from the
+tracked positions of the satellites and the times measured, each known as the Time-of-Arrival \cite{GeoLoc}.
 
+ Consequently, it
+has been incorporated into many services and applications. Currently, outdoor
+localization, thanks to GPS, has revolutionized navigation-based applications running on automotive GPS-enabled devices and smart phones. Applications range from location awareness, to point-by-point directions between destinations, to identifying the closest cinema or coffee shop. The success of GPS has been due to the reliability, availability, and practical accuracy that the system can deliver; however, GPS lacks coverage indoors and in urban areas, in particular near buildings when the signal is blocked;
+even in the best of conditions, the accuracy is on the order of several meters. 
 navigation:
 auto
 aerial
@@ -51,6 +53,7 @@ of-Arrival. The success of GPS has been due to the reliability, availability, an
 practical accuracy that the system can deliver; however, GPS lacks coverage
 indoors and in urban areas, in particular near buildings when the signal is blocked;
 even in the best of conditions, the accuracy is on the order of several meters.
+
 As the growth of the number of smart devices and mobile users continues to
 increase without bound, the desire for new location-based services that require
 enhanced accuracy, including in GPS-denied areas, has emerged. To address this
