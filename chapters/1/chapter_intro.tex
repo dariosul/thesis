@@ -32,7 +32,7 @@ tracked positions of the satellites and the times measured, each known as the Ti
 As localization technologies become more accurate and robust, location services are becoming increasingly integrated into daily life.
 GPS was the first to be developed and made available to the public. Therefore it has been used as the basis of many services and applications.
 In particular it has revolutionized navigation-based applications running on smartphones and in automobiles. Use cases include point-by-point directions between destinations and identifying nearby facilities or points of interest (such as the closest coffee shop).
-GPS is also widely used in navigation of other vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit and Garmin \cite{FitBit and Garmin websites} which automatically collect data about the user's activities (distance run, speed, routes taken).
+GPS is also widely used in navigation of other vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit and Garmin \textit{FitBit and Garmin websites} which automatically collect data about the user's activities (distance run, speed, routes taken).
 
 The widespread adoption and success of GPS in these different application domains is due to its accuracy, reliability and availability. However, there are still limitations to be overcome. GPS coverage is limited indoors and in urban areas due to buildings obstructing the signals between the GPS device and satellites. Additionally, the accuracy is on the order of several meters. While this is sufficient for many applications such as navigating to the nearest coffee shop, greater accuracy will open up new opportunities, particularly for indoor positioning where spaces are smaller and greater precision is required.
 
@@ -62,7 +62,11 @@ The widespread adoption and success of GPS in these different application domain
 %even in the best of conditions, the accuracy is on the order of several meters.
 
 As a result there has been a desire for new location-based services with improved accuracy and coverage.
-Novel solutions have been developed which attempt to integrate various wireless technologies with GPS. One such approach is called Assisted GPS (A-GPS), which utilizes cellular networks to provide devices with information about which are the closest GPS satellites. This allows the GPS device to determine its position more quickly \cite{Richton, 2001}. The burden of the computationally expensive triangulation calculations can also be offloaded from the mobile device to base stations which do the computation and return the position information to the mobile device. This can significantly improve performance on CPU-constrained devices.
+Novel solutions have been developed which attempt to integrate various wireless technologies with GPS. One such approach is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers. This can greatly reduce the search space and time to first fix on location. \textit{TODO cite Richton}
+
+% Paper: http://www.cs.columbia.edu/~drexel/CandExam/Geolocation_assistedGPS.pdf
+
+%utilizes cellular networks to provide devices with information about which are the closest GPS satellites. This allows the GPS device to determine its position more quickly \cite{Richton, 2001}. The burden of the computationally expensive triangulation calculations can also be offloaded from the mobile device to base stations which do the computation and return the position information to the mobile device. This can significantly improve performance on CPU-constrained devices.
 
 %As the growth of the number of smart devices and mobile users continues to
 %increase without bound, the desire for new location-based services that require
