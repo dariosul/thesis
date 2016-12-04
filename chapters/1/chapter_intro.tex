@@ -220,7 +220,26 @@ problems and challenges in the path to accurate mapping and localization.
 
 \section{Basics of Localization}
 
-TODO
+Localization is another term for geolocation. A number of methods have been developed.
+
+\subsection{Time of Arrival (TOA)}
+
+TOA is a localization method that uses the propagation of RF signals between a mobile device and base stations of known location. The velocity of the RF signals is known, so by measuring the time that a signal takes to be received, the distance can easily be calculated. 
+%The distance to at least three base stations must be calculated in order to determine the position in space.
+
+Note that absolute times are used, so it is critical for clocks in the base stations and mobile device to be synchronized. This is not practical in many situations.
+
+\subsection{Time Difference of Arrival (TDOA)}
+
+\subsection{Angle of Arrival (AOA)}
+
+\subsection{Non-Range-Based}
+
+The previously discussed localization methods are all based on determining the distance of a receiver from RF-emitting base stations. This is not the only way localization can be done. For example, inertial tracking systems calculate position without external references. They do this using two types of sensors: accelerometers (which measure instantaneous changes in speed) and gyroscopes (which can be used to measure orientation). Using these sensors and the previous position and orientation, an updated position and orientation can be calculated. ``Dead reckoning'' is the term used to describe such a system which calculates position and orientation using differential measurements of speed and direction.
+
+Inertial systems provide high accuracy over short periods of time, but even with very accurate sensors they are continuously accumulating error which will lead to significant drifts over larger periods of time. RF based methods on the other hand do not accumulate drift, but are susceptible to obstruction by buildings and construction materials. Therefore RF and inertial based localization methods are complementary, because the intertial method continues calculations while the RF signal is lost, and the RF method corrects for drifts over time. In the future hybrid systems are likely to become more popular as they have the potential to be more accurate and robust.
+
+\subsection{Old}
 
 Review of ranging and localization methods, theory behind it, application, limitations. 
 
