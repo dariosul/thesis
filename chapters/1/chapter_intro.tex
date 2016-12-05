@@ -11,13 +11,12 @@ The purpose of this chapter is to introduce the
 literature relevant to the problems considered, discuss the motivations for improving
 the existing methods, and describe the main contributions and structure of the thesis.
 
-\section{The Localization Problem: Motivation} \label{problem}
+\section{Introduction to Localization Problem} \label{problem}
 
 Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS}.
 
-Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a a computational technique known as trilateration. The location of the receiver can be calculated from the
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
 tracked positions of the satellites and the times measured, each known as the Time-of-Arrival (TOA) \cite{GeoLoc}.
-
 %Consequently, it
 %has been incorporated into many services and applications. Currently, outdoor
 %localization, thanks to GPS, has revolutionized navigation-based applications running on automotive GPS-enabled devices and smart phones. Applications range from location awareness, to point-by-point directions between destinations, to identifying the closest cinema or coffee shop. The success of GPS has been due to the reliability, availability, and practical accuracy that the system can deliver; however, GPS lacks coverage indoors and in urban areas, in particular near buildings when the signal is blocked;
@@ -28,206 +27,34 @@ tracked positions of the satellites and the times measured, each known as the Ti
 %ships and boats
 %heavy equipment
 %fitness trackers (for example, Garmin gps enabled smart watches for tracking the run distance/routes/speed)
+%
+ GPS is widely used in navigation of vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit \cite{FB} and Garmin\cite{Garmin} which automatically collect data about the user's activities (distance run, speed, routes taken).
+ 
 
-As localization technologies become more accurate and robust, location services are becoming increasingly integrated into daily life.
-GPS was the first to be developed and made available to the public. Therefore it has been used as the basis of many services and applications.
-In particular it has revolutionized navigation-based applications running on smartphones and in automobiles. Use cases include point-by-point directions between destinations and identifying nearby facilities or points of interest (such as the closest coffee shop).
-GPS is also widely used in navigation of other vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit \cite{FB} and Garmin\cite{Garmin} which automatically collect data about the user's activities (distance run, speed, routes taken).
-
-The widespread adoption and success of GPS in these different application domains is due to its accuracy, reliability and availability. However, there are still limitations to be overcome. GPS coverage is limited indoors and in urban areas due to buildings obstructing the signals between the GPS device and satellites. Additionally, the accuracy is on the order of several meters. While this is sufficient for many applications such as navigating to the nearest coffee shop, greater accuracy will open up new opportunities, particularly for indoor positioning where spaces are smaller and greater precision is required.
-
-%The integration of location services into our day-to-day life will grow significantly
-%over the next decade as technologies mature and accuracy improves. 
-%Development of localization technologies has been occurring independently for different wireless systems.
-%The Global Positioning System (GPS) was the first to be developed and made available to the public. Therefore it has been used as the basis of many services and applications.
-%The evolution
-%of localization technologies has occurred independently for different wireless sys-
-%tems/standards. The Global Positioning System (GPS) was the first system to bring
-%to light the benefits of accurate and reliable location information. Consequently, it
-%has been incorporated into many services and applications. 
-%Currently, outdoor
-%localization, thanks to GPS, has revolutionized navigation-based applications
-%running on automotive GPS-enabled devices and smart phones. Applications range
-%from location awareness, to point-by-point directions between destinations, to
-%identifying the closest cinema or coffee shop. 
-%The basic technology behind the
-%system is to measure the time elapsed for a signal to travel between a number of
-%satellites orbiting the globe and a mobile device. 
-%Through a computational tech-
-%nique known as triangulation, the location of the mobile can be calculated from the
-%tracked positions of the satellites and the times measured, each known as the Time-
-%of-Arrival. The success of GPS has been due to the reliability, availability, and
-%practical accuracy that the system can deliver; however, GPS lacks coverage
-%indoors and in urban areas, in particular near buildings when the signal is blocked;
-%even in the best of conditions, the accuracy is on the order of several meters.
-
-As a result there has been a desire for new location-based services with improved accuracy and coverage. One of the approaches to the problem was integration of various wireless technologies with GPS. One such solution is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers \cite{AGPS}. This can greatly reduce the search space and time to first fix on location. Other systems were built purely on cellular signals, adapting the TOA techniques originally developed for GPS. However their accuracy was limited in urban environments due to obstruction of signals by buildings, and the technique did not gain widespread use beyond the Emergency-911 system it was developed for in the United States.
+As location-based services are becoming increasingly integrated into daily life  the demand for more accurate and robust localization technologies, including in GPS-denied areas, has incresed. One of the approaches to the problem was integration of various wireless technologies with GPS. One such solution is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers \cite{AGPS}. This can greatly reduce the search space and time to first fix on location. Other systems were built purely on cellular signals, adapting the TOA techniques originally developed for GPS. However their accuracy was limited in urban environments due to obstruction of signals by buildings, and the technique did not gain widespread use beyond the Emergency-911 system it was developed for in the United States.
 
 % Paper: http://www.cs.columbia.edu/~drexel/CandExam/Geolocation_assistedGPS.pdf
 
-%utilizes cellular networks to provide devices with information about which are the closest GPS satellites. This allows the GPS device to determine its position more quickly \cite{Richton, 2001}. The burden of the computationally expensive triangulation calculations can also be offloaded from the mobile device to base stations which do the computation and return the position information to the mobile device. This can significantly improve performance on CPU-constrained devices.
+With the proliferation of smartphone devices and the internet, WiFi access points are becoming increasingly widespread, providing another means of determining location. One type of WiFi-based technique is called Received Signal Strength (RSS) location fingerprinting. It uses a database of WiFi signatures (RSS values and MAC addresses) with associated GPS coordinates. This has to be built up ahead of time, for example by surveying a city with a GPS and WiFi enabled vehicle. 
+Realtime location of the mobile device is determined using the pattern-matching technique, that compares the measured RSSs between the mobile device and access points, and the RSS values stored in the database. Skyhook Wireless successfully developed such system that delivers accuracy of tens of meters in urban areas \cite{Skyhook}. 
 
-%As the growth of the number of smart devices and mobile users continues to
-%increase without bound, the desire for new location-based services that require
-%enhanced accuracy, including in GPS-denied areas, has emerged. To address this
-%challenge, novel solutions attempt to integrate different wireless technologies with
-%GPS. For example, assisted GPS (A-GPS) was developed to provide better locali-
-%zation information in limited coverage areas by decreasing the time necessary for
-%GPS to obtain a position fix (Richton 2001). Specifically, in A-GPS, cellular
-%
-%networks furnish GPS-equipped mobile devices with satellite constellation infor-
-%mation such that they can identify the closest orbiting satellites a priori, providing a
-%faster lock. In addition, A-GPS relieves the burden of the computationally intensive
-%triangulation technique from the CPU-limited mobile device by forwarding the links
-%the GPS receiver measures to the base stations (BSs), which then calculate the
-%mobile’s position and return the information to the mobile device.
+Design of any localization system naturally includes a trade-off between the overal performance and cost requirements. Some of the systems developed so far take advange from the knowledge of the surrounding infrastructure such as
+cell towers, Wi-Fi hot spots, or installed RF tags \cite{GeoLoc}. Usually, the precision of the localization in such systems depends on the infrastructure. For example,  hundreds or thousands of meters for cellular survey-based techniques, tens to hundreds of meters, or less than 100 m for cellular triangulation techniques. Which makes these solutions unreliable in uncontrolled environments, such as emergency or combat operations.
+
+\textbf{indoor loc - 1 paragraph}
 
 
 
-With the proliferation of smartphone devices and the internet,
-WiFi access points are becoming increasingly widespread, 
-providing another means of determining location. One type of WiFi-based technique is called Received Signal Strength (RSS) location fingerprinting. It uses a database of WiFi signatures (RSS values and MAC address) along with GPS coordinates. This has to be built up ahead of time, for example by surveying a city with a GPS and WiFi enabled vehicle. Realtime location of a device is determined by finding the best match between RSS values detected by the mobile device, and those stored in the database. Accuracy in the range of tens of meters can be achieved in urban areas where wireless access points are plentiful. A company called Skyhook Wireless developed one such system. \cite{Skyhook}
+Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Challenges incluse the NLOS conditions that 
+ Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
+
+\textit{The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.}
 
 
-%Unsurprisingly, the next logical evolution of localization systems emerged from
-%the cellular domain, where the requirement for localization was spearheaded by the
-%Emergency-911 (E-911) mandate. Before GPS was widely available on mobile
-%phones, cellular operators adopted and deployed varying technologies to locate
-%mobiles within a cell radius. Time-Of-Arrival-based computational techniques,
-%which originated from GPS systems, were adapted in order to achieve similar
-%localization performance for the common cell phone channel sharing (multiplex-
-%ing) schemes: Time Division Multiple Access (TDMA) and Code Division
-%Multiple Access (CDMA). The use of cellular localization was limited to E-911
-%due to the difficulty in achieving useful accuracy especially in urban environments.
-%The poor accuracy stemmed from clusters of buildings in urban and suburban
-%residential areas which brought about significant signal degradation due to mul-
-%tipath and Non-Line-Of-Sight (NLOS) problems.
-%At the same time, the popular IEEE 802.11 standard emerged, enabling ubiquitous deployment of Wi-Fi hotspots which sparked enthusiasm for an alternative
-%to cellular localization. The rapid expansion of Wi-Fi access points (AP) across the
-%urban/indoor environments made it possible for researchers to envision alterna-
-%tives to TOA-based systems. Specifically, Received Signal Strength (RSS) location
-%fingerprinting techniques emerged. One success story for deployment in the urban
-%environment is Skyhook Wireless, a start-up company in the Boston area. Skyhook
-%realized the potential of exploiting Wi-Fi signals emitted from residential homes
-%and offices (available for free!) that are continuously in use—particularly in dense
-%urban areas. Skyhook realized they could improve localization by building dat-
-%abases of Wi-Fi signatures tied to locations that could be integrated to aid in the
-%localization process. In essence, a survey is conducted by ‘‘wardriving’’ across a
-%city with a Wi-Fi equipped device and a companion GPS receiver to record
-%location. Wi-Fi RSS values and associated Medium Access Control (MAC) IDs
-%are registered in a database for each location. During a localization query, a mobile
-%device compares the RSSs measured from the registered APs to those in the
-%database using a pattern matching technique. The mobile’s location is then
-%determined by the best RSS match. Skyhook Wireless’s technology has attracted
-%attention from the major players in the mobile device industry such as Apple and
-%Google (Wortham 2009). The technique is very practical and delivers decent
-%accuracy (tens of meters) for mobile location applications in outdoor urban
-%environments where Wi-Fi APs are plentiful.
-%Of course, the aforementioned triangulation fingerprinting techniques are not
-%just applicable to GPS, cellular, or Wi-Fi networks. They can also be readily
-%extended to virtually any pervasive radio-frequency source, in particular to tele-
-%vision networks. In fact, the Rosum Corporation from Redwood City, CA took1.1 Overview
-%3
-%advantage of the 4.5 MHz of bandwidth available in broadcast TV channels.
-%Besides the wide bandwidth available for accurate TOA estimation, the low carrier
-%frequency offered excellent penetration through walls to mitigate NLOS condi-
-%tions. The performance of different types of RF location systems in terms of cost
-%and accuracy will vary widely. Other system design considerations include 2D or
-%3D location accuracy requirements, power requirements, and whether infrastruc-
-%ture installation is acceptable and, if so, the density of BSs required to achieve the
-%desired accuracy. In designing a system, there will be tradeoffs between perfor-
-%mance and cost requirements. For example, typical RF base positioning accuracies
-%are tens of meters accuracy at best and do not provide accurate elevation. Many
-%solutions available to augment GPS leverage surrounding infrastructure such as
-%cell towers, Wi-Fi hot spots, or installed RF tags. The precision of the results
-%varies widely based on the infrastructure location and availability.
-%Cellular survey-based techniques: hundreds or thousands of meters
-%Cellular triangulation techniques: less than 100 m
-%Television triangulation techniques: tens to hundreds of meters
-%Wi-Fi survey-based techniques: tens to hundreds of meters.
-%The latter three techniques require signals from at least three reference stations
-%which could lead to operational lapses indoors. It is not possible to rely on these
-%infrastructure-based solutions in uncontrolled environments such as emergency or
-%combat operations where the infrastructure may not exist; however, for commer-
-%cial use, the accuracy and reliability provided may be adequate (Baker 2011; Mia
-%2011; Young 2008).
-
-The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.
-
-Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
-
-%1.1.2 Indoor Localization
-%
-%The lucrative business opportunities for location-enabled services are not limited
-%to outdoors. In fact, the potential for indoor services has been projected by dif-
-%ferent sources as an untapped multibillion dollar industry (Patel 2011). The variety
-%of indoor applications affects every aspect of our lives: from E-911 to respond to
-%mobile emergency calls to tracking kids in day-care centers, elderly in nursing
-%homes, inventories in warehouses, medical devices in hospitals, and personnel in
-%emergency/first responder applications (firefighters). 
-%What is stopping or hindering
-%the emergence of such needed—even life-saving for emergency response—
-%applications is the difficulty in delivering the required accuracy and reliability in
-%indoor environments. Indoor localization research has been going on for decades
-%in the robotics field (Smith 1986; Durrant-Whyte 1988). The E-911 requirement
-%for improved localization of cell phones indoors spurred more RF infrastructure
-%and signals of opportunity-based research (Pahlavan et al. 1998). The fact that
-%location research is to date a very active research area indicates that there are still
-%many challenges left to resolve. The challenges depend on the required accuracy
-%and reliability dictated by the application. For applications that require only coarse4
-%1 Introduction
-%location information and can afford to install a significant amount of infrastructure,
-%there are existing products, for example by the Finnish company Ekahau (EKA-
-%HAU 2012) and CISCO Wireless Location Appliance (CISCO Corporation 2012).
-%These systems capitalize on the RSS location fingerprinting technique to deliver
-%accuracies on the order of a few meters in the indoor environment. However, it
-%became evident that the effectiveness and robustness of RSS-based fingerprinting
-%techniques are limited to uncluttered environments and outdoors.
-%As the application domain gravitated toward the dense urban and indoor settings,
-%where localizable assets naturally clutter together due to smaller dimensions, an
-%alternative to legacy cellular localization and fingerprinting techniques was needed
-%to push the accuracy boundary to sub-meter—the so-called ‘‘holy grail’’ of indoor
-%localization. Many potential applications were envisioned to benefit from centi-
-%meter-level information, from inventory tracking to firefighters/soldiers tracking
-%inside buildings. The fundamental challenge indoors is that the radio frequency
-%environment—characterized by limited coverage, severe multipath signal fading
-%and NLOS conditions—is not conducive to wireless propagation. Since the limi-
-%tations are physical in nature, they must be dealt with by any algorithm or technique.
-%To this end, researchers revisited TOA-based techniques—however applied Ultra-
-%Wideband (UWB) communications which uses low power but increased bandwidth
-%to provide protection against multipath—and NLOS mitigation algorithms to
-%combat the effects of the propagation environment. A significant portion of this book
-%is dedicated to addressing the challenges of harsh propagation environments.
-%As the form factor of mobile devices diminished in size, yet increased in
-%complexity, a new school of thought emerged from the localization research
-%community around the idea of collaboration using sensor networks. This area is
-%interesting in that wireless sensor networks (WSNs) developed independently from
-%cooperative localization and—only when applications were considered for the
-%former—did it become obvious to the sensor network researchers that location
-%information is indeed vital. At the same time, localization researchers analyzed the
-%potential in collaboration between the two areas to address the propagation chal-
-%lenges and currently cooperative localization in WSNs is a very active research
-%area—theory, experimental, and hardware/software development.
-
-One solution to the problem of signal propagation is to build a positioning system that does not use external signals. The development of inertial sensors (in particular accelerometers and gyroscopes) small enough to fit on a smartphone or other mobile devices made inertial navigation systems practicle. Using acceleration, orientation and the previous position and orientation, such systems are able to estimate the current position and orientation. However, inertial systems are limited by the accumulation of errors in sensor readings.
-
-%Since geolocation is a dynamic process, navigation and tracking techniques
-%(similar to outdoor GPS) naturally complement ‘‘stationary’’ localization tech-
-%niques/algorithms. The development of Microelectromechanical Systems (MEMS)
-%technology led to the dawn of miniature inertial sensors such as accelerometers
-%and gyroscopes, enabling smartphones and mobile/gaming devices to be equipped
-%with navigation sensors. MEMS-based inertial navigation systems (INS) devel-
-%oped in parallel to RF geolocation techniques and provided another localization
-%dimension. Inertial navigation technologies do have their own challenges and
-%limitations—due to low-cost hardware that introduces errors/drifts/biases to the
-%speed/acceleration estimation. 
 The development of inertial technology integrates
 naturally with the evolution of ‘‘RF localization’’ in the sense that their comple-
 mentary error properties can make possible even more accurate and robust geo-
 location systems.
-
-1.1 Overview 5
-
 
 In general, providing accurate location and navigation indoors will require
 extensive infrastructure or the implementation of multiple, complementary tech-
@@ -282,16 +109,18 @@ In the rest of the section we will provide an overview of the most popular rangi
 
 
 
-\subsection{Time of Arrival (TOA)}
+\subsection{Time of Arrival }
 
-TOA is a localization method that uses the propagation of RF signals between a mobile device and base stations of known location. The velocity of the RF signals is known, so by measuring the time that a signal takes to be received, the distance can easily be calculated. 
+Time of Arrival (TOA) is a localization method that uses the propagation speed of  signals between a mobile device and base stations of known location. The velocity of the  signals is known, so by measuring the time that a signal takes to be received, the distance can easily be calculated. 
 %The distance to at least three base stations must be calculated in order to determine the position in space.
 
-Note that absolute times are used, so it is critical for clocks in the base stations and mobile device to be synchronized. This is not practical in many situations.
+\textbf{more fluff}
 
-\subsection{Time Difference of Arrival (TDOA)}
+Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
 
-\subsection{Angle of Arrival (AOA)}
+\subsection{Time Difference of Arrival }
+
+\subsection{Angle of Arrival }
 
 \subsection{Non-Range-Based}
 
