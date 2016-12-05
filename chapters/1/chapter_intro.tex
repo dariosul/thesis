@@ -100,15 +100,37 @@ where $a_i$ is a vector of known coordinates of reference points (sensors),   $r
 that can be used to emphasize  the degree of confidence in the measurement, and $m$ is a number of sensors.
 
 
-\subsection{Time Difference of Arrival }
+\subsection{Time Difference of Arrival}
 
-\subsection{Angle of Arrival }
+\subsection{Angle of Arrival}
 
-\subsection{Non-Range-Based}
+Localization using angle-of-arrival is simpler than time-based techniques in that
+only two angle measurements are required, as opposed to three range measure-
+ments, in order to estimate the two-dimensional position. However the challenge is
+presented when obtaining accurate angle of arrival estimation using wireless
+devices. In typical scenarios, the base stations are equipped with K antenna array
+elements spaced by D which are capable of estimating the angle of arrival which is
+then used to locate the mobile device. Figure 2.4 illustrates the basic concept of AOA localization. The relationship between the coordinates and the angles is given by
 
-The previously discussed localization methods are all based on determining the distance of a receiver from RF-emitting base stations. This is not the only way localization can be done. For example, inertial tracking systems calculate position without external references. They do this using two types of sensors: accelerometers (which measure instantaneous changes in speed) and gyroscopes (which can be used to measure orientation). Using these sensors and the previous position and orientation, an updated position and orientation can be calculated. ``Dead reckoning'' is the term used to describe such a system which calculates position and orientation using differential measurements of speed and direction.
+The performance of AOA positioning techniques in LOS conditions is satis-
+factory. However, in severe NLOS multipath conditions the reliability and accu-
+racy of AOA techniques suffers considerably. As a result in these unfavorable
+propagation conditions, TOA- or RSS-based techniques are preferred. Further-
+more, hybrid positioning techniques can be used to incorporate the advantages of
+two different techniques which usually outperform the individual techniques.
 
-Inertial systems provide high accuracy over short periods of time, but even with very accurate sensors they are continuously accumulating error which will lead to significant drifts over larger periods of time. RF based methods on the other hand do not accumulate drift, but are susceptible to obstruction by buildings and construction materials. Therefore RF and inertial based localization methods are complementary, because the intertial method continues calculations while the RF signal is lost, and the RF method corrects for drifts over time. In the future hybrid systems are likely to become more popular as they have the potential to be more accurate and robust.
+
+\begin{figure*}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/angle_of_arrival.png}
+\caption{AOA positioning (angulation). The AOA estimate from 2 base stations to the mobile terminal can be used to estimate the position \cite{GeoLoc}.}
+\label{fig:2step}
+\end{figure*}
+
+
+\subsection{Received Signal Strength}
+
+
 
 %\subsection{Old}
 %
