@@ -208,16 +208,20 @@ Indoor environments typically hinder wireless propagation because there is uneve
 %potential in collaboration between the two areas to address the propagation chal-
 %lenges and currently cooperative localization in WSNs is a very active research
 %area—theory, experimental, and hardware/software development.
-Since geolocation is a dynamic process, navigation and tracking techniques
-(similar to outdoor GPS) naturally complement ‘‘stationary’’ localization tech-
-niques/algorithms. The development of Microelectromechanical Systems (MEMS)
-technology led to the dawn of miniature inertial sensors such as accelerometers
-and gyroscopes, enabling smartphones and mobile/gaming devices to be equipped
-with navigation sensors. MEMS-based inertial navigation systems (INS) devel-
-oped in parallel to RF geolocation techniques and provided another localization
-dimension. Inertial navigation technologies do have their own challenges and
-limitations—due to low-cost hardware that introduces errors/drifts/biases to the
-speed/acceleration estimation. The development of inertial technology integrates
+
+One solution to the problem of signal propagation is to build a positioning system that does not use external signals. The development of inertial sensors (in particular accelerometers and gyroscopes) small enough to fit on a smartphone or other mobile devices made inertial navigation systems practicle. Using acceleration, orientation and the previous position and orientation, such systems are able to estimate the current position and orientation. However, inertial systems are limited by the accumulation of errors in sensor readings.
+
+%Since geolocation is a dynamic process, navigation and tracking techniques
+%(similar to outdoor GPS) naturally complement ‘‘stationary’’ localization tech-
+%niques/algorithms. The development of Microelectromechanical Systems (MEMS)
+%technology led to the dawn of miniature inertial sensors such as accelerometers
+%and gyroscopes, enabling smartphones and mobile/gaming devices to be equipped
+%with navigation sensors. MEMS-based inertial navigation systems (INS) devel-
+%oped in parallel to RF geolocation techniques and provided another localization
+%dimension. Inertial navigation technologies do have their own challenges and
+%limitations—due to low-cost hardware that introduces errors/drifts/biases to the
+%speed/acceleration estimation. 
+The development of inertial technology integrates
 naturally with the evolution of ‘‘RF localization’’ in the sense that their comple-
 mentary error properties can make possible even more accurate and robust geo-
 location systems.
