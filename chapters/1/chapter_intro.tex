@@ -67,7 +67,7 @@ In the rest of the section we will provide an overview of the most popular rangi
 
 \subsection{Time of Arrival }
 
-Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often reffered to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimentional position estimate at least $n+1$ range measurements are required.
+Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often reffered to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimentional position estimate at least $n+1$ range measurements are required. Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
 
 Solution techniques developed for range-based localization can be grouped under Maximum Likelihood (ML) and Least Squares (LS) approaches. 
 Given the observed range measurements $\Br_n = \Br + \Bw$, the ML estimate $\hat{\Bx}$ of the unknown source location $\Bx$ is obtained by maximizing the conditional probability density function 
@@ -86,8 +86,6 @@ where $a_i$ is a vector of known coordinates of reference points (sensors),   $r
 that can be used to emphasize  the degree of confidence in the measurement, and $m$ is a number of sensors.
 
 
-Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
-
 \subsection{Time Difference of Arrival }
 
 \subsection{Angle of Arrival }
@@ -98,27 +96,28 @@ The previously discussed localization methods are all based on determining the d
 
 Inertial systems provide high accuracy over short periods of time, but even with very accurate sensors they are continuously accumulating error which will lead to significant drifts over larger periods of time. RF based methods on the other hand do not accumulate drift, but are susceptible to obstruction by buildings and construction materials. Therefore RF and inertial based localization methods are complementary, because the intertial method continues calculations while the RF signal is lost, and the RF method corrects for drifts over time. In the future hybrid systems are likely to become more popular as they have the potential to be more accurate and robust.
 
-\subsection{Old}
-
-Review of ranging and localization methods, theory behind it, application, limitations. 
-
-TOA,
- 
-TDOA,
-
-AOA ?,
-
-non-range-based? 
-
-"Geolocation techniques"
-
-\cite{GeoLoc}
-\cite{LiuSurvey}
-
+%\subsection{Old}
+%
+%Review of ranging and localization methods, theory behind it, application, limitations. 
+%
+%TOA,
+% 
+%TDOA,
+%
+%AOA ?,
+%
+%non-range-based? 
+%
+%"Geolocation techniques"
+%
+%\cite{GeoLoc}
+%\cite{LiuSurvey}
 
 \section{Contributions and Organization of the Thesis}
 
 \subsection{Contributions  of the Thesis} \label{contributions}
+
+
 single source localization
 
 something like:
@@ -129,7 +128,10 @@ can have different world life applications, for example: TOA, TDOA, static posit
 
 This work mostly investigated possible localization solution for the wireless sensor networks that use radio frequency measurements to obtain the range or range-difference measurements. However, some of the methods presented in this work can also be applied for other mediums, i.e. ultrasonic, sonic, light. 
 
-In this paper, which considers both problems, the main focus is on efficient computation of least squares (LS) estimates of the source’s coordinate vector. The models that we consider for the said vector are based on  the assumption that the sensor network can be used, along with some form of preprocessing, to obtain (noisy) range or range-difference measurements. From a practical standpoint, this is a simplifying assumption (e.g., in nonline-of-sight scenarios), albeit one commonly made in \cite{Cheung} and \cite{classMDS} ([7] and [8]). Even so, the resulting location estimation problems are nonconvex and, therefore, rather difficult to solve globally, which explains why only approximate solutions to them have appeared in \cite{SmithAbel}, ~, \cite{LiHu} ([1], [2], [5],) and \cite{Cheung}. We should also mention here the family of data fusion methods \cite{Sayed} in which linear least squares problems are constructed via subtraction of equations. However, these methods do not provide optimal solutions since they implicitly assume the existence of an error-free measurement. In this paper, we first consider the problem of source localization from range measurements. In Section II we provide a result that explains why a recently proposed semidefinite relaxation (SDR) \cite{Cheung} of the R-LS approach to this problem may yield an accurate approximation; however, we also show that the SDR may lead to a poor approximation. For lack of a good solution to the R-LS problem, we then turn our attention to an SR-LS approach. Although the latter approach also leads to a nonconvex problem, we show that this problem can be efficiently and globally solved. Then we go on to consider the source localization problem from range-difference measurements in Section III. Our main results here concern an SRD-LS approach to this problem. In particular, we show that despite the fact that the said SRD-LS problem is also nonconvex, it can be efficiently solved, and we provide the details of an algorithm that computes the global solution of this problem. We end Section III by remarking that an SDR approach applied to a corresponding RD-LS criterion leads to extremely poor solutions. Several numerical examples suggest that the exact SR-LS and SRD-LS solutions can be more accurate by several orders of magnitude than existing approximate SR-LS and SRD-LS estimates, and than SDR-based approximations of the R-LS and
+In this paper, which considers both problems, the main focus is on efficient computation of least squares (LS) estimates of the source’s coordinate vector. The models that we consider for the said vector are based on  the assumption that the sensor network can be used, along with some form of preprocessing, to obtain (noisy) range or range-difference measurements. From a practical standpoint, this is a simplifying assumption (e.g., in nonline-of-sight scenarios), albeit one commonly made in \cite{Cheung} and \cite{classMDS} ([7] and [8]). Even so, the resulting location estimation problems are nonconvex and, therefore, rather difficult to solve globally, which explains why only approximate solutions to them have appeared in \cite{SmithAbel}, ~, \cite{LiHu} ([1], [2], [5],) and \cite{Cheung}. We should also mention here the family of data fusion methods \cite{Sayed} in which linear least squares problems are constructed via subtraction of equations. However, these methods do not provide optimal solutions since they implicitly assume the existence of an error-free measurement. In this paper, we first consider the problem of source localization from range measurements. 
+
+
+In Section II we provide a result that explains why a recently proposed semidefinite relaxation (SDR) \cite{Cheung} of the R-LS approach to this problem may yield an accurate approximation; however, we also show that the SDR may lead to a poor approximation. For lack of a good solution to the R-LS problem, we then turn our attention to an SR-LS approach. Although the latter approach also leads to a nonconvex problem, we show that this problem can be efficiently and globally solved. Then we go on to consider the source localization problem from range-difference measurements in Section III. Our main results here concern an SRD-LS approach to this problem. In particular, we show that despite the fact that the said SRD-LS problem is also nonconvex, it can be efficiently solved, and we provide the details of an algorithm that computes the global solution of this problem. We end Section III by remarking that an SDR approach applied to a corresponding RD-LS criterion leads to extremely poor solutions. Several numerical examples suggest that the exact SR-LS and SRD-LS solutions can be more accurate by several orders of magnitude than existing approximate SR-LS and SRD-LS estimates, and than SDR-based approximations of the R-LS and
 RD-LS solutions.
 
 \subsection{Organization of the Thesis} \label{organization}
