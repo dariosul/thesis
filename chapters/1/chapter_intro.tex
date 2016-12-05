@@ -259,9 +259,24 @@ problems and challenges in the path to accurate mapping and localization.
 
 
 
-\section{Basics of Localization}
+\section{Basics Localization Systems}
 
-Localization is another term for geolocation. A number of methods have been developed.
+Many different systems have been developed for solving the localization problem in different domains such as geolocation, indoor positioning, sonar, etc. Despite the fact that the  solutions themselves are different, they share some fundamental concepts.
+
+Classical non-survey based localization systems \cite{GeoLoc} are generally comprised of two subsystems: range/angle
+estimation subsystem and lateration/
+angulation subsystem.
+
+Classical geolocation techniques (non-survey based) depend on geometrical rela-
+tionships between the coordinates of the reference points (satellites in GPS technology) and the associated range/angle measurements. Typically, reference points are wireless devices with known location information (e.g. x- and y-coordinates) either pre-programmed or obtained through GPS. The mobile device (seeking its own position information) exchanges RF signals with the reference points to estimate the distance or angle to each of the reference points. Equipped with the range measurements and the coordinates of the reference points, the mobile device can solve for the unknown position through a variety of techniques (geometrical, optimization, etc.). The accuracy of the location information is affected by three major factors: the accuracy of the reference points’ position, the accuracy of range/angle estimates, and the geometrical configuration of the reference points and the unknown position. The non-survey geolocation techniques computes location estimates through two steps: range/angle estimation and tri-lateration/angulation. Figure 2.1 illustrates the two-step procedure.
+
+Fig. 2.1 Classical geolocation system. Range or angle information is extracted from received RF
+signals. Location is then estimated by lateration/angulation techniques
+
+In this section we will introduce the most popular geolocation techniques: TOA,
+TDOA, AOA, and RSS
+
+
 
 \subsection{Time of Arrival (TOA)}
 
