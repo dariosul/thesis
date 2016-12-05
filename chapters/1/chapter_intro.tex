@@ -2,9 +2,8 @@
 \label{chapter:introduction}
 
 
-In this thesis, we consider solving the   problem of localizing a single radiating source based on range and range-difference measurements. The purpose of this chapter is to introduce the systems and methods developed for the problem at hand, discuss the motivations for improving the existing methods, and describe the main contributions and structure of the thesis.
 
-\section{Introduction to Localization Problem} \label{problem}
+\section{The Localization Problem} \label{problem}
 
 Geolocation is a rapidly growing field due to the large impact it has on daily life.  The general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{SmithAbel, ShcauRob, Yao, Huang, CheungChan, LiHu, Cheung, Sayed, classMDS}.
 
@@ -36,32 +35,13 @@ cell towers, Wi-Fi hot spots, or installed RF tags \cite{GeoLoc}. Usually, the p
 
 %\textbf{indoor loc - 1 paragraph}
 
-Indoor environments have additional challenges such as limited coverage, multipath signal fading and NLOS conditions. At the same time, indoor applications typically require greater accuracy due to the smaller spaces involved. Robotics was one early application area \cite{Durant}. Systems such as CISCO Wireless Location Application \cite{CiscoWLA} have applied RSS fingerprinting to indoor positioning, which works well if it is possible to install the required infrastructure, and if accuracy on the order of several meters is suffcient. To achieve more accuracy researchers shifted their focus to TOA-based techniques and NLOS mitigation algorithms. Ultra-Wideband communications were used which increase bandwidth and help prevent multipath signal fading \cite{AlaviUWB}.
+Indoor environments have additional challenges such as limited coverage, multipath signal fading and NLOS conditions. At the same time, indoor applications typically require greater accuracy due to the smaller spaces involved. Robotics was one early application area \cite{Durant}. Systems such as CISCO Wireless Location Application \cite{CiscoWLA} have applied RSS fingerprinting to indoor positioning, which works well if it is acceptable to install the required infrastructure and only coarse positioning is required. In searching for a method that would provide higher accuracy and be more robust in NLOS conditions researches shifted their focus to Ultra-Wideband (UWB) communications which allow much more accurate timing information to be obtained. Another advantage of UWB is that it has increased bandwidth and helps prevent multipath signal fading \cite{AlaviUWB}.
 
 Combining sensor data from multiple sources to improve localization results is another active area of research. Simultaneous Localization and Mapping (SLAM) is one such technique. The algorithm generates a map of the environment using RF signal, inertial sensors, images, Light Detection and Ranging (LIDAR) and sonar. A topological map is produced which can be used for navigation.
 
-%Developing algorithms to effectively fuse sensor data from multiple sources to
-%produce improved localization results is a hot research topic. One popular tech-
-%nique is Simultaneous Localization and Mapping (SLAM). SLAM relies on data
-%from multiple sensors to build a map of the environment that enables one to
-%navigate for long periods of time by using the map to provide location corrections.
-%SLAM systems use RF and inertial sensors as well as sensors that measure the
-%environment directly such as image, Light Detection and Ranging (LIDAR), and
-%sonar sensors to construct a geometric or topological map of the environment and
-%then use that map for navigation. The environmental sensors help to alleviate some
-%of the problems faced by inertial and RF techniques, but they have their own set of
-%problems and challenges in the path to accurate mapping and localization.
-
-%Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Challenges include the NLOS conditions that 
-% Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
-%
-%\textit{The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.}
 
 
-
-
-
-\section{Basics of Localization Systems}
+\section{Basic Localization Systems}
 
 Many different systems have been developed for solving the localization problem in different domains such as geolocation, indoor positioning, sonar, etc. Despite the fact that the  solutions themselves are different, they share some fundamental concepts. Classical non-survey based localization systems  are generally comprised of two subsystems: range/angle estimation subsystem and lateration/
 angulation subsystem \cite{GeoLoc}. The range/angle estimation subsystem determines distance or direction between the  mobile object of unknown location  and an array of reference points with known location  either pre-programmed or obtained through GPS.  The reference points can be satellites in GPS technology, or base stations in cellular localization, or a set of iBeacons, etc. Lateration/angulation subsystem uses the coordinates of the reference points and the distance or angle estimates to determine the unknown position.  The accuracy of the positioning depends on the accuracy of the anchor nodes’ position, the quality of the range/angle estimates, network geometry, and the performace of the localization algorithm. Figure \ref{fig:2step} describes this two-step procedure.
@@ -79,7 +59,7 @@ In the rest of the section we will provide an overview of the most popular rangi
 
 
 
-\subsection{Time of Arrival }
+\subsection{Time of Arrival Method}
 
 Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often reffered to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimentional position estimate at least $n+1$ range measurements are required. Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
 
@@ -97,86 +77,142 @@ In LS approaches the source location extimate $\hat{\Bx}$ is found by minimizing
 \hat{\Bx} = \mbox{arg}\min_{\Bx} \left\lbrace \sum_{i=1}^m \beta_i\left(r_n^{(i)} - \|\Bx - \Ba_i\|\right)^2 \right\rbrace
 \end{equation}
 where $a_i$ is a vector of known coordinates of reference points (sensors),   $r_n^{(i)}$ is a range measurement associated with it, $\beta_i$ is a weight
-that can be used to emphasize  the degree of confidence in the measurement, and $m$ is a number of sensors.
+that can be used to emphasize  the degree of confidence in the measurement, and $m$ is a number of sensors. This problem is hard to solve in general and is discussed in more detail in Sec. 2.1. and Sec. 3.1. of the thesis.
 
 
-\subsection{Time Difference of Arrival}
+\subsection{Time Difference of Arrival Method}
 
-\subsection{Angle of Arrival}
+A TDOA system is comprised of at least three base stations, one of which is the reference station. All stations are transmitting at precise time intervals, and the receiver measures the small differences in time that it takes the signals to arrive. From this information it is able to calculate its position. 
+An important property of TDOA is that it requires base stations to be synchronized with each other, but it does not require the mobile receiver to be synchronized with the base stations. This technique first found application
+%First TDOA, also known as hyperbolic, localization techniques emerged in the field of geolocation 
+in World War II, when it was used by the British Royal Air Force for guiding airplanes at night. At that time synchronization betweeen measuring stations was not possible. Therefore TDOA techniques were feasible, while TOA were not. TDOA remains an important technique, finding modern application in 3G and LTE networks \cite{Ascom}.
 
-Localization using angle-of-arrival is simpler than time-based techniques in that
-only two angle measurements are required, as opposed to three range measure-
-ments, in order to estimate the two-dimensional position. However the challenge is
-presented when obtaining accurate angle of arrival estimation using wireless
-devices. In typical scenarios, the base stations are equipped with K antenna array
-elements spaced by D which are capable of estimating the angle of arrival which is
-then used to locate the mobile device. Figure 2.4 illustrates the basic concept of AOA localization. The relationship between the coordinates and the angles is given by
+% Using the time diff. for example, first geolocation systems for acoustic localization in 40 - to shoot ships.
+%The basic idea is that 
 
-The performance of AOA positioning techniques in LOS conditions is satis-
-factory. However, in severe NLOS multipath conditions the reliability and accu-
-racy of AOA techniques suffers considerably. As a result in these unfavorable
-propagation conditions, TOA- or RSS-based techniques are preferred. Further-
-more, hybrid positioning techniques can be used to incorporate the advantages of
-two different techniques which usually outperform the individual techniques.
+The conventional TDOA-based localization technique is a problem of solving a set of hyperbolic equations. More details can be found in Sec. 2.2 and Sec. 4.1 of the thesis.
+
+\subsection{Angle of Arrival Method}
+
+In the case of Angle of Arrival localization the base stations are able to measure the angle of signal arrival with respect to an absolute reference. 
+Knowing the location of base stations, the user position can be calculated as an intersection point of two lines that pass through the base stations \cite{Dempster}
+\begin{equation}
+\nonumber
+\Bx = \begin{bmatrix}
+tan\phi_1 & -1 \\
+tan\phi_2 & -1
+\end{bmatrix}^{-1} \begin{bmatrix}
+x_1 tan\phi_1 & -y_1 \\
+x_2 tan\phi_2 & -y_2
+\end{bmatrix}
+\end{equation}
+Figure \ref{fig:aoa} depicts the geometric principle of AOA technique. Even though AOA localization is relatively simple, it did not gain widespread usage because of poor performance in severe NLOS multipath scenarios. However, AOA has been used in hybrid positioning techniques along with TOA providing better performance than individual systems \cite{ChangChang}.  
 
 
 \begin{figure*}[h]
 \centering
 \includegraphics[width=0.7\textwidth]{figures/angle_of_arrival.png}
 \caption{AOA positioning (angulation). The AOA estimate from 2 base stations to the mobile terminal can be used to estimate the position \cite{GeoLoc}.}
-\label{fig:2step}
+\label{fig:aoa}
 \end{figure*}
 
 
-\subsection{Received Signal Strength}
+\subsection{Received Signal Strength Method}
 
-
-
-%\subsection{Old}
-%
-%Review of ranging and localization methods, theory behind it, application, limitations. 
-%
-%TOA,
-% 
-%TDOA,
-%
-%AOA ?,
-%
-%non-range-based? 
-%
-%"Geolocation techniques"
-%
-%\cite{GeoLoc}
-%\cite{LiuSurvey}
+The received signal strength localization technique is very similar to the TOA method in the sense that the estimate of the unknown position of the mobile device/radiating source is obtained from the range distance measurements between the sensors and the object.
+The difference is in the way a range measurement itself is obtained. In TOA method the range is obtained from the time reading through scaling, whereas in the RSS method the range is obtained from the received signal strength. 
+The main idea that justifies this type of localization is that the strength of the RF signal attenuates with distance. The relationship between the RSS reading and the distance can be approximated by a log-normal attenuation model \cite{LiuSurvey}
+\begin{equation}
+\nonumber
+P_x(d) = P_0(d_0) - 10n_p\log_{10}\left(\frac{d_i}{d_0}\right) + X_{\sigma}
+\end{equation}
+where $P_0(d_0)$ is a reference power in dB milliwatts at a reference distance $d_0$ away from the transmitter, $n_p$ is the pathloss exponent governing the rate of power decay with distance, $X_{\sigma}$ is the log-normal shadow fading component, and $d_i$ is the distance between the mobile devices and the $i$th base station. Both $\sigma$ and $n_p$ are environment dependent. Given the model and model parameters, which are obtained via a priori measurements, the inter-sensor distances can be estimated from the RSS measurements. Localization algorithms can then be applied to these distance measurements to obtain estimated locations of sensors.
 
 \section{Contributions and Organization of the Thesis}
 
 \subsection{Contributions  of the Thesis} \label{contributions}
 
+%the material developed here / mathematical tools and methods are suitable for many different scenarios 
+%OR
+%can have different world life applications, for example: TOA, TDOA, static positioning using UWB range measurements. 
 
-single source localization
+This thesis investigates possible single source  localization solutions for the wireless sensor networks that use RF  signals to obtain the range or range-difference measurements. However, the mathematical tools and methods presented in this work may be suitable for other scenarios, for example, ultrasonic, sonic or light. In this thesis we focus on the least squares approaches for estimating the source location. Our models assume the availability of range or range-difference measurements and do not take into account the nonline-of-sight (NLOS) scenarios. Such simplifying assumptions are often made \cite{Cheung}, \cite{classMDS} since mitigating the NLOS conditions is a separate research area. However, the resulting localization problems are nonconvex and hard to solve globally. Many approximate solutions \cite{SmithAbel}, \cite{LiHu}, \cite{Cheung} and data fusion methods \cite{Sayed} have been developed. 
 
-something like:
+The main contributions of the thesis can be summarised as follows
 
-the material developed here / mathematical tools and methods are suitable for many different scenarios 
-OR
-can have different world life applications, for example: TOA, TDOA, static positioning using UWB range measurements. 
+\begin{itemize}
+\item
+Development of the iterative re-weighting algorithm for range-based localization based on squared range-based least squares;
 
-This work mostly investigated possible localization solution for the wireless sensor networks that use radio frequency measurements to obtain the range or range-difference measurements. However, some of the methods presented in this work can also be applied for other mediums, i.e. ultrasonic, sonic, light. 
+\item
+Development of the iterative re-weighting algorithm for range-difference-based localization based on squared range-difference-based least squares;
 
-In this paper, which considers both problems, the main focus is on efficient computation of least squares (LS) estimates of the source’s coordinate vector. The models that we consider for the said vector are based on  the assumption that the sensor network can be used, along with some form of preprocessing, to obtain (noisy) range or range-difference measurements. From a practical standpoint, this is a simplifying assumption (e.g., in nonline-of-sight scenarios), albeit one commonly made in \cite{Cheung} and \cite{classMDS} ([7] and [8]). Even so, the resulting location estimation problems are nonconvex and, therefore, rather difficult to solve globally, which explains why only approximate solutions to them have appeared in \cite{SmithAbel}, ~, \cite{LiHu} ([1], [2], [5],) and \cite{Cheung}. We should also mention here the family of data fusion methods \cite{Sayed} in which linear least squares problems are constructed via subtraction of equations. However, these methods do not provide optimal solutions since they implicitly assume the existence of an error-free measurement. In this paper, we first consider the problem of source localization from range measurements. 
+\item
+Development of the penalty convex-concave procedure (PCCP) for single source localization based on range measurements;
+
+\item
+Development of the sequential convex relaxation procedures for efficient computation of the LS estimate of source coordinates for range and range-difference localization.
 
 
-In Section II we provide a result that explains why a recently proposed semidefinite relaxation (SDR) \cite{Cheung} of the R-LS approach to this problem may yield an accurate approximation; however, we also show that the SDR may lead to a poor approximation. For lack of a good solution to the R-LS problem, we then turn our attention to an SR-LS approach. Although the latter approach also leads to a nonconvex problem, we show that this problem can be efficiently and globally solved. Then we go on to consider the source localization problem from range-difference measurements in Section III. Our main results here concern an SRD-LS approach to this problem. In particular, we show that despite the fact that the said SRD-LS problem is also nonconvex, it can be efficiently solved, and we provide the details of an algorithm that computes the global solution of this problem. We end Section III by remarking that an SDR approach applied to a corresponding RD-LS criterion leads to extremely poor solutions. Several numerical examples suggest that the exact SR-LS and SRD-LS solutions can be more accurate by several orders of magnitude than existing approximate SR-LS and SRD-LS estimates, and than SDR-based approximations of the R-LS and
-RD-LS solutions.
+\end{itemize}
+
 
 \subsection{Organization of the Thesis} \label{organization}
 
-\begin{description}
-\item[\textbf{Chapter 1}] contains a statement of
-the claims which will be proved by this dissertation followed by an overview of the structure of the document itself. Describes in details the open problem which is to be tackled together with its context, its impact and the overall motivation for the research overall.
-\item[\textbf{Chapter 2}] IRW-SR-LS.
-\item[\textbf{Chapter 3}] PCCP.
-\item[\textbf{Chapter 4}] Sequential Relaxation.
-\item[\textbf{Chapter 6}] contains a restatement of the claims and results of the dissertation. It also enumerates avenues of future work for further development of the concept and its applications.
-\end{description}
+The organization of the thesis is  as follows
+
+\phantom{m}
+
+\noindent
+\textbf{Chapter 1 - Introduction}
+
+\phantom{m}
+
+\noindent
+The purpose of this chapter is to introduce the systems and methods developed for the localization problems, discuss the motivations for improving the existing methods, and describe the main contributions and structure of the thesis.
+
+
+\phantom{m}
+
+\noindent
+\textbf{Chapter 2 - Iterative Re-Weighting Least-Squares Methods for Source Localization}
+
+
+\phantom{m}
+
+\noindent
+This chapter presents improved least squares methods that are iterative in nature. At each iteration the algorithms find a global solution to a subproblem that, as iterations proceed, approximates closely the LS solution.
+
+
+\phantom{m}
+
+\noindent
+\textbf{Chapter 3 - Penalty Convex-Concave Procedure for Source Localization}
+
+
+\phantom{m}
+
+\noindent
+In this chapter an algorithm is developed for finding an approximate solution to nonlinear least squares problem, for the case of range-based localization. We focus on the least squares formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure in a successive manner.
+
+
+\phantom{m}
+
+\noindent
+\textbf{Chapter 4 - Least Squares Localization by Sequential Convex Relaxation}
+
+
+\phantom{m}
+
+\noindent
+This chapter adresses localization of a single radiating source based on range or range-difference measurements. In both cases the focus is on efficient computation of the least squares estimates of the source coordinates. For the case of range-difference, the central part of the procedure is a convex quadratic programming problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
+
+\phantom{m}
+
+\noindent
+\textbf{Chapter 5 - Conclusions}
+
+\phantom{m}
+
+\noindent
+This chapter summarises the thesis and suggests  further development of the algorithms and their applications.
