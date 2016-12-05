@@ -261,18 +261,21 @@ problems and challenges in the path to accurate mapping and localization.
 
 Many different systems have been developed for solving the localization problem in different domains such as geolocation, indoor positioning, sonar, etc. Despite the fact that the  solutions themselves are different, they share some fundamental concepts.
 
-Classical non-survey based localization systems \cite{GeoLoc} are generally comprised of two subsystems: range/angle
-estimation subsystem and lateration/
-angulation subsystem.
+Classical non-survey based localization systems  are generally comprised of two subsystems: range/angle estimation subsystem and lateration/
+angulation subsystem \cite{GeoLoc}. The range/angle estimation subsystem determines distance or direction between the  mobile device seeking its own location information (or the source of the signal to be located) and an array of reference points with known location  either pre-programmed or obtained through GPS. The reference points can be satellites in GPS technology, or base stations in cellular localization, or a set of iBeacons, etc. Lateration/
+angulation subsystem uses the coordinates of the reference points and the distance or angle estimates to determine the unknown position.  The accuracy of the positioning depends on the accuracy of the anchor nodes’ position, the quality of the range/angle estimates, network geometry, and the performace of the localization algorithm. Figure \ref{fig:2step} describes this two-step procedure.
 
-Classical geolocation techniques (non-survey based) depend on geometrical rela-
-tionships between the coordinates of the reference points (satellites in GPS technology) and the associated range/angle measurements. Typically, reference points are wireless devices with known location information (e.g. x- and y-coordinates) either pre-programmed or obtained through GPS. The mobile device (seeking its own position information) exchanges RF signals with the reference points to estimate the distance or angle to each of the reference points. Equipped with the range measurements and the coordinates of the reference points, the mobile device can solve for the unknown position through a variety of techniques (geometrical, optimization, etc.). The accuracy of the location information is affected by three major factors: the accuracy of the reference points’ position, the accuracy of range/angle estimates, and the geometrical configuration of the reference points and the unknown position. The non-survey geolocation techniques computes location estimates through two steps: range/angle estimation and tri-lateration/angulation. Figure 2.1 illustrates the two-step procedure.
 
-Fig. 2.1 Classical geolocation system. Range or angle information is extracted from received RF
-signals. Location is then estimated by lateration/angulation techniques
+\begin{figure*}[h]
+\centering
+\includegraphics{figures/localization_example}
+\caption{Classical geolocation system. Range or angle information is extracted from received RF signals. Location is then estimated by lateration/angulation techniques \cite{GeoLoc}.}
+\label{fig:2step}
+\end{figure*}
 
-In this section we will introduce the most popular geolocation techniques: TOA,
-TDOA, AOA, and RSS
+
+
+In the rest of the section we will provide an overview of the most popular ranging localization methods: TOA, TDOA, AOA, and RSS.
 
 
 
