@@ -86,76 +86,76 @@ As a result there has been a desire for new location-based services with improve
 
 With the proliferation of smartphone devices and the internet,
 WiFi access points are becoming increasingly widespread, 
-providing another means of determining location.
+providing another means of determining location. One type of WiFi-based technique is called Received Signal Strength (RSS) location fingerprinting. It uses a database of WiFi signatures (RSS values and MAC address) along with GPS coordinates. This has to be built up ahead of time, for example by surveying a city with a GPS and WiFi enabled vehicle. Realtime location of a device is determined by finding the best match between RSS values detected by the mobile device, and those stored in the database. Accuracy in the range of tens of meters can be achieved in urban areas where wireless access points are plentiful. A company called Skyhook Wireless developed one such system. \cite{Skyhook}
 
 
-Unsurprisingly, the next logical evolution of localization systems emerged from
-the cellular domain, where the requirement for localization was spearheaded by the
-Emergency-911 (E-911) mandate. Before GPS was widely available on mobile
-phones, cellular operators adopted and deployed varying technologies to locate
-mobiles within a cell radius. Time-Of-Arrival-based computational techniques,
-which originated from GPS systems, were adapted in order to achieve similar
-localization performance for the common cell phone channel sharing (multiplex-
-ing) schemes: Time Division Multiple Access (TDMA) and Code Division
-Multiple Access (CDMA). The use of cellular localization was limited to E-911
-due to the difficulty in achieving useful accuracy especially in urban environments.
-The poor accuracy stemmed from clusters of buildings in urban and suburban
-residential areas which brought about significant signal degradation due to mul-
-tipath and Non-Line-Of-Sight (NLOS) problems.
-At the same time, the popular IEEE 802.11 standard emerged, enabling ubiq-
-uitous deployment of Wi-Fi hotspots which sparked enthusiasm for an alternative
-to cellular localization. The rapid expansion of Wi-Fi access points (AP) across the
-urban/indoor environments made it possible for researchers to envision alterna-
-tives to TOA-based systems. Specifically, Received Signal Strength (RSS) location
-fingerprinting techniques emerged. One success story for deployment in the urban
-environment is Skyhook Wireless, a start-up company in the Boston area. Skyhook
-realized the potential of exploiting Wi-Fi signals emitted from residential homes
-and offices (available for free!) that are continuously in use—particularly in dense
-urban areas. Skyhook realized they could improve localization by building dat-
-abases of Wi-Fi signatures tied to locations that could be integrated to aid in the
-localization process. In essence, a survey is conducted by ‘‘wardriving’’ across a
-city with a Wi-Fi equipped device and a companion GPS receiver to record
-location. Wi-Fi RSS values and associated Medium Access Control (MAC) IDs
-are registered in a database for each location. During a localization query, a mobile
-device compares the RSSs measured from the registered APs to those in the
-database using a pattern matching technique. The mobile’s location is then
-determined by the best RSS match. Skyhook Wireless’s technology has attracted
-attention from the major players in the mobile device industry such as Apple and
-Google (Wortham 2009). The technique is very practical and delivers decent
-accuracy (tens of meters) for mobile location applications in outdoor urban
-environments where Wi-Fi APs are plentiful.
-Of course, the aforementioned triangulation fingerprinting techniques are not
-just applicable to GPS, cellular, or Wi-Fi networks. They can also be readily
-extended to virtually any pervasive radio-frequency source, in particular to tele-
-vision networks. In fact, the Rosum Corporation from Redwood City, CA took1.1 Overview
-3
-advantage of the 4.5 MHz of bandwidth available in broadcast TV channels.
-Besides the wide bandwidth available for accurate TOA estimation, the low carrier
-frequency offered excellent penetration through walls to mitigate NLOS condi-
-tions. The performance of different types of RF location systems in terms of cost
-and accuracy will vary widely. Other system design considerations include 2D or
-3D location accuracy requirements, power requirements, and whether infrastruc-
-ture installation is acceptable and, if so, the density of BSs required to achieve the
-desired accuracy. In designing a system, there will be tradeoffs between perfor-
-mance and cost requirements. For example, typical RF base positioning accuracies
-are tens of meters accuracy at best and do not provide accurate elevation. Many
-solutions available to augment GPS leverage surrounding infrastructure such as
-cell towers, Wi-Fi hot spots, or installed RF tags. The precision of the results
-varies widely based on the infrastructure location and availability.
-Cellular survey-based techniques: hundreds or thousands of meters
-Cellular triangulation techniques: less than 100 m
-Television triangulation techniques: tens to hundreds of meters
-Wi-Fi survey-based techniques: tens to hundreds of meters.
-The latter three techniques require signals from at least three reference stations
-which could lead to operational lapses indoors. It is not possible to rely on these
-infrastructure-based solutions in uncontrolled environments such as emergency or
-combat operations where the infrastructure may not exist; however, for commer-
-cial use, the accuracy and reliability provided may be adequate (Baker 2011; Mia
-2011; Young 2008).
+%Unsurprisingly, the next logical evolution of localization systems emerged from
+%the cellular domain, where the requirement for localization was spearheaded by the
+%Emergency-911 (E-911) mandate. Before GPS was widely available on mobile
+%phones, cellular operators adopted and deployed varying technologies to locate
+%mobiles within a cell radius. Time-Of-Arrival-based computational techniques,
+%which originated from GPS systems, were adapted in order to achieve similar
+%localization performance for the common cell phone channel sharing (multiplex-
+%ing) schemes: Time Division Multiple Access (TDMA) and Code Division
+%Multiple Access (CDMA). The use of cellular localization was limited to E-911
+%due to the difficulty in achieving useful accuracy especially in urban environments.
+%The poor accuracy stemmed from clusters of buildings in urban and suburban
+%residential areas which brought about significant signal degradation due to mul-
+%tipath and Non-Line-Of-Sight (NLOS) problems.
+%At the same time, the popular IEEE 802.11 standard emerged, enabling ubiquitous deployment of Wi-Fi hotspots which sparked enthusiasm for an alternative
+%to cellular localization. The rapid expansion of Wi-Fi access points (AP) across the
+%urban/indoor environments made it possible for researchers to envision alterna-
+%tives to TOA-based systems. Specifically, Received Signal Strength (RSS) location
+%fingerprinting techniques emerged. One success story for deployment in the urban
+%environment is Skyhook Wireless, a start-up company in the Boston area. Skyhook
+%realized the potential of exploiting Wi-Fi signals emitted from residential homes
+%and offices (available for free!) that are continuously in use—particularly in dense
+%urban areas. Skyhook realized they could improve localization by building dat-
+%abases of Wi-Fi signatures tied to locations that could be integrated to aid in the
+%localization process. In essence, a survey is conducted by ‘‘wardriving’’ across a
+%city with a Wi-Fi equipped device and a companion GPS receiver to record
+%location. Wi-Fi RSS values and associated Medium Access Control (MAC) IDs
+%are registered in a database for each location. During a localization query, a mobile
+%device compares the RSSs measured from the registered APs to those in the
+%database using a pattern matching technique. The mobile’s location is then
+%determined by the best RSS match. Skyhook Wireless’s technology has attracted
+%attention from the major players in the mobile device industry such as Apple and
+%Google (Wortham 2009). The technique is very practical and delivers decent
+%accuracy (tens of meters) for mobile location applications in outdoor urban
+%environments where Wi-Fi APs are plentiful.
+%Of course, the aforementioned triangulation fingerprinting techniques are not
+%just applicable to GPS, cellular, or Wi-Fi networks. They can also be readily
+%extended to virtually any pervasive radio-frequency source, in particular to tele-
+%vision networks. In fact, the Rosum Corporation from Redwood City, CA took1.1 Overview
+%3
+%advantage of the 4.5 MHz of bandwidth available in broadcast TV channels.
+%Besides the wide bandwidth available for accurate TOA estimation, the low carrier
+%frequency offered excellent penetration through walls to mitigate NLOS condi-
+%tions. The performance of different types of RF location systems in terms of cost
+%and accuracy will vary widely. Other system design considerations include 2D or
+%3D location accuracy requirements, power requirements, and whether infrastruc-
+%ture installation is acceptable and, if so, the density of BSs required to achieve the
+%desired accuracy. In designing a system, there will be tradeoffs between perfor-
+%mance and cost requirements. For example, typical RF base positioning accuracies
+%are tens of meters accuracy at best and do not provide accurate elevation. Many
+%solutions available to augment GPS leverage surrounding infrastructure such as
+%cell towers, Wi-Fi hot spots, or installed RF tags. The precision of the results
+%varies widely based on the infrastructure location and availability.
+%Cellular survey-based techniques: hundreds or thousands of meters
+%Cellular triangulation techniques: less than 100 m
+%Television triangulation techniques: tens to hundreds of meters
+%Wi-Fi survey-based techniques: tens to hundreds of meters.
+%The latter three techniques require signals from at least three reference stations
+%which could lead to operational lapses indoors. It is not possible to rely on these
+%infrastructure-based solutions in uncontrolled environments such as emergency or
+%combat operations where the infrastructure may not exist; however, for commer-
+%cial use, the accuracy and reliability provided may be adequate (Baker 2011; Mia
+%2011; Young 2008).
+
+The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. ...continue indoor localization
 
 
 1.1.2 Indoor Localization
-
 
 The lucrative business opportunities for location-enabled services are not limited
 to outdoors. In fact, the potential for indoor services has been projected by dif-
