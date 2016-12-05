@@ -31,17 +31,31 @@ As location-based services are becoming increasingly integrated into daily life 
 With the proliferation of smartphone devices and the internet, WiFi access points are becoming increasingly widespread, providing another means of determining location. One type of WiFi-based technique is called Received Signal Strength (RSS) location fingerprinting. It uses a database of WiFi signatures (RSS values and MAC addresses) with associated GPS coordinates. This has to be built up ahead of time, for example by surveying a city with a GPS and WiFi enabled vehicle. 
 Realtime location of the mobile device is determined using the pattern-matching technique, that compares the measured RSSs between the mobile device and access points, and the RSS values stored in the database. Skyhook Wireless successfully developed such system that delivers accuracy of tens of meters in urban areas \cite{Skyhook}. 
 
-Design of any localization system naturally includes a trade-off between the overal performance and cost requirements. Some of the systems developed so far take advange from the knowledge of the surrounding infrastructure such as
-cell towers, Wi-Fi hot spots, or installed RF tags \cite{GeoLoc}. Usually, the precision of the localization in such systems depends on the infrastructure. For example,  hundreds or thousands of meters for cellular survey-based techniques, tens to hundreds of meters, or less than 100 m for cellular triangulation techniques. Which makes these solutions unreliable in uncontrolled environments, such as emergency or combat operations.
+Design of any localization system naturally includes a trade-off between the overall performance and cost requirements. Some of the systems developed so far take advantage from the knowledge of the surrounding infrastructure such as
+cell towers, Wi-Fi hot spots, or installed RF tags \cite{GeoLoc}. Usually, the precision of the localization in such systems depends on the infrastructure. For example,  hundreds or thousands of meters for cellular survey-based techniques, tens to hundreds of meters, or less than 100 meters for cellular triangulation techniques.
 
-\textbf{indoor loc - 1 paragraph}
+%\textbf{indoor loc - 1 paragraph}
 
+Indoor environments have additional challenges such as limited coverage, multipath signal fading and NLOS conditions. At the same time, indoor applications typically require greater accuracy due to the smaller spaces involved. Systems such as CISCO Wireless Location Application \cite{CiscoWLA} tried to apply RSS fingerprinting with limited success. Researchers shifted their focus to TOA-based techniques and NLOS mitigation algorithms. Additionally, Ultra-Wideband signals were applied which increase bandwidth and help prevent multipath signal fading.
 
+Combining sensor data from multiple sources to improve localization results is another active area of research. Simultaneous Localization and Mapping (SLAM) is one such technique. The algorithm generates a map of the environment using RF signal, inertial sensors, images, Light Detection and Ranging (LIDAR) and sonar. A topological map is produced which can be used for navigation.
 
-Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Challenges incluse the NLOS conditions that 
- Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
+%Developing algorithms to effectively fuse sensor data from multiple sources to
+%produce improved localization results is a hot research topic. One popular tech-
+%nique is Simultaneous Localization and Mapping (SLAM). SLAM relies on data
+%from multiple sensors to build a map of the environment that enables one to
+%navigate for long periods of time by using the map to provide location corrections.
+%SLAM systems use RF and inertial sensors as well as sensors that measure the
+%environment directly such as image, Light Detection and Ranging (LIDAR), and
+%sonar sensors to construct a geometric or topological map of the environment and
+%then use that map for navigation. The environmental sensors help to alleviate some
+%of the problems faced by inertial and RF techniques, but they have their own set of
+%problems and challenges in the path to accurate mapping and localization.
 
-\textit{The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.}
+%Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Challenges include the NLOS conditions that 
+% Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
+%
+%\textit{The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.}
 
 
 
