@@ -2,14 +2,7 @@
 \label{chapter:introduction}
 
 
-In this thesis, we consider solving linear inverse problems using nonconvex l p and TV p
-regularizers with 0 < p < 1, and applications of the proposed optimization models in
-the general area of signal recovery including signal denoising and compressive sensing
-of 1-D signals and 2-D images. 
-
-The purpose of this chapter is to introduce the
-literature relevant to the problems considered, discuss the motivations for improving
-the existing methods, and describe the main contributions and structure of the thesis.
+In this thesis, we consider solving the   problem of localizing a single radiating source based on range and range-difference measurements. The purpose of this chapter is to introduce the systems and methods developed for the problem at hand, discuss the motivations for improving the existing methods, and describe the main contributions and structure of the thesis.
 
 \section{Introduction to Localization Problem} \label{problem}
 
@@ -51,42 +44,6 @@ Indoor environments typically hinder wireless propagation because there is uneve
 \textit{The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.}
 
 
-The development of inertial technology integrates
-naturally with the evolution of ‘‘RF localization’’ in the sense that their comple-
-mentary error properties can make possible even more accurate and robust geo-
-location systems.
-
-In general, providing accurate location and navigation indoors will require
-extensive infrastructure or the implementation of multiple, complementary tech-
-nologies (RF, gyroscopes, pressure sensors, speed sensors, etc.). In fact, the trend
-in indoor geolocation research seems to point towards the integration of hybrid
-sensor technologies. The effectiveness of different sensors can vary based on the
-environment of operation and the tracked subjects motion: RF propagation
-depends on building topology and construction material, lighting affects optical
-sensors, and the tracked subject’s motion affects optical and inertial sensors.
-Inertial and RF based location sensors provide complementary location informa-
-tion: inertial tracking systems provide high accuracy over short durations, but
-suffer from significant drift over longer times in the absence of methods to mitigate
-their drift; in contrast, RF ranging measurements are subject to short-term outages
-in areas with poor RF connectivity, but can provide long-term stability when fixed
-references are part of a managed infrastructure. Wi-Fi only location provides an
-unmanaged and often changing network of APs which cannot be relied upon if a
-known level of accuracy is required, but may provide adequate accuracy for many
-consumer applications. Finally, elevation determination (floor location) presents a
-challenge for RF systems; here, inertial and referenced barometric pressure sys-
-tems can provide support.
-Developing algorithms to effectively fuse sensor data from multiple sources to
-produce improved localization results is a hot research topic. One popular tech-
-nique is Simultaneous Localization and Mapping (SLAM). SLAM relies on data
-from multiple sensors to build a map of the environment that enables one to
-navigate for long periods of time by using the map to provide location corrections.
-SLAM systems use RF and inertial sensors as well as sensors that measure the
-environment directly such as image, Light Detection and Ranging (LIDAR), and
-sonar sensors to construct a geometric or topological map of the environment and
-then use that map for navigation. The environmental sensors help to alleviate some
-of the problems faced by inertial and RF techniques, but they have their own set of
-problems and challenges in the path to accurate mapping and localization.
-
 
 
 
@@ -104,19 +61,32 @@ angulation subsystem \cite{GeoLoc}. The range/angle estimation subsystem determi
 \end{figure*}
 
 
-
 In the rest of the section we will provide an overview of the most popular ranging localization methods: TOA, TDOA, AOA, and RSS.
 
 
 
 \subsection{Time of Arrival }
 
-Time of Arrival (TOA) is a localization method that uses the propagation speed of  signals between a mobile device and base stations of known location. The velocity of the  signals is known, so by measuring the time that a signal takes to be received, the distance can easily be calculated. 
-%The distance to at least three base stations must be calculated in order to determine the position in space.
+Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often reffered to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimentional position estimate at least $n+1$ range measurements are required.
 
-\textbf{more fluff}
+Solution techniques developed for range-based localization can be grouped under Maximum Likelihood (ML) and Least Squares (LS) approaches. 
+Given the observed range measurements $\Br_n = \Br + \Bw$, the ML estimate $\hat{\Bx}$ of the unknown source location $\Bx$ is obtained by maximizing the conditional probability density function 
+\begin{equation}
+\nonumber
+\hat{\Bx} = \mbox{arg}\max_{\Bx} P\left(\Br_n|\Bx\right)
+\end{equation}
+where $\Bw$ represents measurement noise. One of the major problems with ML approach is that it requires the knowledge of exact error-free measurements. Another difficulty is that solving for the unknown position extimate is computationally difficult. Many variants and approximations of the original ML has been  developed \cite{Guvenc}, \cite{Guvenc2}, \cite{HoML}.
 
-Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
+In LS approaches the source location extimate $\hat{\Bx}$ is found by minimizing the sum of risiduals \cite{GeoLoc}
+\begin{equation}
+\nonumber
+\hat{\Bx} = \mbox{arg}\min_{\Bx} \left\lbrace \sum_{i=1}^m \beta_i\left(r_n^{(i)} - \|\Bx - \Ba_i\|\right)^2 \right\rbrace
+\end{equation}
+where $a_i$ is a vector of known coordinates of reference points (sensors),   $r_n^{(i)}$ is a range measurement associated with it, $\beta_i$ is a weight
+that can be used to emphasize  the degree of confidence in the measurement, and $m$ is a number of sensors.
+
+
+Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
 
 \subsection{Time Difference of Arrival }
 
