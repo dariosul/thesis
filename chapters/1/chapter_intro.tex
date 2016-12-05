@@ -152,60 +152,62 @@ providing another means of determining location. One type of WiFi-based techniqu
 %cial use, the accuracy and reliability provided may be adequate (Baker 2011; Mia
 %2011; Young 2008).
 
-The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. ...continue indoor localization
+The accuracy in the range of tens of meters achieved by techniques described in this section are sufficient for many outdoor applications, but for indoor applications greater accuracy is typically required due to the smaller spaces. If errors of several meters are tolerable, and it is possible to install additional infrastructure, there are existing products such as the CISCO Wireless Location Application \cite{CiscoWLA} which uses RSS fingerprinting. However, this is not sufficient for many envisioned applications so indoor localization remains a very active area of research. Potential applications include tracking children and the elderly in care facilities, tracking inventory and equipment, and tracking personnel in emergency situations. Each application has different requirements for accuracy and reliability.
 
+Indoor environments typically hinder wireless propagation because there is uneven coverage and many obstacles. Overcoming these physical limitations is the fundamental challenge in indoor localization. As a result, research has shifted back to TOA techniques, while using Ultra-wideband signals which use less power and increase the chance of propagating signals around obstacles.
 
-1.1.2 Indoor Localization
-
-The lucrative business opportunities for location-enabled services are not limited
-to outdoors. In fact, the potential for indoor services has been projected by dif-
-ferent sources as an untapped multibillion dollar industry (Patel 2011). The variety
-of indoor applications affects every aspect of our lives: from E-911 to respond to
-mobile emergency calls to tracking kids in day-care centers, elderly in nursing
-homes, inventories in warehouses, medical devices in hospitals, and personnel in
-emergency/first responder applications (firefighters). What is stopping or hindering
-the emergence of such needed—even life-saving for emergency response—
-applications is the difficulty in delivering the required accuracy and reliability in
-indoor environments. Indoor localization research has been going on for decades
-in the robotics field (Smith 1986; Durrant-Whyte 1988). The E-911 requirement
-for improved localization of cell phones indoors spurred more RF infrastructure
-and signals of opportunity-based research (Pahlavan et al. 1998). The fact that
-location research is to date a very active research area indicates that there are still
-many challenges left to resolve. The challenges depend on the required accuracy
-and reliability dictated by the application. For applications that require only coarse4
-1 Introduction
-location information and can afford to install a significant amount of infrastructure,
-there are existing products, for example by the Finnish company Ekahau (EKA-
-HAU 2012) and CISCO Wireless Location Appliance (CISCO Corporation 2012).
-These systems capitalize on the RSS location fingerprinting technique to deliver
-accuracies on the order of a few meters in the indoor environment. However, it
-became evident that the effectiveness and robustness of RSS-based fingerprinting
-techniques are limited to uncluttered environments and outdoors.
-As the application domain gravitated toward the dense urban and indoor settings,
-where localizable assets naturally clutter together due to smaller dimensions, an
-alternative to legacy cellular localization and fingerprinting techniques was needed
-to push the accuracy boundary to sub-meter—the so-called ‘‘holy grail’’ of indoor
-localization. Many potential applications were envisioned to benefit from centi-
-meter-level information, from inventory tracking to firefighters/soldiers tracking
-inside buildings. The fundamental challenge indoors is that the radio frequency
-environment—characterized by limited coverage, severe multipath signal fading
-and NLOS conditions—is not conducive to wireless propagation. Since the limi-
-tations are physical in nature, they must be dealt with by any algorithm or technique.
-To this end, researchers revisited TOA-based techniques—however applied Ultra-
-Wideband (UWB) communications which uses low power but increased bandwidth
-to provide protection against multipath—and NLOS mitigation algorithms to
-combat the effects of the propagation environment. A significant portion of this book
-is dedicated to addressing the challenges of harsh propagation environments.
-As the form factor of mobile devices diminished in size, yet increased in
-complexity, a new school of thought emerged from the localization research
-community around the idea of collaboration using sensor networks. This area is
-interesting in that wireless sensor networks (WSNs) developed independently from
-cooperative localization and—only when applications were considered for the
-former—did it become obvious to the sensor network researchers that location
-information is indeed vital. At the same time, localization researchers analyzed the
-potential in collaboration between the two areas to address the propagation chal-
-lenges and currently cooperative localization in WSNs is a very active research
-area—theory, experimental, and hardware/software development.
+%1.1.2 Indoor Localization
+%
+%The lucrative business opportunities for location-enabled services are not limited
+%to outdoors. In fact, the potential for indoor services has been projected by dif-
+%ferent sources as an untapped multibillion dollar industry (Patel 2011). The variety
+%of indoor applications affects every aspect of our lives: from E-911 to respond to
+%mobile emergency calls to tracking kids in day-care centers, elderly in nursing
+%homes, inventories in warehouses, medical devices in hospitals, and personnel in
+%emergency/first responder applications (firefighters). 
+%What is stopping or hindering
+%the emergence of such needed—even life-saving for emergency response—
+%applications is the difficulty in delivering the required accuracy and reliability in
+%indoor environments. Indoor localization research has been going on for decades
+%in the robotics field (Smith 1986; Durrant-Whyte 1988). The E-911 requirement
+%for improved localization of cell phones indoors spurred more RF infrastructure
+%and signals of opportunity-based research (Pahlavan et al. 1998). The fact that
+%location research is to date a very active research area indicates that there are still
+%many challenges left to resolve. The challenges depend on the required accuracy
+%and reliability dictated by the application. For applications that require only coarse4
+%1 Introduction
+%location information and can afford to install a significant amount of infrastructure,
+%there are existing products, for example by the Finnish company Ekahau (EKA-
+%HAU 2012) and CISCO Wireless Location Appliance (CISCO Corporation 2012).
+%These systems capitalize on the RSS location fingerprinting technique to deliver
+%accuracies on the order of a few meters in the indoor environment. However, it
+%became evident that the effectiveness and robustness of RSS-based fingerprinting
+%techniques are limited to uncluttered environments and outdoors.
+%As the application domain gravitated toward the dense urban and indoor settings,
+%where localizable assets naturally clutter together due to smaller dimensions, an
+%alternative to legacy cellular localization and fingerprinting techniques was needed
+%to push the accuracy boundary to sub-meter—the so-called ‘‘holy grail’’ of indoor
+%localization. Many potential applications were envisioned to benefit from centi-
+%meter-level information, from inventory tracking to firefighters/soldiers tracking
+%inside buildings. The fundamental challenge indoors is that the radio frequency
+%environment—characterized by limited coverage, severe multipath signal fading
+%and NLOS conditions—is not conducive to wireless propagation. Since the limi-
+%tations are physical in nature, they must be dealt with by any algorithm or technique.
+%To this end, researchers revisited TOA-based techniques—however applied Ultra-
+%Wideband (UWB) communications which uses low power but increased bandwidth
+%to provide protection against multipath—and NLOS mitigation algorithms to
+%combat the effects of the propagation environment. A significant portion of this book
+%is dedicated to addressing the challenges of harsh propagation environments.
+%As the form factor of mobile devices diminished in size, yet increased in
+%complexity, a new school of thought emerged from the localization research
+%community around the idea of collaboration using sensor networks. This area is
+%interesting in that wireless sensor networks (WSNs) developed independently from
+%cooperative localization and—only when applications were considered for the
+%former—did it become obvious to the sensor network researchers that location
+%information is indeed vital. At the same time, localization researchers analyzed the
+%potential in collaboration between the two areas to address the propagation chal-
+%lenges and currently cooperative localization in WSNs is a very active research
+%area—theory, experimental, and hardware/software development.
 Since geolocation is a dynamic process, navigation and tracking techniques
 (similar to outdoor GPS) naturally complement ‘‘stationary’’ localization tech-
 niques/algorithms. The development of Microelectromechanical Systems (MEMS)
