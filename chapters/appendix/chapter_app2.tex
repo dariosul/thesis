@@ -7,14 +7,16 @@
 
 The followng m-files implement the iterative re-weighting range-based least squares (IRWSR-LS) algorithm developed in Sec. 2.1 of the thesis. 
 
+\phantom{m}
+
 \noindent
 \textbf{Input parameters}
 
 \noindent
-$\mbox{\textbf{Am}} = [\Ba_1 \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
 \noindent
-$\Br_n = [r_1 r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+$\Br_n = [r_1 \ r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
 
 \noindent
 \textbf{Tunable parameters}
@@ -36,6 +38,8 @@ $\Bx_w$, estimated location of the source.
 
 \noindent
 Function $\mbox{sr\_ls\_irw.m}$ calls $\mbox{gtrs\_r.m}$ to find the solution of the GTRS problem (2.16) in Step 3 of the algorithm.
+
+\phantom{m}
 
 % Example: xw = sr_ls_irw(Am,rn,1e-4,4);
 \begin{lstlisting}
@@ -123,23 +127,25 @@ y = inv(A1+t*D)*(atb-t*f);
 
 The followng m-files implement the \textit{hybrid} iterative re-weighting range-based least squares (IRWSR-LS) algorithm developed in Sec. 2.1 of the thesis. 
 
+\phantom{m}
+
 \noindent
 \textbf{Input parameters}
 
 \noindent
-$\mbox{fname}$, name of the function to calculate the value of the LS objective at a point.
+$fname$, name of the function to calculate the value of the LS objective at a point.
 
 \noindent
-$\mbox{gname}$, name of the function to calculate the gradient of the LS objective at a point.
+$gname$, name of the function to calculate the gradient of the LS objective at a point.
 
 \noindent
-$\mbox{hname}$, name of the function to calculate the Hessian of the LS objective at a point.
+$hname$, name of the function to calculate the Hessian of the LS objective at a point.
 
 \noindent
-$\mbox{\textbf{Am}} = [\Ba_1 \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
 \noindent
-$\Br_n = [r_1 r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+$\Br_n = [r_1 \ r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
 
 \noindent
 $\Bx_0$, solution of the $\mbox{sr\_ls\_irw.m}$ as an initial point for the Newton algorithm.
@@ -154,7 +160,24 @@ $\mbox{dt}$, small positive constant to modify the Hessian $\BH(\Bx)$ of the obj
 $epsi$, convergence tolerance.
 
 \noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_s$, estimated location of the source.
+
+\noindent
+$k$, number of iterations it took the algorithm to  converge to the solution point with the convergence tolerance $epsi$.
+
+\noindent
+$f_s$, value of the LS objective at the estimated soluion point.
+
+\noindent
 \textbf{Calling sequence}
+
+\noindent
+Function $\mbox{newton.m}$ calls $\mbox{inex\_lsearch.m}$ to perform the line search and $\mbox{Hx\_R\_LS.m}$ to evaluate the Hessian of the LS objective at a point. Function $\mbox{inex\_lsearch.m}$ calls $\mbox{fx\_R\_LS.m}$ and $\mbox{gx\_R\_LS.m}$ to evaluate the objective and the gradient of the LS objective at a point respectively.  
+
+\phantom{m}
 
 \begin{lstlisting}
 function [xs,fs,k] = newton(fname,gname,hname,Am, rn, x0,dt,epsi)
@@ -265,7 +288,8 @@ s = s(:);
       df0 = gtemp'*dk;
       m = m + 1;
       % step 6
-      if (((df0 < sigma*dfL) & (abs(fL - f0) > epsilon) & (m < mhat) & (dfL ~= df0)))
+      if (((df0 < sigma*dfL) & (abs(fL - f0) > epsilon) ...
+       & (m < mhat) & (dfL ~= df0)))
         deltaa0 = (a0 - aL)*df0/(dfL - df0);
         if (deltaa0 <= 0)
           a0hat = 2*a0;
@@ -323,83 +347,381 @@ tau = m - tau;
  \end{lstlisting}
 
 \section{Iterative Re-Weighting LS  for Source Localization Using Range-Difference Measurements}
-\subsection{IRWSRD-LS}
+\subsection{IRWSRD-LS Algorithm}
+
+The followng m-files implement the iterative re-weighting range-difference based least squares (IRWSRD-LS) algorithm developed in Sec. 2.2 of the thesis. 
+
+\phantom{m}
 
 \noindent
 \textbf{Input parameters}
 
 \noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the refference sensors.
+
+\noindent
 \textbf{Tunable parameters}
 
 \noindent
-\textbf{Calling sequence} 
+$Kmax$, number of iterations for re-weighting procedure.
+
+\noindent
+$epsi1$, convergence tolerance for iteratively-reweighted solution.
+
+\noindent
+$epsi$, convergence tolerance for the bisection routine.
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx$, estimated location of the source.
+
+\phantom{m}
+
+\begin{lstlisting}
+function x = findroots_w_m(Am,dn,Kmax,epsi1,epsi)
+xk = findroots(Am,dn,epsi);
+C = [eye(2) zeros(2,1); zeros(1,2) -1];
+m = size(Am,2);
+err = 10;
+ep = 1e-6;
+k = 1;
+while err >= epsi1 && k <= Kmax,
+  nxk = norm(xk);
+  for i = 1:m,
+      ni = abs(norm(xk-Am(:,i))+nxk+dn(i));
+      if ni >= ep,
+         wk(i) = 1/ni;
+      else
+         wk(i) = 1/ep;
+      end
+  end
+  wk = sqrt(m)*wk/norm(wk);
+  Wk = diag(wk);
+  B = Wk*[-2*Am' -2*dn];
+  g = zeros(m,1);
+  for i = 1:m,
+      g(i) = wk(i)*(dn(i)^2 - norm(Am(:,i))^2);
+  end
+  btg = B'*g;
+  B1 = B'*B;
+  P1 = sqrtm(inv(B1));
+  W = P1*C*P1;
+  [V,D] = eig(W);
+  L = diag(D);
+  alp = sort(-1./L,'descend');
+  alp0 = alp(1);
+  alp1 = alp(2);
+  alp2 = alp(3);
+  aU = alp0;
+  aL = alp1;
+  dt = aU - aL;
+  while dt > epsi,
+        lam = 0.5*(aL + aU);
+        yt = inv(B1+lam*C)*btg;
+        phit = yt'*C*yt;
+        if phit > 0,
+         aL = lam;
+        else
+           aU = lam;
+        end
+        dt = aU - aL;
+  end
+  lam = 0.5*(aL + aU);
+  yt = inv(B1+lam*C)*btg;
+  yn1 = yt(3);
+  if yn1 >= 0,
+     xk_new = yt(1:2);
+  else
+     P = P1*V;
+     f = P'*btg;
+     f1 = f(1); f2 = f(2); f3 = f(3);
+     f1s = f1^2; f2s = f2^2; f3s = f3^2;
+     d1 = D(1,1); d1s = d1^2;
+     d2 = D(2,2); d2s = d2^2;
+     d3 = D(3,3); d3s = d3^2;
+     a0 = f1s*d1 + f2s*d2 + f3s*d3;
+     a1 = 2*f1s*d1*(d2+d3) + 2*f2s*d2*(d1+d3) + 2*f3s*d3*(d1+d2);
+     a2 = f1s*d1*(d2s+d3s+4*d2*d3) + f2s*d2*(d1s+d3s+4*d1*d3) ...
+     + f3s*d3*(d1s+d2s+4*d1*d2);
+     a3 = 2*f1s*d1*(d2s*d3+d3s*d2) + 2*f2s*d2*(d1s*d3+d3s*d1) ...
+      + 2*f3s*d3*(d1s*d2+d2s*d1);
+     a4 = f1s*d1*d2s*d3s + f2s*d2*d1s*d3s + f3s*d3*d1s*d2s;
+     b_lu = [a4 a3 a2 a1 a0];
+     rts = roots(b_lu);
+     lamq = [];
+     for i = 1:4,
+         if imag(rts(i)) == 0,
+            lamq = [lamq real(rts(i))];
+         end
+     end
+     I02 = [];
+     I1 = [];
+     Lq = length(lamq);
+     for i = 1:Lq,
+         ti = lamq(i);
+         if ti > alp0,
+            I02 = [I02 ti];
+         elseif ti < alp0 && ti > alp1,
+            I1 = [I1 0];
+         elseif ti < alp1 && ti > alp2,
+            I02 = [I02 ti];
+         end
+     end
+     L02 = length(I02);
+     Yt2 = zeros(3,1);
+     for i = 1:L02,
+         yi = inv(B1+I02(i)*C)*btg;
+         if yi(3) >= 0,
+            Yt2 = [Yt2 yi];
+         end
+     end
+     L2s = size(Yt2,2);
+     obj2 = zeros(L2s,1);
+     for i = 1:L2s,
+         obj2(i) = norm(B*Yt2(:,i) - g);
+     end
+     [ymin2,ind2] = min(obj2);
+     yt = Yt2(:,ind2);
+     xk_new = yt(1:2);
+  end
+  err = norm(xk_new - xk);
+  xk = xk_new;
+  k = k + 1;
+end
+x = xk;
+\end{lstlisting}
 
 \subsection{Hybrid IRWSRD-LS}
 
-\noindent
-\textbf{Input parameters}
+The followng m-files implement the \textit{hybrid} iterative re-weighting range-difference based least squares (IRWSRD-LS) algorithm developed in Sec. 2.2 of the thesis. 
 
-\noindent
-\textbf{Tunable parameters}
-
-\noindent
-\textbf{Calling sequence}
-
-3.32
-
-\section{PCCP-Based LS}
+\phantom{m}
 
 \noindent
 \textbf{Input parameters}
 
 \noindent
-\textbf{Tunable parameters}
+$fname$, name of the function to calculate the value of the LS objective at a point.
 
 \noindent
-\textbf{Calling sequence}
-
-\section{SCR-RLS}
+$gname$, name of the function to calculate the gradient of the LS objective at a point.
 
 \noindent
-\textbf{Input parameters}
+$hname$, name of the function to calculate the Hessian of the LS objective at a point.
+
 
 \noindent
-\textbf{Tunable parameters}
+$\Bx_0$, solution of the $\mbox{findroots\_w\_m.m}$ as an initial point for the hybrid IRWSRD-LS algorithm.
+
 
 \noindent
-\textbf{Calling sequence}
+$\mbox{p} = [m \ d_1 \ d_2 \ldots d_m \ \Ba_1^T \ \Ba_2^T \ldots \Ba_m^T]^T$, a column vector of sensor and measurement data, where $m$ is the number of sensors, $d_i$ is a noisy range-difference measurement obtained from the pair of $i$th and the refference sensors, and $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
-\section{SCR-RDLS}
-
-\noindent
-\textbf{Input parameters}
 
 \noindent
 \textbf{Tunable parameters}
 
 \noindent
+$opt$, a parameter allowing the user to choose the implementation of the inexact line search, $opt = 1$ toggles the algorithm to use inexact line search by backtracking, $opt = 2$ toggles the algorithm to use Fletcher's inexact line search.
+
+\noindent
+$epsi$, convergence tolerance.
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_s$, estimated location of the source.
+
+\noindent
+$f_s$, value of the LS objective at the estimated soluion point.
+
+\noindent
+$k$, number of iterations it took the algorithm to  converge to the solution point with the convergence tolerance $epsi$.
+
+\noindent
 \textbf{Calling sequence}
+
+\noindent
+Function $\mbox{newton\_RD.m}$ calls $\mbox{inex\_lsearch.m}$ or $\mbox{bt\_lsearch.m}$ to perform the line search, $\mbox{Hx\_RD\_LS.m}$ to evaluate the Hessian of the LS objective at a point, $\mbox{fx\_RD\_LS.m}$ and $\mbox{gx\_RD\_LS.m}$ to evaluate the objective and the gradient of the LS objective at a point respectively.  
+
+\noindent
+Inexact line search by backtracking $\mbox{bt\_lsearch.m}$ and Fletcher's inexact line search $\mbox{inex\_lsearch.m}$ are not included in listing, as the implementation is not original. 
+
+
+\phantom{m}
 
 \begin{lstlisting}
- Apply a constrained CCP to the localization problem based on range
- measurements. Both upper-bound and lower-bound constraints are imposed.
- Input:
- Am: Am = [a1 a2 ... am] with ai the location of the ith sensor.
- r: noise-free range measurements r = [r1 r2 ... rm] with ri = norm(xs-ai).
- st: initial state for noise generation.
- sig: standard deviation of measurement noise.
- gam: a parameter that controls the bounds in the constraints.
- x0: initial point for the source location.
- K: number of CCG iterations.
- Output:
- xw: estimated location of the source.
- xw1: estimated location of the source using SR-LS.
- Written by W.-S. Lu, University of Victoria.
- Last modified: Feb. 2, 2015.
- Example: load data_ex1
- [xw,xw1] = pccp(Am,r,1e-2,3,zeros(2,1),20);
- 
-function [F_ccp,F_rls,solution,slack] = pccp(Am,rn,sig,gam,x0,K)
+function [xs,fs,k] = newton_RD(fname,gname,hname,x0,p,epsi,opt)
+k = 1;
+xk = x0;
+gk = feval(gname,xk,p);
+Hk = feval(hname,xk,p);
+dk = -inv(Hk)*gk;
+if opt == 1
+    ak = bt_lsearch(xk,dk,fname,gname,p);
+elseif opt == 2
+    ak = inex_lsearch(xk,dk,fname,gname,p);
+end
+adk = ak*dk;
+gn = norm(gk);
+while gn > epsi,
+  xk = xk + adk;
+  gk = feval(gname,xk,p);
+  Hk = feval(hname,xk,p);
+  dk = -inv(Hk)*gk;
+    if opt == 1
+        ak = bt_lsearch(xk,dk,fname,gname,p);
+    elseif opt == 2
+        ak = inex_lsearch(xk,dk,fname,gname,p);
+    end
+  adk = ak*dk;
+  gn = norm(gk);
+  k = k + 1;
+end
+xs = xk + adk;
+fs = feval(fname,xs,p);
+\end{lstlisting} 
+
+\begin{lstlisting}
+function f = fx_RD_LS(x,p)
+p = p(:);
+m = p(1);
+dn = p(2:(m+1));
+am = p(m+2:end);
+Am = vec2mat(am,2)';
+f = 0;
+for i = 1:m,
+    si = Am(:,i);
+    fi = norm(x-si)- norm(x) - dn(i);
+    f = f + fi^2;
+end
+f = 0.5*f;
+\end{lstlisting} 
+
+\begin{lstlisting}
+function g = gx_RD_LS(x,p)
+p = p(:);
+m = p(1);
+dn = p(2:(m+1));
+am = p(m+2:end);
+Am = vec2mat(am,2)';
+nx = norm(x);
+g = [0 0]';
+for i = 1:m,
+    si = Am(:,i);
+    ri = dn(i);
+    ni = norm(x-si);
+    if nx > 0,
+       xt = x/nx;
+       if ni > 0,
+          qi = (x - si)/ni;
+          ci = ni - nx - ri;
+          gi = qi - xt;
+       elseif ni == 0,
+          ci = -nx - ri;
+          gi = -xt;
+       end
+    elseif nx == 0,
+       if ni > 0,
+          qi = (x - si)/ni;
+          ci = ni - ri;
+          gi = qi;
+       elseif ni == 0,
+          ci = -ri;
+          gi = zeros(2,1);
+       end
+    end
+    g = g + ci*gi;
+end
+\end{lstlisting} 
+
+\begin{lstlisting}
+function H = Hx_RD_LS(x,p)
+p = p(:);
+m = p(1);
+dn = p(2:(m+1));
+am = p(m+2:end);
+Am = vec2mat(am,2)';
+Hw = zeros(2,2);
+nx = norm(x);
+I = eye(2,2);
+for i = 1:m,
+    si = Am(:,i);
+    ri = dn(i);
+    ni = norm(x-si);
+    ci = ni - nx - ri;
+    if nx > 0,
+       xt = x/nx;
+       H2 = (I - xt*xt')/nx;
+       if ni > 0,
+          qi = (x - si)/ni;
+          hi = (qi - xt);
+          H3i = (I - qi*qi')/ni;
+          Hi = hi*hi' + ci*(H3i - H2);
+       elseif ni == 0,
+          Hi = xt*xt' - ci*H2 ;
+       end
+    elseif nx == 0,
+       if ni > 0,
+          qi = (x - si)/ni;
+          H3i = (I - qi*qi')/ni;
+          Hi = qi*qi' + ci*H3i;
+       elseif ni == 0,
+          Hi = zeros(2,2);
+       end
+    end
+    Hw = Hw + Hi;
+end
+[V,D] = eig(Hw);
+d = diag(D);
+dm = max(d,5e-2);
+H = V*diag(dm)*V';
+\end{lstlisting} 
+
+
+\section{PCCP-Based LS Algorithm}
+
+The followng m-files implement the constrained penalty convex-concave procedure for solving the localization problem based on range measurements. The implementation follow the alrorithm developed in Chapter 3.
+
+\phantom{m}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Br_n = [r_1 \ r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+$gam$ a parameter that controls the bounds in the constraints.
+
+\noindent
+$\Bx_0$, initial point for the source location.
+
+\noindent
+$K$, number of iterations for re-weighting procedure.
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_w$, estimated location of the source.
+
+\phantom{m}
+
+\begin{lstlisting}
+function [x_w] = pccp(Am,rn,gam,x0,K)
 [n,m] = size(Am);
 k = 0;
 xk = x0;
@@ -411,8 +733,7 @@ tau_max = 100000;
 mi = 1/m;
 m2 = 2*m;
 nn = 1000;
-Xk=[];
-while (k < K) %&& (nn >= 1e-5)
+while (k < K) 
     cvx_begin quiet
        variable x(n)
        variable s(m2);
@@ -432,29 +753,192 @@ while (k < K) %&& (nn >= 1e-5)
        end
        s >= 0;
     cvx_end
-    x=x(:);
-    Xk = [Xk x];
     nn = norm(xk-x);
     xk = x;
     tau = min(1.5*tau,tau_max);
     k = k + 1;
 end
-% disp(sprintf('Solution point after %d CCP iterations:',k))
-solution = xk;
-F_rls = zeros(K,1);
-F_ccp = zeros(K,1);
-for k = 1:K
-    %value of the NNLS objective at the solution point
-    sol  = Xk(:,k);
-    v = zeros(2,1);
-    for i = 1:m,
-       xai = sol - Am(:,i);
-       v = v + (mi*rn(i)/norm(xai))*xai;
-       F_rls(k) = F_rls(k) + (rn(i) - norm(sol - Am(:,i)))^2;
-    end
-    % disp(sprintf('Final value of the objective function'))
-    F_ccp(k) = sol'*sol - 2*sol'*v ;%+ tau*sum(s);
+xk_w = xk;
+\end{lstlisting}
+
+\newpage
+
+\section{SCR-RDLS Algorithm}
+
+The followng m-files implement the sequential convex relaxation for solving the localization problem based on range-difference measurements. The implementation follow the alrorithm developed in Sec.4.1.
+
+\phantom{m}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the refference sensors.
+
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+$bt$, bound for increments of design variables.
+
+\noindent
+$epsi$, convergence tolerance.
+
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_w$, estimated location of the source.
+
+\phantom{m}
+
+
+\begin{lstlisting}
+function x_w = scr_rdls(Am,dn,bt,epsi)
+m = length(dn);
+em = ones(m,1);
+zm = zeros(m,1);
+Im = eye(m);
+cvx_begin quiet
+   variable x0(2);
+   variable y(1);
+   variable z(m);
+   minimize((z-y*em-dn)'*(z-y*em-dn));
+   subject to
+   norm(x0) <= y;
+   for i = 1:m,
+       norm(x0-Am(:,i)) <= z(i);
+   end
+cvx_end
+xk = x0;
+yk = norm(xk);
+zk = zeros(m,1);
+for i = 1:m,
+    zk(i) = norm(xk-Am(:,i));
 end
-% disp('Final values of relaxation parameters:')
- slack = s;
+mu = 20;
+P = zeros(m+1,m+3);
+q = zeros(m+1,1);
+k = 0;
+err = 1;
+Kmax = 100;
+while (err >= epsi && k <= Kmax),
+    for i = 1:m,
+        vi = xk - Am(:,i);
+        nvi = norm(vi);
+        q(i) = zk(i) - nvi;
+        if nvi < 1e-6,
+            gvi = zeros(2,1);
+        else
+            gvi = vi/nvi;
+        end
+        P(i,:) = [gvi', 0, -Im(i,:)];
+    end
+    nx = norm(xk);
+    if nx < 1e-6,
+       P(m+1,:) = [0 0 -1 zm'];
+    else
+       P(m+1,:) = [xk'/nx, -1, zm'];
+    end
+    q(m+1) = yk - nx;
+    cvx_begin quiet
+       variable dx(2,1)
+       variable dy(1,1)
+       variable dz(m,1)
+       variable u(m+1,1)
+       variable v(m+1,1)
+       variable w(1,1)
+       dtt = [dx; dy; dz];
+       pk = dn - zk + yk*em;
+       minimize(norm(dz - dy*em - pk) + mu*(sum(u+v)+sum(w)));
+       subject to
+       P*dtt - q == u - v;
+       abs(dtt) <= bt + w;
+       u >= 0;
+       v >= 0;
+       w >= 0;
+       mu = min(1.5*mu,1e4);
+     cvx_end
+     err = norm(dtt);
+     xk = xk + dx;
+     yk = yk + dy;
+     zk = zk + dz;
+     k = k + 1;
+     % current_status = [k err norm(u) norm(v) norm(w)]
+end
+x_w = xk;
+\end{lstlisting}
+
+\section{SCR-RLS Algorithm}
+
+The followng m-files implement the sequential convex relaxation for solving the localization problem based on range measurements. The implementation follow the alrorithm developed in Sec. 4.2.
+
+\phantom{m}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Br_n = [r_1 \ r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+$gamma$ a parameter that controls the size of the convex hull that defines a feasibility region of the proble.
+
+\noindent
+$\Bx_0$, initial point for the source location.
+
+\noindent
+$K$, number of iterations for re-weighting procedure.
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_w$, estimated location of the source.
+
+\phantom{m}
+
+\begin{lstlisting}
+function x_w = scr_rls(Am,rn,x0,gamma,K)
+m = length(rn);
+xk = x0(:);
+rn = rn(:);
+k = 0;
+g0 = 1-gamma;
+% quadratically updates the value of \gamma
+a = (1-g0)/(K-1)^2;        
+% epsi = 1e-8;
+while k < K,
+    gk = 1 - a*(k-K+1)^2;   
+    cvx_begin quiet
+      variable x(2,1)
+      variable z(m,1)
+      minimize(norm(z-rn))
+      subject to
+      for i = 1:m,
+          ai = Am(:,i);
+% the arc portion of the convex region 
+% is updated as iteration proceeds.
+          norm(x-ai) <= (2-gk)*z(i);  
+          xai = (xk-ai)/norm(xk-ai);
+% the line portion of the convex region 
+% is pushed towards the arc portion.
+          xai'*(x-ai) >= gk*z(i);     
+      end
+    cvx_end
+    xk = x;
+    k = k + 1;
+end
+x_w = xk;
 \end{lstlisting}

@@ -1,10 +1,18 @@
-\startchapter{Conclusion}
+\startchapter{Conclusions and Future Work}
 
-\section{Conclusion}
+In this thesis we studied the solution methods for the single source localization. In particular, we focused on the ranging techniches, namely range and range-difference based methods. For both types of measurements, we used the nonlinear least squares formulations to estimate the source location. 
+
+In Chapter 2, we turn our attention to the global methods for solving the approximation of the nonlinear least squares problem. We begin by
+transforming the SR-LS and SRD-LS algorithms \cite{BeckStLi} into an
+iterative procedure. At each iteration the algorithms find a global solution to an  adaptively weighted SR-LS (SRD-LS) subproblem that, as iterations proceed, approximates closely the LS solution.Numerical results are presented to illustrate the proposed algorithms in comparison with some state-of-the-art methods \cite{IRWSg}.
 
 
-\section{Future Work}
+In Chapter 3,  a new iterative method for locating a radiating source based on noisy range measurements have been proposed. The method is developed by transforming the original least-squares problem to a difference-of-convex-functions programming problem which is in turn relaxed to a sequential convex minimization based on PCCP that can be efficiently solved with an infeasible initial point. By imposing additional constraints, we  enforce the iteration path towards the LS solution. Several strategies to secure a good initial point are also provided.  Along the way, we see that CCP allows a natural embedding of the LS formulation for localization into a sequential convex formulation in a sense that few additional terms and functions are introduced into the procedure \cite{PCCP}. Simulation results demonstrate promising localization performance when compared with some best known results from the literature.
 
+In Chapter 4, we revisit the localization problem based on range-difference measurement. We first convert the unconstrained LS problem to constrained LS and develop an iterative method for solving the constrained problem.  The central part of the procedure is a convex quadratic programming (QP) problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand. Later in the chapter, we apply a similar technique to the range-based localization problem, where at each iteration we solve a relaxed SOCP problem.
+
+
+In 
 Influense of sensor geometry on the accuracy of the proposed methods. For example, one of the highest impacts on accuracy degradation is Geometric Dilusion of Presicion. Optimum sensor arrangement is a separate research area. 
 
 Multi-source localization, when the range measurements were obtained from the energy-based readings. 
