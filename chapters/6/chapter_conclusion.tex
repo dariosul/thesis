@@ -12,7 +12,38 @@ In Chapter 3,  a new iterative method for locating a radiating source based on n
 In Chapter 4, we revisit the localization problem based on range-difference measurement. We first convert the unconstrained LS problem to constrained LS and develop an iterative method for solving the constrained problem.  The central part of the procedure is a convex quadratic programming (QP) problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand. Later in the chapter, we apply a similar technique to the range-based localization problem, where at each iteration we solve a relaxed SOCP problem.
 
 
-In 
-Influense of sensor geometry on the accuracy of the proposed methods. For example, one of the highest impacts on accuracy degradation is Geometric Dilusion of Presicion. Optimum sensor arrangement is a separate research area. 
+This thesis is focused on the single source localization problem. 
 
+An interesting work has been presented on multiple source localization in wireless sensor networks based on compressive sensing cite(LinCai, LiuCS)  
+
+However the  
 Multi-source localization, when the range measurements were obtained from the energy-based readings. 
+
+Another area of future interest is study and mitigation of the influense of sensor geometry on the accuracy of the developed methods. In any ranging localization system, the geometry of the sensor network  affects position precision.  When evaluating the performance of the new positioning algorithms One such metric, called the Geometric Dilusion of Precision, has attracted a lot of research interest cite(9-12), specifically for positioning in indoor  environments. DGOP 
+
+methods. For example, one of the highest impacts on accuracy degradation is Geometric Dilusion of Presicion. Optimum sensor arrangement is a separate research area. 
+
+Geometric dilution of precision (GDOP) can be used to measure the positioning precision of the localization system. 
+Sensor node's contribution to the overall GDOP value is adopted as the evaluation criteria. The nodes whose contribution value is greater than the threshold will be selected. 
+GDOP is defined as the ratio between the error of ranging measurement and that of localization. Since it can separate the geometry factor out of the localization error, GDOP shows superior property for WSN application. 
+
+
+
+    Levanon N.
+Lowest GDOP in 2-D scenariosIEE Proceedings: Radar, Sonar and Navigation200014731491552-s2.0-0033704277doi:10.1049/ip-rsn:20000322
+CrossRefGoogle Scholar
+
+
+    Sharp I., Yu K., Guo Y. J.
+GDOP analysis for positioning system designIEEE Transactions on Vehicular Technology2009587337133822-s2.0-69549105982doi:10.1109/TVT.2009.2017270
+CrossRefGoogle Scholar
+
+
+    Sharp I., Yu K., Hedley M.
+On the GDOP and accuracy for indoor positioningIEEE Transactions on Aerospace and Electronic Systems2012483203220512-s2.0-84863926833doi:10.1109/TAES.2012.6237577
+CrossRefGoogle Scholar
+
+
+    Chu L.-C., Tseng P.-H., Feng K.-T.
+GDOP-assisted location estimation algorithms inwireless location systemsProceedings of the IEEE Global Telecommunications Conference (GLOBECOM ′08)December 2008New Orleans, La, USA540454082-s2.0-67249160795doi:10.1109/GLOCOM.2008.ECP.1032
+Google Scholar
