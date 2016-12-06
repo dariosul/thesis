@@ -1,16 +1,384 @@
-\startappendix{Code Listings}
+\startappendix{Matlab Code Listings}
 \label{chapter:app2}
 
 
-%\section{Iterative Re-Weighting LS  for Source Localization Using Range Measurements}
-\section{IRWSR-LS}
-3.21
+\section{Iterative Re-Weighting LS  for Source Localization Using Range Measurements}
+\subsection{IRWSR-LS Algorithm}
 
-%\section{Iterative Re-Weighting LS  for Source Localization Using Range-Difference Measurements}
-\section{IRWSRD-LS}
+The followng m-files implement the iterative re-weighting range-based least squares (IRWSR-LS) algorithm developed in Sec. 2.1 of the thesis. 
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Br_n = [r_1 r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+$epsi$, convergence tolerance for the bisection routine.
+
+\noindent
+$K$, number of iterations for re-weighting procedure.
+
+\noindent
+\textbf{Otput parameters}
+
+\noindent
+$\Bx_w$, estimated location of the source.
+
+\noindent
+\textbf{Calling sequence}
+
+\noindent
+Function $\mbox{sr\_ls\_irw.m}$ calls $\mbox{gtrs\_r.m}$ to find the solution of the GTRS problem (2.16) in Step 3 of the algorithm.
+
+% Example: xw = sr_ls_irw(Am,rn,1e-4,4);
+\begin{lstlisting}
+function xw = sr_ls_irw(Am,rn,epsi)
+[n,m] = size(Am);
+A = [-2*Am' ones(m,1)];
+b = zeros(m,1);
+for i = 1:m,
+    ai = Am(:,i);
+    b(i) = rn(i)^2 - ai'*ai;
+end
+z = zeros(n,1);
+D = [eye(n) z; z' 0];
+f = [z; -0.5];
+yk = gtrs_r(A,b,D,f,epsi);
+xk = yk(1:n);
+wk = zeros(m,1);
+ep = 1e-3;
+err=1;
+Kmax=10; 
+K=1;
+while err >= 1e-9 &&  K <= Kmax 
+    for j = 1:m,
+        nj = abs(norm(xk-Am(:,j))+rn(j));
+        if nj < ep,
+            wk(j) = 1/ep;
+        else
+            wk(j) = 1/nj;
+        end
+    end
+    Gk = diag(wk);
+    Agk = Gk*A;
+    bgk = Gk*b;
+    yk = gtrs_r(Agk,bgk,D,f,epsi);
+    err=norm(xk-yk(1:n));
+    xk = yk(1:n);
+    K=K+1;
+end
+xw = xk;
+\end{lstlisting}
+
+\begin{lstlisting}
+function y = gtrs_r(A,b,D,f,epsi)
+% Find the left end of the interval I in (2.16)
+A1 = A'*A;
+atb = A'*b;
+[U1,D1] = eig(A1);
+d1 = diag(D1);
+d1i = 1./sqrt(d1);
+Si = U1*diag(d1i);
+q = -1/max(eig(Si'*D*Si));
+bL = q + 1e-26;
+bu0 = abs(bL);
+% Get an upper bound of lambda
+bU = bu0;
+yt = inv(A1+bU*D)*(atb-bU*f);
+phit = (D*yt + 2*f)'*yt;
+while phit > 1e-3,
+    bU = bU + bu0;
+    yt = inv(A1+bU*D)*(atb-bU*f);
+    phit = (D*yt + 2*f)'*yt;
+end
+% Perform bisectioning
+L = bL;
+U = bU;
+dt = U - L;
+while dt > epsi,
+    t = 0.5*(L + U);
+    dt = 0.5*dt;
+    yt = inv(A1+t*D)*(atb-t*f);
+    phit = (D*yt + 2*f)'*yt;
+    if phit > 0,
+       L = t;
+    else
+       U = t;
+    end
+end
+t = 0.5*(L + U);
+% the best value of lambda
+% Solution of GTRS is obtained as:
+y = inv(A1+t*D)*(atb-t*f);
+\end{lstlisting}
+
+\subsection{Hybrid IRWSR-LS}
+
+The followng m-files implement the \textit{hybrid} iterative re-weighting range-based least squares (IRWSR-LS) algorithm developed in Sec. 2.1 of the thesis. 
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+$\mbox{fname}$, name of the function to calculate the value of the LS objective at a point.
+
+\noindent
+$\mbox{gname}$, name of the function to calculate the gradient of the LS objective at a point.
+
+\noindent
+$\mbox{hname}$, name of the function to calculate the Hessian of the LS objective at a point.
+
+\noindent
+$\mbox{\textbf{Am}} = [\Ba_1 \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+
+\noindent
+$\Br_n = [r_1 r_2 \ldots r_m]^T$, noisy range measurements, where $r_i$ is a measurement obtained from the $i$th sensor.
+
+\noindent
+$\Bx_0$, solution of the $\mbox{sr\_ls\_irw.m}$ as an initial point for the Newton algorithm.
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+$\mbox{dt}$, small positive constant to modify the Hessian $\BH(\Bx)$ of the objective in case it is not positive definite.
+
+\noindent
+$epsi$, convergence tolerance.
+
+\noindent
+\textbf{Calling sequence}
+
+\begin{lstlisting}
+function [xs,fs,k] = newton(fname,gname,hname,Am, rn, x0,dt,epsi)
+max_it = 1e+4;
+k = 1;
+[n,m] = size(Am);
+xk = x0;
+gk = feval(gname,Am, rn, xk);
+[Hk, tauk] = feval(hname,Am, rn, xk);
+[V,D] = eig(Hk);
+di = diag(D)+tauk;
+% % ensure that Hk is PD
+dmin = min(di);
+if dmin > 0
+    Hki = V*diag(1./di)*V';
+else
+    ind = find(di<=0);
+    di(ind) = dt;
+    Hki = V*diag(1./di)*V';
+end
+dk = -Hki*gk;
+ak = inex_lsearch(Am, rn, xk,dk,fname,gname);
+adk = ak*dk;
+er = norm(adk);
+it = 0;
+while (er >= epsi) && (it <= max_it)
+    xk = xk + adk;
+    gk = feval(gname,Am, rn, xk);
+    [Hk, tauk] = feval(hname,Am, rn, xk);
+    [V,D] = eig(Hk);
+    di = diag(D)+tauk;
+    dmin = min(di);
+    dmin = min(di);
+    if dmin > 0
+        Hki = V*diag(1./di)*V';
+    else
+        for i=1:n
+            di(i) = max(di(i), dt);
+        end
+        Hki = V*diag(1./di)*V';
+    end
+    dk = -Hki*gk;
+    ak = inex_lsearch(Am, rn, xk,dk,fname,gname);
+    adk = ak*dk;
+    er = norm(adk);
+    k = k + 1;
+    it = it+1;
+end
+xs = xk + adk;
+fs = feval(fname,Am, rn, xs);
+\end{lstlisting}
+
+\begin{lstlisting}
+function z = inex_lsearch(Am, rn, xk,s,fname,gname)
+k = 0;
+m = 0;
+tau = 0.1;
+chi = 0.75;
+rho = 0.1;
+sigma = 0.1;
+mhat = 400;
+epsilon = 1e-10;
+xk = xk(:);
+s = s(:);
+% compute f0 and g0
+    f0 = feval(fname,Am, rn, xk);
+    gk = feval(gname,Am, rn, xk);
+  m = m+2;
+  deltaf0 = f0;
+% step 2 Initialize line search
+  dk = s;
+  aL = 0;
+  aU = 1e99;
+  fL = f0;
+  dfL = gk'*dk;
+  if abs(dfL) > epsilon,
+    a0 = -2*deltaf0/dfL;
+  else
+    a0 = 1;
+ end
+ if ((a0 <= 1e-9)|(a0 > 1)),
+    a0 = 1;
+ end
+%step 3
+ while 1,
+    deltak = a0*dk;
+    f0 = feval(fname, Am, rn, xk+deltak);
+    m = m + 1;
+%step 4
+    if ((f0 > (fL + rho*(a0 - aL)*dfL)) ...
+    & (abs(fL - f0) > epsilon) & (m < mhat))
+      if (a0 < aU)
+        aU = a0;
+      end
+      % compute a0hat using equation
+      a0hat = aL + ((a0 - aL)^2*dfL)/(2*(fL - f0 + (a0 - aL)*dfL));
+      a0Lhat = aL + tau*(aU - aL);
+      if (a0hat < a0Lhat)
+        a0hat = a0Lhat;
+      end
+      a0Uhat = aU - tau*(aU - aL);
+      if (a0hat > a0Uhat)
+        a0hat = a0Uhat;
+      end
+      a0 = a0hat;
+    else
+      gtemp = feval(gname,Am, rn, xk+a0*dk);
+      df0 = gtemp'*dk;
+      m = m + 1;
+      % step 6
+      if (((df0 < sigma*dfL) & (abs(fL - f0) > epsilon) & (m < mhat) & (dfL ~= df0)))
+        deltaa0 = (a0 - aL)*df0/(dfL - df0);
+        if (deltaa0 <= 0)
+          a0hat = 2*a0;
+        else
+          a0hat = a0 + deltaa0;
+        end
+        a0Uhat = a0 + chi*(aU - a0);
+        if (a0hat > a0Uhat)
+          a0hat = a0Uhat;
+        end
+        aL = a0;
+        a0 = a0hat;
+        fL = f0;
+        dfL = df0;
+      else
+        break;
+      end
+    end
+ end % while 1
+ if a0 < 1e-5,
+    z = 1e-5;
+ else
+    z = a0;
+ end 
+\end{lstlisting}
+
+
+\begin{lstlisting}
+  function f = fx_R_LS(Am, rn,x0)
+[n,m] = size(Am);
+f = 0;
+for i=1:m
+    f = f + (norm(x0-Am(:,i))-rn(i))^2;
+end
+f = f/2;
+
+function g = gx_R_LS(Am, rn,x0)
+[n,m] = size(Am);
+g = zeros(n,1);
+for i =1:m
+    g = g + (x0 - Am(:,i))*(1 - rn(i) / norm(x0 - Am(:,i)));
+end
+
+function [H1, tau] = Hx_R_LS(Am, rn,x0)
+[n,m] = size(Am);
+H1 = zeros(n,n);
+tau = 0;
+k = 0;
+for i = 1:m
+    k = x0 - Am(:,i);
+    H1 = H1 + (rn(i) / norm(k)^3) * k * k';
+    tau = tau + rn(i)/norm(k);
+end
+tau = m - tau;
+ \end{lstlisting}
+
+\section{Iterative Re-Weighting LS  for Source Localization Using Range-Difference Measurements}
+\subsection{IRWSRD-LS}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+\textbf{Calling sequence} 
+
+\subsection{Hybrid IRWSRD-LS}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+\textbf{Calling sequence}
+
 3.32
 
 \section{PCCP-Based LS}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+\textbf{Calling sequence}
+
+\section{SCR-RLS}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+\textbf{Calling sequence}
+
+\section{SCR-RDLS}
+
+\noindent
+\textbf{Input parameters}
+
+\noindent
+\textbf{Tunable parameters}
+
+\noindent
+\textbf{Calling sequence}
 
 \begin{lstlisting}
  Apply a constrained CCP to the localization problem based on range

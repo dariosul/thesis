@@ -2,7 +2,7 @@
 \startchapter{Iterative Re-Weighting Least-Squares Methods for Source Localization}
 \label{chapter:irw}
 
-Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{SmithAbel} - \cite{BeckStLi}. On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are
+Locating a radiating source from range or range-difference measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Among the useful localization methods that have been documented over the years, least squares based algorithms constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive estimation accuracy \cite{BeckStLi} - \cite{SmithAbel} . On the other hand, the error measure in a least squares (LS) formulation for the localization problem of interest is shown to be highly nonconvex, possessing multiple local solutions with degraded performance.  There are many methods for continuous unconstrained optimization \cite{AntonLu}, however most of them are \textit{local} methods that are
 %iterative, hence extremely 
  sensitive to where the iteration begins, and give no guarantee to yield global solutions when applied to non-convex objective functions. In the case of source localization, this inherent feature of local methods is particular problematic because the source location is assumed to be entirely unknown and can appear practically anywhere, thus the chances to secure a good initial point for a local algorithm are next to none. For these reasons, various ``global'' localization techniques were investigated that are either non-iterative or insensitive to initial iterate. One representative in the class of global localization methods is the convex-relaxation based algorithm for range measurements proposed in \cite{Cheung}, where the least squares model is relaxed to a semidefinite programming problem which is known to be convex \cite{VBoyd}, hence robust to where it starts. Another representative in this class is reference \cite{BeckStLi}, where localization problems for  range as well as range difference measurements are addressed by developing solution methods for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SRD-LS) problems. The methods proposed in \cite{BeckStLi} are non-iterative and the solutions obtained are proven to be the global minimizers of the respective SR-LS and SRD-LS problems, which are shown to be excellent estimates of the original LS solutions.
 
@@ -148,7 +148,7 @@ where
     \end{array} \right), \;
 \Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right)
 \end{equation}
-This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:3.10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:3.10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{More, FortinWol}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in this case \cite{More}.
+This problem conversion, made in \cite{BeckStLi}, turns out to be crucial as problem (\ref{eq:3.10}), which remains to be nonconvex because of the nonlinear equality constraint (\ref{eq:3.10}b), falls into the class of generalized trust region subproblems (GTRS) \cite{FortinWol, More}  whose global solutions can be computed by exploring the KKT conditions which are both necessary and sufficient optimality conditions in this case \cite{More}.
 
 We now conclude this section with a couple of remarks. First, an unconstrained version of (\ref{eq:3.10}) may be obtained by neglecting the constraint in (\ref{eq:3.10}b) as
 \begin{equation} \label{eq:3.12}%eq 13
@@ -158,14 +158,14 @@ whose solution, called \textit{unconstrained squared-range-based LS }(USR-LS) es
 \begin{equation} \label{eq:3.13}%eq 14
 \By^*=\left(\BA^T\!\BA\right)^{-1}\!\!\!\!\BA^T\Bb
 \end{equation}
-It is demonstrated by numerical experiments \cite{BeckStLi} that the SR-LS solution outperforms the USR-LS and, in many cases, SDR solutions. Second, the SR-LS solution, although it solves (\ref{eq:3.9}) exactly, lacks the statistical interpretation of the ML formulation. The SR-LS remains to be an approximate solution for the original problem in (\ref{eq:3.2}) and, as it was demonstrated by the numerical results in \cite{BeckTeCh} and \cite{BeckGPS}, provides less accurate estimates of the true source location, than the LS estimate. The method, described in detail below, tries to reduce the gap between the two solutions.
+It is demonstrated by numerical experiments \cite{BeckStLi} that the SR-LS solution outperforms the USR-LS and, in many cases, SDR solutions. Second, the SR-LS solution, although it solves (\ref{eq:3.9}) exactly, lacks the statistical interpretation of the ML formulation. The SR-LS remains to be an approximate solution for the original problem in (\ref{eq:3.2}) and, as it was demonstrated by the numerical results in  \cite{BeckGPS} and \cite{BeckTeCh}, provides less accurate estimates of the true source location, than the LS estimate. The method, described in detail below, tries to reduce the gap between the two solutions.
 
 \subsection{An Iterative Re-Weighting Approach}%2.3
 
 %An iterative re-weighting minimization schemes in several forms has been proposed in the literature \cite{BeckTeCh}, \cite{Beck15}. The standard fixed point (SFP) algorithm \cite{BeckTeCh} was constructed similarly to the Weizfeld method that was designed to solve the Fermat-Weber problem. The iterates of SPF were constructed from the optimality conditions for (\ref{eq:3.2}). SPF is a gradient method with a fixed step size. Proposed schemes for choosing the initial point $\Bx_0$ guarantees the convergence and eliminates points of non-smoothness
 %and the sequential weighted least squares algorithms (SWLS) \cite{BeckTeCh} are based 
 
-Iterative re-weighting least squares method is a popular technique used for solving problems involving the sums of norms. The method has found many applications, such as in robust regression \cite{RReg, GIRLS}, sparse recovery \cite{Daub}, but the most relevand application for the current case is for solving the Fermat-Weber location problem. The Fermat--Weber problem %is one of the oldest easily-stated nontrivial problems in computational geometry: 
+Iterative re-weighting least squares method is a popular technique used for solving problems involving the sums of norms. The method has found many applications, such as in robust regression \cite{GIRLS, RReg}, sparse recovery \cite{Daub}, but the most relevand application for the current case is for solving the Fermat-Weber location problem. The Fermat--Weber problem %is one of the oldest easily-stated nontrivial problems in computational geometry: 
 has a long history and has been extensively studied in the field of optimization and location theory \cite{GIRLS}. This problem can be stated as: Given $m$ points $\Ba_1, \Ba_2, \ldots, \Ba_m \in R^n$ called \textit{anchors} and nonnegative weights $\omega_1, \omega_2, \ldots, \omega_m > 0$, find $\Bx \in R^n$ that minimizes the weighted sum of Euclidian distances between $\Bx$ and the $m$ anchors:
 \begin{equation} \label{eq:FW}
 \nonumber
@@ -703,7 +703,7 @@ and repeat from Step 3).
 }
 } \label{alg:rd-ls}
 
-%\phantom{m}
+\phantom{m}
 
 It is evident that the complexity of the algorithm is practically equal to the complexity of the WSRD-LS solver involved in Step 4 times the number of iterations, $k$, which is typically in the range of 3 to 6. We shall call the solutions obtained from Algorithm 2 IRWSRD-LS solutions. Technical details with regard to solving problem (\ref{eq:3.31}) can be found in Appendix 1.
 
@@ -888,7 +888,7 @@ where $\|\Bx - \Ba_i\|$ is the Euclidean distance between the $i$th sensor and t
 and is usually assumed to have a value 2 \cite{LiHu}, and $\varepsilon_i$ denotes the square of the background noise affecting the measurement of sensor $i$. If the number of sample points $M$ used for estimating the acoustic energy  is large, the error $\varepsilon_i$ can be approximated well as a normal distribution with positive mean $\mu_i$ and variance $\sigma_i^2$ %/ It is assumed to be a wide-sense stationary Gaussian random process \cite{LiuHuPan} / 
 %, namely, $\varepsilon_i \sim N(\mu_i, \sigma_i^2)$ with a positive mean value $\mu_i$ that is no less than the standard deviation $\sigma_i$ that can be estimated empirically from data samples 
 \cite{LiHu}, \cite{ShengHu}. More details on derivation and assumptions of this model can be found in %For justification and validity of this energy attenuation model, please see 
-\cite{LiHu} - \cite{Saric}, \cite{LiuHuPan} and the references therein. %\cite{ShengHu},
+\cite{LiHu} - \cite{LiuHuPan}, \cite{Saric} and the references therein. %\cite{ShengHu},
 
 
 References \cite{LiHu,ShengHu} argue that the maximum likelihood estimation of unknown parameters $\Btheta = [\Bx^T S]^T$ can be obtained by solving the minimization problem
