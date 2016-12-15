@@ -54,12 +54,12 @@ Because the norm $\|\Bx - \Ba_i\|$  is a convex function with respect to $\Bx$, 
 a \textit{known} $\Bx_k$
 \begin{equation}
 \nonumber
-\|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i)
+\|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Bx_k)
 \end{equation}
 Hence the constraint in \ref{eq:5.3}c can be replaced with its affine approximation
 \begin{equation}
 \nonumber
--\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Ba_i) \leq -(1 - \gamma)z_i
+-\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Bx_k) \leq -(1 - \gamma)z_i
 \end{equation}
 In this way, in the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in \ref{eq:5.3} can be converted to a convex second-order cone
 programming (SOCP) problem
@@ -74,7 +74,7 @@ programming (SOCP) problem
 \begin{equation}
 \setcounter{equation}{14}
 \stepcounter{abc}
-\qquad \qquad \qquad  -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Ba_i)  \leq  -(1 - \gamma)z_i, \quad i = 1, 2, ..., m
+\qquad \qquad \qquad  -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Bx_k)  \leq  -(1 - \gamma)z_i, \quad i = 1, 2, ..., m
 \end{equation}
 \setcounter{abc}{0}
 where the relaxation parameter $\gamma$ controls the size of the convex hull that defines a feasibility region of the problem (\ref{eq:5.4}), and $\gamma$ needs to be monotonically decreasing as the iteration proceeds. Specifically, a reasonable choice of the value for $\gamma_0$ is 0.2 or 0.3, and we update the value of $\gamma_{k+1}$ linearly as
