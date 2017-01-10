@@ -5,10 +5,10 @@
 
 \section{The Localization Problem} \label{problem}
 
-Geolocation is a rapidly growing field due to the large impact it has on daily life, the general public has become increasingly dependent on it for realtime navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{Cheung, classMDS, CheungChan, Huang, LiHu,  Sayed,
+Geolocation is a rapidly growing field due to the large impact it has on daily life, the general public has become increasingly dependent on it for real-time navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{Cheung, classMDS, CheungChan, Huang, LiHu,  Sayed,
 ShcauRob, SmithAbel,  Yao}.
 
-Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equiped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equipped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
 tracked positions of the satellites and the times measured, each known as the Time-of-Arrival (TOA) \cite{GeoLoc}.
 %Consequently, it
 %has been incorporated into many services and applications. Currently, outdoor
@@ -24,12 +24,12 @@ tracked positions of the satellites and the times measured, each known as the Ti
  GPS is widely used in navigation of vehicles such as airplanes, ships, and heavy equipment. It has also been used for monitoring movements rather than navigating, for example in fitness trackers such as FitBit \cite{FB} and Garmin\cite{Garmin} which automatically collect data about the user's activities (distance run, speed, routes taken).
  
 
-As location-based services are becoming increasingly integrated into daily life,  the demand for more accurate and robust localization technologies, including in GPS-denied areas, has incresed. One of the approaches to the problem was integration of various wireless technologies with GPS. One such solution is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers \cite{AGPS}. This can greatly reduce the search space and time to first fix on location. Other systems were built purely on cellular signals, adapting the TOA techniques originally developed for GPS. However their accuracy was limited in urban environments due to obstruction of signals by buildings, and the technique did not gain widespread use beyond the Emergency-911 system it was developed for in the United States.
+As location-based services are becoming increasingly integrated into daily life,  the demand for more accurate and robust localization technologies, including in GPS-denied areas, has increased. One of the approaches to the problem was integration of various wireless technologies with GPS. One such solution is called Assisted GPS (A-GPS), which distributes data and processing over a network of cellular towers equipped with GPS-enabled servers \cite{AGPS}. This can greatly reduce the search space and time to first fix on location. Other systems were built purely on cellular signals, adapting the TOA techniques originally developed for GPS. However their accuracy was limited in urban environments due to obstruction of signals by buildings, and the technique did not gain widespread use beyond the Emergency-911 system it was developed for in the United States.
 
 % Paper: http://www.cs.columbia.edu/~drexel/CandExam/Geolocation_assistedGPS.pdf
 
 With the proliferation of smartphone devices and the internet, WiFi access points are becoming increasingly widespread, providing another means of determining location. One type of WiFi-based technique is called Received Signal Strength (RSS) location fingerprinting. It uses a database of WiFi signatures (RSS values and MAC addresses) with associated GPS coordinates. This has to be built up ahead of time, for example by surveying a city with a GPS and WiFi enabled vehicle. 
-Realtime location of the mobile device is determined using the pattern-matching technique, that compares the measured RSSs between the mobile device and access points, and the RSS values stored in the database. Skyhook Wireless successfully developed such system that delivers accuracy of tens of meters in urban areas \cite{Skyhook}. 
+Real-time location of the mobile device is determined using the pattern-matching technique, that compares the measured RSSs between the mobile device and access points, and the RSS values stored in the database. Skyhook Wireless successfully developed such system that delivers accuracy of tens of meters in urban areas \cite{Skyhook}. 
 
 Design of any localization system naturally includes a trade-off between the overall performance and cost requirements. Some of the systems developed so far take advantage from the knowledge of the surrounding infrastructure such as
 cell towers, Wi-Fi hot spots, or installed RF tags \cite{GeoLoc}. Usually, the precision of the localization in such systems depends on the infrastructure. For example,  hundreds or thousands of meters for cellular survey-based techniques, tens to hundreds of meters, or less than 100 meters for cellular triangulation techniques.
@@ -44,8 +44,7 @@ Combining sensor data from multiple sources to improve localization results is a
 
 \section{Basic Localization Systems}
 
-Many different systems have been developed for solving the localization problem in different domains such as geolocation, indoor positioning, sonar, etc. Despite the fact that the  solutions themselves are different, they share some fundamental concepts. Classical non-survey based localization systems  are generally comprised of two subsystems: range/angle estimation subsystem and lateration/
-angulation subsystem \cite{GeoLoc}. The range/angle estimation subsystem determines distance or direction between the  mobile object of unknown location  and an array of reference points with known location  either pre-programmed or obtained through GPS.  The reference points can be satellites in GPS technology, or base stations in cellular localization, or a set of iBeacons, etc. Lateration/angulation subsystem uses the coordinates of the reference points and the distance or angle estimates to determine the unknown position.  The accuracy of the positioning depends on the accuracy of the anchor nodes’ position, the quality of the range/angle estimates, network geometry, and the performace of the localization algorithm. Figure \ref{fig:2step} illustrates this two-step procedure.
+Many different systems have been developed for solving the localization problem in different domains such as geolocation, indoor positioning, sonar, etc. Despite the fact that the  solutions themselves are different, they share some fundamental concepts. Classical non-survey based localization systems  are generally comprised of two subsystems: range/angle estimation subsystem and lateration/angulation subsystem \cite{GeoLoc}. The range/angle estimation subsystem determines distance or direction between the  mobile object of unknown location  and an array of reference points with known location  either pre-programmed or obtained through GPS.  The reference points can be satellites in GPS technology, or base stations in cellular localization, or a set of iBeacons, etc. Lateration/angulation subsystem uses the coordinates of the reference points and the distance or angle estimates to determine the unknown position.  The accuracy of the positioning depends on the accuracy of the anchor nodes’ position, the quality of the range/angle estimates, network geometry, and the performance of the localization algorithm. Figure \ref{fig:2step} illustrates this two-step procedure.
 
 
 \begin{figure*}[h]
@@ -62,7 +61,7 @@ In the rest of this section, we  provide an overview of the most popular ranging
 
 \subsection{Time of Arrival Method}
 
-Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often reffered to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimentional position estimate at least $n+1$ range measurements are required. Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
+Time of Arrival (TOA) localization is a part of class of range-based localization techniques and is often referred to as tri-lateration. It uses the fact that knowing the propagation speed of  signals between a mobile device and reference points and by measuring the time that a signal takes to be received, the distance can easily be calculated. To obtain an $n$  dimensional position estimate at least $n+1$ range measurements are required. Note that absolute times are used in calculations, so it is critical that the  clocks in base stations and the mobile device are synchronized. It is also assumed that they are all in LOS condition. %Unfortunately, this is not always the case in practice. %In many situation this is not practicle.
 
 Solution techniques developed for range-based localization can be categorized as Maximum Likelihood (ML) and Least Squares (LS) approaches. 
 Given the observed range measurements $\Br_n = \Br + \Bw$, the ML estimate $\hat{\Bx}$ of the unknown source location $\Bx$ is obtained by maximizing the conditional probability density function 
@@ -70,9 +69,9 @@ Given the observed range measurements $\Br_n = \Br + \Bw$, the ML estimate $\hat
 \nonumber
 \hat{\Bx} = \mbox{arg}\max_{\Bx} P\left(\Br_n|\Bx\right)
 \end{equation}
-where $\Bw$ represents measurement noise. One of the major problems with ML approach is that it requires the knowledge of exact error-free measurements. Another difficulty is that solving for the unknown position extimate is computationally difficult. Many variants and approximations of the original ML has been  developed \cite{HoML}, \cite{Guvenc2}, \cite{Guvenc}.
+where $\Bw$ represents measurement noise. One of the major problems with ML approach is that it requires the knowledge of exact error-free measurements. Another difficulty is that solving for the unknown position estimate is computationally difficult. Many variants and approximations of the original ML has been  developed \cite{HoML}, \cite{Guvenc2}, \cite{Guvenc}.
 
-In LS approaches, the source location extimate $\hat{\Bx}$ is found by minimizing the sum of risiduals \cite{GeoLoc}
+In LS approaches, the source location estimate $\hat{\Bx}$ is found by minimizing the sum of residuals \cite{GeoLoc}
 \begin{equation}
 \nonumber
 \hat{\Bx} = \mbox{arg}\min_{\Bx} \left\lbrace \sum_{i=1}^m \beta_i\left(r_n^{(i)} - \|\Bx - \Ba_i\|\right)^2 \right\rbrace
@@ -86,7 +85,7 @@ that can be used to emphasize  the degree of confidence in the measurement, and 
 A TDOA system is comprised of at least three base stations, one of which is the reference station. All stations are transmitting at precise time intervals, and the receiver measures the small differences in time that it takes the signals to arrive. From this information it is able to calculate its position. 
 An important property of TDOA is that it requires base stations to be synchronized with each other, but it does not require the mobile receiver to be synchronized with the base stations. This technique first found application
 %First TDOA, also known as hyperbolic, localization techniques emerged in the field of geolocation 
-in 1940s, when it was used by the British Royal Air Force for guiding airplanes at night. At that time synchronization betweeen measuring stations was not possible. Therefore TDOA techniques were feasible, while TOA were not. TDOA remains an important technique, finding modern application in 3G and LTE networks \cite{Ascom}.
+in 1940s, when it was used by the British Royal Air Force for guiding airplanes at night. At that time synchronization between measuring stations was not possible. Therefore TDOA techniques were feasible, while TOA were not. TDOA remains an important technique, finding modern application in 3G and LTE networks \cite{Ascom}.
 
 % Using the time diff. for example, first geolocation systems for acoustic localization in 40 - to shoot ships.
 %The basic idea is that 
@@ -141,7 +140,7 @@ This thesis investigates new solution methods for single source localization pro
 that the methods and solution techniques proposed in the thesis are of general nature, and hence potentially useful in other scenarios that include localization problems for networks involving  ultrasonic, sonic, or light sensors. 
 In this thesis we focus on the least squares approaches for estimating the source location. Our models assume the availability of range or range-difference measurements and do not take into account the nonline-of-sight (NLOS) scenarios. Such simplifying assumptions are often made \cite{Cheung}, \cite{classMDS} since mitigating the NLOS conditions is a separate research area. The main challenge facing the thesis research is that the localization problems we investigate
 are nonconvex problems whose global solutions are difficult to identify, although many
-approximate solutions \cite{Cheung}, \cite{LiHu},  \cite{SmithAbel}, and data fusion methods \cite{Sayed} have been developed. The main contributions of the thesis can be summarised as follows:
+approximate solutions \cite{Cheung}, \cite{LiHu},  \cite{SmithAbel}, and data fusion methods \cite{Sayed} have been developed. The main contributions of the thesis can be summarized as follows:
 
 \begin{itemize}
 \item
@@ -208,7 +207,7 @@ In this chapter an algorithm is developed for finding an approximate solution to
 \phantom{m}
 
 \noindent
-This chapter adresses localization of a single radiating source based on range or range-difference measurements. In both cases the focus is on efficient computation of the least squares estimates of the source coordinates. For the case of range-difference, the central part of the procedure is a convex quadratic programming problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
+This chapter addresses localization of a single radiating source based on range or range-difference measurements. In both cases the focus is on efficient computation of the least squares estimates of the source coordinates. For the case of range-difference, the central part of the procedure is a convex quadratic programming problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
 
 \phantom{m}
 
@@ -218,4 +217,4 @@ This chapter adresses localization of a single radiating source based on range o
 \phantom{m}
 
 \noindent
-The chapter summarises the main results achieved in the thesis and suggests several problems for future studies in the area.
+The chapter summarizes the main results achieved in the thesis and suggests several problems for future studies in the area.

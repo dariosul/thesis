@@ -4,7 +4,7 @@
 \section{Range-based localization}
 
 
-In this section we explore a sequential convex relaxation approach to the range based localization problem that you had studied in previous chapters. The localization problem discussed in this section involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+In this section we explore a sequential convex relaxation approach to the range based localization problem that you had studied in previous chapters. The localization problem discussed in this section involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimensional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
 \setcounter{abc}{0}
 \begin{equation} \label{eq:5.0}
 \nonumber
@@ -88,7 +88,7 @@ or quadratically as
 \end{equation}
 where $K_{max}$ is the number of iterations to be executed.
 
-For the ease of notation the proposed algorithm will be reffered to as Sequential Convex Relaxation for Range-based Least Squares (SCR-RLS). It is important to note that the SCR-RLS is a local method and its performance often depend on the choise of the initial point. Several available techniques described in Sec.4.1.3 of the thesis can be applied here. Summarizing the analysis above, the localization algorithm based on range measurements can be outlined as follows.
+For the ease of notation the proposed algorithm will be referred to as Sequential Convex Relaxation for Range-based Least Squares (SCR-RLS). It is important to note that the SCR-RLS is a local method and its performance often depend on the choice of the initial point. Several available techniques described in Sec.4.1.3 of the thesis can be applied here. Summarizing the analysis above, the localization algorithm based on range measurements can be outlined as follows.
 
 \phantom{m}
 \framebox{%
@@ -149,7 +149,7 @@ Accuracy of source location estimation was evaluated as the average of the squar
 
 Table \ref{tab:scr_rls} provides comparisons of the proposed sequential relaxation method with SR-LS, where each table entry is a squared error averaged over 200 Monte Carlo runs of a given method for a given noise level. The last column of the table  represents relative improvement (R.I.) of the proposed method over SR-LS solutions in percentage. %It is observed that SCR-RLS solutions offer considerable improvement over SR-LS solutions.
 Table \ref{tab:rls} compares a standard deviation of the squared  estimation errors  aggregated over the  same 200 Monte Carlo runs described above in Table \ref{tab:scr_rls} where the MSE of the position estimation are shown. The results
-summarised in  Table \ref{tab:scr_rls} and Table \ref{tab:rls} indicate that the SCR-RLS algorithm yields improved performance relative to the SR-LS algorithm.
+summarized in  Table \ref{tab:scr_rls} and Table \ref{tab:rls} indicate that the SCR-RLS algorithm yields improved performance relative to the SR-LS algorithm.
 
 %\phantom{m}
 

@@ -29,10 +29,10 @@ offers substantial performance improvement relative to some best known results f
 
 Typically non-survey based localization techniques compute the location estimates in two steps: range/angle estimation and tri-lateration/angulation \cite{GeoLoc}. In general, the range estimates can be based on different types of measurements, e.g. received signal strength (RSS), %angle of arrival (AOA), time difference of arrival (TDOA) 
 or time of arrival (TOA). %radio frequency (RF) , ultrasonic, sonic, light \cite{new book}. 
-This chapter will focus on the  problem of range-based localization given the TOA information. In the TOA method, the one-way propagation time of the signal traveling between radiating source and the sensor node is measured. Each TOA measurement then provides a circle centered at the sensor node on which the source of the signal must lie. With three or more sensor nodes the measurements are converted into a set of circular equations that, with knowledge of the geometry of the sensor network, allow to determine the unknown source position \cite{GeoLoc}. The accuracy of the positioning depends on the quality of the range measurements, network geometry, and the performace of the localization algorithm. In real-world situations, multipath and non line-of-sight (NLOS) propagation are two major sources of error, which can introduce large biases in the TOA measurements and result in unreliable position esitmation \cite{classMDS}. In fact, mitigation of the impairments due to multipath and/or NLOS is another key
+This chapter will focus on the  problem of range-based localization given the TOA information. In the TOA method, the one-way propagation time of the signal traveling between radiating source and the sensor node is measured. Each TOA measurement then provides a circle centered at the sensor node on which the source of the signal must lie. With three or more sensor nodes the measurements are converted into a set of circular equations that, with knowledge of the geometry of the sensor network, allow to determine the unknown source position \cite{GeoLoc}. The accuracy of the positioning depends on the quality of the range measurements, network geometry, and the performance of the localization algorithm. In real-world situations, multipath and nonline-of-sight (NLOS) propagation are two major sources of error, which can introduce large biases in the TOA measurements and result in unreliable position estimation \cite{classMDS}. In fact, mitigation of the impairments due to multipath and/or NLOS is another key
 research topic in wireless location and recent works in this area have reported some promising results \cite{DarWinUWB}. Ultra-wideband (UWB) technology has the potential to deliver very accurate range measurements, thus enabling accurate positioning \cite{RydstromUWB, UWB, DarWinUWB}. As a result, we assume that the multipath and NLOS errors in the TOA measurements have been successfully mitigated.  
 
-The source localization problem discussed in this chapter involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimentional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
+The source localization problem discussed in this chapter involves a given array of $m$ sensors placed in the $n = 2$ or 3 dimensional space with coordinates specified by $\{\Ba_1,\ldots, \Ba_m, \Ba_i\in R^n\}$. Each sensor measures its distance to a radiating source $\Bx\in R^n$. Throughout it is assumed that only noisy copies of the distance data are available, hence the \textit{range measurements} obey the model
 \begin{equation} \label{eq:4.1}
 \setcounter{equation}{1}
 r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
@@ -52,7 +52,7 @@ If ranging errors $\varepsilon_i$ are i.i.d. random variables that follow Gaussi
 %}
 
 
-In Sec.2.1 of the thesis, it is demonstrated that these problems are hard to solve globally. Many relaxation and approximation methods were developed that offer either lower computational complexity, robustness against positive bias in the distance estimates due to non line-of-site situations, or better performance compared to standard unconstrain optimization methods applied to the NLLS problem. Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in \cite{IRWSg} and  Sec.2.1 and of the thesis. Another localization approach that has received considerable interest applies classical multidimensional scaling (MDS) algorithm or its variants to the problem at hand \cite{classMDS, fastMDS, dwMDS, genMDS}. 
+In Sec.2.1 of the thesis, it is demonstrated that these problems are hard to solve globally. Many relaxation and approximation methods were developed that offer either lower computational complexity, robustness against positive bias in the distance estimates due to non line-of-site situations, or better performance compared to standard unconstrained optimization methods applied to the NLLS problem. Convex relaxation of a nonconvex problem in (\ref{eq:4.2}) to an SDP problem and solution methods for \textit{squared} range LS problems are discussed in detail in \cite{IRWSg} and  Sec.2.1 and of the thesis. Another localization approach that has received considerable interest applies classical multidimensional scaling (MDS) algorithm or its variants to the problem at hand \cite{classMDS, fastMDS, dwMDS, genMDS}. 
 
 %\textbf{
 %Multidimensional scaling (MDS) algorithm is an attractive technique for analysing experimental data in psychology, geography and molecular biology and is also used to determine the relative coordinates of points given only their pairwise distances.
@@ -67,7 +67,7 @@ low dimensional space that represent the objects of interest and the pairwise di
 
 %The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
-When applied to the localization problem at hand, classical MDS starts with constructing a multidimentional similarity matrix. Let $\BX$ denote  an $m$ x $n$ distance matrix 
+When applied to the localization problem at hand, classical MDS starts with constructing a multidimensional similarity matrix. Let $\BX$ denote  an $m$ x $n$ distance matrix 
 \begin{equation}
 \nonumber
 \begin{aligned}
@@ -81,7 +81,7 @@ When applied to the localization problem at hand, classical MDS starts with cons
 \\
 \end{aligned}
 \end{equation}
-The multidimentional similarity matrix is then defined by $\BD = \BX\BX^T$ which can also be expressed in terms of pairwise distances between sensor nodes and error-free range measurements. Since the exact distances between the sourse $\Bx$ and sensors are not available, the noisy range measurements $r_i$ are used to construct an approximation of $\BD$ as %approximate version of $\BD$, denoted $\hat{\BD}$ as
+The multidimensional similarity matrix is then defined by $\BD = \BX\BX^T$ which can also be expressed in terms of pairwise distances between sensor nodes and error-free range measurements. Since the exact distances between the source $\Bx$ and sensors are not available, the noisy range measurements $r_i$ are used to construct an approximation of $\BD$ as %approximate version of $\BD$, denoted $\hat{\BD}$ as
 \begin{equation}
 \nonumber
 \hat{\BD}\!=\!\frac{1}{2}\!\left(\!\!\begin{array}{cccc}
@@ -96,19 +96,19 @@ Because matrix $\hat{\BD}$ is symmetric, it admits the orthogonal eigen-decompos
 \nonumber
 \hat{\BD} = \BU\BLA\BU^T
 \end{equation}
-where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ is the diagonal matrix of eigenvalues of $\hat{\BD}$ with $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m \geq 0$, and $\BU = \left[\Bu_1 \quad \Bu_2  \ldots \Bu_m \right]$ is an orthonormatl matrix whose columns are the corresponding eigenvectors. Since the rank of the ideal $\BD$ is 2, an LS estimate of $\BX$, denoted by $\BX_r$, can be computed up to an arbitrary rotation as a solution to the following problem  \cite{classMDS}
+where $\BLA = \mbox{diag}\left(\lambda_1, \lambda_2, \ldots, \lambda_m\right)$ is the diagonal matrix of eigenvalues of $\hat{\BD}$ with $\lambda_1 \geq \lambda_2 \geq \ldots \geq \lambda_m \geq 0$, and $\BU = \left[\Bu_1 \quad \Bu_2  \ldots \Bu_m \right]$ is an orthonormal matrix whose columns are the corresponding eigenvectors. Since the rank of the ideal $\BD$ is 2, an LS estimate of $\BX$, denoted by $\BX_r$, can be computed up to an arbitrary rotation as a solution to the following problem  \cite{classMDS}
 \begin{equation}
 \nonumber
 \BX_r = \mbox{arg}\min_{\tilde{\BX}} \|\hat{\BD} - \tilde{\BX}\tilde{\BX}^T\|^2_{F} = \BU_s\BLA_s^{(1/2)}
 \end{equation}
-where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the Frobenius norm, $\BU_s = \left[\Bu_1 \ \ \Bu_2\right]$ corresponds to the signal subspase, and $\BLA^{(1/2)} = \mbox{diag}(\lambda_1^{(1/2)}, \lambda_2^{(1/2})$. In practical situations of nonzero range errors, the relationship between  $\BX_r$ and $\BX$ is then 
+where $\tilde{\BX}$ is the variable matrix for $\BX$, $\|.\|_F$ represents the Frobenius norm, $\BU_s = \left[\Bu_1 \ \ \Bu_2\right]$ corresponds to the signal subspace, and $\BLA^{(1/2)} = \mbox{diag}(\lambda_1^{(1/2)}, \lambda_2^{(1/2})$. In practical situations of nonzero range errors, the relationship between  $\BX_r$ and $\BX$ is then 
 \begin{equation}
 \nonumber
 \BX  \approx \BX_r\BOmega
 \end{equation} 
 where $\BOmega$ is an unknown rotation matrix to be determined. The estimate of the unknown rotation matrix $\BOmega$ and source location $\Bx$ can be obtained by solving an overdetermined system of linear equations \cite{classMDS}. In the absence of noise the symmetric $\hat{\BD}$ is identical to $\BD$, is positive semi-definite, and has a rank of 2. In the practical situations of nonzero range errors, $\hat{\BD}$ will have a full rank. 
 
-Other methods based on MDS include a generalized subspace approach by So and Chan \cite{genMDS}, that performs  position estimation based on the noise subspace. A subspase-based weighting Lagrangian multiplier estimator \cite{fastMDS} reduces computational complexity by avoiding the process of eigendecomposition or inverse computation, but it requires some a priori knowledge about noise statistic to construct the weighting matrix. On the other hand, the distributed weighted-multidimentional scaling (DW-MDS) \cite{dwMDS} adds a penalty term to the standard MDS objective function which accounts for prior knowledge about node locations. Although these methods work well in general and can be efficient in terms of complexity, they
+Other methods based on MDS include a generalized subspace approach by So and Chan \cite{genMDS}, that performs  position estimation based on the noise subspace. A subspace-based weighting Lagrangian multiplier estimator \cite{fastMDS} reduces computational complexity by avoiding the process of eigendecomposition or inverse computation, but it requires some a priori knowledge about noise statistic to construct the weighting matrix. On the other hand, the distributed weighted-multidimensional scaling (DW-MDS) \cite{dwMDS} adds a penalty term to the standard MDS objective function which accounts for prior knowledge about node locations. Although these methods work well in general and can be efficient in terms of complexity, they
 are found to produce poor performance in certain sensor deployments  \cite{UWB}.
 
 %Although these methods can be efficient in terms of complexity and generraly work well, they can show poor performance in certain sensor deployments \cite{UWB}.%they remain to be suboptimal in the maximum likelihood (ML) sence.
@@ -117,7 +117,7 @@ are found to produce poor performance in certain sensor deployments  \cite{UWB}.
 %Gheung and So \cite{classMDS} proposed a range-based localization algorithm based on a modified classical MDS. The main assumptions about this procedure are: sensor nodes are able to obtain pairwise distances between and these measurements are free of noise; range measurement errors between the sensors and source $\Bx$ are i.i.d. Gaussian variables with zero mean and \textit{known} variance. In brief the MDS algorithm can be described as follows
 
  
-In this chapter, we focus on the least squares formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a succesive manner \cite{PCCP}.
+In this chapter, we focus on the least squares formulation for the localization problem, where the $l_2$-norm of the residual errors is minimized in a setting known as difference-of-convex-functions programming. The problem at hand is then solved by applying a penalty convex-concave procedure (PCCP) in a successive manner \cite{PCCP}.
 
 %%%%%%%%% comment start
 %Locating a radiating source from range measurements in a passive sensor network has recently attracted an increasing amount of research interest as it finds applications in a wide range of network-based wireless systems. Least squares (LS) based algorithms for source localization problems constitute an important class of solution techniques as they are geometrically meaningful and often provide low complexity solution procedures with competitive  estimation accuracy \cite{Chan}-\cite{BeckStLi}.  On the other hand, the error measure in an LS formulation for the localization problem of interest is shown to be highly non-convex, possessing multiple local solutions with degraded performance. This non-convexity excludes many local methods that are iterative, hence extremely sensitive to where the iteration begins. Several non-iterative \textit{global}  localization techniques are available from the literature. 
@@ -185,7 +185,7 @@ The CCP refers to an effective heuristic method to deal with a class of differen
  \setcounter{equation}{3}
  \stepcounter{abc}
 \end{eqnarray}  
-where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. A DC program is not convex unless the functions $g$ and $g_i$ are affine, and therefore is hard to solve in general.  The class of DC functions is very broad. For example, any $C^2$ function can be expressed as a difference of convex functions \cite{Har}. Classes of problems that can be expressed as difference of convex programming among others include Boolean linear program, circle packing, circuit layout, and multi-matrix proncipal component analysis, examples of which can be found in \cite{LBoyd} and references therein. 
+where $f(\Bx), g(\Bx), f_i(\Bx), g_i(\Bx)$ for $i = 1, 2, \ldots, m$ are convex. A DC program is not convex unless the functions $g$ and $g_i$ are affine, and therefore is hard to solve in general.  The class of DC functions is very broad. For example, any $C^2$ function can be expressed as a difference of convex functions \cite{Har}. Classes of problems that can be expressed as difference of convex programming among others include Boolean linear program, circle packing, circuit layout, and multi-matrix principal component analysis, examples of which can be found in \cite{LBoyd} and references therein. 
 
 The basic CCP algorithm is an iterative procedure including two key steps (in the $k$-th iteration where iterate $\Bx_k$ is known):
 
@@ -233,7 +233,7 @@ at a point  $\Bx$ for the case where the convex function $f(x)$ is not different
 \centering
   \includegraphics[width=0.85\textwidth,height=0.45\textheight]{figures/ccp/ccp_a}
    
-  (a) A nonconvex function in the form of the difference of two convex functions and its contour plot.
+  (a) A nonconvex function in the form of the difference of two convex functions and  its contour plot.
   
   \includegraphics[width=0.9\textwidth,height=0.45\textheight]{figures/ccp/ccp_b}
   
@@ -399,7 +399,7 @@ r_i - \delta_i \leq \|\Bx - \Ba_i\|
 %\end{equation}
 \end{eqnarray} 
 for $ 1 \leq i \leq m$. 
-Placing such bounds means that as iterations proceed the new iterates (coordinates of possible source locations)  are restricted to lie within a  physically meaningfull region determined by
+Placing such bounds means that as iterations proceed the new iterates (coordinates of possible source locations)  are restricted to lie within a  physically meaningful region determined by
 parameters $\delta_i$.
  
 Note that the constraints in (\ref{eq:4.12}a) are convex and fit into the form of basic CCP in (\ref{eq:ii}) with $f_i(\Bx) = \|\Bx - \Ba_i\| - r_i -  \delta_i $ and $g_i(\Bx) = 0$, while those in (\ref{eq:4.12}b) are in the form of (\ref{eq:DC}) with $f_i(\Bx) =  r_i -  \delta_i $ and $g_i(\Bx) = \|\Bx - \Ba_i\|$. Following CCP (see (\ref{eq:i})),  $g_i(\Bx) = \|\Bx - \Ba_i\|$ is  linearized around iterate $\Bx_k$ to 
@@ -443,7 +443,7 @@ Therefore, a point $\Bx$ satisfying (\ref{eq:4.13}) automatically satisfies (\re
 %\phantom{m}
 
 \noindent
-A technical problem making the formulation in (\ref{eq:4.14}) difficult to implement is that it requires a feasible initial point $\Bx_0$. The problem can be overcome by introducing nonnegative slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, for $i =1, \ldots, m$} into the constraints in (\ref{eq:4.14}b) and (\ref{eq:4.14}c) to replace their right-hand sides (which are zeros) by relaxed upper bounds (as these new bounds themselves are nonnegative variables). This leads to a \textit{penalty} CCP (PCCP) based formulation as follows: 
+A technical problem making the formulation in (\ref{eq:4.14}) difficult to implement is that it requires a feasible initial point $\Bx_0$. The problem can be overcome by introducing nonnegative slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, for $i =1, \ldots, m$} into the constraints in (\ref{eq:4.14}b) and (\ref{eq:4.14}c) to replace their right-hand sides (which are zeroes) by relaxed upper bounds (as these new bounds themselves are nonnegative variables). This leads to a \textit{penalty} CCP (PCCP) based formulation as follows: 
 %\setlength{\belowdisplayskip}{0pt} \setlength{\belowdisplayshortskip}{0pt}
  \setcounter{abc}{0}
 \begin{eqnarray} % eq:4.16
@@ -483,7 +483,7 @@ Select the initial point uniformly randomly over the same region as the unknown 
 \item
 Set the initial point to the origin; 
 \item
-Run the algorithm from a set of candidate initial points and identify the solution as the one with lowest LS error. Typically, comparing the results from $n$ distinct initial points shall suffice. For the planar case ($n = 2$), for example, it is sufficient to compare the two intersection points of the two circles that are associated with the two smallest distance readings as the target is very likely to be in the vicinity of these sensors; 
+Run the algorithm from a set of candidate initial points and identify the solution  as the one with lowest LS error. Typically, comparing the results from $n$ distinct initial points shall suffice. For the planar case ($n = 2$), for example, it is sufficient to compare the two intersection points of the two circles that are associated with the two smallest distance readings as the target is very likely to be in the vicinity of these sensors; 
 \item
 Apply a “global” localization algorithm such as those in \cite{BeckStLi} to generate an approximate LS solution, then take it as the initial point to run the proposed algorithm. 
 \end{enumerate}
@@ -602,10 +602,10 @@ Table \ref{tab:pccp}  provides comparisons of the PCCP with SR-LS and MLE, where
 %Employing a set-up similar to that in \cite{10}, the simulation studies of Algorithm 1 considered $m = 5$ sensors placed in the region $[-15;15]\times[-15;15]$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$. The range measurements $\{r_i, i=1, 2,\ldots,5\}$ were calculated using (1) and Step 4 of Algorithm 1 was implemented using the SR-LS algorithm proposed in \cite{10}. It is observed that PCCP solutions offer considerable improvement over SR-LS solutions.
 
 
-Figure \ref{fig:MSE} illustrates the  location estimation errors for the SR-LS solution and the proposed algorithm for various numbers of sensors. Each entry is a squared error of the given method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$. The MLE was implemented using Matlab function \textit{lsqnonlin}, initialized with the same point as PCCP-based LS. It is observed that at all noise levels the proposed approach performes well compared to SR-LS, especially for a low number of reference nodes. From the figure, it is noted that for the high standard deviation of the noise, as the number of sensor nodes increases, the PCCP-based LS and SR-LS show similar performance.
+Figure \ref{fig:MSE} illustrates the  location estimation errors for the SR-LS solution and the proposed algorithm for various numbers of sensors. Each entry is a squared error of the given method averaged over 50 random initializations of the system  consisting of $m$ sensors, with $m$ being one of $\{4, 5, 7, 10\}$. The MLE was implemented using Matlab function \textit{lsqnonlin}, initialized with the same point as PCCP-based LS. It is observed that at all noise levels the proposed approach performs well compared to SR-LS, especially for a low number of reference nodes. From the figure, it is noted that for the high standard deviation of the noise, as the number of sensor nodes increases, the PCCP-based LS and SR-LS show similar performance.
 
  
-Finally, we study the convergence of the  PCCP-based LS Algorithm. As an example, consider an instance of the source localization problem on the plane ($n = 2$) as discussed in Sec. 2.1 of the thesis. The system consists of five sensors ($m = 5$) located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emmitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:path} shows the iteration path the PCCP-based LS follows when initialized with a randomly selected point $\Bx_0 = (-20,-10)^T$. It took 8 iterations for the PCCP-based LS to converge to a point $\Bx^* = (-1.9914,3.1632)^T$ which is a good estimate of the R-LS approximation of the exact source location $\Bx_s$.
+Finally, we study the convergence of the  PCCP-based LS Algorithm. As an example, consider an instance of the source localization problem on the plane ($n = 2$) as discussed in Sec. 2.1 of the thesis. The system consists of five sensors ($m = 5$) located at $(6,4)^T, (0,-10)^T, (5,-3)^T, (1,-4)^T$ and  $(3,-3)^T$ with the source emitting the signal at $\Bx_s = (-2,3)^T$. Figure \ref{fig:path} shows the iteration path the PCCP-based LS follows when initialized with a randomly selected point $\Bx_0 = (-20,-10)^T$. It took 8 iterations for the PCCP-based LS to converge to a point $\Bx^* = (-1.9914,3.1632)^T$ which is a good estimate of the R-LS approximation of the exact source location $\Bx_s$.
 
 
 Figure  \ref{fig:convergence} depicts the convergence speed of the proposed algorithm for 50 random initializations of the system with a fixed number of sensors ($m$). In the simulations, we set $\sigma = 10^{-1}$ and consider systems with 4, 5, 7 and 10 sensors randomly placed in the planar region in $[-15;15]\times[-15;15]$. For every estimate of the PCCP-based LS, we compute the value of the objective in (\ref{eq:F}). It is observed that PCCP-based LS converges fairly fast, in most cases after $10$ iterations. For systems with large numbers of sensor nodes ($m = 10$) PCCP-based LS converges approximately
@@ -670,6 +670,6 @@ in three sequential updates.
   \includegraphics[width=0.5\textwidth,height =0.45\textheight]{figures/ccp/convergence_m10_2_.png} 
   \\   (c) & (d)  
 \end{tabular}
-\caption{Convergernce of the proposed PCCP-based LS for random initializations with $\protect\sigma = 10\protect^{-1}$ for (a) 4 sensor nodes, (b) 5 sensor nodes, (c) 7 sensor nodes, and (d) 10 sensor nodes.} 
+\caption{Convergence of the proposed PCCP-based LS for random initializations with $\protect\sigma = 10\protect^{-1}$ for (a) 4 sensor nodes, (b) 5 sensor nodes, (c) 7 sensor nodes, and (d) 10 sensor nodes.} 
 \label{fig:convergence}
 \end{figure}
