@@ -360,7 +360,7 @@ The following m-files implement the iterative re-weighting range-difference base
 $\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
 \noindent
-$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the refference sensors.
+$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the reference sensors.
 
 \noindent
 \textbf{Tunable parameters}
@@ -520,7 +520,7 @@ $\Bx_0$, solution of the $\mbox{findroots\_w\_m.m}$ as an initial point for the 
 
 
 \noindent
-$\mbox{p} = [m \ d_1 \ d_2 \ldots d_m \ \Ba_1^T \ \Ba_2^T \ldots \Ba_m^T]^T$, a column vector of sensor and measurement data, where $m$ is the number of sensors, $d_i$ is a noisy range-difference measurement obtained from the pair of $i$th and the refference sensors, and $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
+$\mbox{p} = [m \ d_1 \ d_2 \ldots d_m \ \Ba_1^T \ \Ba_2^T \ldots \Ba_m^T]^T$, a column vector of sensor and measurement data, where $m$ is the number of sensors, $d_i$ is a noisy range-difference measurement obtained from the pair of $i$th and the reference sensors, and $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
 
 \noindent
@@ -687,7 +687,7 @@ H = V*diag(dm)*V';
 
 \section{PCCP-Based LS Algorithm}
 
-The following m-files implement the constrained penalty convex-concave procedure for solving the localization problem based on range measurements. The implementation follow the alrorithm developed in Chapter 3.
+The following m-files implement the constrained penalty convex-concave procedure for solving the localization problem based on range measurements. The implementation follow the algorithm developed in Chapter 3.
 
 \phantom{m}
 
@@ -765,7 +765,7 @@ xk_w = xk;
 
 \section{SCR-RDLS Algorithm}
 
-The following m-files implement the sequential convex relaxation for solving the localization problem based on range-difference measurements. The implementation follow the alrorithm developed in Sec.4.1.
+The following m-files implement the sequential convex relaxation for solving the localization problem based on range-difference measurements. The implementation follow the algorithm developed in Sec.4.1.
 
 \phantom{m}
 
@@ -776,7 +776,7 @@ The following m-files implement the sequential convex relaxation for solving the
 $\mbox{\textbf{Am}} = [\Ba_1 \ \Ba_2 \ldots \Ba_m]$, matrix of sensor locations, where $\Ba_i$ is a column vector that stores the coordinates of the $i$th sensor.
 
 \noindent
-$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the refference sensors.
+$\Bd_n = [d_1 \ d_2 \ldots d_m]^T$, noisy range-difference measurements, where $d_i$ is a measurement obtained from the pair of $i$th and the reference sensors.
 
 
 \noindent
@@ -876,7 +876,7 @@ x_w = xk;
 
 \section{SCR-RLS Algorithm}
 
-The following m-files implement the sequential convex relaxation for solving the localization problem based on range measurements. The implementation follow the alrorithm developed in Sec. 4.2.
+The following m-files implement the sequential convex relaxation for solving the localization problem based on range measurements. The implementation follow the algorithm developed in Sec. 4.2.
 
 \phantom{m}
 
