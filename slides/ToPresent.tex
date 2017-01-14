@@ -1,0 +1,669 @@
+\documentclass [t] {beamer} % KOMA script (article)
+
+\mode<presentation> {
+%\usetheme{boadilla}
+%\usetheme{default}
+%\usetheme{AnnArbor}
+%\usetheme{Antibes}
+%\usetheme{Bergen}
+%\usetheme{Berkeley}
+%\usetheme{Berlin}
+%\usetheme{Boadilla}
+%\usetheme{CambridgeUS}
+%\usetheme{Copenhagen}
+%\usetheme{Darmstadt}
+%\usetheme{Dresden}
+%\usetheme{Frankfurt}
+%\usetheme{Goettingen}
+%\usetheme{Hannover}
+%\usetheme{Ilmenau}
+%\usetheme{JuanLesPins}
+%\usetheme{Luebeck}
+\usetheme{Madrid}
+%\usetheme{Malmoe}
+%\usetheme{Marburg}
+%\usetheme{Montpellier}
+%\usetheme{PaloAlto}
+%\usetheme{Pittsburgh}
+%\usetheme{Rochester}
+%\usetheme{Singapore}
+%\usetheme{Szeged}
+%\usetheme{Warsaw}
+
+%\usecolortheme{albatross}
+%\usecolortheme{beaver}
+%\usecolortheme{beetle}
+%\usecolortheme{crane}
+%\usecolortheme{dolphin}
+%\usecolortheme{dove}
+%\usecolortheme{fly}
+%\usecolortheme{lily}
+%\usecolortheme{orchid}
+\usecolortheme{rose}
+%\usecolortheme{seagull}
+%\usecolortheme{seahorse}
+%\usecolortheme{whale}
+%\usecolortheme{wolverine}
+
+%\setbeamertemplate{footline} % To remove the footer line in all slides uncomment this line
+%\setbeamertemplate{footline}[page number] % To replace the footer line in all slides with a simple slide count uncomment this line
+
+%\setbeamertemplate{navigation symbols}{} % To remove the navigation symbols from the bottom of all slides uncomment this line
+}
+
+\include{usepackage}
+\include{commands}
+
+\setbeamercolor{bibliography entry author}{fg=black}
+ 
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title[Localization in PSN]{Localization Algorithms in Passive Sensor Networks} 
+
+\author{Darya Ismailova} 
+\institute[UVic] 
+{
+Department of Electrical and Computer Engineering \\
+University of Victoria, Victoria, BC, Canada \\
+\medskip
+%\textit{ismailds@uvic.ca, wslu@uvic.ca} % Your email address
+}
+\date{January 19, 2017}
+
+\begin{document} 
+%\fontsize{14}{14}\selectfont
+
+\begin{frame} % Slide 1
+\titlepage 
+\end{frame}
+
+
+%----------------------------------------------------------------------------------------
+%	PRESENTATION SLIDES
+%----------------------------------------------------------------------------------------
+
+%------------------------------------------------
+
+\section{Introduction} 
+
+\begin{frame} % Slide 2
+\frametitle{Outline} 
+\begin{enumerate}
+\item
+Motivation
+\\~\\
+\item
+Basic Localization Systems and Methods
+\\~\\
+\item
+Iterative Re-Weighting Least-Squares Methods for Source Localization
+\\~\\
+\item
+Penalty Convex-Concave Procedure for Range-based Localization
+\\~\\
+\item
+Conclusions and Future Work
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame} % Slide 3
+\frametitle{Introduction}
+\phantom{m}
+\begin{itemize}
+\item
+Navigation: outdoor; indoor
+\\~\\
+\item
+Surveillance
+\\~\\
+\item
+Localization of emergency callers
+\\~\\
+\item
+Emergency and rescue operations / first responders
+\\~\\
+\item
+Self-organizing networks
+\\~\\
+\item
+Asset monitoring and tracking
+\\~\\
+\item
+Other commercial location-based servises
+\\~\\
+\item
+\ldots
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 4
+\frametitle{Introduction}
+\phantom{m}
+\begin{itemize}
+\item
+Ranging methods
+\begin{itemize}
+\item
+range measurements (Time Of Arrival)
+\item
+range-difference measurements (Time-Difference of Arrival)
+\item
+received signal strength
+\\~\\
+\end{itemize}
+
+\item
+Angle Of Arrival Techniques
+\\~\\
+\item
+Survey-Based Systems (fingerprinting)
+\begin{itemize}
+\item
+memoryles systems (SVM, NN)
+\item
+memory systems (Bayesian inference, grid-based Markov)
+\item
+channel impulse response fingerprinting
+non-RF features
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 5
+\frametitle{Basic Localization Systems and Methods}
+\begin{figure}[h]
+%\centering
+\includegraphics[width=1.0\textwidth]{../figures/localization_example.png}
+\caption{Classical geolocation system. Range or angle information is extracted from received RF signals. Location is then estimated by lateration/angulation techniques [GeoLoc].}
+\label{fig:2step}
+\end{figure}
+\end{frame}
+
+\begin{frame} % Slide 6
+\frametitle{Time Of Arrival Localization (TOA)}
+\begin{figure}[h]
+\includegraphics[height=0.6\textheight]{../figures/toa_example.png}
+\caption{TOA-based trilateration. Range measurements to at least three BS make
+up a set of nonlinear equations that can be solved to estimate the position of a
+signal source [GeoLoc].}
+\label{fig:2step}
+\end{figure}
+\end{frame}
+
+\begin{frame} % Slide 7
+\frametitle{Time Of Arrival Localization (TOA)}
+\phantom{m}
+The nonlinear least squares (NLLS) source location extimate $\hat{\Bx}$ is found by
+\begin{equation}
+\nonumber
+\hat{\Bx} = \mbox{argmin}_{\Bx}\left\lbrace \sum_{i=1}^m \beta_i\left(d_n^i - \|\Bx -  \Ba_i \| \right)^2 \right\rbrace
+\end{equation}
+where 
+\\
+$\Ba_i$- a vector of known coordinates of reference points (sensors)
+\\~\\
+$d_n^i $ - a noisy range measurement associated with it
+\\~\\
+$\beta_i$ - a weight used to emphasize the degree of confidence in the
+measurement
+\\~\\
+$m$ - the number of sensors.
+\end{frame}
+
+\begin{frame} % Slide 8
+\frametitle{Time-Difference Of Arrival Localization (TDOA)}
+\begin{figure}[h]
+\includegraphics[height=0.7\textheight]{../figures/tdoa_example.png}
+\caption{Example of observed time-difference of arrival (O-TDOA) method [GeoLoc].}
+\label{fig:2step}
+\end{figure}
+\end{frame}
+
+\begin{frame} % Slide 9
+\frametitle{Time-Difference Of Arrival Localization (TDOA)}
+\phantom{m}
+Given the range-difference measurements
+\begin{equation}
+\nonumber
+d_i = \|\Bx -  \Ba_i \| - \|\Bx -  \Ba_0 \| = \|\Bx -  \Ba_i \| - \|\Bx\|, \mbox{for } i = 1, 2, \ldots, m
+\end{equation}
+The standard NLLS location estimate $\hat{\Bx}$ is found by
+\begin{equation}
+\nonumber
+\hat{\Bx} = \Min_{\Bx} \sum_{i=1}^m \left(\|\Bx -  \Ba_i \| - \|\Bx\| - d_n^i\right)^2
+\end{equation}
+with 
+\\
+$\Ba_i$- a vector of known coordinates of reference points (sensors)
+\\
+$d_n^i $ - a noisy range-difference measurement associated with it
+\\
+$m$ - the number of sensors.
+\end{frame}
+
+
+
+\begin{frame} % Slide 10
+\frametitle{Methods Based on Received Signal Strength (RSS-based)}
+\phantom{m}
+The relationship between the RSS reading and the distance can be
+approximated by
+\begin{equation}
+\nonumber
+P_x(d) = P_0(d_0) - 10n_p\log_{10}\left( \frac{d_i}{d_0}\right) + X_{\sigma}
+\end{equation}
+where
+\\
+$P_0(d_0)$ - a reference power in dB milliwatts at a reference distance $d_0$ away from the transmitter
+\\
+$n_p$ - the pathloss exponent
+\\
+$X_{\sigma}$ - the log-normal shadow fading component with variance $\sigma^2$
+\\
+$d_i$ - the distance between the mobile devices and the ith base station
+\\
+$\sigma$ and $n_p$ are environment dependent
+\end{frame}
+
+
+\begin{frame} % Slide 11
+\frametitle{Why Least Squares}
+\phantom{m}
+\begin{itemize}
+\item
+Least squares (LS) algorithms for range-based localization:\\
+- geometrically meaningful\\
+- provide low complexity solutions with competitive accuracy
+\\~\\
+\item
+However:\\
+- the error measure is non-convex\\
+- excludes many local methods, that are iterative
+\\~\\
+\item
+Solutions obtained using global localization techniques such as
+semidefinite programming (SDP) are not optimal in LS sense.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame} % Slide 12
+\frametitle{Iterative Re-Weighting Least-Squares Methods for Source
+Localization}
+\phantom{m}
+\begin{itemize}
+\item
+Methods developed by A. Beck, P. Stoica, J. Li [BSL2008] for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SDR-LS) problems allow to obtain exact and \textit{global}  solutions.
+\\~\\
+\item
+The results produced are merely approximations of the original LS
+problems because SR-LS and SRD-LS are no longer an ML solutions.
+\\~\\
+\item
+Proposed iterative procedure where the SR-LS (or SRD-LS) algorithm is applied to a \textit{weighted} sum of squared terms and special weights construction allow to obtain a solution which is conciderably closer to
+the original range-based (or range-difference-based) LS solution.
+\end{itemize}
+\end{frame}
+
+
+
+
+\section[Chapter 2]{Source Localization From Range Measurements}
+
+\subsection{Measurement Model} %2.2
+
+\begin{frame} % Slide 13
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{Measurement Model}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+Throughout it is assumed that \textit{range measurements} obey the model
+\begin{equation} 
+\nonumber
+%\setcounter{equation}{1}
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}  
+where $\{\Ba_1,\ldots, \Ba_m\}$ - given array of $m$ sensors;\\
+$\Ba_i\in R^n$  contains $n$ coordinates of the $i$th sensor in space $R^n$; \\
+$r_i$ - received noisy distance reading from the $i$th sensor; \\
+$\varepsilon_i$ - unknown noise associated with measurement from the $i$th sensor. 
+\\~\\
+\item
+The problem can be stated as to estimate the exact source location $\Bx \in R^n$ from noisy range measurements $\Br = [r_1 \ r_2 \ldots r_m]^T$.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 14
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{LS Formulations}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+The range-based least squares (R-LS) estimate refers to the solution of the problem
+\begin{equation} \label{R} 
+\Min_{\Bx} f(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2	\tag{R}
+\end{equation} \\
+\item If $\Beps \sim N(0,\symb{\Sigma}) $ and $\symb{\Sigma} \propto \BI$, then the R-LS solution of problem \eqref{R} is identical to the ML location estimator. \\ ~\\
+%This formulation is connected to the ML estimator that determines source location by examining the probabilistic model of  $\Beps$. \\~\\
+ \item  Unfortunately, the objective in \eqref{R} is highly non-convex, posessing many local minimizers even for small-scale systems.
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{LS Formulations}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+Alternatively, location estimate can be obtained by solving the \textit{squared range based LS} (SR-LS) problem [BSL2008]
+\begin{equation} \label{SR}
+\Min_{\Bx} \sum_{i=1}^{m} (\|{\Bx} - {\Ba}_i\|^2 - r_i^2)^2 \tag{SR}
+\end{equation}
+
+\item  
+The SR-LS estimate is no longer an ML solution, hence, only an approximation of the original R-LS problem.\\
+\item 
+To reduce the gap between the two solutions we propose a weighted SR-LS (WSR-LS) problem:
+\begin{equation} \label{WSR}
+\Min_{\Bx} \sum_{i=1}^{m} w_i\left(\|{\Bx} - {\Ba}_i\|^2 - r_i^2\right)^2 \tag{WSR}
+\end{equation}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 16
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{An Iterative Re-Weighting Strategy}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+WSR-LS with properly chosen weights facilitates an excellent approximation of the R-LS estime. \\~\\
+
+\item 
+The main idea is to use the weigths ${w_i, i = 1, \ldots, m}$ to tune the objective in \eqref{WSR} toward the objective in \eqref{R}. % \\~\\
+%\item
+%To substantiate the idea, 
+%To see this we 
+%We compare the $i$th term of the objective in \eqref{WSR} with its counterpart in \eqref{R} as:
+\begin{equation} 
+\nonumber
+\underbrace{w_i\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2}_{\mbox{in (WSR)}}\leftrightarrow\underbrace{\left(\|\Bx-\Ba_i\|-r_i\right)^2}_{\mbox{in (R)}}
+\end{equation}
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 17
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{An Iterative Re-Weighting Strategy}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+By writing the $i$th term in \eqref{WSR} as
+\begin{equation}
+\nonumber
+\begin{array}{l}
+w_i\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2 = w_i\left(\|\Bx-\Ba_i\|+r_i\right)^2 \underbrace{\left(\|\Bx-\Ba_i\|-r_i\right)^2}_{\mbox{same as in (R)}}
+\end{array}
+\end{equation}
+we note that the objective in \eqref{WSR} would be the same as in \eqref{R} if the weight $w_i$ was assigned to $1/\left(\|\Bx-\Ba_i\|+r_i\right)^2$. \\~\\
+\item 
+Evidently, such weight assignments cannot be realized.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}% Slide 17
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{An Iterative Re-Weighting Strategy}} 
+\\~\\
+\normalsize
+
+\begin{itemize}
+\item 
+ In the proposed iterative procedure we solve a weighted SR-LS sub-problem,where at each iteration the weights are fixed:
+\begin{equation} \label{IRWSR}
+\Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2 \tag{IRWSR}
+\end{equation}
+\item 
+ for $k=1$ all weights $\{w_i^{(1)}, i=1,\ldots, m\}$ are set to unity; \\
+ \item 
+ for $k\geq2$ the weights $\{w_i^{(k)},i=1,\ldots,m\}$ are assigned using the previous iterate $\Bx_{k-1}$ as
+\begin{equation} 
+\nonumber
+w_i^{(k)}=\frac{1}{\left(\|\Bx_{k-1}-\Ba_i\|+r_i\right)^2}.
+\end{equation}
+
+\end{itemize}
+\end{frame}
+
+
+
+\section[SRD-LS Methods]{Source Localization From Range-Difference Measurements}
+\subsection{Problem Statement} %2.2
+
+%------------------------------------------------
+
+\begin{frame} % Slide 19
+\frametitle{Source Localization From Range-Difference Measurements} %3.2
+{\large \textit{Problem Statement}}
+\\~\\
+\normalsize
+\begin{itemize}
+\item 
+It is assumed that the range-difference measurements obey the model:
+ \begin{equation} 
+ \nonumber
+ d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, \quad i = 1,\ldots,m
+ \end{equation}
+where $\Ba_0$ - reference sensor placed at the origin.\\~\\
+ \item 
+ The standard range-difference LS (RD-LS) problem is formulated as
+ \begin{equation} \label{RD}
+\Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)^2 \tag{RD}
+ \end{equation}
+ \end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 20
+\frametitle{Source Localization From Range-Difference Measurements} %3.2
+{\large \textit{SRD-LS and WSRD-LS formulations}}
+\\~\\
+\normalsize
+\begin{itemize}
+\item 
+An approximation of the RD-LS solution can be obtained by solving the \textit{squared range difference based LS} (SRD-LS) problem. \\ % [BSL2008]. \\
+\item 
+By re-writing the measurements model as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring both sides, we obtain
+  \begin{equation} 
+  \nonumber
+-2d_i\|\Bx\|-2\Ba_i^T\Bx=g_i, \quad i=1,\ldots,m
+ \end{equation}
+ where $g_i=d_i^2-\|\Ba_i\|^2$.  
+The SRD-LS solution can be obtained by minimizing following criterion:
+ \begin{equation}
+ \nonumber
+\Min_{{\Bx} \in R^{n}} \sum_{i=1}^m \left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2 
+\end{equation}
+
+ \end{itemize}
+\end{frame}
+
+
+\begin{frame} % Slide 21
+\frametitle{Source Localization From Range-Difference Measurements} 
+{\large \textit{Improved Solution Using Iterative Re-weighting}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+We now present a method for improved solutions over SRD-LS solutions. 
+\\~\\
+\item 
+We consider the weighted SRD-LS problem
+\begin{equation} \label{WSRD}
+\Min_{{\Bx} \in R^n} \sum_{i=1}^m w_i\left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2 \tag{WSRD}
+\end{equation}
+where weights $w_i$ for $i=1,\ldots,m$ are \textit{fixed} nonnegative constants. 
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 22
+\frametitle{Source Localization From Range-Difference Measurements} %3.2
+{\large \textit{Improved Solution Using Iterative Re-weighting}} 
+\\~\\
+\normalsize
+\begin{itemize}
+\item <1->
+The $i$th term of the objective function in \eqref{WSRD} can be written as:
+\begin{equation}
+\nonumber
+\begin{aligned}
+&w_i\left(-2d_i\|\Bx\|-2\Ba_i^T\Bx-g_i\right)^2 \\
+%= &w_i\left((d_i+\|\Bx\|)^2-\|\Bx-\Ba_i\|^2\right)^2 \\
+=&w_i\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)\underbrace{\left(d_i+\|\Bx\|-\|\Bx-\Ba_i\|\right)}_{\mbox{same as in RD}}
+\end{aligned}
+\end{equation}
+\\
+
+\phantom{m} 
+\item 
+If weights $w_i$ were set to $1/\left(d_i+\|\Bx\|+\|\Bx-\Ba_i\|\right)^2$  the objective in \eqref{WSRD} would be the same as in \eqref{RD}. 
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 23
+\frametitle{Source Localization From Range-Difference Measurements} %3.2
+{\large \textit{Improved Solution Using Iterative Re-weighting}} 
+\\~\\
+\normalsize
+\begin{itemize}
+\item 
+We employ an iterative procedure  where the weights in the $k$th iteration are assigned to 
+\begin{equation} 
+\nonumber
+w_i^{(k)}=\frac{1}{\left(d_i+\|\Bx_{k-1}\|+\|\Bx_{k-1}-\Ba_i\|\right)^2}, i=1,\ldots,m
+\end{equation} \\~\\
+with $\{w_i^{(1)} = 1, i=1,\ldots, m\}$.
+ \\~\\
+\item 
+We will refer to the derived problem as the iterative re-weighted SRD-LS (WSRD-LS) problem and the solution obtained as IRWSRD-LS solution. 
+
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame} % Slide 24
+
+\frametitle{Performance Evaluation for SR-LS and IRWSR-LS} 
+\normalsize
+\begin{itemize}
+\item 
+We can see that IRWSR-LS solutions offer considerable improvement over SR-LS solutions.
+\begin{table}
+\caption[c]{Averaged MSE for SR-LS and IRWSR-LS methods by noise level}
+\begin{tabular}{|c|c|c|c|}
+\toprule
+\textbf{$\sigma$ } & \textbf{SR - LS} & \textbf{IRWSR-LS } & \textbf{Improvement (\%)}\\
+\midrule 
+1e-03&	1.897294e-06&	1.123411e-06& 40.8	\\ &&&\\
+1e-02&	1.779870e-04&	1.081470e-04& 39.2	\\ &&&\\
+1e-01&	1.831870e-02&	1.128165e-02& 38.4	\\ &&&\\
+1e+0&	2.415438e+00&	1.877930e+00& 22.3	\\ %&&&&\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\end{itemize}
+\end{frame}
+
+
+\begin{frame} % Slide 25
+%\frametitle{An Iterative Re-Weighting Strategy}
+\frametitle{Performance Evaluation for SRD-LS and IRWSRD-LS} 
+\normalsize
+
+\begin{table}
+\caption{Averaged MSE for SRD-LS and IRWSRD-LS methods by noise level}
+\begin{tabular}{|c|c|c|c|}
+\toprule
+\textbf{$\sigma$ } & \textbf{SRD - LS} & \textbf{IRWSRD-LS } & \textbf{Improvement (\%)}\\
+\midrule
+1e-04&	8.4918e-09&	4.1050e-09& 51.7\\ &&&\\
+1e-03&	5.8553e-06&	3.5105e-06& 40.0\\ &&&\\
+1e-02&	6.3508e-05&	5.0378e-05& 20.7\\ &&&\\
+1e-01&	1.6057e-02&	1.0055e-02& 37.3\\ &&&\\
+1e+0&	1.2773e+00&	6.2221e-01& 51.2\\ %&&&&\\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame} % Slide
+\frametitle{}
+\phantom{m}
+\begin{itemize}
+\item
+
+\end{itemize}
+\end{frame}
+
+\include{mics}
+
+%%--------------------------------------------------
+% EXAMPLES %--------------------------------------------------
+%%\frametitle{Blocks of Highlighted Text}
+%\begin{block}{Block 1}
+%Lorem
+%\end{block}
+%
+%\begin{block}{Block 2}
+%Pellentesque sed tellus purus.
+%\end{block}
+%
+%\begin{block}{Block 3}
+%Suspendisse tincidunt sagittis gravida.
+%\end{block}
+%\end{frame}
+
+%------------------------------------------------
+
+%\begin{frame}
+%\frametitle{Multiple Columns}
+%\begin{columns}[c] % The "c" option specifies centered vertical alignment while the "t" option is used for top vertical alignment
+%
+%\column{.45\textwidth} % Left column and width
+%\textbf{Heading}
+%\begin{enumerate}
+%\item Statement
+%\item Explanation
+%\item Example
+%\end{enumerate}
+%
+%\column{.5\textwidth} % Right column and width
+%Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lectus nisl, ultricies in feugiat rutrum, porttitor sit amet augue. Aliquam ut tortor mauris. Sed volutpat ante purus, quis accumsan dolor.
+%
+%\end{columns}
+%\end{frame}
+
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document} 

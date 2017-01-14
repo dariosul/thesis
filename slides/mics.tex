@@ -1,0 +1,298 @@
+\section{Conclusions}
+
+\begin{frame}
+\frametitle{Conclusions}
+\phantom{m}
+\phantom{m}
+\begin{itemize}
+\item <2->
+New global methods for locating a radiating source based on noisy range or range difference measurements have been proposed. \\~\\
+\item <3->
+These methods are developed by transforming the SR-LS and SRD-LS algorithms [BSL2008] into an iterative procedure % where adaptively weighted SR-LS (SRD-LS) objective is minimized so as to move a weighted SR-LS (SRD-LS) objective towards the original R-LS objective as the iteration continues. \\~\\
+so that a weighted SR-LS (SRD-LS) objective assymptotically approaches the original R-LS objective. \\~\\
+\item <4->
+Proposed algorithms are found to outperform the existing methods.
+\end{itemize}
+\end{frame}
+
+%------------------------------------------------
+
+\begin{frame} [noframenumbering]
+\frametitle{  }
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\Huge{\centerline{Q \& A }}
+
+\end{frame}
+
+%%------------------------------------------------
+%
+\appendix
+\begin{frame} [noframenumbering]
+\frametitle{  }
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\Huge{\centerline{Appendix}}
+\end{frame}
+
+% A.1
+\begin{frame}
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{Weighted Squared Range Least Squares Formulation}} \\
+\normalsize
+\begin{itemize}
+\item
+Following [BSL2008], we convert \eqref{WSR} into a GTRS as
+\begin{eqnarray} \label{1} %eq 6 a,b
+\setcounter{abc}{1}
+\Min_{{\By} \in R^{n+1}} \|\BA_w\By-\Bb_w\|^2 \qquad\\
+\stepcounter{abc} \setcounter{equation}{1} \mbox{subject to: \ }
+\By^T\BD\By + 2\Bf^T\By = 0
+\end{eqnarray}
+where $\By = [\Bx^T \ \alpha]^T$, $\alpha = \|\Bx\|$, $\BA_w = \BGA\BA$ and $\Bb_w = \BGA\Bb$ with fixed $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$, and
+
+\begin{equation} \label{2}
+\setcounter{equation}{2}
+\setcounter{abc}{0}
+\BA=\left(\begin{array}{cc}
+    -2\Ba_1^T & 1 \\
+    \vdots  & \vdots \\
+    -2\Ba_m^T & 1
+    \end{array} \right),
+\Bb=\left(\begin{array}{c}
+    r_1^T-\|\Ba_1\|^T \\
+    \vdots \\
+    r_m^T-\|\Ba_m\|^T
+    \end{array} \right)
+\end{equation}
+\begin{equation} \label{3}
+\BD=\left(\begin{array}{cc}
+    \BI\!_{n\times n} & \BO_{n\times 1} \\
+    \BO_{1\times n} & 0
+    \end{array} \right),
+\Bf=\left(\begin{array}{c}\BO \\ -0.5 \end{array} \right)
+\end{equation}
+%For a \textit{fixed} set of weights $\{w_i, i = 1, …, m\}$, the global solution of (6) can be solved by the method developed in and we denote the solution by  $\mathbf{S}(\BA_w, \Bb_w, \BD, \Bf)$.
+\end{itemize}
+\end{frame}
+
+%%------------------------------------------------
+%\begin{frame}
+%\frametitle{Source Localization From Range Measurements}
+%{\large \textit{An Iterative Re-Weighting Strategy}} \\
+%\normalsize
+% More importantly, when the iterates produced by solving (\ref{eq:12}) (namely $\Bx_k$ for $k = 1, 2,\ldots$) converge, in the $k$th iteration with $k$ sufficiently large, the objective function of (\ref{eq:11}) in a small vicinity of its solution $\Bx_k$ is approximately equal to
+%\begin{equation} \label{sr:w}
+%\nonumber
+%\begin{aligned}
+%&\sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2 \\ % \approx \sum_{i=1}^m w_i^{(k)}\left(\|\Bx_k-\Ba_i\|^2-r_i^2\right)^2 \\
+%%&=\sum_{i=1}^m w_i^{(k)}\left(\|\Bx_k-\Ba_i\|+r_i\right)^2\left(\|\Bx_k-\Ba_i\|-r_i\right)^2  \\
+%& \approx \sum_{i=1}^m w_i^{(k)}\left(\|\Bx_{k-1}-\Ba_i\|+r_i\right)^2\left(\|\Bx_k-\Ba_i\|-r_i\right)^2 
+%%&=\sum_{i=1}^m \left(\|\Bx_k-\Ba_i\|-r_i\right)^2 
+% \approx \sum_{i=1}^m \left(\|\Bx-\Ba_i\|-r_i\right)^2\\
+%\\
+%\end{aligned}
+%\end{equation}
+%\end{frame}
+%%------------------------------------------------
+
+% A.2
+\begin{frame}
+%\frametitle{An Iterative Re-Weighting Strategy}
+\frametitle{Source Localization From Range Measurements}
+{\large \textit{The Algorithm}} \\
+\normalsize
+% The localization method can be outlined as follows.
+\begin{enumerate}
+\item %1
+\underline{Input data}: Sensor locations $\{\Ba_i, i=1,\ldots,m\}$, range measurements $\{r_i, i=1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\zeta$.
+\item %2
+Generate data set $\BA,\Bb, \BD, \Bf$ using (2) and \eqref{3}. Set $k=1, w_i^{(1)}=1$ for $i=1,\ldots,m$.
+\item %3 
+Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BA_w=\BGA_k\BA$ and $\Bb_w=\BGA_k\Bb$.
+\item%4
+Solve the WSR-LS problem \eqref{IRWSR}  via (1) to obtain its global solution $\Bx_k$. % = $ \mathbf{S}(\BA_w, \Bb_w, \BD, \Bf)$.
+\item %5
+If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\zeta$, terminate and \underline{output $\Bx_k$} as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ and repeat from Step 3).
+\end{enumerate}
+\end{frame}
+%%------------------------------------------------
+
+%\begin{frame}
+%\frametitle{The Algorithm}
+%It is evident that the complexity of the algorithm is practically equal to the complexity of the WSR-LS solver involved in Step 4 times the number of iterations, $k$. The algorithm converges with a small number of iterations, typically a $k \leq 6$ suffices. Convergence is guaranteed due to the nature of the WSR-LS solver which produces a global solution that does not depend on the initial point, and convexity of the WSR-LS problem (6). For simplicity, we shall call the solutions obtained from Algorithm 1 IRWSR-LS solutions.
+%\end{frame}
+
+%------------------------------------------------
+
+% A.3
+\begin{frame}
+\frametitle{Source Localization From Range-Difference Measurements} %3.2
+{\large \textit{Weighted Squared Range-Difference Least Squares Formulation}} \\~\\
+\normalsize
+\begin{itemize}
+\item 
+By introducing new variable $\By=[\Bx^T \ \|\Bx\|]^T$ and noticing nonnegativity of the component $y_{n+1}$ problem \eqref{WSRD} is converted to
+\begin{eqnarray} \label{4}
+\setcounter{abc}{0} \stepcounter{abc}
+\Min_{\By \in R^{n+1}} \|\BB_w\By - \Bg_w\| \\
+\stepcounter{abc} \setcounter{equation}{4}
+\mbox{subject to: } \By^T\BC\By = 0 \\
+\stepcounter{abc} \setcounter{equation}{4}
+y_{n+1}\geq 0
+\end{eqnarray}
+\item
+where $\BB_w=\BGA\BB$, $\Bg_w=\BGA\Bg$ , $\BGA=\mbox{diag}\{\sqrt{w_1},\ldots,\sqrt{w_m}\}$,  $\Bg=[g_1 \ldots g_m]^T$ and
+\begin{equation} \label{5}
+\setcounter{abc}{0}
+%\label{eq:20} %29
+\BB = \left(\begin{array}{cc}
+    -2\Ba_1^T & -2d_1 \\
+    \vdots & \vdots \\
+    -2\Ba_m^T & -2d_m
+    \end{array}\right),
+\BC =  \left(\begin{array}{cc}
+    \BI_n & \BO_{n \times 1} \\
+    \BO_{1 \times n} & -1
+    \end{array}\right)
+\end{equation}
+
+%On comparing (23) with (19), it follows immediately that the global solver for problem (19) characterized by data set $\{\BB, \Bg, \BC\}$ can also be used for solving problem (23) by applying it to data set $\{\BB_w, \Bg_w, \BC\}$.
+
+\end{itemize}
+\end{frame}
+%------------------------------------------------
+%\begin{frame}
+%\frametitle{SRD-LS Formulation}
+%Reference [12] presents a rigorous argument which shows that the optimal solution of (\ref{eq:19}) either assumes the form of  $\tilde{\By}(\lambda)=\left(\BB_w^T\BB_w+\lambda\BC\right)^{-1}\BB^T\Bg$
+% where $\lambda$ solves
+% \begin{equation}\label{eq:21}
+% \tilde{\By}(\lambda)^T\BC\tilde{\By}(\lambda)=0
+% \end{equation}
+% and makes $\BB^T\BB+\lambda\BC$ positive definite, or is the vector among $\{\BO,$ $\tilde{\By}(\lambda_1),\ldots,\tilde{\By}(\lambda_p)\}$ that gives the smallest objective function in (\ref{eq:19}a), where $\{\lambda_i, i = 1,\ldots,p\}$ are all roots of (\ref{eq:21}) such that the $(n+1)$'th component of $\tilde{\By}(\lambda_i)$ is nonnegative and $\BB^T\BB+\lambda\BC$ has exactly one negative and $n$ positive eigenvalues. We shall refer the global solution of (\ref{eq:19}) to as the SRD-LS solution.
+%\end{frame}
+
+%------------------------------------------------
+% A.4 
+\begin{frame}
+%\frametitle{An Iterative Re-Weighting Strategy}
+\frametitle{Source Localization From Range Difference Measurements}
+{\large \textit{The Algorithm}} \\~\\
+\normalsize
+% The localization method can be outlined as follows.
+\begin{enumerate}
+\item %1 
+\underline{Input data}: Sensor locations $\{\Ba_i, i=0, 1,\ldots,m\}$ with $\Ba_0=\BO$, range-difference measurements $\{d_i, i = 1,\ldots,m\}$, maximum number of iterations $k_{max}$ and convergence tolerance $\xi$.
+\item %2
+Generate data set $\{\BB, \Bg, \BC\}$ using (5). Set $k=1$, $w_i^{(1)}=1$ for $i=1,\ldots,m.$
+\item %3
+Set $\BGA_k=\mbox{diag}\left(\sqrt{w_1^{(k)}},\ldots,\sqrt{w_m^{(k)}}\right)$, $\BB_w=\BGA_k\BB$ and $\Bg_w=\BGA_k\Bg$.
+\item %4
+Solve WSRD-LS problem \eqref{4} to obtain its global solution $\Bx_k$.
+\item %5
+If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and \underline{output $\Bx_k$} as the solution; otherwise, set $k=k+1$, update weights $\{w_i^{(k)}, i=1,\ldots,m\}$ and repeat from Step 3).
+%We shall call the solutions obtained from Algorithm 2 IRWSRD-LS solutions.
+\end{enumerate}
+\end{frame}
+
+
+%------------------------------------------------
+
+% A.5
+
+\begin{frame} [t,allowframebreaks]
+\frametitle{References}
+
+%\printbibliography
+%\end{frame}
+%
+
+\begin{thebibliography}{99} 
+
+\bibitem{1}
+%[SA1987] 
+J. O. Smith and J. S. Abel, ``Closed-form least-squares source location
+estimation from range-difference measurements,'' {\em IEEE Trans. Acoust.,
+Speech Signal Process.}, vol. 12, pp. 1661--1669, Dec. 1987.
+
+\bibitem{2}
+%[SR1987] 
+H. Schau and A. Robinson, ``Passive source localization employing intersecting spherical surfaces from time-of-arrival differences,'' {\em IEEE Trans. Acoust., Speech Signal Process.}, vol. ASSP--35, pp. 1223--1225, Aug. 1987.
+
+\bibitem{3}
+%[YHR1998] 
+K. Yao, R. Hudson, C. Reed, D. Chen, and F. Lorenzelli, ``Blind beamforming on a randomly distributed sensor array system,'' {\em IEEE J. Select. Areas Commun.}, vol. 16, pp. 1555-1567, Oct. 1998.
+
+\bibitem{4}
+%[Sp2001]  
+M. A. Sprito, ``On the accuracy of cellular mobile station location estimation,'' {\em IEEE Trans. Veh. Technol.}, vol. 50, pp. 674-685, May 2001.
+
+\bibitem{5}
+%[HBE2002] 
+Y. Huang, J. Benesty, G. W. Elko, and R. M. Mersereau, ``Realtime passive source localization: A practical linear correction least-squares approach,'' {\em IEEE Trans. Speech Audio Process.}, vol. 9, no. 8, pp. 943-956, Nov. 2002.
+
+\bibitem{6}
+%[CSM2004]
+K. W. Cheung, H. C. So, W. K. Ma, and Y. T. Chan, ``Least squares algorithms for time-of-arrival-based mobile location,'' {\em IEEE Trans. Signal Process.}, vol. 52, no. 4, pp. 1121--1228, Apr. 2004.
+
+\bibitem{7}
+%[LH2004] 
+D. Li and H. Hu, ``Least square solutions of energy based acoustic source localization problems,'' in {\em Proc. ICPPW}, 2004.
+
+\bibitem{8}
+%[CMS2004] 
+K.W. Cheung, W.K. Ma, and H.C. So, ``Accurate approximation algorithm for TOA-based maximum-likelihood mobile location using semidefinite programming,'' in {\em Proc. ICASSP}, 2004, vol. 2, pp. 145--148.
+
+\bibitem{9}
+%[STK2005] 
+A. H. Sayed, A. Tarighat, and N. Khajehnouri, ``Network-based wireless location,'' {\em IEEE Signal Process. Mag.}, vol. 22, no. 4, pp. 24--40, July 2005.
+
+\bibitem{10}
+%[CHC2006] 
+Y. T. Chan, H. Y. C. Hang, and P. C. Ching, ``Exact and approximate maximum likelihood localization algorithms,'' {\em IEEE Trans. Veh. Technol.}, vol. 55, no. 1, pp. 10--16, Jan. 2006.
+
+\bibitem{11}
+%[SL2006] 
+P. Stoica and J. Li, ``Source localization from range-difference measurements,'' {\em IEEE Signal Process. Mag.}, vol. 23, pp. 63--65,69, Nov. 2006.
+
+\bibitem{12}
+%[BSL2008] 
+A. Beck, P. Stoica and J. Li,  ``Exact and approximate solutions of source localization problems,'' {\em IEEE Trans. Signal Processing}, vol. 56, no. 5, pp. 1770--1777, May 2008.
+
+\bibitem{13}
+%[VB1996] 
+L. Vandenberghe and S. Boyd, ``Semidefinite programming,'' {\em SIAM Rev.}, vol. 38, no. 1, pp. 40--95, Mar. 1996.
+
+\bibitem{14}
+%[AL2007] 
+A. Antoniou and W.-S. Lu, {\em Practical Optimization: Algorithms and Engineering Applications}, Springer, 2007.
+
+\bibitem{15}
+%[Mo1993] 
+J.J. More, ``Generalizations of the trust region subproblem,'' {\em Optim. Methods Softw.}, vol. 2, pp. 189--209, 1993.
+
+\bibitem{16}
+%[FW2004] 
+C. Fortin and H. Wolkowicz, ``The trust region subproblem and semidefinite programming,'' {\em Optim. Methods Softw.}, vol. 19, no.1, pp. 41--67, 2004.
+
+\end{thebibliography}
+
+
+%\begin{frame}
+%\frametitle{References}
+%\footnotesize{
+%\begin{thebibliography}{99} % Beamer does not support BibTeX so references must be inserted manually as below
+%\bibitem[Smith, 2012]{p1} John Smith (2012)
+%\newblock Title of the publication
+%\newblock \emph{Journal Name} 12(3), 45 -- 678.
+%\end{thebibliography}
+%}
+\end{frame}
