@@ -1,50 +1,28 @@
 %%%%%%%%%%%%%
 %%%b IRW
 %%%%%%%%%%%%%
-\section{Conclusions}
 
+% A.1
 \begin{frame}
-\frametitle{Conclusions}
+\frametitle{Nonconvexity of the R-LS objective}
 \phantom{m}
-\phantom{m}
-\begin{itemize}
-\item <2->
-New global methods for locating a radiating source based on noisy range or range difference measurements have been proposed. \\~\\
-\item <3->
-These methods are developed by transforming the SR-LS and SRD-LS algorithms [BSL2008] into an iterative procedure % where adaptively weighted SR-LS (SRD-LS) objective is minimized so as to move a weighted SR-LS (SRD-LS) objective towards the original R-LS objective as the iteration continues. \\~\\
-so that a weighted SR-LS (SRD-LS) objective asymptotically approaches the original R-LS objective. \\~\\
-\item <4->
-Proposed algorithms are found to outperform the existing methods.
-\end{itemize}
+\linespread{0.1} \selectfont
+Given the objective
+\begin{equation}
+ F(\Bx)= \sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2 \nonumber
+\end{equation}
+\linespread{1}\selectfont
+its Hessian for points $\Bx$ that are not coincided with $\Ba_i$ for $1 \leq i \leq m$, is given by
+\begin{equation}
+\begin{aligned}
+\nonumber
+\bigtriangledown ^2 F(\Bx)  = 2m\BI  + &2\sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \cdot \\
+\cdot &\left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T - \|\Bx - \Ba_i\|^2 \BI \right)
+\end{aligned}
+\end{equation}
+which is not always positive semidefinite. Hence $F(\Bx)$ is not convex.
 \end{frame}
 
-%------------------------------------------------
-
-\begin{frame} [noframenumbering]
-\frametitle{  }
-\phantom{m} 
-\phantom{m}
-\phantom{m} 
-\phantom{m}
-\phantom{m} 
-\phantom{m}
-\Huge{\centerline{Q \& A }}
-
-\end{frame}
-
-%%------------------------------------------------
-%
-\appendix
-\begin{frame} [noframenumbering]
-\frametitle{  }
-\phantom{m} 
-\phantom{m}
-\phantom{m} 
-\phantom{m}
-\phantom{m} 
-\phantom{m}
-\Huge{\centerline{Appendix}}
-\end{frame}
 
 % A.1
 \begin{frame}
@@ -54,10 +32,13 @@ Proposed algorithms are found to outperform the existing methods.
 \begin{itemize}
 \item
 Following [BSL2008], we convert \eqref{WSR} into a GTRS as
-\begin{eqnarray} \label{1} %eq 6 a,b
+\setcounter{equation}{0} 
 \setcounter{abc}{1}
+\begin{eqnarray} \label{1} %eq 6 a,b
 \Min_{{\By} \in R^{n+1}} \|\BA_w\By-\Bb_w\|^2 \qquad\\
-\stepcounter{abc} \setcounter{equation}{1} \mbox{subject to: \ }
+\stepcounter{abc} 
+\setcounter{equation}{1} 
+\mbox{subject to: \ }
 \By^T\BD\By + 2\Bf^T\By = 0
 \end{eqnarray}
 where $\By = [\Bx^T \ \alpha]^T$, $\alpha = \|\Bx\|$, $\BA_w = \BGA\BA$ and $\Bb_w = \BGA\Bb$ with fixed $\BGA=\mbox{diag}\left(\sqrt{w_1},\ldots,\sqrt{w_m}\right)$, and
@@ -210,6 +191,67 @@ If $k=k_{max}$ or $\|\Bx_k-\Bx_{k-1}\|<\xi$, terminate and \underline{output $\B
 %%%% PCCCP
 %%%%%%%%%%%%%%%%%%%
 
+%%------------------------------------------------
+% A.2
+\begin{frame} 
+\frametitle{PCCP - Problem Reformulation}
+We express the objective in (R) as $F(\Bx) = f(\Bx) –- g(\Bx)$ with 
+ \begin{equation}  \nonumber 
+f(\Bx) =  
+m \Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i \ \ \mbox{and } \ g(\Bx) = 2 \sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
+\end{equation}
+  
+Then, we replace $\bigtriangledown g(\Bx_k)$ by a subgradient of $g(\Bx)$ at $\Bx_k$:
+\begin{equation} 
+\nonumber
+\partial g{(\Bx_k)}  = 2 \sum^m_{i = 1} r_i \partial \|\Bx_k - \Ba_i\|, 
+\end{equation}
+where 
+\begin{equation}
+\nonumber
+\partial \|\Bx_k - \Ba_i\|  = \left\{
+	\begin{aligned}
+	& \frac{\Bx_k - \Ba_i}{\|\Bx_k - \Ba_i\|}, &\mbox{if } \Bx_k \neq \Ba_i \\
+	& \BO, &\mbox{otherwise }
+	\end{aligned}
+\right.
+\end{equation}
+\end{frame}
+
+\begin{frame} 
+\frametitle{PCCP - Problem Reformulation}
+\phantom{m}
+Hence  $ \hat{g}(\Bx,\Bx_k) $ can be formed as: 
+\begin{equation} 
+\nonumber
+\begin{aligned}
+  \hat{g}(\Bx,\Bx_k)   & =   g(\Bx_k) +  \bigtriangledown g(\Bx_k)^T(\Bx - \Bx_k) \\
+  & =   2 \sum^m_{i=1} r_i \|\Bx_k - \Ba_i\|   +  2 \left( \Bx - \Bx_k \right)^{T} \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\| \\
+& = 2\Bx^T \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i \| + c
+\end{aligned}
+\end{equation} 
+where $c$ is a constant given  by
+\begin{equation} 
+\nonumber
+ c = - 2 \sum_{i = 1}^m r_i \Ba_i^T \partial \|\Bx_k - \Ba_i\|.
+\end{equation} 
+\end{frame}
+
+%%------------------------------------------------
+% A.3
+\begin{frame}
+\frametitle{PCCP-based LS Algorithm for Source Localization}
+\phantom{m}
+%{\large \textit{PCCP-based LS Algorithm for Source Localization}}
+%\\~\\
+\textbf{Step 1:} Input sensor locations $\{\Ba_i, i = 1,\ldots,m\}$, range measurements $\{r_i, i = 1, \ldots, m\}$, $\Bx_0, K_{max}, \tau_0, \tau_{max}, \mu > 0, \gamma, \sigma$, and set $k = 0$. 
+\\~\\
+\textbf{Step 2:} Form  $\Bv_k$ and solve PCCP. Denote the solution as  $(\Bs^*, \hat{\Bs}^*, \Bx^*)$. 
+\\~\\
+\textbf{Step 3:} Update  $\tau_{k+1} $ = min $(\mu\tau_k, \tau_{max})$, set $k = k+1$. 
+\\~\\
+\textbf{Step 4:} If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_k = \Bx^*$ and repeat from Step 2. 
+\end{frame}
 
 
 %------------------------------------------------

@@ -290,17 +290,36 @@ semidefinite programming (SDP) are not optimal in LS sense.
 \end{frame}
 
 
+\section[Chapter 2]{Iterative Re-Weighting Least-Squares Methods for Source Localization}
+
+
+\begin{frame} [noframenumbering]
+\frametitle{  }
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\Huge{\centerline{Iterative Re-Weighting}}
+
+\Huge{\centerline{Least-Squares Methods for}}
+
+\Huge{\centerline{Source Localization}}
+
+\end{frame}
+
 \begin{frame} % Slide 12
 \frametitle{Iterative Re-Weighting Least-Squares Methods for Source
 Localization}
 \phantom{m}
 \begin{itemize}
 \item
-Methods developed by A. Beck, P. Stoica, J. Li [BSL2008] for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SDR-LS) problems allow to obtain exact and \textit{global}  solutions.
+Methods developed by A. Beck, P. Stoica, J. Li [BSL2008] for \textit{squared} range LS (SR-LS) and \textit{squared} range difference LS (SDR-LS) problems allow us to obtain exact and \textit{global}  solutions.
 \\~\\
 \item
 The results produced are merely approximations of the original LS
-problems because SR-LS and SRD-LS are no longer an ML solutions.
+problems because SR-LS and SRD-LS are no longer ML solutions.
 \\~\\
 \item
 Proposed iterative procedure where the SR-LS (or SRD-LS) algorithm is applied to a \textit{weighted} sum of squared terms and special weights construction allow to obtain a solution which is considerably closer to
@@ -311,7 +330,7 @@ the original range-based (or range-difference-based) LS solution.
 
 
 
-\section[Chapter 2]{Iterative Re-Weighting Least-Squares Methods for Source Localization}
+
 
 \subsection{Range-Based Localization} %2.2
 
@@ -351,7 +370,8 @@ The range-based least squares (R-LS) estimate refers to the solution of the prob
 \end{equation} \\
 \item If $\Beps \sim N(0,\symb{\Sigma}) $ and $\symb{\Sigma} \propto \BI$, then the R-LS solution of problem \eqref{R} is identical to the ML location estimator. \\ ~\\
 %This formulation is connected to the ML estimator that determines source location by examining the probabilistic model of  $\Beps$. \\~\\
- \item  Unfortunately, the objective in \eqref{R} is highly non-convex, possessing many local minimizers even for small-scale systems.
+- \item  Unfortunately, the objective in \eqref{R} is highly non-convex, possessing many local minimizers even for small-scale systems.
+
 \end{itemize}
 \end{frame}
 
@@ -431,7 +451,7 @@ Evidently, such weight assignments cannot be realized.
 
 \begin{itemize}
 \item 
- In the proposed iterative procedure we solve a weighted SR-LS sub-problem,where at each iteration the weights are fixed:
+ In the proposed iterative procedure we solve a weighted SR-LS sub-problem, where at each iteration the weights are fixed:
 \begin{equation} \label{IRWSR}
 \Min_{x} \sum_{i=1}^m w_i^{(k)}\left(\|\Bx-\Ba_i\|^2-r_i^2\right)^2 \tag{IRWSR}
 \end{equation}
@@ -492,7 +512,7 @@ By re-writing the measurements model as $d_i+\|\Bx\|=\|\Bx-\Ba_i\|$ and squaring
 -2d_i\|\Bx\|-2\Ba_i^T\Bx=g_i, \quad i=1,\ldots,m
  \end{equation}
  where $g_i=d_i^2-\|\Ba_i\|^2$.  
-The SRD-LS solution can be obtained by minimizing following criterion:
+The SRD-LS solution can be obtained by minimizing the following criterion:
  \begin{equation}
  \nonumber
 \Min_{{\Bx} \in R^{n}} \sum_{i=1}^m \left(-2\Ba_i^T\Bx-2d_i\|\Bx\|-g_i\right)^2 
@@ -617,6 +637,21 @@ We can see that IRWSR-LS solutions offer considerable improvement over SR-LS sol
 %\section{Penalty Convex-Concave Procedure for Source Localization}
 \section[Chapter 3]{PCCP for Source Localization}
 
+\begin{frame} [noframenumbering]
+\frametitle{  }
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\Huge{\centerline{Penalty Convex-Concave}}
+
+\Huge{\centerline{Procedure for}}
+
+\Huge{\centerline{Source Localization}}
+
+\end{frame}
+
 
 \begin{frame} % Slide 26
 \frametitle{Problem Statement }
@@ -653,7 +688,7 @@ We frame the localization problem as difference-of-convex-functions
 Proposed formulation:\\
 - based on a penalty convex-concave procedure (PCCP)\\
 - accepts infeasible initial points\\
-- additional constraints that enforce the algorithms iteration path towards the LS solution\\
+- additional constraints that enforce the algorithm's iteration path towards the LS solution\\
 - strategies to secure good initial points
 \end{itemize}
 \end{frame}
@@ -907,7 +942,7 @@ Summarizing, the problem in the $k$-th iteration can be stated as
 Technical problem: the formulation requires a feasible initial point $\Bx_0$. \\~\\
 
 \item
-Solution approach: allow \textit{infeasible} initinial points by introducing slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, $ 1\leq i \leq m$} into constraints (C1) and (C2) and penalizing the sum of violations. 
+Solution approach: allow \textit{infeasible} initial points by introducing slack variables {$s_i \geq 0, \hat{s_i} \geq 0$, $ 1\leq i \leq m$} into constraints (C1) and (C2) and penalizing the sum of violations. 
  \\~\\
 \item
 This leads to a \textit{penalty} CCP:% based formulation: 
@@ -1018,6 +1053,23 @@ $\gamma  = 3$, $K_{max} = 20$
 
 \section[Chapter 4]{Least Squares Localization by Sequential Convex Relaxation}
 
+ 
+
+\begin{frame} [noframenumbering]
+\frametitle{  }
+\phantom{m} 
+\phantom{m}
+\phantom{m} 
+\phantom{m}
+\phantom{m}
+\phantom{m}
+\Huge{\centerline{Least Squares Localization by}}
+
+\Huge{\centerline{Sequential Convex Relaxation}}
+\end{frame}
+
+\subsection{Range-Difference-Based}
+
 \begin{frame} % Slide 45
 \frametitle{Range-Difference Localization} %3.2
 {\large \textit{Problem Statement}}
@@ -1028,7 +1080,7 @@ $\gamma  = 3$, $K_{max} = 20$
 Assumed measurement model:
  \begin{equation} 
  \nonumber
- d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, \quad i = 1,\ldots,m
+ d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\| + \varepsilon_i=\|\Bx-\Ba_i\|-\|\Bx\|+ \varepsilon_i, \quad i = 1,\ldots,m
  \end{equation}
 where $\Ba_0$ - reference sensor placed at the origin.\\~\\
  \item 
@@ -1187,7 +1239,7 @@ Convergence tolerance $\epsilon$.
 
 
 
-\subsection{Numerical Results}
+\subsubsection{Numerical Results}
 
 \begin{frame} % Slide 51
 \frametitle{Numerical Results}
@@ -1195,16 +1247,73 @@ Convergence tolerance $\epsilon$.
 \\~\\
 \begin{itemize}
 \item
-Sensors: $\{\Ba_i, i = 1, 2,\ldots,5\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$
+Sensors: $\{\Ba_i, i = 1, 2,\ldots,11\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$, $\Ba_0 = \BZero$ placed at the origin.
 \\~\\
 \item
 Source: $\Bx_s$, located randomly in  $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$
 \\~\\
 \item
-Noise: $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d random variables with zero mean and variance $\sigma^2$,  $\sigma \in \{10^{-3}, 10^{-2}, 10^{-1}, 1\}$
+Noise: $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d random variables with zero mean and variance $\sigma^2$,  $\sigma \in \{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.
 \\~\\
 \item
-$\gamma  = 3$, $K_{max} = 20$
+$\beta  = 3$; penalty terms $\tau_0 = 10, \tau_{max} = 10 000$.
+\\~\\
+\item
+Convergence tolerance $\epsilon = 10^{-6}$.
+
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 52
+\frametitle{Numerical Results}
+\begin{table}
+\phantom{m}
+\caption{MSE of position estimation for SRD-LS and SCR-RDLS methods}
+\begin{tabular}{||c||c|c|c||} 
+\hhline{|t:====:t|} 
+$\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
+%&&& \\
+1e-03&	1.2655e-06  & 8.4626e-07 &  33 \\ &&&\\
+1e-02&	1.4492e-04 &  6.8385e-05 &  52 \\ &&&\\
+1e-01&	1.3329e-02 & 7.1676e-03 &   46 \\ &&&\\
+1e+0&	1.6077e+00 &  9.5371e-01 &   40  \\ %&&&\\
+\hhline{|b:====:b|} 
+\end{tabular}
+\end{table}
+\end{frame}
+
+\subsection{Range-Based}
+
+\begin{frame} % Slide 53
+\frametitle{Range-Based Localization}
+{\large \textit{Measurement Model}} 
+\\~\\
+\normalsize
+\begin{itemize}
+\item
+The \textit{range measurements} model
+\begin{equation} 
+\nonumber
+r_i = \|{\Bx} - {\Ba}_i\| + \varepsilon_i, \quad i = 1, \ldots , m.
+\end{equation}  
+$\{\Ba_1,\ldots, \Ba_m\}$ - given array of $m$ sensors;\\
+$r_i$ - received noisy distance reading from sensor $i$; \\
+$\varepsilon_i$ - unknown noise associated with measurement from the $i$th sensor. \\ ~\\
+
+\item
+The range-based LS  estimate refers to the solution of% the problem
+\begin{equation} \label{R-LS} 
+\Min_{\Bx} F(\Bx)=\sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2	\tag{R}
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 54
+\frametitle{Sequential Relaxation}
+\phantom{m}
+\begin{itemize}
+\item
+
 \end{itemize}
 \end{frame}
 
@@ -1282,88 +1391,7 @@ Multiple source localization in wireless sensor networks.
 \end{frame}
 
 %%------------------------------------------------
-% A.1
-\begin{frame}
-\frametitle{Nonconvexity of the objective}
-\phantom{m}
-\linespread{0.1} \selectfont
-Given the objective
-\begin{equation}
- F(\Bx)= \sum_{i=1}^{m} (r_i - \|{\Bx} - {\Ba}_i\|)^2 \nonumber
-\end{equation}
-\linespread{1}\selectfont
-its Hessian for points $\Bx$ that are not coincided with $\Ba_i$ for $1 \leq i \leq m$, is given by
-\begin{equation}
-\begin{aligned}
-\nonumber
-\bigtriangledown ^2 F(\Bx)  = 2m\BI  + &2\sum^m_{i=1} \frac{r_i}{\|\Bx - \Ba_i\|^3} \cdot \\
-\cdot &\left( \left(\Bx - \Ba_i\right)\left(\Bx - \Ba_i\right)^T - \|\Bx - \Ba_i\|^2 \BI \right)
-\end{aligned}
-\end{equation}
-which is not always positive semidefinite. Hence $F(\Bx)$ is not convex.
-\end{frame}
 
-%%------------------------------------------------
-% A.2
-\begin{frame} 
-\frametitle{Problem Reformulation}
-We express the objective in (R) as $F(\Bx) = f(\Bx) –- g(\Bx)$ with 
- \begin{equation}  \nonumber 
-f(\Bx) =  
-m \Bx^T\Bx - 2 \Bx^T\sum^m_{i=1} \Ba_i \ \ \mbox{and } \ g(\Bx) = 2 \sum^m_{i = 1} r_i \|\Bx - \Ba_i\| 
-\end{equation}
-  
-Then, we replace $\bigtriangledown g(\Bx_k)$ by a subgradient of $g(\Bx)$ at $\Bx_k$:
-\begin{equation} 
-\nonumber
-\partial g{(\Bx_k)}  = 2 \sum^m_{i = 1} r_i \partial \|\Bx_k - \Ba_i\|, 
-\end{equation}
-where 
-\begin{equation}
-\nonumber
-\partial \|\Bx_k - \Ba_i\|  = \left\{
-	\begin{aligned}
-	& \frac{\Bx_k - \Ba_i}{\|\Bx_k - \Ba_i\|}, &\mbox{if } \Bx_k \neq \Ba_i \\
-	& \BO, &\mbox{otherwise }
-	\end{aligned}
-\right.
-\end{equation}
-\end{frame}
-
-\begin{frame} 
-\frametitle{Problem Reformulation}
-\phantom{m}
-Hence  $ \hat{g}(\Bx,\Bx_k) $ can be formed as: 
-\begin{equation} 
-\nonumber
-\begin{aligned}
-  \hat{g}(\Bx,\Bx_k)   & =   g(\Bx_k) +  \bigtriangledown g(\Bx_k)^T(\Bx - \Bx_k) \\
-  & =   2 \sum^m_{i=1} r_i \|\Bx_k - \Ba_i\|   +  2 \left( \Bx - \Bx_k \right)^{T} \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i\| \\
-& = 2\Bx^T \sum^m_{i=1} r_i \partial \|\Bx_k - \Ba_i \| + c
-\end{aligned}
-\end{equation} 
-where $c$ is a constant given  by
-\begin{equation} 
-\nonumber
- c = - 2 \sum_{i = 1}^m r_i \Ba_i^T \partial \|\Bx_k - \Ba_i\|.
-\end{equation} 
-\end{frame}
-
-%%------------------------------------------------
-% A.3
-\begin{frame}
-\frametitle{The Algorithm}
-%\phantom{m}
-{\large \textit{PCCP-based LS Algorithm for Source Localization}}
-\\~\\
-\textbf{Step 1:} Input sensor locations $\{\Ba_i, i = 1,\ldots,m\}$, range measurements $\{r_i, i = 1, \ldots, m\}$, $\Bx_0, K_{max}, \tau_0, \tau_{max}, \mu > 0, \gamma, \sigma$, and set $k = 0$. 
-\\~\\
-\textbf{Step 2:} Form  $\Bv_k$ and solve PCCP. Denote the solution as  $(\Bs^*, \hat{\Bs}^*, \Bx^*)$. 
-\\~\\
-\textbf{Step 3:} Update  $\tau_{k+1} $ = min $(\mu\tau_k, \tau_{max})$, set $k = k+1$. 
-\\~\\
-\textbf{Step 4:} If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_k = \Bx^*$ and repeat from Step 2. 
-\end{frame}
 
 \include{mics}
 
