@@ -642,7 +642,7 @@ The range-based least squares  estimate refers to the solution of% the problem
 \end{frame}
 
 \begin{frame} % Slide 27
-\frametitle{}
+\frametitle{Penalty Convex-Concave  Procedure for Source Localization}
 \phantom{m}
 \begin{itemize}
 \item
@@ -653,8 +653,7 @@ We frame the localization problem as difference-of-convex-functions
 Proposed formulation:\\
 - based on a penalty convex-concave procedure (PCCP)\\
 - accepts infeasible initial points\\
-- additional constraints that enforce the algorithms iteration path
-towards the LS solution\\
+- additional constraints that enforce the algorithms iteration path towards the LS solution\\
 - strategies to secure good initial points
 \end{itemize}
 \end{frame}
@@ -1017,6 +1016,198 @@ $\gamma  = 3$, $K_{max} = 20$
 \end{table}
 \end{frame}
 
+\section[Chapter 4]{Least Squares Localization by Sequential Convex Relaxation}
+
+\begin{frame} % Slide 45
+\frametitle{Range-Difference Localization} %3.2
+{\large \textit{Problem Statement}}
+\\~\\
+\normalsize
+\begin{itemize}
+\item 
+Assumed measurement model:
+ \begin{equation} 
+ \nonumber
+ d_i=\|\Bx-\Ba_i\|-\|\Bx-\Ba_0\|=\|\Bx-\Ba_i\|-\|\Bx\|, \quad i = 1,\ldots,m
+ \end{equation}
+where $\Ba_0$ - reference sensor placed at the origin.\\~\\
+ \item 
+ The standard range-difference LS (RD-LS) problem 
+ \begin{equation} \label{RD}
+\Min_{\Bx \in R^n} F(\Bx)=\sum_{i=1}^m \left(\|\Bx-\Ba_i\| - \|\Bx\| -d_i\right)^2 \tag{RD}
+ \end{equation}
+ \end{itemize}
+\end{frame}
+
+
+\begin{frame} % Slide 46
+\frametitle{Sequential Convex Relaxation}
+\phantom{m}
+\begin{itemize}
+\item
+Re-write the unconstrained problem (RD) as a constrained problem
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bx, y, \Bz} & & \sum^m_{i=1}\left( z_i - y - d_i\right)^2\\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad  i = 1, 2, \ldots m \\
+\nonumber
+& &\|\Bx\|  = y
+\end{eqnarray}
+\\
+\item
+Assume the $k$th iterate known $\lbrace\Bx_k, y_k, \Bz_k\rbrace$. Let the next iterate be $\lbrace\Bx_k +\Bdelta_x, y_k + \delta_y, \Bz_k + \Bdelta_z\rbrace$, i.e. constraints become
+\begin{eqnarray}
+\nonumber
+\|\Bx_{k} + \Bdelta_x - \Ba_i\| &\approx &z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\nonumber
+\|\Bx_{k} + \Bdelta_x\| &\approx &y_{k}  + \Bdelta_y
+\end{eqnarray}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 47
+\frametitle{Sequential Convex Relaxation}
+\phantom{m}
+\begin{itemize}
+\item
+Replace constraints by their affine approximations
+%Apply first-order Taylor approximations
+\setcounter{abc}{0}
+\begin{eqnarray}
+\nonumber
+\|\Bx_{k} - \Ba_i\| + \partial_x^T\|\Bx_{k} - \Ba_i\|\Bdelta_x &\approx & z_i^{k} + \Bdelta_{z_i}, \quad i = 1, 2, \ldots, m \\
+\nonumber
+\|\Bx_{k}\|  + \partial_x^T\|\Bx_{k}\|\Bdelta_x\ &\approx & y_{k}  + \Bdelta_y
+\end{eqnarray}
+\\
+\item
+The objective  can be written as
+\begin{eqnarray} 
+\nonumber
+F(\Bx_{k+1}) & =  & \sum^m_{i = 1} \left(z^{(k)}_i + \delta_{z_i} - (y_k + \delta_y) - d_i \right)^2 \\
+\nonumber
+& = & \sum^m_{i = 1} \left(- \delta_y + \delta_{z_i}  - \tilde{d_i}^{(k)} \right)^2
+\end{eqnarray}
+where 
+\begin{equation}
+\nonumber
+\tilde{d}^{(k)}_i =  d_i - y_k - z_i^{(k)}
+\end{equation}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 48
+\frametitle{Sequential Convex Relaxation}
+\phantom{m}
+\begin{itemize}
+\item
+In $k$th iteration we solve the problem
+\begin{eqnarray} 
+\nonumber
+\Min_{\tilde{\Bdelta}}& &f(\tilde{\Bdelta}) = \sum^m_{i=1}\left(-\delta_y + \delta_{z_{j}} - \tilde{d^{(k)}_i}\right)^2\\
+\nonumber
+\mbox{subject to:}& &\|\Bx_k - \Ba_i\| + \frac{\left(\Bx_{k} - \Ba_i\right)^T\Bdelta_x}{\|\Bx_k - \Ba_i\| } = z_i^{(k)} + \delta_{z_{j}}, \\
+\nonumber
+& &\qquad \qquad \qquad \qquad \qquad \qquad \qquad  \qquad i = 1, 2, \ldots m \\
+\nonumber
+& &\|\Bx_k\| + \frac{\Bx_k^T\Bdelta_x}{\|\Bx_k\|} = y_k + \delta_y \\
+\nonumber
+& &\begin{bmatrix}
+-\beta\BOne_2 \\
+-\beta \\
+-\beta\BOne_m
+\end{bmatrix} \leq \begin{bmatrix}
+\Bdelta_x \\
+\delta_y \\
+\Bdelta_z
+\end{bmatrix} \leq \begin{bmatrix}
+\beta\BOne_2 \\
+\beta \\
+\beta\BOne_m
+\end{bmatrix}
+\end{eqnarray}
+
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 49
+\frametitle{Sequential Convex Relaxation}
+%\phantom{m}
+\begin{itemize}
+\item
+Express the problem  in a standard form as
+\begin{eqnarray}
+\nonumber
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) \\
+\nonumber
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} = \Bb_k \\
+\nonumber
+& &\BC\tilde{\Bdelta} \leq \Bq
+\end{eqnarray}
+\\
+\item
+Relax the constraints  in order for the problem to be solvable
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau w\\
+\nonumber
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} - \Bb_k = \Bu - \Bv \\
+\nonumber
+& &\BC\tilde{\Bdelta} - \Bq \leq w\Be \\
+\nonumber
+& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, w \geq 0
+\end{eqnarray}
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 50
+\frametitle{The Algorithm: Input parameters}
+\phantom{m}
+\begin{itemize}
+\item
+Bound $\beta$ on the increment vector $\tilde{\Bdelta} =\left(
+\Bdelta_x, \delta_y, \Bdelta_z\right)$.
+\\~\\
+\item
+The initial point $\Bx_0$.
+\\~\\
+\item
+Initial weight for penalty terms $\tau_0$.
+\\~\\
+\item
+Upper limit of the weight  $\tau_{max}$.
+\\~\\
+\item
+Convergence tolerance $\epsilon$.
+\end{itemize}
+\end{frame}
+
+
+
+\subsection{Numerical Results}
+
+\begin{frame} % Slide 51
+\frametitle{Numerical Results}
+{\large \textit{System setup}}
+\\~\\
+\begin{itemize}
+\item
+Sensors: $\{\Ba_i, i = 1, 2,\ldots,5\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$
+\\~\\
+\item
+Source: $\Bx_s$, located randomly in  $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$
+\\~\\
+\item
+Noise: $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d random variables with zero mean and variance $\sigma^2$,  $\sigma \in \{10^{-3}, 10^{-2}, 10^{-1}, 1\}$
+\\~\\
+\item
+$\gamma  = 3$, $K_{max} = 20$
+\end{itemize}
+\end{frame}
+
 \begin{frame} % Slide
 \frametitle{}
 \phantom{m}
@@ -1025,26 +1216,40 @@ $\gamma  = 3$, $K_{max} = 20$
 
 \end{itemize}
 \end{frame}
-
 %------------------------------------------------
 %------------------------------------------------
-\subsection{Conclusion} 
+\section{Conclusions} 
 
 \begin{frame}
-\frametitle{Conclusion} 
+\frametitle{Conclusions} 
 \phantom{m}
 \begin{itemize}
 \item
-New iterative method for locating a radiating source based on noisy range measurements
+New iterative methods for locating a radiating source based on noisy range and range-difference measurements.
 \\~\\
 \item
-Transforms original least-squares problem to a DC programming problem
+The iterative re-weighting methods are developed by transforming the SR-LS and SRD-LS algorithms [BSL2008] into an iterative procedure so that a weighted SR-LS (SRD-LS) objective assymptotically
+approaches the original R-LS objective.
 \\~\\
 \item
-This in turn is relaxed to a sequential convex minimization based on PCCP that can be efficiently solved with an infeasible initial point
+Convex minimization method based on PCCP that can be efficiently solved with an infeasible initial point.
 \\~\\
 \item
-CCP allows a natural embedding of the LS formulation for localization into a sequential convex formulation
+Proposed algorithms are found to outperform the existing methods.
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide
+\frametitle{Future Work}
+\phantom{m}
+\phantom{m}
+\phantom{m}
+\begin{itemize}
+\item
+Study and mitigation of the influence of sensor geometry on the accuracy of the developed methods (for example, geometric dilusion of precision).
+\\~\\
+\item
+Multiple source localization in wireless sensor networks.
 \end{itemize}
 \end{frame}
 
