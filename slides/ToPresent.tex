@@ -1431,7 +1431,7 @@ Number of iterations $K_{max} = 9$.
 \caption{MSE of position estimation for SR-LS and SCR-RLS methods}
 \begin{tabular}{||c||c|c|c||} 
 \hhline{|t:====:t|} 
-$\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
+$\sigma$ & SR - LS & SCR-RLS & (R.I.,\%)  \\ \hline
 %&&& \\
 1e-02&	2.5360e-04 &  2.0596e-04 &  18 \\ &&&\\
 1e-01&	1.8696e-02 & 1.4802e-02 &   21 \\ &&&\\
@@ -1441,7 +1441,8 @@ $\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
 \end{table}
 \end{frame}
 
-%
+
+
 %\begin{frame} % Slide
 %\frametitle{}
 %\phantom{m}
@@ -1516,7 +1517,81 @@ Multiple source localization in wireless sensor networks.
 \end{frame}
 
 %%------------------------------------------------
+\section{Performance}
 
+\begin{frame} % Slide App
+\frametitle{Performance Comparison of Range-Based Algorithms}
+\begin{table}
+\phantom{m}
+\caption{CPU time usage}
+\begin{tabular}{||c|c||} 
+\hhline{|t:==:t|}
+Method &  Absolute time, msec.\\ \hline
+IRWSR-LS  & 6.0777e+00 \\&\\
+PCCP & 5.3790e+03 \\&\\
+SCR-RLS & 3.7005e+03   \\ %&&&\\
+\hhline{|b:==:b|} 
+\end{tabular}
+%\begin{tabular}{||c||c|c|c||} 
+%\hhline{|t:====:t|} 
+%$\sigma$ & IRWSR-LS  & PCCP & SCR-RLS  \\ \hline
+%%&&& \\
+%1e-03&	  &   &   \\ &&&\\
+%1e-02&	  &   &   \\ &&&\\
+%1e-01&	  &   &    \\ &&&\\
+%1e+0&	  &   &     \\ %&&&\\
+%\hhline{|b:====:b|} 
+%\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame} % Slide App
+\frametitle{Performance Comparison of Range-Based Algorithms}
+\begin{table}
+\phantom{m}
+\caption{CPU time usage}
+\begin{tabular}{||c|c||} 
+\hhline{|t:==:t|}
+Method &  Relative time\\ \hline
+IRWSR-LS  & 1 \\&\\
+PCCP & 885 \\&\\
+SCR-RLS &  609  \\ %&&&\\
+\hhline{|b:==:b|} 
+\end{tabular}
+\end{table}
+\end{frame}
+
+
+\begin{frame} % Slide App
+\frametitle{Performance Comparison of Range-Difference-Based Algorithms}
+\begin{table}
+\phantom{m}
+\caption{CPU time usage}
+\begin{tabular}{||c|c||} 
+\hhline{|t:==:t|}
+Method &  Absolute time, msec.\\ \hline
+IRWSRD-LS  & 7.4039e+00 \\&\\
+SCR-RDLS &  3.6347e+03  \\ %&&&\\
+\hhline{|b:==:b|} 
+\end{tabular}
+\end{table}
+\end{frame}
+
+
+\begin{frame} % Slide App
+\frametitle{Performance Comparison of Range-Difference-Based Algorithms}
+\begin{table}
+\phantom{m}
+\caption{CPU time usage}
+\begin{tabular}{||c|c||} 
+\hhline{|t:==:t|}
+Method &  Relative time\\ \hline
+ IRWSRD-LS  & 1 \\&\\
+SCR-RDLS &  490  \\ %&&&\\
+\hhline{|b:==:b|} 
+\end{tabular}
+\end{table}
+\end{frame}
 
 \include{mics}
 
