@@ -253,85 +253,192 @@ where $c$ is a constant given  by
 \textbf{Step 4:} If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_k = \Bx^*$ and repeat from Step 2. 
 \end{frame}
 
+%%------------------------------------------------
+% A.4
+\begin{frame}
+\frametitle{Sequential Convex Relaxation for Range-Difference Localization}
+\phantom{m}
+\textbf{Step 1:} Input data: \\
+- sensor locations $\{\Ba_i, i=1,\ldots,m\}$, \\
+- range-difference measurements $\{d_i, i=1,\ldots,m\}$, \\
+- initial point $\Bx_0$, \\
+- initial weight $\tau_0$ and upper limit of weight $\tau_{max}$, \\
+- increment bound $\beta$ \\
+-  convergence tolerance $\epsilon$. %\gamma, \sigma$, 
+Set iteration count to $k = 0$. \\
+Form $\BS, \BC$ and $\Bq$ as
+\begin{equation}
+\nonumber
+\BS = \begin{bmatrix}
+\symb{0}_{m \times 1} & -\symb{1}_{m \times 1} & -\symb{I}_m
+\end{bmatrix},
+\BC = \begin{bmatrix}
+\symb{I}_{m+3} \\
+-\symb{I}_{m+3}
+\end{bmatrix},
+\Bq = \beta\Be
+\end{equation}
+\end{frame}
+
+% A.5
+\begin{frame} [t,allowframebreaks]
+\frametitle{Sequential Convex Relaxation for Range-Difference Localization}
+\phantom{m}
+%\\~\\
+\textbf{Step 2:} Form $y_k$ and $\Bz_k$ as
+%\begin{equation}
+%\nonumber
+$y_k =\|\Bx_k\|, \Bz_k = \begin{bmatrix}
+\|\Bx_k - \Ba_1\| \\
+\vdots \\
+\|\Bx_k - \Ba_m\|
+\end{bmatrix} $
+%\end{equation}
+\\ Form $\BA_k, \tilde{\Bd_k}, \Bb_k$, $\BC_k $  and solve
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bdelta}& &f\left(\tilde{\Bdelta}\right) + \tau_k\sum_{i=1}^{m+1} \left(u_i + v_i\right) +\tau_k w\\
+\nonumber
+\mbox{subject to}& &\BA_k\tilde{\Bdelta} - \Bb_k = \Bu - \Bv \\
+\nonumber
+& &\BC\tilde{\Bdelta} - \Bq \leq w\Be \\
+\nonumber
+& & \Bu \geq \symb{0}, \Bv \geq \symb{0}, w \geq 0
+\end{eqnarray}
+\noindent
+Denote the solution as $\tilde{\Bdelta}_k = (\Bdelta_x^*, \delta_y^*, \Bdelta_z^*)$.  
+\\~\\
+\textbf{Step 3:} Update  $\tau_{k+1} $ = min $(1.5\tau_k, \tau_{max})$, set $k = k+1$. Update $\tilde{\Bx}^{*}$ to
+\begin{eqnarray} 
+\nonumber
+\Bx^{*} = \Bx^k + \Bdelta_x^* \\
+\nonumber
+y^{*} = y^k + \delta_y^* \\
+\nonumber
+\Bz^{*} = \Bz^k + \Bdelta_z^*
+\end{eqnarray}
+\\~\\
+\textbf{Step 4:} If $\|\tilde{\Bdelta}_k\| \leq \epsilon$, terminate and output $\Bx^*$ as the solution; otherwise, set $\tilde{\Bx}_{k} = \Bx^{*}$  and repeat from Step 2. 
+\end{frame}
+
+
+%%------------------------------------------------
+% A.6
+\begin{frame} [t,allowframebreaks]
+\frametitle{Sequential Convex Relaxation for Range-Based Localization}
+\phantom{m}
+\textbf{Step 1:} Input data: \\
+- sensor locations $\{\Ba_i,  i=1,\ldots,m\}$, \\
+- range measurements $\{r_i, i=1,\ldots,m\}$, \\
+- initial point $\Bx_0$, initial relaxation parameter $\gamma_0$, \\
+- the number of iterations to be executed $K_{max}$. %\gamma, \sigma$, 
+\\ Set iteration count to $k = 0$.
+\\~\\
+\phantom{m}
+\phantom{m}
+\textbf{Step 2:} Solve
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\|  \leq  (1+ \gamma)z_i  
+\end{eqnarray}
+\begin{equation}
+\nonumber
+\qquad \quad   -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Ba_i)  \leq  -(1 - \gamma)z_i, \ i = 1, 2, ..., m
+\end{equation}
+%\phantom{m}
+\noindent
+Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$. 
+\\~\\
+\textbf{Step 3:} Update  $\gamma_{k+1} = f(\gamma_k)$ linearly or quadratically. Set $k = k+1$. 
+\\~\\
+\textbf{Step 4:} If $k = K_{max}$, terminate and output $\Bx^*$ as the solution; otherwise, set $\Bx_{k} = \Bx^{*}$  and repeat from Step 2. 
+\end{frame}
 
 %------------------------------------------------
 
 % A.5
 
-\begin{frame} [t,allowframebreaks]
+\begin{frame} %[t,allowframebreaks]
 \frametitle{References}
-
+\phantom{m}
 %\printbibliography
 %\end{frame}
 %
 
 \begin{thebibliography}{99} 
 
-\bibitem{1}
-%[SA1987] 
-J. O. Smith and J. S. Abel, ``Closed-form least-squares source location
-estimation from range-difference measurements,'' {\em IEEE Trans. Acoust.,
-Speech Signal Process.}, vol. 12, pp. 1661--1669, Dec. 1987.
-
-\bibitem{2}
-%[SR1987] 
-H. Schau and A. Robinson, ``Passive source localization employing intersecting spherical surfaces from time-of-arrival differences,'' {\em IEEE Trans. Acoust., Speech Signal Process.}, vol. ASSP--35, pp. 1223--1225, Aug. 1987.
-
-\bibitem{3}
-%[YHR1998] 
-K. Yao, R. Hudson, C. Reed, D. Chen, and F. Lorenzelli, ``Blind beamforming on a randomly distributed sensor array system,'' {\em IEEE J. Select. Areas Commun.}, vol. 16, pp. 1555-1567, Oct. 1998.
-
-\bibitem{4}
-%[Sp2001]  
-M. A. Sprito, ``On the accuracy of cellular mobile station location estimation,'' {\em IEEE Trans. Veh. Technol.}, vol. 50, pp. 674-685, May 2001.
-
-\bibitem{5}
-%[HBE2002] 
-Y. Huang, J. Benesty, G. W. Elko, and R. M. Mersereau, ``Realtime passive source localization: A practical linear correction least-squares approach,'' {\em IEEE Trans. Speech Audio Process.}, vol. 9, no. 8, pp. 943-956, Nov. 2002.
-
-\bibitem{6}
-%[CSM2004]
-K. W. Cheung, H. C. So, W. K. Ma, and Y. T. Chan, ``Least squares algorithms for time-of-arrival-based mobile location,'' {\em IEEE Trans. Signal Process.}, vol. 52, no. 4, pp. 1121--1228, Apr. 2004.
-
-\bibitem{7}
-%[LH2004] 
-D. Li and H. Hu, ``Least square solutions of energy based acoustic source localization problems,'' in {\em Proc. ICPPW}, 2004.
-
-\bibitem{8}
-%[CMS2004] 
-K.W. Cheung, W.K. Ma, and H.C. So, ``Accurate approximation algorithm for TOA-based maximum-likelihood mobile location using semidefinite programming,'' in {\em Proc. ICASSP}, 2004, vol. 2, pp. 145--148.
-
-\bibitem{9}
-%[STK2005] 
-A. H. Sayed, A. Tarighat, and N. Khajehnouri, ``Network-based wireless location,'' {\em IEEE Signal Process. Mag.}, vol. 22, no. 4, pp. 24--40, July 2005.
-
-\bibitem{10}
-%[CHC2006] 
-Y. T. Chan, H. Y. C. Hang, and P. C. Ching, ``Exact and approximate maximum likelihood localization algorithms,'' {\em IEEE Trans. Veh. Technol.}, vol. 55, no. 1, pp. 10--16, Jan. 2006.
-
+%\bibitem{1}
+%%[SA1987] 
+%J. O. Smith and J. S. Abel, ``Closed-form least-squares source location
+%estimation from range-difference measurements,'' {\em IEEE Trans. Acoust.,
+%Speech Signal Process.}, vol. 12, pp. 1661--1669, Dec. 1987.
+%
+%\bibitem{2}
+%%[SR1987] 
+%H. Schau and A. Robinson, ``Passive source localization employing intersecting spherical surfaces from time-of-arrival differences,'' {\em IEEE Trans. Acoust., Speech Signal Process.}, vol. ASSP--35, pp. 1223--1225, Aug. 1987.
+%
+%\bibitem{3}
+%%[YHR1998] 
+%K. Yao, R. Hudson, C. Reed, D. Chen, and F. Lorenzelli, ``Blind beamforming on a randomly distributed sensor array system,'' {\em IEEE J. Select. Areas Commun.}, vol. 16, pp. 1555-1567, Oct. 1998.
+%
+%\bibitem{4}
+%%[Sp2001]  
+%M. A. Sprito, ``On the accuracy of cellular mobile station location estimation,'' {\em IEEE Trans. Veh. Technol.}, vol. 50, pp. 674-685, May 2001.
+%
+%\bibitem{5}
+%%[HBE2002] 
+%Y. Huang, J. Benesty, G. W. Elko, and R. M. Mersereau, ``Realtime passive source localization: A practical linear correction least-squares approach,'' {\em IEEE Trans. Speech Audio Process.}, vol. 9, no. 8, pp. 943-956, Nov. 2002.
+%
+%\bibitem{6}
+%%[CSM2004]
+%K. W. Cheung, H. C. So, W. K. Ma, and Y. T. Chan, ``Least squares algorithms for time-of-arrival-based mobile location,'' {\em IEEE Trans. Signal Process.}, vol. 52, no. 4, pp. 1121--1228, Apr. 2004.
+%
+%\bibitem{7}
+%%[LH2004] 
+%D. Li and H. Hu, ``Least square solutions of energy based acoustic source localization problems,'' in {\em Proc. ICPPW}, 2004.
+%
+%\bibitem{8}
+%%[CMS2004] 
+%K.W. Cheung, W.K. Ma, and H.C. So, ``Accurate approximation algorithm for TOA-based maximum-likelihood mobile location using semidefinite programming,'' in {\em Proc. ICASSP}, 2004, vol. 2, pp. 145--148.
+%
+%\bibitem{9}
+%%[STK2005] 
+%A. H. Sayed, A. Tarighat, and N. Khajehnouri, ``Network-based wireless location,'' {\em IEEE Signal Process. Mag.}, vol. 22, no. 4, pp. 24--40, July 2005.
+%
+%\bibitem{10}
+%%[CHC2006] 
+%Y. T. Chan, H. Y. C. Hang, and P. C. Ching, ``Exact and approximate maximum likelihood localization algorithms,'' {\em IEEE Trans. Veh. Technol.}, vol. 55, no. 1, pp. 10--16, Jan. 2006.
+%
 \bibitem{11}
-%[SL2006] 
+[SL2006] 
 P. Stoica and J. Li, ``Source localization from range-difference measurements,'' {\em IEEE Signal Process. Mag.}, vol. 23, pp. 63--65,69, Nov. 2006.
 
 \bibitem{12}
-%[BSL2008] 
+[BSL2008] 
 A. Beck, P. Stoica and J. Li,  ``Exact and approximate solutions of source localization problems,'' {\em IEEE Trans. Signal Processing}, vol. 56, no. 5, pp. 1770--1777, May 2008.
 
 \bibitem{13}
-%[VB1996] 
-L. Vandenberghe and S. Boyd, ``Semidefinite programming,'' {\em SIAM Rev.}, vol. 38, no. 1, pp. 40--95, Mar. 1996.
-
-\bibitem{14}
-%[AL2007] 
-A. Antoniou and W.-S. Lu, {\em Practical Optimization: Algorithms and Engineering Applications}, Springer, 2007.
-
-\bibitem{15}
-%[Mo1993] 
-J.J. More, ``Generalizations of the trust region subproblem,'' {\em Optim. Methods Softw.}, vol. 2, pp. 189--209, 1993.
-
-\bibitem{16}
-%[FW2004] 
-C. Fortin and H. Wolkowicz, ``The trust region subproblem and semidefinite programming,'' {\em Optim. Methods Softw.}, vol. 19, no.1, pp. 41--67, 2004.
+[GeoLoc] 
+C. Gentile, N. Alsindi, R. Raulefs, and C. Teolis,   {\em Geolocation
+Techniques: Principles and Applications}, vol. 56, no. 5, pp. 1770--1777, May 2008.
+%
+%\bibitem{13}
+%%[VB1996] 
+%L. Vandenberghe and S. Boyd, ``Semidefinite programming,'' {\em SIAM Rev.}, vol. 38, no. 1, pp. 40--95, Mar. 1996.
+%
+%\bibitem{14}
+%%[AL2007] 
+%A. Antoniou and W.-S. Lu, {\em Practical Optimization: Algorithms and Engineering Applications}, Springer, 2007.
+%
+%\bibitem{15}
+%%[Mo1993] 
+%J.J. More, ``Generalizations of the trust region subproblem,'' {\em Optim. Methods Softw.}, vol. 2, pp. 189--209, 1993.
+%
+%\bibitem{16}
+%%[FW2004] 
+%C. Fortin and H. Wolkowicz, ``The trust region subproblem and semidefinite programming,'' {\em Optim. Methods Softw.}, vol. 19, no.1, pp. 41--67, 2004.
 
 \end{thebibliography}
 

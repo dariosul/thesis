@@ -24,10 +24,10 @@ The problem in (\ref{eq:5.1}) can be (equivalently) written as
 \begin{eqnarray} \label{eq:5.2}
 \stepcounter{abc}
 \Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
-\setcounter{equation}{12}
+\setcounter{equation}{11}
 \stepcounter{abc}
 \mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad i = 1, 2, ..., m \\
-\setcounter{equation}{12}
+\setcounter{equation}{11}
 \stepcounter{abc}
 & &\Bz \geq \symb{0}
 \end{eqnarray}
@@ -36,10 +36,10 @@ The constraints in (\ref{eq:5.2}b) are difficult to satisfy exactly. This motiva
 \begin{eqnarray} \label{eq:5.3}
 \setcounter{abc}{1}
 \Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
-\setcounter{equation}{13}
+\setcounter{equation}{12}
 \stepcounter{abc}
 \mbox{subject to:}& &\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i  \\
-\setcounter{equation}{13}
+\setcounter{equation}{12}
 \stepcounter{abc}
 & &\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i, \quad i = 1, 2, ..., m
 \end{eqnarray}
@@ -56,23 +56,23 @@ a \textit{known} $\Bx_k$
 \nonumber
 \|\Bx - \Ba_i\| \geq \|\Bx_k - \Ba_i\| + \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Bx_k)
 \end{equation}
-Hence the constraint in \ref{eq:5.3}c can be replaced with its affine approximation
+Hence the constraints in (\ref{eq:5.3}c) can be replaced with its affine approximation
 \begin{equation}
 \nonumber
 -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Bx_k) \leq -(1 - \gamma)z_i
 \end{equation}
-In this way, in the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in \ref{eq:5.3} can be converted to a convex second-order cone
+In this way, in the $k$th iteration when the iterate $\Bx_k$ is known, the nonconvex problem in (\ref{eq:5.3}) can be converted to a convex second-order cone
 programming (SOCP) problem
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:5.4}
 \stepcounter{abc}
 \Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
-\setcounter{equation}{14}
+\setcounter{equation}{13}
 \stepcounter{abc}
 \mbox{subject to:}& &\|\Bx - \Ba_i\|  \leq  (1+ \gamma)z_i  
 \end{eqnarray}
 \begin{equation}
-\setcounter{equation}{14}
+\setcounter{equation}{13}
 \stepcounter{abc}
 \qquad \qquad \qquad  -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Bx_k)  \leq  -(1 - \gamma)z_i, \quad i = 1, 2, ..., m
 \end{equation}
@@ -138,7 +138,7 @@ Denote the solution as $\tilde{\Bx}_k = (\Bx^*, \Bz^*)$.
 \subsection{Numerical Results}
 
 Performance of the proposed SCR-RLS algorithm was evaluated and compared with existing state-of-the-art SR-LS solutions \cite{BeckStLi} with a set-up similar to that of \cite{BeckStLi}.   Our simulation studies of Algorithm 5 considered a scenario that consists of  $m = 5$ sensors $\{\Ba_i, \ i=1, 2,\ldots,m\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$, and a radiating source $\Bx_s$, located randomly in the region $[-10;10]\times[-10;10]$. Coordinates of the source and sensors were generated for each dimension following a uniform distribution. 
-Measurement noise $\{\varepsilon_i, \ i=1,\ldots, m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of three possible levels $\{10^{-3}, 10^{-2}, 10^{-1}\}$. The range measurements $\{r_i, \ i=1, 2,\ldots, m\}$ were calculated using 
+Measurement noise $\{\varepsilon_i, \ i=1,\ldots, m\}$ was modelled as i.i.d. Gaussian random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of three possible levels $\{10^{-2}, 10^{-1}, 10^{0}\}$. The range measurements $\{r_i, \ i=1, 2,\ldots, m\}$ were calculated using 
 \setcounter{abc}{0}
 \begin{equation} \label{eq:5.0}
 \nonumber

@@ -328,10 +328,6 @@ the original range-based (or range-difference-based) LS solution.
 \end{frame}
 
 
-
-
-
-
 \subsection{Range-Based Localization} %2.2
 
 \begin{frame} % Slide 13
@@ -1310,21 +1306,143 @@ The range-based LS  estimate refers to the solution of% the problem
 
 \begin{frame} % Slide 54
 \frametitle{Sequential Relaxation}
+%\phantom{m}
+\begin{itemize}
+\item
+Equivalent constrained problem
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\| = z_i, \quad i = 1, 2, ..., m \\
+\nonumber
+& &\Bz \geq \symb{0}
+\end{eqnarray}
+\item
+Relax the constraints
+\begin{eqnarray}
+ \nonumber
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\| \leq (1+ \gamma)z_i  \\
+\nonumber
+& &\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i, \quad i = 1, 2, ..., m
+\end{eqnarray}
+\\
+\item
+$\gamma > 0$ is sequentially and monotonically decreasing, $\gamma_0 \in (0, 0.5)$
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 55
+\frametitle{Sequential Relaxation}
 \phantom{m}
 \begin{itemize}
 \item
+Some constraints are non-convex
+\begin{eqnarray} 
+\nonumber
+\begin{aligned}
+\|\Bx - \Ba_i\| & \leq (1 + \gamma)z_i & {} & (convex)
+\\ 
+\|\Bx - \Ba_i\| \geq (1 - \gamma)z_i  \Longleftrightarrow \underbrace{-\|\Bx - \Ba_i\|}_{nonconvex} & \leq -(1 - \gamma)z_i & {} &(nonconvex)
+\end{aligned}
+\end{eqnarray} 
+$i = 1, 2, \ldots, m$.
+\item
+Replace non-convex constraints with affine approximation 
+\\
+($\Bx_k$ is \textit{known})
+\begin{equation}
+\nonumber
+-\|\Bx_k - \Ba_i\| - \partial\|\Bx_k - \Ba_i\|^T(\Bx - \Bx_k) \leq -(1 - \gamma)z_i
+\end{equation}
+\end{itemize}
+\end{frame}
+
+\begin{frame} % Slide 56
+\frametitle{Sequential Relaxation}
+%\phantom{m}
+\begin{itemize}
+\item
+In the $k$th iteration ($\Bx_k$ is known), solve % a convex second-order cone programming 
+an SOCP problem
+\begin{eqnarray} 
+\nonumber
+\Min_{\Bx, \Bz}& &\sum^m_i \left( z_i - r_i \right)^2 \\
+\nonumber
+\mbox{subject to:}& &\|\Bx - \Ba_i\|  \leq  (1+ \gamma)z_i  
+\end{eqnarray}
+\begin{equation}
+\nonumber
+ -\|\Bx_k - \Ba_i\| - \partial\|\Bx_k -\Ba_i\|^T(\Bx - \Bx_k)  \leq  -(1 - \gamma)z_i \qquad \qquad
+\end{equation}
+$i = 1, 2, ..., m$. 
+%\\
+%\item
+Update $\gamma$ 
+\begin{eqnarray}
+\nonumber
+\gamma_{k+1} & = \gamma_0 - k\frac{\gamma_0}{K_{max} - 1} \qquad & \mbox{linearly}
+\\
+\nonumber
+ \label{eq:quad}
+\gamma_{k+1} & = \gamma_0\frac{(K_{max} - 1 - k)^2}{(K_{max} - 1)^2} \qquad & \mbox{quadratically}
+\end{eqnarray} \label{eq:lin}
 
 \end{itemize}
 \end{frame}
 
-\begin{frame} % Slide
-\frametitle{}
-\phantom{m}
+\subsubsection{Numerical Results}
+
+\begin{frame} % Slide 57
+\frametitle{Numerical Results}
+{\large \textit{System setup}}
+\\~\\
 \begin{itemize}
 \item
-
+Sensors: $\{\Ba_i, i = 1, 2,\ldots,5 \}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$.
+\\~\\
+\item
+Source: $\Bx_s$, located randomly in  $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$
+\\~\\
+\item
+Noise: $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as i.i.d random variables with zero mean and variance $\sigma^2$,  $\sigma \in \{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.
+\\~\\
+\item
+Initial relaxation parameter $\gamma_0  = 0.2$ 
+\\~\\
+\item
+Number of iterations $K_{max} = 9$.
 \end{itemize}
 \end{frame}
+
+\begin{frame} % Slide 58
+\frametitle{Numerical Results}
+\begin{table}
+\phantom{m}
+\caption{MSE of position estimation for SR-LS and SCR-RLS methods}
+\begin{tabular}{||c||c|c|c||} 
+\hhline{|t:====:t|} 
+$\sigma$ & SRD - LS & SCR-RDLS & (R.I.,\%)  \\ \hline
+%&&& \\
+1e-02&	2.5360e-04 &  2.0596e-04 &  18 \\ &&&\\
+1e-01&	1.8696e-02 & 1.4802e-02 &   21 \\ &&&\\
+1e+0&	1.4440e+00 &  9.6327e-01 &   33  \\ %&&&\\
+\hhline{|b:====:b|} 
+\end{tabular}
+\end{table}
+\end{frame}
+
+%
+%\begin{frame} % Slide
+%\frametitle{}
+%\phantom{m}
+%\begin{itemize}
+%\item
+%
+%\end{itemize}
+%\end{frame}
 %------------------------------------------------
 %------------------------------------------------
 \section{Conclusions} 
