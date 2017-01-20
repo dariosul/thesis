@@ -32,7 +32,7 @@ the TOAs from base stations are  considered \cite{LocAlg}.  A hyperbola is the b
 \centering
 %\includegraphics[height=0.45\textheight]{figures/socp_rd/TDOA_example}
 \includegraphics{figures/socp_rd/TDOA_example}
-\caption{Range-difference localization.  At least three base stations are required for the planar localization. The red cross indicates the location of the signal source. Sensors are placed at $\protect\Ba_j = (10, -10)^T$, and  $\protect\Ba_0$ is the reference sensor. The time (range) differences $r_j - r_0$ and $r_i - r_0$ form two hyperboloids with focii located at $\protect\Ba_i, \protect\Ba_j$ and $\protect\Ba_0$. Note that the hyperboloids are actually double sheeted, but for visual clarity only the halves which are part of the solution are shown. The intersection of these hyperboloids is the estimated position.
+\caption{Range-difference localization.  At least three base stations are required for the planar localization. The red cross indicates the location of the signal source. Sensors are placed at $\protect\Ba_i = (20, 0)^T$, $\protect\Ba_j = (10, -10)^T$, and  $\protect\Ba_0$ is the reference sensor. The time (range) differences $r_j - r_0$ and $r_i - r_0$ form two hyperboloids with focii located at $\protect\Ba_i, \protect\Ba_j$ and $\protect\Ba_0$. Note that the hyperboloids are actually double sheeted, but for visual clarity only the halves which are part of the solution are shown. The intersection of these hyperboloids is the estimated position.
 The figure depicts the locus of possible source locations as one half of a two-sheeted hyperboloids.}
 \label{fig:tdoa}
 \end{figure*}
@@ -393,7 +393,7 @@ y^{*} = y^k + \delta_y^* \\
 
 \subsection{Numerical Results}
 
-Performance of the proposed algorithm was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for the Algorithm 4. The sensor network consisted of $11$ sensors with $\Ba_0 = \BO$ placed at the origin and other ten sensors  $\{\Ba_i, i = 1, 2,\ldots,10\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$. A radiating source $\Bx_s$ was located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range-difference measurements $\{d_i, i=1, 2,\ldots,5\}$ were calculated using (\ref{eq:6.1}). Accuracy of source location estimation was evaluated in terms of average of the squared position error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SR-LS and proposed methods, respectively.  
+Performance of the proposed algorithm was evaluated and compared with existing state-of-the-art methods by Monte Carlo simulations with a set-up similar to that of \cite{BeckStLi}. SRD-LS solutions were used as performance benchmarks for the Algorithm 4. The sensor network consisted of $11$ sensors with $\Ba_0 = \BO$ placed at the origin and other ten sensors  $\{\Ba_i, i = 1, 2,\ldots,10\}$ randomly placed in the planar region in $[-15;15]\times[-15;15]$. A radiating source $\Bx_s$ was located randomly in the region $\{\Bx=[x_1;x_2], -10\leq x_1,x_2\leq 10\}$. The coordinates of the source and sensors were generated for each dimension following a uniform distribution. Measurement noise $\{\varepsilon_i, i=1,\ldots,m\}$ was modelled as independent and identically distributed (i.i.d) random variables with zero mean and variance $\sigma^2$, with $\sigma$ being one of four possible levels $\{10^{-3}, 10^{-2}, 10^{-1}, 1\}$.  The range-difference measurements $\{d_i, i=1, 2,\ldots,10\}$ were calculated using (\ref{eq:6.1}). Accuracy of source location estimation was evaluated in terms of average of the squared position error in the form $\|\Bx^*-\Bx_s\|^2$, where $\Bx_s$ denotes the exact source location and $\Bx^*$ is its estimation obtained by SRD-LS and proposed methods, respectively.  
 In our simulations parameter $\beta$ was set to 3, the initial penalty term $\tau_0$, and upper limit of the penalty term $\tau_{max}$ were set to 10 and 10 000 respectively. The proposed method was implemented by using  CVX  \cite{cvx} and implementation of SRD-LS followed \cite{BeckStLi}. In our simulations we set the initial point $\Bx_0$ to the solution of the following subproblem
 \setcounter{abc}{0}
 \begin{eqnarray} \label{eq:initpnt}
@@ -408,7 +408,7 @@ In our simulations parameter $\beta$ was set to 3, the initial penalty term $\ta
 The iterations proceeded until the magnitude of the increment vector $\|\tilde{\Bdelta}_k\|$ falls below a convergence tolerance $\epsilon$ which was set to $\epsilon = 10^{-6}$. 
 
 Table \ref{tab:scr_rdls}  provides comparisons of the SCR-RDLS with SRD-LS, where each entry is averaged squared error over 1,000 Monte Carlo runs of the method. %The MLE was implemented using Matlab function \textit{lsqnonlin} \cite{matlab}, initialized with the same point as PCCP.
- It is observed that, comparing with SR-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the SCR-RDLS solution over the SR-LS. 
+ It is observed that, comparing with SRD-LS, the estimates produced by the proposed algorithm are found to be closer to the true source locations in MSE sense. The last column of the table  represents relative improvement (R.I.) of the proposed method over SRD-LS solutions in percentage. Further analysis of the data that was used to generate Table \ref{tab:scr_rdls} illustrates the advantage of the SCR-RDLS solution over the SRD-LS. 
 Each entry in Table \ref{tab:rdls} is a standard deviation of the squared  estimation errors  aggregated over the  same 1,000 Monte Carlo runs described above in Table \ref{tab:scr_rdls} where the MSEs of the position estimation are shown. The results summarized in Table \ref{tab:rdls} indicate that the SCR-RDLS algorithm provides considerable performance improvement relative to the SRD-LS algorithm.
 
 \phantom{m}
@@ -452,3 +452,87 @@ $\sigma$ & SRD - LS & SCR-RDLS  \\ \hline
 
 %\newpage
 \input chapters/5/range_based
+
+
+\section{Execution Time Comparison}
+
+In this section we compare the average running time of the proposed algorithms for range and range-difference measurements. The algorithms have been implemented in Matlab using CVX [16] (Processor 1.8 GHz Intel Core i3, Memory 4 GB 1600 MHz DDR3). Each of the algorithms has been implemented using the initialization set-up described in the Numerical Results section of the relevant chapter. The noise level was set to $\sigma = 0.2$.
+
+We run each algorithm 500 times and compute the average execution time in milliseconds (Tables 4.5 and 4.7). Then we compare the running time with respect to the IRWSR-LS (Table 4.6) and IRWSRD-LS (Table 4.8). The complexity of IRWSR-LS (IRWSRD-LS) is that of the SR-LS (SRD-LS) times the number of re-weighting iterations. This approach is the fastest of all those proposed since at each iteration the solution is found in a closed form.  For the PCCP and SCR-RLS methods  each iteration involves solving an SOCP problem, and a convex QP problem in the case of SCR-RDLS.
+
+\begin{table}[h]
+\label{tab:absR}
+\centering
+\caption{Performance Comparison of Range-Based Algorithms. Absolute CPU time usage}
+\phantom{m}
+\begin{tabular}{|c|c|} 
+\hline
+Method &  Absolute time, ms.\\ \hline
+%SR-LS & 1.1789e+00 \\&\\
+IRWSR-LS  & 6.0777e+00 \\&\\
+PCCP & 5.3790e+03 \\&\\
+SCR-RLS & 3.7005e+03  \\ %&&&\\
+\hline
+\end{tabular}
+%\begin{tabular}{||c||c|c|c||} 
+%\hhline{|t:====:t|} 
+%$\sigma$ & IRWSR-LS  & PCCP & SCR-RLS  \\ \hline
+%%&&& \\
+%1e-03&	  &   &   \\ &&&\\
+%1e-02&	  &   &   \\ &&&\\
+%1e-01&	  &   &    \\ &&&\\
+%1e+0&	  &   &     \\ %&&&\\
+%\hhline{|b:====:b|} 
+%\end{tabular}
+\end{table}
+
+
+\begin{table}[h]
+\label{tab:relR}
+\centering
+\caption{Performance Comparison of Range-Based Algorithms. Relative CPU time usage}
+\phantom{m}
+\begin{tabular}{|c|c|} 
+\hline
+Method &  Relative time\\ \hline
+%SR-LS & 1 \\&\\
+IRWSR-LS  & 1 \\&\\
+PCCP & 885 \\&\\
+SCR-RLS &  609  \\ %&&&\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\label{tab:absRD}
+\centering
+\caption{Performance Comparison of Range-Difference-Based Algorithms. Absolute CPU time usage}
+\phantom{m}
+\begin{tabular}{|c|c|} 
+\hline
+Method &  Absolute time, ms.\\ \hline
+%SRD-LS & 1.7581e+00 \\&\\
+IRWSRD-LS  & 7.4039e+00 \\&\\
+SCR-RDLS &  3.6347e+03  \\ %&&&\\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+\begin{table}[h]
+\label{relRD}
+\centering
+\caption{Performance Comparison of Range-Difference-Based Algorithms. CPU time usage}
+\phantom{m}
+\begin{tabular}{|c|c|} 
+\hline
+Method &  Relative time\\ \hline
+%SRD-LS & 1 \\&\\
+ IRWSRD-LS  & 1 \\&\\
+SCR-RDLS &  490  \\ %&&&\\
+\hline
+\end{tabular}
+\end{table}
