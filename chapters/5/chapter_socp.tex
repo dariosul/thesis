@@ -458,7 +458,7 @@ $\sigma$ & SRD - LS & SCR-RDLS  \\ \hline
 
 In this section we compare the average running time of the proposed algorithms for range and range-difference measurements. The algorithms have been implemented in Matlab using CVX [16] (Processor 1.8 GHz Intel Core i3, Memory 4 GB 1600 MHz DDR3). Each of the algorithms has been implemented using the initialization set-up described in the Numerical Results section of the relevant chapter. The noise level was set to $\sigma = 0.2$.
 
-We run each algorithm 500 times and compute the average execution time in milliseconds (Tables 4.5 and 4.7). Then we compare the running time with respect to the IRWSR-LS (Table 4.6) and IRWSRD-LS (Table 4.8). The complexity of IRWSR-LS (IRWSRD-LS) is that of the SR-LS (SRD-LS) times the number of re-weighting iterations. This approach is the fastest of all those proposed since at each iteration the solution is found in a closed form.  For the PCCP and SCR-RLS methods  each iteration involves solving an SOCP problem, and a convex QP problem in the case of SCR-RDLS.
+We run each algorithm 1000 times and compute the average execution time in milliseconds (Tables 4.5 and 4.7). Then we compare the running time with respect to the IRWSR-LS (Table 4.6) and IRWSRD-LS (Table 4.8). The complexity of IRWSR-LS (IRWSRD-LS) is that of the SR-LS (SRD-LS) times the number of re-weighting iterations. This approach is the fastest of all those proposed since at each iteration the solution is found in a closed form.  For the PCCP and SCR-RLS methods  each iteration involves solving an SOCP problem, and a convex QP problem in the case of SCR-RDLS.
 
 \begin{table}[h]
 \label{tab:absR}
