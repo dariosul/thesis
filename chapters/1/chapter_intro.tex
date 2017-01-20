@@ -8,7 +8,7 @@
 Geolocation is a rapidly growing field due to the large impact it has on daily life, the general public has become increasingly dependent on it for real-time navigation, particularly on mobile smartphone devices. Location-based services are  playing an increasingly important role in other fields such as teleconferencing, wireless communications, surveillance, and geophysics \cite{Cheung, classMDS, CheungChan, Huang, LiHu,  Sayed,
 ShcauRob, SmithAbel,  Yao}.
 
-Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use and include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equipped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
+Different technologies have been used to build geolocation systems. Several global navigation satellite systems that are available for both military and civilian use include GPS(US), Galileo(EU), GLONASS(Russia), BeiDou(China). Satellites are equipped with atomic clocks that provide a high-accuracy timing signal to  allow a receiver to calculate the time that it takes the signal to reach the receiver. This information is used to calculate the position of the receiver by using a  computational technique known as trilateration. The location of the receiver can be calculated from the
 tracked positions of the satellites and the times measured, each known as the Time-of-Arrival (TOA) \cite{GeoLoc}.
 %Consequently, it
 %has been incorporated into many services and applications. Currently, outdoor
@@ -144,7 +144,7 @@ approximate solutions \cite{Cheung}, \cite{LiHu},  \cite{SmithAbel}, and data fu
 
 \begin{itemize}
 \item
-Development of a iterative re-weighting algorithm for range-based localization based on squared range-based least squares;
+Development of an iterative re-weighting algorithm for range-based localization based on squared range-based least squares;
 
 \item
 Development of a iterative re-weighting algorithm for range-difference-based localization based on squared range-difference-based least squares;
@@ -207,7 +207,7 @@ In this chapter an algorithm is developed for finding an approximate solution to
 \phantom{m}
 
 \noindent
-This chapter addresses localization of a single radiating source based on range or range-difference measurements. In both cases the focus is on efficient computation of the least squares estimates of the source coordinates. For the case of range-difference, the central part of the procedure is a convex quadratic programming problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to next towards the solution of the localization problem at hand.
+This chapter addresses localization of a single radiating source based on range or range-difference measurements. In both cases the focus is on efficient computation of the least squares estimates of the source coordinates. For the case of range-difference, the central part of the procedure is a convex quadratic programming problem that needs to be solved in each iteration to provide an increment vector that updates the present iterate to the next towards the solution of the localization problem at hand.
 
 \phantom{m}
 
